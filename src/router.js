@@ -1,7 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import router1 from './views/router1.vue'
-
+import customer from './views/customer.vue'
+import invoice_o from './views/invoice_o.vue'
+import invoice_t from './views/invoice_t.vue'
+import analysis from './views/analysis.vue'
+import audit from './views/audit.vue'
+import notice from './views/notice.vue'
+import declare from './views/declare.vue'
+import progress from './views/progress.vue'
+import statistics from './views/statistics.vue'
 import router2 from './views/router2.vue'
 import router3 from './views/router3.vue'
 import router4 from './views/router4.vue'
@@ -22,24 +29,54 @@ export default new Router({
 			name: 'index',
 			component: () => import( /* webpackChunkName: "about" */ './views/index.vue'),
 			children: [{
-					path: '/router1',
-					name: 'router1',
-					component: () => import( /* webpackChunkName: "about" */ './views/router1.vue')
+					path: '/customer',
+					name: 'customer',
+					component: () => import( /* webpackChunkName: "about" */ './views/customer.vue')
 				},
 				{
-					path: '/router2',
-					name: 'router2',
-					component: () => import( /* webpackChunkName: "about" */ './views/router2.vue')
+					path: '/invoice_o',
+					name: 'invoice_o',
+					component: () => import( /* webpackChunkName: "about" */ './views/invoice_o.vue')
 				},
 				{
-					path: '/router3',
-					name: 'router3',
-					component: () => import( /* webpackChunkName: "about" */ './views/router3.vue')
+					path: '/analysis',
+					name: 'analysis',
+					component: () => import( /* webpackChunkName: "about" */ './views/analysis.vue')
 				},
 				{
-					path: '/router4',
-					name: 'router4',
-					component: () => import( /* webpackChunkName: "about" */ './views/router4.vue')
+					path: '/invoice_t',
+					name: 'invoice_t',
+					component: () => import( /* webpackChunkName: "about" */ './views/invoice_t.vue')
+				},
+				{
+					path: '/audit',
+					name: 'audit',
+					component: () => import( /* webpackChunkName: "about" */ './views/audit.vue')
+				},
+				{
+					path: '/audit',
+					name: 'audit',
+					component: () => import( /* webpackChunkName: "about" */ './views/audit.vue')
+				},
+				{
+					path: '/notice',
+					name: 'notice',
+					component: () => import( /* webpackChunkName: "about" */ './views/notice.vue')
+				},
+				{
+					path: '/declare',
+					name: 'declare',
+					component: () => import( /* webpackChunkName: "about" */ './views/declare.vue')
+				},
+				{
+					path: '/progress',
+					name: '/progress',
+					component: () => import( /* webpackChunkName: "about" */ './views/progress.vue')
+				},
+				{
+					path: '/statistics',
+					name: 'statistics',
+					component: () => import( /* webpackChunkName: "about" */ './views/statistics.vue')
 				},
 			]
 		},

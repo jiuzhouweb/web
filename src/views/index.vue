@@ -1,9 +1,12 @@
 <template>
 	<div class='home'>
 		<el-container>
-			<el-header class='header' height='88px'>Header</el-header>
+			<el-header class='header' height='88px'>
+				<h1 class='left'>财务系统</h1>
+				<div class='left'></div>
+			</el-header>
 			<el-container>
-				<el-aside width="200px">
+				<el-aside width="220px">
 					<el-row class="tac">
 						<el-col>
 							<el-menu router :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
@@ -13,9 +16,9 @@
 										<span>收账处理</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/router1">客户查询</el-menu-item>
-										<el-menu-item index="/router2">发票录入</el-menu-item>
-										<el-menu-item index="/router3">情况统计</el-menu-item>
+										<el-menu-item index="/customer">客户查询</el-menu-item>
+										<el-menu-item index="/invoice_o">发票录入</el-menu-item>
+										<el-menu-item index="/analysis">情况统计</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 								<el-submenu index="2">
@@ -24,15 +27,15 @@
 										<span>税务处理</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/router1">发票录入</el-menu-item>
-										<el-menu-item index="/router2">审核</el-menu-item>
+										<el-menu-item index="/invoice_t">发票录入</el-menu-item>
+										<el-menu-item index="/audit">审核</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
-								<el-menu-item index="/router1">
+								<el-menu-item index="/notice">
 									<i class="el-icon-menu"></i>
 									<span slot="title">税款通知</span>
 								</el-menu-item>
-								<el-menu-item index="/router2">
+								<el-menu-item index="/declare">
 									<i class="el-icon-menu"></i>
 									<span slot="title">申报处理</span>
 								</el-menu-item>
@@ -42,8 +45,21 @@
 										<span>历史查询</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/router1">做账进度查询</el-menu-item>
-										<el-menu-item index="/router2">统计查询</el-menu-item>
+										<el-menu-item index="/progress">做账进度查询</el-menu-item>
+										<el-menu-item index="/statistics">统计查询</el-menu-item>
+									</el-menu-item-group>
+								</el-submenu>
+								<el-submenu index="6">
+									<template slot="title">
+										<i class="el-icon-location"></i>
+										<span>系统配置</span>
+									</template>
+									<el-menu-item-group>
+										<el-menu-item index="/router1">税务公式配置</el-menu-item>
+										<el-menu-item index="/router2">发票模版配置</el-menu-item>
+										<el-menu-item index="/router1">税率配置</el-menu-item>
+										<el-menu-item index="/router2">字典表配置</el-menu-item>
+										<el-menu-item index="/router1">税款通知配置</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 							</el-menu>
@@ -64,6 +80,8 @@
 </template>
 
 <style lang="less" scoped>
+	@bgcolor: #e9ebf5;
+	@hcolor:#707070;
 	.home,
 	.el-container {
 		height: 100%;
@@ -73,7 +91,7 @@
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		text-align: center;
+		// text-align: center;
 		color: #2c3e50;
 		height: 100%;
 	}
@@ -93,8 +111,8 @@
 	}
 
 	.el-header {
-		line-height: 44px;
-		background-color: aquamarine
+		background-color: #fff;
+		padding: 0px;
 	}
 
 	.el-footer {
@@ -102,9 +120,20 @@
 		background-color: aquamarine
 	}
 
+	h1 {
+		height: 100%;
+		line-height: 88px;
+		width: 134px;
+		background: url("../assets/img/logo.png") @bgcolor no-repeat 24px center;
+		font-size: 26px;
+		color:@hcolor;
+		padding-left: 86px;
+	}
+
 	//
 </style>
 <script>
+	import axios from 'axios'
 	export default {
 		methods: {
 			handleOpen(key, keyPath) {
@@ -115,7 +144,11 @@
 			}
 		},
 		created() {
-			axios.post('/api/tttt').then(res => {
+			// axios.post('/api/tttt').then(res => {
+			// 	console.log(res)
+			// })
+			
+			axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState').then(res => {
 				console.log(res)
 			})
 		}
