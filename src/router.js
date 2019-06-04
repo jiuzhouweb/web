@@ -9,9 +9,6 @@ import notice from './views/notice.vue'
 import declare from './views/declare.vue'
 import progress from './views/progress.vue'
 import statistics from './views/statistics.vue'
-import router2 from './views/router2.vue'
-import router3 from './views/router3.vue'
-import router4 from './views/router4.vue'
 Vue.use(Router)
 
 export default new Router({
