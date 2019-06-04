@@ -11,8 +11,8 @@
 </template>
 
 <script>
-	import searchModule from "../components/customer/searchModule.vue"
-	import listModule from "../components/customer/listModule.vue"
+	import searchModule from "../components/invoice_o/searchModule.vue"
+	import listModule from "../components/invoice_o/listModule.vue"
 	export default {
 		name: "router1",
 		data() {
@@ -34,7 +34,7 @@
 
 	.left_contain {
 		width: 1180px;
-		background: pink;
+		/* background: pink; */
 		float: left;
 		height: 100%;
 	}
