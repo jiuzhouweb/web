@@ -9,6 +9,12 @@ import notice from './views/notice.vue'
 import declare from './views/declare.vue'
 import progress from './views/progress.vue'
 import statistics from './views/statistics.vue'
+
+import formula from './views/formula.vue'
+import template from './views/template.vue'
+import rate from './views/rate.vue'
+import dictionary from './views/dictionary.vue'
+import taxnotice from './views/taxnotice.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -75,6 +81,32 @@ export default new Router({
 					name: 'statistics',
 					component: () => import( /* webpackChunkName: "about" */ './views/statistics.vue')
 				},
+				
+				{
+					path: '/formula',
+					name: 'formula',
+					component: () => import( /* webpackChunkName: "about" */ './views/formula.vue')
+				},
+				{
+					path: '/template',
+					name: 'template',
+					component: () => import( /* webpackChunkName: "about" */ './views/template.vue')
+				},
+				{
+					path: '/rate',
+					name: 'rate',
+					component: () => import( /* webpackChunkName: "about" */ './views/rate.vue')
+				},
+				{
+					path: '/dictionary',
+					name: 'dictionary',
+					component: () => import( /* webpackChunkName: "about" */ './views/dictionary.vue')
+				},
+				{
+					path: '/taxnotice',
+					name: 'taxnotice',
+					component: () => import( /* webpackChunkName: "about" */ './views/taxnotice.vue')
+				}
 			]
 		},
 		{

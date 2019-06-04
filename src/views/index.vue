@@ -9,7 +9,7 @@
 				<el-aside width="220px">
 					<el-row class="tac">
 						<el-col>
-							<el-menu router :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
 								<el-submenu index="1">
 									<template slot="title">
 										<i class="el-icon-location"></i>
@@ -55,11 +55,11 @@
 										<span>系统配置</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/statistics">税务公式配置</el-menu-item>
-										<el-menu-item index="/statistics">发票模版配置</el-menu-item>
-										<el-menu-item index="/statistics">税率配置</el-menu-item>
-										<el-menu-item index="/statistics">字典表配置</el-menu-item>
-										<el-menu-item index="/statistics">税款通知配置</el-menu-item>
+										<el-menu-item index="/formula">税务公式配置</el-menu-item>
+										<el-menu-item index="/template">发票模版配置</el-menu-item>
+										<el-menu-item index="/rate">税率配置</el-menu-item>
+										<el-menu-item index="/dictionary">字典表配置</el-menu-item>
+										<el-menu-item index="/taxnotice">税款通知配置</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 							</el-menu>
@@ -70,7 +70,9 @@
 					<el-main>
 						<router-view></router-view>
 					</el-main>
-					<el-footer height='44px'>Footer</el-footer>
+					<el-footer height='44px'>
+						技术支持：南京九洲会计咨询有限公司
+					</el-footer>
 				</el-container>
 			</el-container>
 		</el-container>
@@ -117,7 +119,8 @@
 
 	.el-footer {
 		line-height: 44px;
-		background-color: aquamarine
+		background-color: #fff;
+		text-align: center
 	}
 
 	h1 {
