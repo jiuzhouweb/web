@@ -55,11 +55,11 @@
 										<span>系统配置</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/router1">税务公式配置</el-menu-item>
-										<el-menu-item index="/router2">发票模版配置</el-menu-item>
-										<el-menu-item index="/router1">税率配置</el-menu-item>
-										<el-menu-item index="/router2">字典表配置</el-menu-item>
-										<el-menu-item index="/router1">税款通知配置</el-menu-item>
+										<el-menu-item index="/statistics">税务公式配置</el-menu-item>
+										<el-menu-item index="/statistics">发票模版配置</el-menu-item>
+										<el-menu-item index="/statistics">税率配置</el-menu-item>
+										<el-menu-item index="/statistics">字典表配置</el-menu-item>
+										<el-menu-item index="/statistics">税款通知配置</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 							</el-menu>
