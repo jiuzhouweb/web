@@ -11,8 +11,8 @@
 </template>
 
 <script>
-	import searchModule from "../components/router1/searchModule.vue"
-	import listModule from "../components/router1/listModule.vue"
+	import searchModule from "../components/customer/searchModule.vue"
+	import listModule from "../components/customer/listModule.vue"
 	export default {
 		name: "router1",
 		data() {
