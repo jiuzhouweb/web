@@ -10,27 +10,42 @@
 								<el-submenu index="1">
 									<template slot="title">
 										<i class="el-icon-location"></i>
-										<span>导航一</span>
+										<span>收账处理</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/router1">选项1</el-menu-item>
-										<el-menu-item index="/router2">选项2</el-menu-item>
-										<el-menu-item index="/router3">选项3</el-menu-item>
-										<el-menu-item index="/router4">选项4</el-menu-item>
+										<el-menu-item index="/router1">客户查询</el-menu-item>
+										<el-menu-item index="/router2">发票录入</el-menu-item>
+										<el-menu-item index="/router3">情况统计</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
-								<el-menu-item index="2">
+								<el-submenu index="2">
+									<template slot="title">
+										<i class="el-icon-location"></i>
+										<span>税务处理</span>
+									</template>
+									<el-menu-item-group>
+										<el-menu-item index="/router1">发票录入</el-menu-item>
+										<el-menu-item index="/router2">审核</el-menu-item>
+									</el-menu-item-group>
+								</el-submenu>
+								<el-menu-item index="/router1">
 									<i class="el-icon-menu"></i>
-									<span slot="title">导航二</span>
+									<span slot="title">税款通知</span>
 								</el-menu-item>
-								<el-menu-item index="3">
-									<i class="el-icon-document"></i>
-									<span slot="title">导航三</span>
+								<el-menu-item index="/router2">
+									<i class="el-icon-menu"></i>
+									<span slot="title">申报处理</span>
 								</el-menu-item>
-								<el-menu-item index="4">
-									<i class="el-icon-setting"></i>
-									<span slot="title">导航四</span>
-								</el-menu-item>
+								<el-submenu index="5">
+									<template slot="title">
+										<i class="el-icon-location"></i>
+										<span>历史查询</span>
+									</template>
+									<el-menu-item-group>
+										<el-menu-item index="/router1">做账进度查询</el-menu-item>
+										<el-menu-item index="/router2">统计查询</el-menu-item>
+									</el-menu-item-group>
+								</el-submenu>
 							</el-menu>
 						</el-col>
 					</el-row>
@@ -90,7 +105,6 @@
 	//
 </style>
 <script>
-	import axios from 'axios';
 	export default {
 		methods: {
 			handleOpen(key, keyPath) {

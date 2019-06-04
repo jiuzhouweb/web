@@ -17,7 +17,7 @@
 		methods:{
 			login(){
 				this.$router.push({
-					path:'/home'
+					path:'/index'
 				})
 			}
 		}
