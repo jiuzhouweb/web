@@ -10,6 +10,9 @@ import store from './store'
 // Vue.prototype.$echarts = echarts 
 import axios from 'axios'
 Vue.prototype.axios = axios;
+
+import regExpUtil from './utils/regExp.js'
+Vue.prototype.regExpUtil = regExpUtil;
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 new Vue({
