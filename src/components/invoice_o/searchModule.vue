@@ -1,37 +1,38 @@
 <template>
-	<div class='search_contain'>
-		<div class="row1">
-			<span class="labelTitle">
-					客户名称：
-				</span>
-			<el-select v-model="value" placeholder="请选择">
-				<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-				</el-option>
-			</el-select>
-		</div>
-		<div class="row2">
-			<span class="labelTitle">
-					账期：
-				</span>
-			<el-date-picker v-model="nowDate" type="month" placeholder="选择月">
-			</el-date-picker>
-		</div>
-		<div class="row3">
-			<span class="labelTitle">
-					发票类型：
-				</span>
-			<el-select v-model="value" placeholder="请选择">
-				<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-				</el-option>
-			</el-select>
-		</div>
-		<div class="searchButton">查询</div>
-		<div class="importButton">发票导入</div>
-		<div class="deleteButton">批量删除</div>
-	</div>
+  <div class='search_contain'>
+    <div class="row1">
+      <span class="labelTitle">
+  					客户名称：
+  				</span>
+      <el-select v-model="value" placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    </div>
+    <div class="row2">
+      <span class="labelTitle">
+  					账期：
+  				</span>
+      <el-date-picker v-model="nowDate" type="month" placeholder="选择月">
+      </el-date-picker>
+    </div>
+    <div class="row3">
+      <span class="labelTitle">
+  					发票类型：
+  				</span>
+      <el-select v-model="value" placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    </div>
+    <div class="searchButton" @click="search()">查询</div>
+    <div class="importButton">发票导入</div>
+    <div class="deleteButton">批量删除</div>
+  </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "searchModule",
   data() {
@@ -47,18 +48,6 @@ export default {
         {
           value: "选项2",
           label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
         }
       ],
       value: "",
@@ -74,10 +63,19 @@ export default {
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
       month = month < 10 ? "0" + month : month;
-      this.nowDate = year.toString() +'-'+ month.toString();
+      this.nowDate = year.toString() + "-" + month.toString();
     },
-    onSubmit() {
-      console.log("submit!");
+    search() {
+      let params = {
+        accountPeriod: "2019-05", //账期
+        customerId: 1, //客户Id
+        stepName: "发票录入" //步骤名称
+      };
+      axios.post("/api/e9zCalculate/getTaxInfo").then(res => {
+        console.log("获取收账信息Id和税款信息id", res);
+        if (res.data.code == 200) {
+        }
+      });
     }
   }
 };
@@ -85,14 +83,16 @@ export default {
 
 <style scoped>
 div.search_contain {
-  width: 1180px;
-  height: 78px;
+  /* width: 1180px; */
+  /* height: 78px; */
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   background: #fff;
+  padding: 20px 20px;
 }
 .labelTitle {
   color: #999;
