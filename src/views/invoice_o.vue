@@ -1,8 +1,8 @@
 <template>
 	<div class="main_contain">
 		<div class="left_contain">
-			<searchModule></searchModule>
-			<listModule></listModule>
+			<searchModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList"></searchModule>
+			<listModule ></listModule>
 		</div>
 		<div class="right_contain">
 			<div class="charts">
@@ -11,16 +11,16 @@
 			</div>
 			<div class="chartsTable">
 				<el-table :data="tableData" border style="width: 90%;margin-left:5%">
-					<el-table-column prop="date" label="税种" width="50" align="center">
+					<el-table-column prop="date" label="税种" width="50" align="center" :resizable="false">
 						<template slot-scope="scope">
-			        			<i class="el-icon-time"></i>
-</template>
+							<i class="el-icon-time"></i>
+						</template>
 					</el-table-column>
-					<el-table-column prop="name" label="票面金额" align="right" header-align="center" >
+					<el-table-column prop="name" label="票面金额" align="right" header-align="center"  :resizable="false">
 					</el-table-column>
-					<el-table-column prop="address" label="收入不含税" align="right" header-align="center" >
+					<el-table-column prop="address" label="收入不含税" align="right" header-align="center" :resizable="false" >
 					</el-table-column>
-					<el-table-column prop="price" label="销项税额" align="right" header-align="center" >
+					<el-table-column prop="price" label="销项税额" align="right" header-align="center"  :resizable="false">
 					</el-table-column>
 				</el-table>
 			</div>
@@ -69,7 +69,8 @@ export default {
           address: "3456.00",
           price: "20000.00"
         }
-      ]
+	  ],
+	  invoiceList:[],
     };
   },
   components: {
@@ -77,18 +78,36 @@ export default {
     listModule
   },
   mounted() {
-	// this.drawLine();
-	this.getUserInfo();
+    // this.drawLine();
+    // this.getUserInfo();
   },
   methods: {
     // 获取用户信息
     getUserInfo() {
-      // /api/user/getLoginUserInfo.do
       axios.get("/log/api/user/getLoginUserInfo.do").then(res => {
         console.log("获取用户信息", res);
         if (res.data.code == 200) {
-
         }
+      });
+	},
+	//获取列表数据
+    getInvoiceLeaveShowList() {
+      axios.get("/test/www").then(res => {
+		console.log("获取列表数据", res);
+		if(res.data.code==200){
+			let obj=res.data.data[0];
+			for(var i in obj) {
+				if(obj[i].length>0){
+					let invoiceObj={};
+					invoiceObj.name=i;
+					invoiceObj.value=obj[i]
+					this.invoiceList.push(invoiceObj)
+				}
+				// console.log(i,":",obj[i]);
+			}
+			console.log('res.data.data[i]',this.invoiceList)
+		}
+		
       });
     },
     drawLine() {
