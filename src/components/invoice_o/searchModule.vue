@@ -71,11 +71,17 @@ export default {
         customerId: 1, //客户Id
         stepName: "发票录入" //步骤名称
       };
-      axios.post("/api/e9zCalculate/getTaxInfo").then(res => {
+      let taxation_id;
+      axios.post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo",params).then(res => {
         console.log("获取收账信息Id和税款信息id", res);
         if (res.data.code == 200) {
+          // 在这里获取收账税款id
+          taxation_id=res.data.data.taxation_id;
+          // 真正接口需要传参：收账税款id
+          this.$emit("getInvoiceLeaveShowList",taxation_id)
         }
       });
+      
     }
   }
 };

@@ -149,4 +149,13 @@ display: flex;
 .loginbtn{
 	cursor: pointer;
 }
+@media (min-width: 1200px) and (max-width: 1600px) {
+    .title p {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 40px;
+  font-size: 36px;
+  color: #333;
+}
+}
 </style>

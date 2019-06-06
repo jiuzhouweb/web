@@ -2,7 +2,7 @@
 	<div class="main_contain">
 		<div class="left_contain">
 			<searchModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList"></searchModule>
-			<listModule ></listModule>
+			<listModule :invoicePanelList="invoicePanelList"></listModule>
 		</div>
 		<div class="right_contain">
 			<div class="charts">
@@ -13,8 +13,8 @@
 				<el-table :data="tableData" border style="width: 90%;margin-left:5%">
 					<el-table-column prop="date" label="税种" width="50" align="center" :resizable="false">
 						<template slot-scope="scope">
-							<i class="el-icon-time"></i>
-						</template>
+								<i class="el-icon-time"></i>
+</template>
 					</el-table-column>
 					<el-table-column prop="name" label="票面金额" align="right" header-align="center"  :resizable="false">
 					</el-table-column>
@@ -29,194 +29,195 @@
 </template>
 
 <script>
-import axios from "axios";
-import searchModule from "../components/invoice_o/searchModule.vue";
-import listModule from "../components/invoice_o/listModule.vue";
-export default {
-  name: "router1",
-  data() {
-    return {
-      message: "12334456",
-      echarts1_option: {},
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "138233.00",
-          address: "3456.00",
-          price: "20000.00"
-        },
-        {
-          date: "2016-05-02",
-          name: "138233.00",
-          address: "3456.00",
-          price: "20000.00"
-        },
-        {
-          date: "2016-05-02",
-          name: "138233.00",
-          address: "3456.00",
-          price: "20000.00"
-        },
-        {
-          date: "2016-05-02",
-          name: "138233.00",
-          address: "3456.00",
-          price: "20000.00"
-        },
-        {
-          date: "2016-05-02",
-          name: "138233.00",
-          address: "3456.00",
-          price: "20000.00"
-        }
-	  ],
-	  invoiceList:[],
-    };
-  },
-  components: {
-    searchModule,
-    listModule
-  },
-  mounted() {
-    // this.drawLine();
-    // this.getUserInfo();
-  },
-  methods: {
-    // 获取用户信息
-    getUserInfo() {
-      axios.get("/log/api/user/getLoginUserInfo.do").then(res => {
-        console.log("获取用户信息", res);
-        if (res.data.code == 200) {
-        }
-      });
-	},
-	//获取列表数据
-    getInvoiceLeaveShowList() {
-      axios.get("/test/www").then(res => {
-		console.log("获取列表数据", res);
-		if(res.data.code==200){
-			let obj=res.data.data[0];
-			for(var i in obj) {
-				if(obj[i].length>0){
-					let invoiceObj={};
-					invoiceObj.name=i;
-					invoiceObj.value=obj[i]
-					this.invoiceList.push(invoiceObj)
-				}
-				// console.log(i,":",obj[i]);
+	import axios from "axios";
+	import searchModule from "../components/invoice_o/searchModule.vue";
+	import listModule from "../components/invoice_o/listModule.vue";
+	export default {
+		name: "router1",
+		data() {
+			return {
+				message: "12334456",
+				echarts1_option: {},
+				tableData: [{
+						date: "2016-05-02",
+						name: "138233.00",
+						address: "3456.00",
+						price: "20000.00"
+					},
+					{
+						date: "2016-05-02",
+						name: "138233.00",
+						address: "3456.00",
+						price: "20000.00"
+					},
+					{
+						date: "2016-05-02",
+						name: "138233.00",
+						address: "3456.00",
+						price: "20000.00"
+					},
+					{
+						date: "2016-05-02",
+						name: "138233.00",
+						address: "3456.00",
+						price: "20000.00"
+					},
+					{
+						date: "2016-05-02",
+						name: "138233.00",
+						address: "3456.00",
+						price: "20000.00"
+					}
+				],
+				invoiceList: [],
+				invoicePanelList:[]
+			};
+		},
+		components: {
+			searchModule,
+			listModule
+		},
+		mounted() {
+			this.drawLine();
+			// this.getUserInfo();
+		},
+		methods: {
+			// 获取用户信息
+			getUserInfo() {
+				axios.get("/log/api/user/getLoginUserInfo.do").then(res => {
+					console.log("获取用户信息", res);
+					if (res.data.code == 200) {}
+				});
+			},
+			//获取列表数据
+			getInvoiceLeaveShowList(taxation_id) {
+				console.log(111,taxation_id)
+				// 
+				axios.get("/api/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId="+taxation_id).then(res => {
+					console.log("获取列表数据", res);
+					if (res.data.code == 200) {
+						let obj = res.data.data[0];
+						let arr = [];
+						for (var i in obj) {
+							if (obj[i].length > 0) {
+								if (i !== 'taxesList') {
+									arr.push(obj[i])
+								}
+							}
+						}
+						this.invoicePanelList=this.flatten(arr)
+						console.log('res.data.data[i]', this.invoicePanelList)
+					}
+				});
+			},
+			// 二维数组转一位数组
+			flatten(arr) {
+				return [].concat(...arr.map(x => Array.isArray(x) ? this.flatten(x) : x))
+			},
+			drawLine() {
+				// 基于准备好的dom，初始化echarts实例
+				let myChart = this.$echarts.init(document.getElementById("myChart"));
+				this.echarts1_option = {
+					tooltip: {
+						trigger: "item",
+						formatter: "{a} <br/>{b}({d}%)"
+					},
+					legend: {
+						orient: "vertical",
+						left: "40%", //图例距离左的距离
+						top: "10%",
+						padding: [0, 0, 60, 30],
+						// y: 'center', //图例上下居中
+						x: "center", //图例水平居中
+						// 图标大小,宽和高
+						itemWidth: 10,
+						itemHeight: 10,
+						itemGap: 20,
+						textStyle: {
+							fontSize: 12,
+							color: "#666"
+						},
+						icon: "circle",
+						data: [
+							"21%增值税",
+							"17%增值税",
+							"16%增值税",
+							"12%增值税",
+							"8%增值税",
+							"6%增值税",
+							"即征即用",
+							"简易"
+						]
+					},
+					color: [
+						"#ec6969",
+						"#f39f72",
+						"#c181b6",
+						"#7baddc",
+						"#ece674",
+						"#8fc879",
+						"#8e8ec5",
+						"#ccc"
+					], //五个数据，五个颜色
+					series: [{
+						name: "",
+						type: "pie",
+						radius: "100%", //图的大小
+						// 环形大小
+						radius: ["30%", "50%"],
+						center: ["18%", "40%"], //图的位置，距离左跟上的位置
+						itemStyle: {
+							normal: {
+								//隐藏标示文字
+								label: {
+									show: false
+								},
+								//隐藏标示线
+								labelLine: {
+									show: false
+								}
+							}
+						},
+						data: [{
+								name: "21%增值税",
+								value: "16"
+							},
+							{
+								name: "17%增值税",
+								value: "14"
+							},
+							{
+								name: "16%增值税",
+								value: "9"
+							},
+							{
+								name: "12%增值税",
+								value: "5"
+							},
+							{
+								name: "8%增值税",
+								value: "18"
+							},
+							{
+								name: "6%增值税",
+								value: "7"
+							},
+							{
+								name: "即征即用",
+								value: "3"
+							},
+							{
+								name: "简易",
+								value: "2"
+							}
+						]
+					}]
+				};
+				// 绘制图表
+				myChart.setOption(this.echarts1_option);
 			}
-			console.log('res.data.data[i]',this.invoiceList)
 		}
-		
-      });
-    },
-    drawLine() {
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById("myChart"));
-      this.echarts1_option = {
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b}({d}%)"
-        },
-        legend: {
-          orient: "vertical",
-          left: "40%", //图例距离左的距离
-          top: "10%",
-          padding: [0, 0, 60, 30],
-          // y: 'center', //图例上下居中
-          x: "center", //图例水平居中
-          // 图标大小,宽和高
-          itemWidth: 10,
-          itemHeight: 10,
-          itemGap: 20,
-          textStyle: {
-            fontSize: 12,
-            color: "#666"
-          },
-          icon: "circle",
-          data: [
-            "21%增值税",
-            "17%增值税",
-            "16%增值税",
-            "12%增值税",
-            "8%增值税",
-            "6%增值税",
-            "即征即用",
-            "简易"
-          ]
-        },
-        color: [
-          "#ec6969",
-          "#f39f72",
-          "#c181b6",
-          "#7baddc",
-          "#ece674",
-          "#8fc879",
-          "#8e8ec5",
-          "#ccc"
-        ], //五个数据，五个颜色
-        series: [
-          {
-            name: "",
-            type: "pie",
-            radius: "100%", //图的大小
-            // 环形大小
-            radius: ["30%", "50%"],
-            center: ["18%", "40%"], //图的位置，距离左跟上的位置
-            itemStyle: {
-              normal: {
-                //隐藏标示文字
-                label: {
-                  show: false
-                },
-                //隐藏标示线
-                labelLine: {
-                  show: false
-                }
-              }
-            },
-            data: [
-              {
-                name: "21%增值税",
-                value: "16"
-              },
-              {
-                name: "17%增值税",
-                value: "14"
-              },
-              {
-                name: "16%增值税",
-                value: "9"
-              },
-              {
-                name: "12%增值税",
-                value: "5"
-              },
-              {
-                name: "8%增值税",
-                value: "18"
-              },
-              {
-                name: "6%增值税",
-                value: "7"
-              },
-              {
-                name: "即征即用",
-                value: "3"
-              },
-              {
-                name: "简易",
-                value: "2"
-              }
-            ]
-          }
-        ]
-      };
-      // 绘制图表
-      myChart.setOption(this.echarts1_option);
-    }
-  }
-};
+	};
 </script>
 <style>
 .chartsTable .el-table th > .cell {
