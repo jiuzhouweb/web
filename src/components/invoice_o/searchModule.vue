@@ -79,6 +79,9 @@ export default {
           taxation_id=res.data.data.taxation_id;
           // 真正接口需要传参：收账税款id
           this.$emit("getInvoiceLeaveShowList",taxation_id)
+          this.$emit("getShowSumIncome",taxation_id)
+          this.$emit("getShowSumDeduct",taxation_id)
+          this.$emit("getShowSumTaxPayable",taxation_id)
         }
       });
       
