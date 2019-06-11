@@ -1,14 +1,10 @@
 <template>
 	<div id="app">
-    <router-view/>
+		<router-view />
 	</div>
 </template>
 
 <style lang="less" scoped>
-	.el-container {
-		height: 100%;
-	}
-
 	#app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
@@ -18,39 +14,28 @@
 		height: 100%;
 	}
 
-	.el-menu {
-		border: none
-	}
-
-	.tac.el-row,
-	.el-col,
-	.el-menu {
-		height: 100%;
-	}
-
-	.el-main {
-		padding: 40px;
-	}
-.el-header {
-		line-height: 44px;
-		background-color: aquamarine
-	}
-	.el-footer {
-		line-height: 44px;
-		background-color: aquamarine
-	}
-
 	//
 </style>
 <script>
 	export default {
 		methods: {
-			handleOpen(key, keyPath) {
-				console.log(key, keyPath);
+			setFontSize(doc, win) {
+				var docEl = doc.documentElement
+				var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize'
+				var reCaculate = function() {
+					var clientWidth = docEl.clientWidth
+					if (!clientWidth) return
+					docEl.style.fontSize = 100 * (clientWidth / 1920) + 'px';
+					alert(docEl.style.fontSize)
+				}
+				
+				if (!doc.addEventListener) return
+				win.addEventListener(resizeEvt, reCaculate, false)
+				doc.addEventListener('DOMContentLoaded', reCaculate, false)
 			},
-			handleClose(key, keyPath) {
-				console.log(key, keyPath);
-			}
+		},
+		created() {
+			this.setFontSize(document, window)
 		}
 	}
 </script>
