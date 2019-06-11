@@ -312,7 +312,8 @@ export default {
   flex: 1;
   border-radius: 5px;
   background: #fff;
-  overflow: auto;
+      overflow-y: auto;
+    overflow-x: hidden;
 }
 .chartsTitle {
   padding: 20px 20px 0 20px;

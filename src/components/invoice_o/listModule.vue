@@ -1,155 +1,148 @@
 <template>
-    <div class="invoice_oListModule">
-        <div class="cardBox">
-            <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
-                <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
-                <div class="topContent color1">
-                    <div class="line1">
-                        <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
-                        <p v-if="item.invoiceId" class="bigTitle">税金：80000元</p>
-                        <p class="smallTitle" @click="showDetail">详情</p>
-                        <p class="smallTitle">删除</p>
-                    </div>
-                    <div v-if="!item.tmplId" class="line2">
-                        <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
-                        <p>{{item.invoiceCategory}}</p>
-                        <p style="margin-left:15px;">{{item.invoiceType}}</p>
-                    </div>
-                </div>
-                <div class="dataContent">
-                    <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList" :key="ind">
-                        <p>{{child.columnTitle}}</p>
-                        <p>{{child.columnValue!=''?child.columnValue:child.defaultValue}}</p>
-                    </div>
-                </div>
-                <div class="footerContent">
-                    <img src="../../assets/img/btn-detail.png" alt="">
-                </div>
-            </div>
-            <div class="eachCard addBtn" @click="addDialog()">
-                <img src="../../assets/img/list-add.png" alt="">
-            </div>
+  <div class="invoice_oListModule">
+    <div class="cardBox">
+      <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
+        <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
+        <div class="topContent color1">
+          <div class="line1">
+            <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
+            <p v-if="item.invoiceId" class="bigTitle">税金：80000元</p>
+            <p class="smallTitle" @click="showDetail">详情</p>
+            <p class="smallTitle">删除</p>
+          </div>
+          <div v-if="!item.tmplId" class="line2">
+            <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
+            <p>{{item.invoiceCategory}}</p>
+            <p style="margin-left:15px;">{{item.invoiceType}}</p>
+          </div>
         </div>
-        <!-- 新增弹窗 -->
-        <el-dialog class="smallDialog" :close-on-click-modal="false" :visible.sync="addDialogVisible">
-            <el-form ref="form" :rules="rules" :model="form" label-width="94px">
-              <!-- <el-form-item label="活动名称" prop="name">
-                  <el-input v-model="form.name"></el-input>
-                </el-form-item> -->
-                <el-form-item label="票面张数：" prop="name">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
-                <!-- <el-form-item label="票面金额：" prop="pages">
-                    <el-input v-model="form.pages"></el-input>
-                </el-form-item> -->
-                <el-form-item label="票面金额：">
-                    <el-input v-model="form.amount"></el-input>
-                </el-form-item>
-                <el-form-item label="计税方法：" prop="taxCalcMethod">
-                    <el-select v-model="form.taxCalcMethod" placeholder="请选择" @change="changeTaxMethod">
-                        <el-option v-for="item in taxCalcMethodOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="发票类型：" prop="invoiceType">
-                    <el-select v-model="form.invoiceType" placeholder="请选择" @change="changeInvoiceType">
-                        <el-option v-for="item in invoiceTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="发票名称：" prop="invoiceName">
-                    <el-select v-model="form.invoiceName" placeholder="请选择">
-                        <el-option v-for="item in invoiceNameOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-            <div class="nextStep" @click="nextStep('form')">下一步</div>
-            <div class="cancel" @click="closeDialog()">取消</div>
-        </el-dialog>
-        <!-- 下一步弹窗 -->
-        <el-dialog class="smallNextDialog" :close-on-click-modal="false" :visible.sync="nextStepDialogVisible">
-            <div class="dialogTitle">
-                <p class="dialogSmallTitle">{{form.invoiceType}}</p>
-                <p class="dialogSmallTitle" style="margin-top:15px">{{invoiceName}}</p>
-            </div>
-            <el-form ref="form2" :model="form2">
-              <el-form-item label="票面张数">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
-                <el-form-item label="票面金额">
-                    <el-input v-model="form.amount"></el-input>
-                </el-form-item>
-                <el-form-item :label="item.columnTitle" v-for="(item,index) in nextStepList" :key="index" prop="invoiceType">
-                    <!-- <div class="lineBox"> -->
-                        <el-input v-if="item.columnEdit==1" v-model="item.defaultValue"></el-input>
-                        <p style="float:right" v-if="item.columnEdit==0">{{item.defaultValue}}</p>
-                        <span class="error">{{item.errInfo}}</span>
-                    <!-- </div> -->
-                    
-                </el-form-item>
-            </el-form>
-            <div class="nextStep" @click="save()">保存</div>
-            <div class="cancel" @click="closeNextDialog()">取消</div>
-        </el-dialog>
-
-        <!-- 详情弹窗 -->
-        <el-dialog class="detailDialog" :close-on-click-modal="false" :visible.sync="detailDialogVisible">
-            <div class="detailHeader">
-              <div class="costumer">
-                <p class="label">客户名称：</p>
-                <p class="value">南京公司</p>
-                <p class="pages">11张</p>
-              </div>
-              <div class="invoice">
-                <div class="left">
-                  <p class="label">发票类型：</p>
-                  <p class="value">防伪税控</p>
-                  <p class="pages">专票</p>
-                </div>
-                <div class="right">
-                  <p class="label">发票名称：</p>
-                  <p class="value">农产品销售</p>
-                </div>
-              </div>
-              <div class="date">
-                <div class="left">
-                  <p class="label">账期：</p>
-                  <p class="value">6月份</p>
-                </div>
-                <div class="right">
-                  <p class="label">申报纳税种类：</p>
-                  <p class="value">一般纳税人</p>
-                </div>
-              </div>
-            </div>
-            <div class="taxRate">
-              <div class="valueBox" v-for="n in 5">
-                <p class="label">增值税率：</p>
-                <p class="value">0</p>
-              </div>
-            </div>
-            <div class="content">
-              <div class="valueBox">
-                <p class="label">本期负数结余</p>
-                <p class="value" v-show="!setNo" @dblclick="changeValue()">{{value1}}</p>
-                <el-input  v-show="setNo" v-model="value1" @blur="unfocused()"></el-input>
-              </div>
-              <div class="valueBox">
-                <p class="label">本期负数结余</p>
-                <p class="value">9888</p>
-              </div>
-              <div class="valueBox">
-                <p class="label">本期负数结余</p>
-                <p class="value">9888</p>
-              </div>
-            </div>
-            <div class="detailFooter">
-              <div class="nextStep">提交</div>
-              <div class="cancel">关闭</div>
-            </div>
-        </el-dialog>
+        <div class="dataContent">
+          <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList.slice(0,5)" :key="ind">
+            <p>{{child.columnTitle}}</p>
+            <p>{{child.columnValue!=''?child.columnValue:child.defaultValue}}</p>
+          </div>
+        </div>
+        <div class="footerContent" @click="showDetail">
+          <img src="../../assets/img/btn-detail.png" alt="">
+        </div>
+      </div>
+      <div class="eachCard addBtn" @click="addDialog()">
+        <img src="../../assets/img/list-add.png" style="width:100%;height:100%" alt="">
+      </div>
     </div>
+    <!-- 新增弹窗 -->
+    <el-dialog class="smallDialog" :close-on-click-modal="false" :visible.sync="addDialogVisible">
+      <el-form ref="form" :rules="rules" :model="form" label-width="94px">
+        <el-form-item label="票面张数：" prop="name">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="票面金额：" prop="amount">
+          <el-input v-model="form.amount"></el-input>
+        </el-form-item>
+        <el-form-item label="计税方法：" prop="taxCalcMethod">
+          <el-select v-model="form.taxCalcMethod" placeholder="请选择" @change="changeTaxMethod">
+            <el-option v-for="item in taxCalcMethodOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="发票类型：" prop="invoiceType">
+          <el-select v-model="form.invoiceType" placeholder="请选择" @change="changeInvoiceType">
+            <el-option v-for="item in invoiceTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="发票名称：" prop="invoiceName">
+          <el-select v-model="form.invoiceName" placeholder="请选择">
+            <el-option v-for="item in invoiceNameOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div class="nextStep" @click="nextStep('form')">下一步</div>
+      <div class="cancel" @click="addDialogVisible = false">取消</div>
+    </el-dialog>
+    <!-- 下一步弹窗 -->
+    <el-dialog class="smallNextDialog" :close-on-click-modal="false" :visible.sync="nextStepDialogVisible">
+      <div class="dialogTitle">
+        <p class="dialogSmallTitle">{{form.invoiceType}}</p>
+        <p class="dialogSmallTitle" style="margin-top:15px">{{invoiceName}}</p>
+      </div>
+      <el-form ref="form2" :model="form2">
+        <el-form-item v-if="item.columnShow == 1&&item.columnEdit==1" :label="item.columnTitle" v-for="(item,index) in nextStepList" :key="index">
+          <el-input v-if="item.columnTitle=='发票张数'" v-model="form.name"></el-input>
+          <el-input v-if="item.columnTitle=='票面金额'" v-model="form.amount"></el-input>
+          <el-input v-if="item.columnTitle!='票面金额'&&item.columnTitle!='发票张数'" v-model="item.defaultValue"></el-input>
+          <!-- <p style="float:right" v-if="item.columnEdit==0">{{item.defaultValue}}</p> -->
+          <span class="error">{{item.errInfo}}</span>
+        </el-form-item>
+        <el-form-item class="rightSelect" v-if="item.e9zConfigTaxesRatesList"  :label="item.taxesTitle" v-for="(item,indexs) in nextStepSelectList">
+          <el-select v-model="item.taxesValue"  placeholder="请选择">
+            <el-option v-for="child in item.e9zConfigTaxesRatesList" :label="child.taxesRate" :value="child.taxesRate">
+            </el-option>
+          </el-select>
+          <span class="error">{{item.errInfo}}</span>
+        </el-form-item>
+      </el-form>
+      <div class="nextStep" @click="save()">保存</div>
+      <div class="cancel" @click="nextStepDialogVisible = false">取消</div>
+    </el-dialog>
+    <!-- 详情弹窗 -->
+    <el-dialog class="detailDialog" :close-on-click-modal="false" :visible.sync="detailDialogVisible">
+      <div class="detailHeader">
+        <div class="costumer">
+          <p class="label">客户名称：</p>
+          <p class="value">南京公司</p>
+          <p class="pages">11张</p>
+        </div>
+        <div class="invoice">
+          <div class="left">
+            <p class="label">发票类型：</p>
+            <p class="value">防伪税控</p>
+            <p class="pages">专票</p>
+          </div>
+          <div class="right">
+            <p class="label">发票名称：</p>
+            <p class="value">农产品销售</p>
+          </div>
+        </div>
+        <div class="date">
+          <div class="left">
+            <p class="label">账期：</p>
+            <p class="value">6月份</p>
+          </div>
+          <div class="right">
+            <p class="label">申报纳税种类：</p>
+            <p class="value">一般纳税人</p>
+          </div>
+        </div>
+      </div>
+      <div class="taxRate">
+        <div class="valueBox" v-for="n in 5">
+          <p class="label">增值税率：</p>
+          <p class="value">0</p>
+        </div>
+      </div>
+      <div class="content">
+        <div class="valueBox">
+          <p class="label">本期负数结余</p>
+          <p class="value" v-show="!setNo" @dblclick="changeValue()">{{value1}}</p>
+          <el-input v-show="setNo" v-model="value1" @blur="unfocused()"></el-input>
+        </div>
+        <div class="valueBox">
+          <p class="label">本期负数结余</p>
+          <p class="value">9888</p>
+        </div>
+        <div class="valueBox">
+          <p class="label">本期负数结余</p>
+          <p class="value">9888</p>
+        </div>
+      </div>
+      <div class="detailFooter">
+        <div class="nextStep">提交</div>
+        <div class="cancel" @click="detailDialogVisible=false">关闭</div>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -173,16 +166,6 @@ export default {
         callback();
       }
     };
-    var validateAmount = (rule, value, callback) => {
-      var reg = /^\d+(\.\d{0,2})?$/;
-      if (!reg.test(value)) {
-        callback(new Error("只可填数字或含两位小数"));
-      } else {
-        //  if (value === '') {
-        //     callback(new Error('请再次输入密码'));}
-        callback();
-      }
-    };
     return {
       form: {
         name: "",
@@ -194,10 +177,17 @@ export default {
       },
       invoiceName: "",
       rules: {
-        name: [{ validator: validatePass, trigger: "blur" }],
-        pages: [
-          { required: true, message: "请输入活动名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        name: [
+          {
+            validator: validatePass,
+            trigger: "blur"
+          }
+        ],
+        amount: [
+          {
+            validator: validatePass,
+            trigger: "blur"
+          }
         ],
         taxCalcMethod: [
           {
@@ -219,8 +209,7 @@ export default {
             message: "请选择发票名称",
             trigger: "change"
           }
-        ],
-        amount: [{ validator: validateAmount, trigger: "blur" }]
+        ]
       },
       form2: {
         name: "",
@@ -244,13 +233,12 @@ export default {
       allSelectList: [],
       invoiceList: [],
       nextStepList: [],
-      value1:"9888",
-      setNo:false,
+      nextStepSelectList: [],
+      nextStepRes: {},
+      value1: "9888",
+      setNo: false
     };
   },
-  //   updated(){
-  //       alert(this.invoicePanelList)
-  //   },
   created() {
     this.getTaxCalcMethod();
   },
@@ -340,6 +328,7 @@ export default {
     addDialog() {
       this.form = {
         name: "",
+        amount: "",
         taxCalcMethod: "", //计税方法
         invoiceType: "", //发票类型
         invoiceName: "" //发票名称
@@ -349,12 +338,9 @@ export default {
       });
       this.addDialogVisible = true;
     },
-    // 关闭弹窗1
-    closeDialog() {
-      this.addDialogVisible = false;
-    },
     // 点击下一步,获取字段列
     nextStep(formName) {
+      console.log("this.form.price", this.form);
       console.log("this.invoiceNameOptions", this.invoiceNameOptions);
       this.invoiceName = this.invoiceNameOptions
         .map(v => {
@@ -364,10 +350,8 @@ export default {
           }
         })
         .join("");
-      // =invoiceNameArr
       this.$refs[formName].validate(valid => {
         if (valid) {
-          //   alert("submit!");
           let params = {
             invoiceId: this.form.invoiceName
           };
@@ -378,21 +362,31 @@ export default {
             )
             .then(res => {
               console.log("获取下一步字段列", res);
+              this.nextStepRes = res.data.data;
               this.nextStepList = [];
+              this.nextStepSelectList = [];
               res.data.data.e9zConfigInvoiceColumnList.forEach(
                 (item, index) => {
-                  if (item.columnShow == 1) {
-                    item.errInfo = "";
-                    if (item.columnEdit == 1) {
-                      this.nextStepList.push(item);
-                    }
-                  }
+                  // if (item.columnShow == 1) {
+                  this.$set(item, "errInfo", "");
+                  // if (item.columnEdit == 1) {
+                  this.nextStepList.push(item);
+                  // }
+                  // }
                 }
               );
+              if (res.data.data.e9zConfigInvoiceTaxesList) {
+                res.data.data.e9zConfigInvoiceTaxesList.forEach(
+                  (item, index) => {
+                    this.$set(item, "errInfo", "");
+                    this.nextStepSelectList.push(item);
+                  }
+                );
+              }
+
               this.addDialogVisible = false;
               this.nextStepDialogVisible = true;
             });
-          //
         } else {
           console.log("error submit!!");
           return false;
@@ -401,72 +395,169 @@ export default {
     },
     // 保存提交数据
     save() {
-      console.log("this.stepLise", this.nextStepList);
-      console.log("id", this.form.invoiceName);
+      // 校验
       var reg = /^\d+(\.\d{0,2})?$/;
       this.nextStepList.forEach((item, index) => {
-        if (item.columnEdit == 1) {
-          if (item.columnRequire == 1) {
-            if (item.defaultValue == null || item.defaultValue == "") {
-              item.errInfo = "必填项不可为空";
-            } else if (!reg.test(item.defaultValue)) {
-              item.errInfo = "只可填数字或含两位小数";
-            } else {
-              item.errInfo = "";
-            }
+        if (item.columnTitle == "发票张数") {
+          if (this.form.name == "") {
+            this.$set(item, "errInfo", "");
+          } else if (!reg.test(this.form.name)) {
+            this.$set(item, "errInfo", "只可填数字或含两位小数");
           } else {
-            if (item.defaultValue != null) {
-              if (!reg.test(item.defaultValue)) {
-                item.errInfo = "只可填数字或含两位小数";
+            this.$set(item, "errInfo", "");
+          }
+        } else if (item.columnTitle == "票面金额") {
+          if (this.form.amount == "") {
+            this.$set(item, "errInfo", "");
+          } else if (!reg.test(this.form.amount)) {
+            this.$set(item, "errInfo", "只可填数字或含两位小数");
+          } else {
+            this.$set(item, "errInfo", "");
+          }
+        } else {
+          if (item.columnEdit == 1) {
+            if (item.columnRequire == 1) {
+              if (item.defaultValue == null || item.defaultValue == "") {
+                this.$set(item, "errInfo", "必填项不可为空");
+              } else if (!reg.test(item.defaultValue)) {
+                this.$set(item, "errInfo", "只可填数字或含两位小数");
               } else {
-                item.errInfo = "";
+                this.$set(item, "errInfo", "");
+              }
+            } else {
+              if (item.defaultValue != null) {
+                if (!reg.test(item.defaultValue)) {
+                  this.$set(item, "errInfo", "只可填数字或含两位小数");
+                } else {
+                  this.$set(item, "errInfo", "");
+                }
               }
             }
           }
         }
       });
+      console.log('this.nextStepSelectList',this.nextStepSelectList)
+      if (this.nextStepSelectList.length > 0) {
+        this.nextStepSelectList.forEach((item, index) => {
+          if(item.e9zConfigTaxesRatesList){
+            if (item.taxesTitle == "增值税") {
+            console.log(item.taxesValue);
+            if (item.taxesValue == undefined) {
+              this.$set(item, "errInfo", "请选择增值税");
+            } else {
+              this.$set(item, "errInfo", "");
+            }
+          }
+          if (item.taxesTitle == "印花税") {
+            if (item.taxesValue == undefined) {
+              this.$set(item, "errInfo", "请选择印花税");
+            } else {
+              this.$set(item, "errInfo", "");
+            }
+          }
+          }
+          
+        });
+      }
+
       let flag = false;
       this.nextStepList.forEach((item, index) => {
         if (item.errInfo != "") {
           flag = true;
         }
       });
+      if (this.nextStepSelectList.length > 0) {
+        this.nextStepSelectList.forEach((item, index) => {
+          if (item.errInfo != "") {
+            flag = true;
+          }
+        });
+      }
+
       console.log("flag", flag);
       if (!flag) {
         let invoiceColumns = [];
         this.nextStepList.forEach((item, index) => {
           var obj = {};
           obj.columnId = item.columnId;
-          obj.columnValue = item.defaultValue;
+
+          if (item.columnTitle == "发票张数") {
+            obj.columnValue = this.form.name;
+          } else if (item.columnTitle == "票面金额") {
+            obj.columnValue = this.form.amount;
+          } else {
+            obj.columnValue = item.defaultValue;
+          }
+
           invoiceColumns.push(obj);
+        });
+        console.log("nextStepSelectList", this.nextStepSelectList);
+
+        let zengzhiID, yinhuaID;
+        this.nextStepRes.e9zConfigInvoiceColumnList.forEach((item, index) => {
+          if (item.columnTitle == "增值税税率") {
+            zengzhiID = item.columnId;
+          } else if (item.columnTitle == "印花税") {
+            yinhuaID = item.columnId;
+          }
+        });
+        console.log("zengzhiID", zengzhiID, yinhuaID);
+        this.nextStepSelectList.forEach((item, index) => {
+          if (item.taxesTitle == "增值税") {
+            if(item.taxesValue!=undefined){
+              var obj = {};
+              obj.columnId = zengzhiID;
+              obj.columnValue = item.taxesValue;
+              invoiceColumns.push(obj);
+            }
+            
+          }
+          if (item.taxesTitle == "印花税") {
+            if(item.taxesValue!=undefined){
+              var obj = {};
+            obj.columnId = yinhuaID;
+            obj.columnValue = item.taxesValue;
+            invoiceColumns.push(obj);
+            }
+            
+          }
         });
         console.log("invoiceColumns", invoiceColumns);
         let params = {
-          invoice: this.form.invoiceName,
-          invoiceColumns: invoiceColumns
+          invoiceId: this.nextStepRes.invoiceId, //发票Id (如果是发票配置表)
+          invoiceTaxableType: this.nextStepRes.invoiceTaxableType, //应税类型：1 - 应税货物；2 - 应税劳务；3 - 应税服务
+          invoiceName: this.invoiceName, //发票名称
+          invoiceListId: this.nextStepRes.invoiceListId, //发票信息Id
+          invoiceCategory: this.nextStepRes.invoiceCategory, //发票分类：防伪税控；税务局代开；有票收入；无票收入
+          invoiceType: this.nextStepRes.invoiceType, //发票类型：（防伪税控/代开-）专票；（防伪税控/代开-）普票；（有票收入-）形式发票；（有票收入-）通用机打；（无票收入-）无票
+          area: this.nextStepRes.area, //适用区域代码：All-通用
+          invoiceTaxManageType: this.nextStepRes.invoiceTaxManageType, //税务管理类型
+          taxCalcType: this.nextStepRes.taxCalcType, //计税方法：1 - 一般计税；2 - 简易征收计税
+          reducePriority: this.nextStepRes.reducePriority, //抵扣优先级
+          tmplShowType: this.nextStepRes.tmplShowType, //下拉框（0-发票 1-其他模板）
+          taxesTaxType: this.nextStepRes.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
+          type: this.nextStepRes.type, //对应列/税费下拉框 1-列 2-税费
+          e9zConfigInvoiceColumnList: invoiceColumns
         };
-        axios
-          .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
-          .then(res => {
-            console.log("插入数据", res);
-            if (res.data.code == 200) {
-            }
-          });
+        console.log("params", params);
+        // axios
+        //   .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+        //   .then(res => {
+        //     console.log("插入数据", res);
+        //     if (res.data.code == 200) {
+        //     }
+        //   });
       }
-    },
-    // 关闭弹窗2
-    closeNextDialog() {
-      this.nextStepDialogVisible = false;
     },
     // 打开详情弹窗
     showDetail() {
       this.detailDialogVisible = true;
     },
-    changeValue(){
-      this.setNo=true
+    changeValue() {
+      this.setNo = true;
     },
-    unfocused(){
-      this.setNo=false
+    unfocused() {
+      this.setNo = false;
     }
   }
 };
@@ -492,6 +583,12 @@ export default {
   height: 30px;
   line-height: 30px;
 }
+.smallNextDialog .el-form-item__content {
+  line-height: 30px;
+}
+.smallNextDialog .el-input__icon {
+  line-height: 30px;
+}
 .smallNextDialog .el-dialog__body {
   padding: 50px 15px;
 }
@@ -506,15 +603,19 @@ export default {
 .smallNextDialog .el-form-item__label {
   font-size: 12px;
   padding: 0 5px 0 0;
+  line-height: 30px;
 }
 .smallNextDialog .el-input__inner {
   padding: 0 5px;
-  height: 30px;
-  line-height: 30px;
+  height: 25px;
+  line-height: 25px;
 }
 .el-date-editor.el-input,
 .el-date-editor.el-input__inner {
   width: 120px;
+}
+.rightSelect .el-select {
+  float: right;
 }
 </style>
 
@@ -648,6 +749,9 @@ export default {
   left: 0;
   line-height: 0px;
 }
+.error1 {
+  bottom: -8px;
+}
 .costumer,
 .invoice,
 .left,
@@ -719,16 +823,16 @@ export default {
 .content .valueBox .value {
   font-size: 12px;
 }
-.detailFooter{
-      display: flex;
-    align-items: center;
-    justify-content: space-around;
+.detailFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
-.detailFooter .nextStep{
-    width: 180px;
-    margin-top: 30px;
+.detailFooter .nextStep {
+  width: 180px;
+  margin-top: 30px;
 }
-.detailFooter .cancel{
-      width: 180px;
+.detailFooter .cancel {
+  width: 180px;
 }
 </style>
