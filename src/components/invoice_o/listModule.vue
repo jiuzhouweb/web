@@ -7,7 +7,7 @@
           <div class="line1">
             <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
             <p v-if="item.invoiceId" class="bigTitle">税金：80000元</p>
-            <p class="smallTitle" @click="showDetail">详情</p>
+            <p class="smallTitle" @click="showDetail(item)">详情</p>
             <p class="smallTitle">删除</p>
           </div>
           <div v-if="!item.tmplId" class="line2">
@@ -17,12 +17,12 @@
           </div>
         </div>
         <div class="dataContent">
-          <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList.slice(0,5)" :key="ind">
+          <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList" :key="ind">
             <p>{{child.columnTitle}}</p>
-            <p>{{child.columnValue!=''?child.columnValue:child.defaultValue}}</p>
+            <p>{{child.columnValue!=''?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
           </div>
         </div>
-        <div class="footerContent" @click="showDetail">
+        <div class="footerContent" @click="showDetail(item)">
           <img src="../../assets/img/btn-detail.png" alt="">
         </div>
       </div>
@@ -75,9 +75,9 @@
           <!-- <p style="float:right" v-if="item.columnEdit==0">{{item.defaultValue}}</p> -->
           <span class="error">{{item.errInfo}}</span>
         </el-form-item>
-        <el-form-item class="rightSelect" v-if="item.e9zConfigTaxesRatesList"  :label="item.taxesTitle" v-for="(item,indexs) in nextStepSelectList">
-          <el-select v-model="item.taxesValue"  placeholder="请选择">
-            <el-option v-for="child in item.e9zConfigTaxesRatesList" :label="child.taxesRate" :value="child.taxesRate">
+        <el-form-item class="rightSelect" v-if="item.e9zConfigInvoiceTaxesRateList" :label="item.taxesTitle" v-for="(item,indexs) in nextStepSelectList">
+          <el-select v-model="item.taxesValue" placeholder="请选择">
+            <el-option v-for="child in item.e9zConfigInvoiceTaxesRateList" :label="child.taxesRate" :value="child.taxesRate">
             </el-option>
           </el-select>
           <span class="error">{{item.errInfo}}</span>
@@ -97,8 +97,8 @@
         <div class="invoice">
           <div class="left">
             <p class="label">发票类型：</p>
-            <p class="value">防伪税控</p>
-            <p class="pages">专票</p>
+            <p class="value">{{detailData.invoiceCategory}}</p>
+            <p class="pages">{{detailData.invoiceType}}</p>
           </div>
           <div class="right">
             <p class="label">发票名称：</p>
@@ -108,7 +108,7 @@
         <div class="date">
           <div class="left">
             <p class="label">账期：</p>
-            <p class="value">6月份</p>
+            <p class="value">{{searchList.nowDate}}</p>
           </div>
           <div class="right">
             <p class="label">申报纳税种类：</p>
@@ -117,28 +117,21 @@
         </div>
       </div>
       <div class="taxRate">
-        <div class="valueBox" v-for="n in 5">
-          <p class="label">增值税率：</p>
-          <p class="value">0</p>
+        <div class="valueBox" v-for="(item,index) in detailData.taxColumnList" :key="index">
+          <p class="label">{{item.columnTitle}}：</p>
+          <p class="value">{{item.columnValue}}</p>
         </div>
       </div>
       <div class="content">
-        <div class="valueBox">
-          <p class="label">本期负数结余</p>
-          <p class="value" v-show="!setNo" @dblclick="changeValue()">{{value1}}</p>
-          <el-input v-show="setNo" v-model="value1" @blur="unfocused()"></el-input>
-        </div>
-        <div class="valueBox">
-          <p class="label">本期负数结余</p>
-          <p class="value">9888</p>
-        </div>
-        <div class="valueBox">
-          <p class="label">本期负数结余</p>
-          <p class="value">9888</p>
+        <div class="valueBox" v-for="(item,index) in detailData.invoiceColumnList" :key="index">
+          <p class="label">{{item.columnTitle}}</p>
+          <p class="value" v-show="!item.isEdit" @dblclick="changeValue(item)">{{item.columnValue}}</p>
+          <el-input v-show="item.isEdit" v-model="item.columnValue" @blur="unfocused(item)"></el-input>
+          <span class="error">{{item.errInfo}}</span>
         </div>
       </div>
       <div class="detailFooter">
-        <div class="nextStep">提交</div>
+        <div class="nextStep" @click="edit()">提交</div>
         <div class="cancel" @click="detailDialogVisible=false">关闭</div>
       </div>
     </el-dialog>
@@ -146,693 +139,848 @@
 </template>
 
 <script>
-import axios from "axios";
-export default {
-  name: "listModule",
-  props: {
-    invoicePanelList: {
-      type: Array,
-      default: []
-    }
-  },
-  data() {
-    var validatePass = (rule, value, callback) => {
-      var reg = /^\d+(\.\d{0,2})?$/;
-      if (value === "") {
-        callback();
-      } else if (!reg.test(value)) {
-        callback(new Error("只可填数字或含两位小数"));
-      } else {
-        callback();
-      }
-    };
-    return {
-      form: {
-        name: "",
-        pages: "",
-        amount: "",
-        taxCalcMethod: "", //计税方法
-        invoiceType: "", //发票类型
-        invoiceName: "" //发票名称
+  import axios from "axios";
+  export default {
+    name: "listModule",
+    props: {
+      invoicePanelList: {
+        type: Array,
+        default: []
       },
-      invoiceName: "",
-      rules: {
-        name: [
-          {
+      taxationId: {
+        type: String,
+        default: ""
+      },
+      taxInfoId: {
+        type: String,
+        default: ""
+      },
+      searchList: {
+        type: Object,
+        default: {}
+      }
+    },
+    data() {
+      var validatePass = (rule, value, callback) => {
+        var reg = /^[1-9]\d*$/;
+        if (value === "") {
+          callback();
+        } else if (!reg.test(value)) {
+          callback(new Error("只可输入整数"));
+        } else {
+          callback();
+        }
+      };
+      var validatePrice = (rule, value, callback) => {
+        var reg = /^(-)?\d{1,14}(\.\d{1,4})?$/;
+        if (value === "") {
+          callback();
+        } else if (!reg.test(value)) {
+          callback(new Error("整数位最多14位，小数位最多4位"));
+        } else {
+          callback();
+        }
+      };
+      return {
+        form: {
+          name: "",
+          pages: "",
+          amount: "",
+          taxCalcMethod: "", //计税方法
+          invoiceType: "", //发票类型
+          invoiceName: "" //发票名称
+        },
+        invoiceName: "",
+        rules: {
+          name: [{
             validator: validatePass,
             trigger: "blur"
-          }
-        ],
-        amount: [
-          {
-            validator: validatePass,
+          }],
+          amount: [{
+            validator: validatePrice,
             trigger: "blur"
-          }
-        ],
-        taxCalcMethod: [
-          {
+          }],
+          taxCalcMethod: [{
             required: true,
             message: "请选择计税方法",
             trigger: "change"
-          }
-        ],
-        invoiceType: [
-          {
+          }],
+          invoiceType: [{
             required: true,
             message: "请选择发票类型",
             trigger: "change"
-          }
-        ],
-        invoiceName: [
-          {
+          }],
+          invoiceName: [{
             required: true,
             message: "请选择发票名称",
             trigger: "change"
-          }
-        ]
-      },
-      form2: {
-        name: "",
-        invoiceType: ""
-      },
-      rules2: {
-        invoiceType: [
-          {
+          }]
+        },
+        form2: {
+          name: "",
+          invoiceType: ""
+        },
+        rules2: {
+          invoiceType: [{
             required: true,
             message: "请选择发票类型",
             trigger: "blur"
-          }
-        ]
-      },
-      addDialogVisible: false,
-      nextStepDialogVisible: false,
-      detailDialogVisible: false,
-      taxCalcMethodOptions: [], //计税方法选择框
-      invoiceTypeOptions: [], //发票类型选择框
-      invoiceNameOptions: [], //发票名称选择框
-      allSelectList: [],
-      invoiceList: [],
-      nextStepList: [],
-      nextStepSelectList: [],
-      nextStepRes: {},
-      value1: "9888",
-      setNo: false
-    };
-  },
-  created() {
-    this.getTaxCalcMethod();
-  },
-  methods: {
-    //获取计税方法
-    getTaxCalcMethod() {
-      axios
-        .post(
-          "/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
-        )
-        .then(res => {
-          console.log("获取计税方法", res);
-          if (res.data.code == 200) {
-            this.taxCalcMethodOptions = res.data.data.map(v => {
-              var obj = {};
-              obj.label = v.dicName;
-              obj.value = v.dicValue;
-              return obj;
-            });
-          }
-        });
-    },
-    // 更改计税方法时触发
-    changeTaxMethod() {
-      console.log(1111);
-      this.invoiceTypeOptions = [];
-      this.form.invoiceType = "";
-      this.invoiceNameOptions = [];
-      this.form.invoiceName = "";
-      this.getInvoiceTypeAndName();
-    },
-    // 获取发票类型和发票名称
-    getInvoiceTypeAndName() {
-      let params = {
-        taxCalcType: this.form.taxCalcMethod,
-        taxesTaxType: 233,
-        tmplShowType: 0
+          }]
+        },
+        addDialogVisible: false,
+        nextStepDialogVisible: false,
+        detailDialogVisible: false,
+        taxCalcMethodOptions: [], //计税方法选择框
+        invoiceTypeOptions: [], //发票类型选择框
+        invoiceNameOptions: [], //发票名称选择框
+        allSelectList: [],
+        invoiceList: [],
+        nextStepList: [],
+        nextStepSelectList: [],
+        nextStepRes: {},
+        detailData: {},
+        value1: "9888",
+        setNo: false
       };
-      axios
-        .post("/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
-        .then(res => {
-          console.log("获取发票类型和发票名称", res);
-          if (res.data.code == 200) {
-            console.log("res.data.data[1]", res.data.data);
-            this.allSelectList = res.data.data;
-            res.data.data.forEach((item, index) => {
-              // type是发票
-              if (item.type == "invoice") {
-                item.list.forEach((v, index) => {
-                  var obj = {};
-                  obj.label = v.typeString;
-                  obj.value = v.typeString;
-                  this.invoiceTypeOptions.push(obj);
-                });
-              }
-            });
-            console.log("22", this.invoiceTypeOptions);
-          }
-        });
     },
-    // 更改发票类型时触发
-    changeInvoiceType() {
-      console.log("1110", this.allSelectList);
-      this.invoiceNameOptions = [];
-      this.form.invoiceName = "";
-      this.invoiceList = [];
-      this.allSelectList.forEach((item, index) => {
-        // type是发票
-        if (item.type == "invoice") {
-          item.list.forEach((v, index) => {
-            if (v.typeString == this.form.invoiceType) {
-              v.invoiceList.forEach((i, index) => {
+    created() {
+      // console.log('taxInfoId',this.taxInfoId)
+      this.getTaxCalcMethod();
+    },
+    methods: {
+      // 四舍五入
+      fomatFloat(x, pos) {
+        var f = parseFloat(x);
+        if (isNaN(f)) {
+          return false;
+        }
+        f = Math.round(x * Math.pow(10, pos)) / Math.pow(10, pos); // pow 幂   
+        var s = f.toString();
+        var rs = s.indexOf('.');
+        if (rs < 0) {
+          rs = s.length;
+          s += '.';
+        }
+        while (s.length <= rs + pos) {
+          s += '0';
+        }
+        return s;
+      },
+      //获取计税方法
+      getTaxCalcMethod() {
+        axios
+          .post(
+            "/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
+          )
+          .then(res => {
+            console.log("获取计税方法", res);
+            if (res.data.code == 200) {
+              this.taxCalcMethodOptions = res.data.data.map(v => {
                 var obj = {};
-                obj.label = i.invoiceName;
-                obj.value = i.invoiceId;
-                this.invoiceNameOptions.push(obj);
-                this.invoiceList.push(i);
+                obj.label = v.dicName;
+                obj.value = v.dicValue;
+                return obj;
               });
             }
           });
-        }
-      });
-      console.log("this.invoiceNameOptions", this.invoiceNameOptions);
-      console.log("invoiceList", this.invoiceList);
-    },
-    // 新增弹窗1
-    addDialog() {
-      this.form = {
-        name: "",
-        amount: "",
-        taxCalcMethod: "", //计税方法
-        invoiceType: "", //发票类型
-        invoiceName: "" //发票名称
-      };
-      this.$nextTick(() => {
-        this.$refs["form"].resetFields();
-      });
-      this.addDialogVisible = true;
-    },
-    // 点击下一步,获取字段列
-    nextStep(formName) {
-      console.log("this.form.price", this.form);
-      console.log("this.invoiceNameOptions", this.invoiceNameOptions);
-      this.invoiceName = this.invoiceNameOptions
-        .map(v => {
-          if (v.value == this.form.invoiceName) {
-            console.log(111, v.label);
-            return v.label;
-          }
-        })
-        .join("");
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          let params = {
-            invoiceId: this.form.invoiceName
-          };
-          axios
-            .post(
-              "/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
-              params
-            )
-            .then(res => {
-              console.log("获取下一步字段列", res);
-              this.nextStepRes = res.data.data;
-              this.nextStepList = [];
-              this.nextStepSelectList = [];
-              res.data.data.e9zConfigInvoiceColumnList.forEach(
-                (item, index) => {
-                  // if (item.columnShow == 1) {
-                  this.$set(item, "errInfo", "");
-                  // if (item.columnEdit == 1) {
-                  this.nextStepList.push(item);
-                  // }
-                  // }
+      },
+      // 更改计税方法时触发
+      changeTaxMethod() {
+        console.log(1111);
+        this.invoiceTypeOptions = [];
+        this.form.invoiceType = "";
+        this.invoiceNameOptions = [];
+        this.form.invoiceName = "";
+        this.getInvoiceTypeAndName();
+      },
+      // 获取发票类型和发票名称
+      getInvoiceTypeAndName() {
+        let params = {
+          taxCalcType: this.form.taxCalcMethod,
+          taxesTaxType: 233,
+          tmplShowType: 0
+        };
+        axios
+          .post("/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
+          .then(res => {
+            console.log("获取发票类型和发票名称", res);
+            if (res.data.code == 200) {
+              console.log("res.data.data[1]", res.data.data);
+              this.allSelectList = res.data.data;
+              res.data.data.forEach((item, index) => {
+                // type是发票
+                if (item.type == "invoice") {
+                  item.list.forEach((v, index) => {
+                    var obj = {};
+                    obj.label = v.typeString;
+                    obj.value = v.typeString;
+                    this.invoiceTypeOptions.push(obj);
+                  });
                 }
-              );
-              if (res.data.data.e9zConfigInvoiceTaxesList) {
-                res.data.data.e9zConfigInvoiceTaxesList.forEach(
+              });
+              console.log("22", this.invoiceTypeOptions);
+            }
+          });
+      },
+      // 更改发票类型时触发
+      changeInvoiceType() {
+        console.log("1110", this.allSelectList);
+        this.invoiceNameOptions = [];
+        this.form.invoiceName = "";
+        this.invoiceList = [];
+        this.allSelectList.forEach((item, index) => {
+          // type是发票
+          if (item.type == "invoice") {
+            item.list.forEach((v, index) => {
+              if (v.typeString == this.form.invoiceType) {
+                v.invoiceList.forEach((i, index) => {
+                  var obj = {};
+                  obj.label = i.invoiceName;
+                  obj.value = i.invoiceId;
+                  this.invoiceNameOptions.push(obj);
+                  this.invoiceList.push(i);
+                });
+              }
+            });
+          }
+        });
+        console.log("this.invoiceNameOptions", this.invoiceNameOptions);
+        console.log("invoiceList", this.invoiceList);
+      },
+      // 新增弹窗1
+      addDialog() {
+        this.form = {
+          name: "",
+          amount: "",
+          taxCalcMethod: "", //计税方法
+          invoiceType: "", //发票类型
+          invoiceName: "" //发票名称
+        };
+        this.$nextTick(() => {
+          this.$refs["form"].resetFields();
+        });
+        this.addDialogVisible = true;
+      },
+      // 点击下一步,获取字段列
+      nextStep(formName) {
+        console.log("this.form.price", this.form);
+        console.log("this.invoiceNameOptions", this.invoiceNameOptions);
+        this.invoiceName = this.invoiceNameOptions
+          .map(v => {
+            if (v.value == this.form.invoiceName) {
+              console.log(111, v.label);
+              return v.label;
+            }
+          })
+          .join("");
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            let params = {
+              invoiceId: this.form.invoiceName
+            };
+            axios
+              .post(
+                "/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
+                params
+              )
+              .then(res => {
+                console.log("获取下一步字段列", res);
+                this.nextStepRes = res.data.data;
+                this.nextStepList = [];
+                this.nextStepSelectList = [];
+                res.data.data.e9zConfigInvoiceColumnList.forEach(
                   (item, index) => {
+                    // if (item.columnShow == 1) {
                     this.$set(item, "errInfo", "");
-                    this.nextStepSelectList.push(item);
+                    // if (item.columnEdit == 1) {
+                    this.nextStepList.push(item);
+                    // }
+                    // }
                   }
                 );
+                // e9zConfigInvoiceTaxesList
+                if (res.data.data.e9zConfigInvoiceTaxesList) {
+                  res.data.data.e9zConfigInvoiceTaxesList.forEach(
+                    (item, index) => {
+                      this.$set(item, "errInfo", "");
+                      this.nextStepSelectList.push(item);
+                    }
+                  );
+                }
+                this.addDialogVisible = false;
+                this.nextStepDialogVisible = true;
+              });
+          } else {
+            console.log("error submit!!");
+            return false;
+          }
+        });
+      },
+      // 编辑
+      edit() {
+        console.log(11, this.detailData.e9zConfigInvoiceColumnList);
+        // 校验
+        var intreg = /^[1-9]\d*$/;
+        var float5reg = /^(-)?\d{1,3}(\.\d{1,5})?$/;
+        var float4reg = /^(-)?\d{1,14}(\.\d{1,4})?$/;
+        this.detailData.invoiceColumnList.forEach((item, index) => {
+          if (item.columnTitle == "核定征收率") {
+            if (item.columnValue == "") {
+              this.$set(item, "errInfo", "");
+            } else if (!float5reg.test(item.columnValue)) {
+              this.$set(item, "errInfo", "整数位最多3位，小数位最多5位");
+            } else {
+              this.$set(item, "errInfo", "");
+            }
+          } else {
+            if (item.columnValue == "") {
+              this.$set(item, "errInfo", "");
+            } else if (!float4reg.test(item.columnValue)) {
+              this.$set(item, "errInfo", "整数位最多14位，小数位最多4位");
+            } else {
+              this.$set(item, "errInfo", "");
+            }
+          }
+        });
+        let flag = false;
+        this.detailData.invoiceColumnList.forEach((item, index) => {
+          if (item.errInfo != "") {
+            flag = true;
+          }
+        });
+        console.log(flag)
+        if (!flag) {
+          let invoiceColumns = [];
+          this.detailData.e9zConfigInvoiceColumnList.forEach((item, index) => {
+            var obj = {};
+            obj.columnId = item.columnId;
+            obj.columnValue = item.columnValue;
+            invoiceColumns.push(obj)
+          })
+          let params = {
+            invoiceId: this.detailData.invoiceId, //发票Id (如果是发票配置表)
+            invoiceTaxableType: this.detailData.invoiceTaxableType, //应税类型：1 - 应税货物；2 - 应税劳务；3 - 应税服务
+            invoiceName: '即征即用', //发票名称 this.detailData.invoiceName
+            invoiceListId: this.detailData.invoiceListId, //发票信息Id
+            invoiceCategory: this.detailData.invoiceCategory, //发票分类：防伪税控；税务局代开；有票收入；无票收入
+            invoiceType: this.detailData.invoiceType, //发票类型：（防伪税控/代开-）专票；（防伪税控/代开-）普票；（有票收入-）形式发票；（有票收入-）通用机打；（无票收入-）无票
+            area: this.detailData.area, //适用区域代码：All-通用
+            invoiceTaxManageType: this.detailData.invoiceTaxManageType, //税务管理类型
+            taxCalcType: this.detailData.taxCalcType, //计税方法：1 - 一般计税；2 - 简易征收计税
+            reducePriority: this.detailData.reducePriority, //抵扣优先级
+            tmplShowType: this.detailData.tmplShowType, //下拉框（0-发票 1-其他模板）
+            taxesTaxType: this.detailData.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
+            type: this.detailData.type, //对应列/税费下拉框 1-列 2-税费
+            e9zConfigInvoiceColumnList: invoiceColumns
+          };
+          console.log("params", params);
+          axios
+            .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+            .then(res => {
+              console.log("修改数据", res);
+              if (res.data.code == 200) {
+                this.detailDialogVisible = false;
+                this.$emit("getInvoiceLeaveShowList", {
+                  taxationId: this.taxationId,
+                  taxInfoId: this.taxInfoId,
+                  searchList: this.searchList
+                })
               }
-
-              this.addDialogVisible = false;
-              this.nextStepDialogVisible = true;
             });
-        } else {
-          console.log("error submit!!");
-          return false;
         }
-      });
-    },
-    // 保存提交数据
-    save() {
-      // 校验
-      var reg = /^\d+(\.\d{0,2})?$/;
-      this.nextStepList.forEach((item, index) => {
-        if (item.columnTitle == "发票张数") {
-          if (this.form.name == "") {
-            this.$set(item, "errInfo", "");
-          } else if (!reg.test(this.form.name)) {
-            this.$set(item, "errInfo", "只可填数字或含两位小数");
+      },
+      // 保存提交数据
+      save() {
+        console.log("nextStepList", this.nextStepList);
+        // 校验
+        var intreg = /^[1-9]\d*$/;
+        var float5reg = /^(-)?\d{1,3}(\.\d{1,5})?$/;
+        var float4reg = /^(-)?\d{1,14}(\.\d{1,4})?$/;
+        this.nextStepList.forEach((item, index) => {
+          if (item.columnTitle == "发票张数") {
+            if (this.form.name == "") {
+              this.$set(item, "errInfo", "");
+            } else if (!intreg.test(this.form.name)) {
+              this.$set(item, "errInfo", "只可输入整数");
+            } else {
+              this.$set(item, "errInfo", "");
+            }
+          } else if (item.columnTitle == "票面金额") {
+            if (this.form.amount == "") {
+              this.$set(item, "errInfo", "");
+            } else if (!float4reg.test(this.form.amount)) {
+              this.$set(item, "errInfo", "整数位最多14位，小数位最多4位");
+            } else {
+              this.$set(item, "errInfo", "");
+            }
           } else {
-            this.$set(item, "errInfo", "");
-          }
-        } else if (item.columnTitle == "票面金额") {
-          if (this.form.amount == "") {
-            this.$set(item, "errInfo", "");
-          } else if (!reg.test(this.form.amount)) {
-            this.$set(item, "errInfo", "只可填数字或含两位小数");
-          } else {
-            this.$set(item, "errInfo", "");
-          }
-        } else {
-          if (item.columnEdit == 1) {
-            if (item.columnRequire == 1) {
+            console.log(item.columnShow, item.columnEdit, item.columnRequire);
+            if (item.columnEdit == 1) {
+              if (item.columnRequire == 1) {
+                if (item.defaultValue == null || item.defaultValue == "") {
+                  this.$set(item, "errInfo", "必填项不可为空");
+                } else if (!float4reg.test(item.defaultValue)) {
+                  this.$set(item, "errInfo", "整数位最多13位，小数位最多4位");
+                } else {
+                  this.$set(item, "errInfo", "");
+                }
+              } else {
+                if (item.defaultValue != null) {
+                  if (!float4reg.test(item.defaultValue)) {
+                    this.$set(item, "errInfo", "整数位最多14位，小数位最多4位");
+                  } else {
+                    this.$set(item, "errInfo", "");
+                  }
+                }
+              }
+            }
+            if (item.columnTitle == "核定征收率") {
               if (item.defaultValue == null || item.defaultValue == "") {
                 this.$set(item, "errInfo", "必填项不可为空");
-              } else if (!reg.test(item.defaultValue)) {
-                this.$set(item, "errInfo", "只可填数字或含两位小数");
+              } else if (!float5reg.test(item.defaultValue)) {
+                this.$set(item, "errInfo", "整数位最多3位，小数位最多5位");
               } else {
                 this.$set(item, "errInfo", "");
               }
-            } else {
-              if (item.defaultValue != null) {
-                if (!reg.test(item.defaultValue)) {
-                  this.$set(item, "errInfo", "只可填数字或含两位小数");
+            }
+          }
+        });
+        // console.log('this.nextStepSelectList',this.nextStepSelectList)
+        if (this.nextStepSelectList.length > 0) {
+          this.nextStepSelectList.forEach((item, index) => {
+            if (item.e9zConfigInvoiceTaxesRateList) {
+              if (item.taxesTitle == "增值税") {
+                console.log(item.taxesValue);
+                if (item.taxesValue == undefined) {
+                  this.$set(item, "errInfo", "请选择增值税");
+                } else {
+                  this.$set(item, "errInfo", "");
+                }
+              }
+              if (item.taxesTitle == "印花税") {
+                if (item.taxesValue == undefined) {
+                  this.$set(item, "errInfo", "请选择印花税");
                 } else {
                   this.$set(item, "errInfo", "");
                 }
               }
             }
-          }
+          });
         }
-      });
-      console.log('this.nextStepSelectList',this.nextStepSelectList)
-      if (this.nextStepSelectList.length > 0) {
-        this.nextStepSelectList.forEach((item, index) => {
-          if(item.e9zConfigTaxesRatesList){
-            if (item.taxesTitle == "增值税") {
-            console.log(item.taxesValue);
-            if (item.taxesValue == undefined) {
-              this.$set(item, "errInfo", "请选择增值税");
-            } else {
-              this.$set(item, "errInfo", "");
-            }
-          }
-          if (item.taxesTitle == "印花税") {
-            if (item.taxesValue == undefined) {
-              this.$set(item, "errInfo", "请选择印花税");
-            } else {
-              this.$set(item, "errInfo", "");
-            }
-          }
-          }
-          
-        });
-      }
-
-      let flag = false;
-      this.nextStepList.forEach((item, index) => {
-        if (item.errInfo != "") {
-          flag = true;
-        }
-      });
-      if (this.nextStepSelectList.length > 0) {
-        this.nextStepSelectList.forEach((item, index) => {
+        let flag = false;
+        this.nextStepList.forEach((item, index) => {
           if (item.errInfo != "") {
             flag = true;
           }
         });
-      }
-
-      console.log("flag", flag);
-      if (!flag) {
-        let invoiceColumns = [];
-        this.nextStepList.forEach((item, index) => {
-          var obj = {};
-          obj.columnId = item.columnId;
-
-          if (item.columnTitle == "发票张数") {
-            obj.columnValue = this.form.name;
-          } else if (item.columnTitle == "票面金额") {
-            obj.columnValue = this.form.amount;
-          } else {
-            obj.columnValue = item.defaultValue;
-          }
-
-          invoiceColumns.push(obj);
-        });
-        console.log("nextStepSelectList", this.nextStepSelectList);
-
-        let zengzhiID, yinhuaID;
-        this.nextStepRes.e9zConfigInvoiceColumnList.forEach((item, index) => {
-          if (item.columnTitle == "增值税税率") {
-            zengzhiID = item.columnId;
-          } else if (item.columnTitle == "印花税") {
-            yinhuaID = item.columnId;
-          }
-        });
-        console.log("zengzhiID", zengzhiID, yinhuaID);
-        this.nextStepSelectList.forEach((item, index) => {
-          if (item.taxesTitle == "增值税") {
-            if(item.taxesValue!=undefined){
-              var obj = {};
-              obj.columnId = zengzhiID;
-              obj.columnValue = item.taxesValue;
+        if (this.nextStepSelectList.length > 0) {
+          this.nextStepSelectList.forEach((item, index) => {
+            if (item.errInfo != "") {
+              flag = true;
+            }
+          });
+        }
+        console.log("flag", flag);
+        if (!flag) {
+          let invoiceColumns = [];
+          let zengzhiValue, yinhuaValue;
+          this.nextStepSelectList.forEach((item, index) => {
+            if (item.taxesTitle == "增值税") {
+              if (item.taxesValue != undefined) {
+                zengzhiValue = item.taxesValue;
+              }
+            }
+            if (item.taxesTitle == "印花税") {
+              if (item.taxesValue != undefined) {
+                yinhuaValue = item.taxesValue;
+              }
+            }
+          });
+          console.log("增值税", zengzhiValue, yinhuaValue);
+          this.nextStepList.forEach((item, index) => {
+            var obj = {};
+            obj.columnId = item.columnId;
+            if (item.columnTitle == "发票张数") {
+              obj.columnValue = this.form.name;
               invoiceColumns.push(obj);
+            } else if (item.columnTitle == "票面金额") {
+              obj.columnValue = this.form.amount;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "发票类型") {
+              if (this.invoiceName == "即征即退") {
+                obj.columnValue = "2";
+                invoiceColumns.push(obj);
+              }
+            } else if (item.columnTitle == "收账信息id") {
+              obj.columnValue = this.taxInfoId;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "收账税款id") {
+              obj.columnValue = this.taxationId;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "增值税税率") {
+              obj.columnValue = zengzhiValue;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "印花税税率") {
+              obj.columnValue = yinhuaValue;
+              invoiceColumns.push(obj);
+            } else {
+              obj.columnValue = item.defaultValue;
+              if (item.columnShow == 1 && item.columnEdit == 1) {
+                invoiceColumns.push(obj);
+              }
             }
-            
+          });
+          // console.log("invoiceColumns", invoiceColumns);
+          let params = {
+            invoiceId: this.nextStepRes.invoiceId, //发票Id (如果是发票配置表)
+            invoiceTaxableType: this.nextStepRes.invoiceTaxableType, //应税类型：1 - 应税货物；2 - 应税劳务；3 - 应税服务
+            invoiceName: this.nextStepRes.invoiceName, //发票名称
+            invoiceListId: this.nextStepRes.invoiceListId, //发票信息Id
+            invoiceCategory: this.nextStepRes.invoiceCategory, //发票分类：防伪税控；税务局代开；有票收入；无票收入
+            invoiceType: this.nextStepRes.invoiceType, //发票类型：（防伪税控/代开-）专票；（防伪税控/代开-）普票；（有票收入-）形式发票；（有票收入-）通用机打；（无票收入-）无票
+            area: this.nextStepRes.area, //适用区域代码：All-通用
+            invoiceTaxManageType: this.nextStepRes.invoiceTaxManageType, //税务管理类型
+            taxCalcType: this.nextStepRes.taxCalcType, //计税方法：1 - 一般计税；2 - 简易征收计税
+            reducePriority: this.nextStepRes.reducePriority, //抵扣优先级
+            tmplShowType: this.nextStepRes.tmplShowType, //下拉框（0-发票 1-其他模板）
+            taxesTaxType: this.nextStepRes.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
+            type: this.nextStepRes.type, //对应列/税费下拉框 1-列 2-税费
+            e9zConfigInvoiceColumnList: invoiceColumns
+          };
+          console.log("params", params);
+          axios
+            .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+            .then(res => {
+              console.log("插入数据", res);
+              if (res.data.code == 200) {
+                this.nextStepDialogVisible = false;
+                this.$emit("getInvoiceLeaveShowList", {
+                  taxationId: this.taxationId,
+                  taxInfoId: this.taxInfoId,
+                  searchList: this.searchList
+                })
+              }
+            });
+        }
+      },
+      // 打开详情弹窗
+      showDetail(item) {
+        this.detailDialogVisible = true;
+        console.log("item,", item);
+        item.invoiceColumnList = [];
+        item.taxColumnList = [];
+        item.e9zConfigInvoiceColumnList.forEach(v => {
+          // if(v.columnTitle=)
+          this.$set(v, "isEdit", false);
+          this.$set(v, "errInfo", "");
+          if (v.columnShow == 1) {
+            v.columnValue = this.fomatFloat(v.columnValue, 2)
+            item.invoiceColumnList.push(v);
           }
-          if (item.taxesTitle == "印花税") {
-            if(item.taxesValue!=undefined){
-              var obj = {};
-            obj.columnId = yinhuaID;
-            obj.columnValue = item.taxesValue;
-            invoiceColumns.push(obj);
-            }
-            
+          if (v.columnTitle.indexOf("税率") > -1) {
+            item.taxColumnList.push(v);
           }
         });
-        console.log("invoiceColumns", invoiceColumns);
-        let params = {
-          invoiceId: this.nextStepRes.invoiceId, //发票Id (如果是发票配置表)
-          invoiceTaxableType: this.nextStepRes.invoiceTaxableType, //应税类型：1 - 应税货物；2 - 应税劳务；3 - 应税服务
-          invoiceName: this.invoiceName, //发票名称
-          invoiceListId: this.nextStepRes.invoiceListId, //发票信息Id
-          invoiceCategory: this.nextStepRes.invoiceCategory, //发票分类：防伪税控；税务局代开；有票收入；无票收入
-          invoiceType: this.nextStepRes.invoiceType, //发票类型：（防伪税控/代开-）专票；（防伪税控/代开-）普票；（有票收入-）形式发票；（有票收入-）通用机打；（无票收入-）无票
-          area: this.nextStepRes.area, //适用区域代码：All-通用
-          invoiceTaxManageType: this.nextStepRes.invoiceTaxManageType, //税务管理类型
-          taxCalcType: this.nextStepRes.taxCalcType, //计税方法：1 - 一般计税；2 - 简易征收计税
-          reducePriority: this.nextStepRes.reducePriority, //抵扣优先级
-          tmplShowType: this.nextStepRes.tmplShowType, //下拉框（0-发票 1-其他模板）
-          taxesTaxType: this.nextStepRes.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
-          type: this.nextStepRes.type, //对应列/税费下拉框 1-列 2-税费
-          e9zConfigInvoiceColumnList: invoiceColumns
-        };
-        console.log("params", params);
-        // axios
-        //   .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
-        //   .then(res => {
-        //     console.log("插入数据", res);
-        //     if (res.data.code == 200) {
-        //     }
-        //   });
+        this.detailData = item;
+      },
+      changeValue(item) {
+        // console.log(111,item)
+        this.detailData.e9zConfigInvoiceColumnList.forEach(v => {
+          if (item.columnId == v.columnId) {
+            this.$set(v, "isEdit", true);
+          } else {
+            this.$set(v, "isEdit", false);
+          }
+        });
+        //
+      },
+      unfocused(item) {
+        this.detailData.e9zConfigInvoiceColumnList.forEach(v => {
+          if (item.columnId == v.columnId) {
+            this.$set(v, "isEdit", false);
+          }
+        });
+        // this.$set(item,'isEdit',false)
       }
-    },
-    // 打开详情弹窗
-    showDetail() {
-      this.detailDialogVisible = true;
-    },
-    changeValue() {
-      this.setNo = true;
-    },
-    unfocused() {
-      this.setNo = false;
     }
-  }
-};
+  };
 </script>
 <style>
-.smallDialog .el-dialog,
-.smallNextDialog .el-dialog {
-  width: 280px;
-}
-.detailDialog .el-dialog {
-  width: 560px;
-}
-.detailDialog .el-dialog__body {
-  padding: 30px 45px;
-}
-.detailDialog .el-input {
-  width: 80px;
-  float: right;
-  font-size: 12px;
-}
-.detailDialog .el-input__inner {
-  padding: 0 5px;
-  height: 30px;
-  line-height: 30px;
-}
-.smallNextDialog .el-form-item__content {
-  line-height: 30px;
-}
-.smallNextDialog .el-input__icon {
-  line-height: 30px;
-}
-.smallNextDialog .el-dialog__body {
-  padding: 50px 15px;
-}
-.smallNextDialog .el-input {
-  width: 80px;
-  float: right;
-  font-size: 12px;
-}
-.smallNextDialog .el-form-item {
-  margin-bottom: 11px;
-}
-.smallNextDialog .el-form-item__label {
-  font-size: 12px;
-  padding: 0 5px 0 0;
-  line-height: 30px;
-}
-.smallNextDialog .el-input__inner {
-  padding: 0 5px;
-  height: 25px;
-  line-height: 25px;
-}
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-  width: 120px;
-}
-.rightSelect .el-select {
-  float: right;
-}
+  .smallDialog .el-dialog,
+  .smallNextDialog .el-dialog {
+    width: 280px;
+  }
+  .detailDialog .el-dialog {
+    width: 560px;
+  }
+  .detailDialog .el-dialog__body {
+    padding: 30px 45px;
+  }
+  .detailDialog .el-input {
+    width: 80px;
+    float: right;
+    font-size: 12px;
+  }
+  .detailDialog .el-input__inner {
+    padding: 0 5px;
+    height: 30px;
+    line-height: 30px;
+  }
+  .smallNextDialog .el-form-item__content {
+    line-height: 30px;
+  }
+  .smallNextDialog .el-input__icon {
+    line-height: 30px;
+  }
+  .smallNextDialog .el-dialog__body {
+    padding: 50px 15px;
+  }
+  .smallNextDialog .el-input {
+    width: 80px;
+    float: right;
+    font-size: 12px;
+  }
+  .smallNextDialog .el-form-item {
+    margin-bottom: 11px;
+  }
+  .smallNextDialog .el-form-item__label {
+    font-size: 12px;
+    padding: 0 5px 0 0;
+    line-height: 30px;
+  }
+  .smallNextDialog .el-input__inner {
+    padding: 0 5px;
+    height: 25px;
+    line-height: 25px;
+  }
+  .el-date-editor.el-input,
+  .el-date-editor.el-input__inner {
+    width: 120px;
+  }
+  .rightSelect .el-select {
+    float: right;
+  }
 </style>
 
 <style scoped>
-.invoice_oListModule {
-  /* width: 1180px; */
-}
-.cardBox {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-.eachCard {
-  width: 24.25%;
-  height: 253px;
-  border-radius: 5px;
-  margin-top: 20px;
-  background: #fff;
-  margin-right: 1%;
-  position: relative;
-}
-.eachCard:nth-child(4n) {
-  margin-right: 0;
-}
-.topContent {
-  height: 80px;
-}
-.color1 {
-  background: #43b3db;
-}
-.color2 {
-  background: #7dc36d;
-}
-.color3 {
-  background: #ffac69;
-}
-.color4 {
-  background: #ed878e;
-}
-.color5 {
-  background: #e6a08a;
-}
-.color6 {
-  background: #d19ae9;
-}
-.line1 {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 15px 20px;
-}
-.line1 p {
-  color: #fff;
-}
-.bigTitle {
-  font-size: 18px;
-  flex: 0.8;
-}
-.smallTitle {
-  font-size: 12px;
-  cursor: pointer;
-}
-.line2 {
-  display: flex;
-  padding: 0px 20px;
-  /* align-items: flex-end; */
-  /* justify-content: space-between;*/
-}
-.line2 p {
-  font-size: 14px;
-  color: #fff;
-}
-.dataContent {
-  padding: 15px 20px;
-}
-.lineData {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px 0;
-  color: #666;
-  font-size: 12px;
-}
-.footerContent {
-  position: absolute;
-  bottom: 6px;
-  left: 50%;
-  cursor: pointer;
-}
-.addBtn {
-  cursor: pointer;
-}
-.nextStep {
-  color: #fff;
-  background: #43b3db;
-  text-align: center;
-  border-radius: 5px;
-  padding: 12px 0;
-  cursor: pointer;
-  margin-top: 25px;
-}
-.cancel {
-  margin-top: 30px;
-  color: #fff;
-  background: #ed878e;
-  text-align: center;
-  border-radius: 5px;
-  padding: 12px 0;
-  cursor: pointer;
-}
-.dialogTitle {
-  position: absolute;
-  top: 20px;
-}
-.dialogBigTitle {
-  font-size: 18px;
-  color: #43b3db;
-}
-.dialogTitleLine2 {
-  display: flex;
-  align-items: center;
-  margin-top: 8px;
-}
-.dialogSmallTitle {
-  color: #ed878e;
-}
-.error {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  line-height: 0px;
-}
-.error1 {
-  bottom: -8px;
-}
-.costumer,
-.invoice,
-.left,
-.right,
-.date {
-  display: flex;
-  align-items: center;
-}
-.invoice,
-.date {
-  justify-content: space-between;
-}
-.costumer,
-.invoice {
-  margin-bottom: 15px;
-}
-.costumer .label,
-.costumer .pages,
-.invoice .left .label,
-.invoice .right .label,
-.date .left .label,
-.date .right .label,
-.taxRate .valueBox .label {
-  color: #999;
-}
-.costumer .value {
-  color: black;
-}
-.costumer .pages {
-  margin-left: 25px;
-}
-.invoice .left .pages {
-  color: #57bbdf;
-  margin-left: 10px;
-}
-.date {
-  padding-bottom: 20px;
-  border-bottom: 2px solid #e5e5e5;
-}
-.taxRate {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-.taxRate .valueBox {
-  display: flex;
-  align-items: center;
-  width: 50%;
-  padding: 0 0 15px 0;
-}
-.content {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.content .valueBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 47%;
-  margin-right: 6%;
-  padding: 5px 0;
-}
-.content .valueBox:nth-child(2n) {
-  margin-right: 0;
-}
-.content .valueBox .label,
-.content .valueBox .value {
-  font-size: 12px;
-}
-.detailFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-.detailFooter .nextStep {
-  width: 180px;
-  margin-top: 30px;
-}
-.detailFooter .cancel {
-  width: 180px;
-}
+  .invoice_oListModule {
+    /* width: 1180px; */
+  }
+  .cardBox {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .eachCard {
+    width: 24.25%;
+    height: 253px;
+    border-radius: 5px;
+    margin-top: 20px;
+    background: #fff;
+    margin-right: 1%;
+    position: relative;
+    overflow-y: hidden;
+  }
+  .eachCard:nth-child(4n) {
+    margin-right: 0;
+  }
+  .topContent {
+    height: 80px;
+  }
+  .color1 {
+    background: #43b3db;
+  }
+  .color2 {
+    background: #7dc36d;
+  }
+  .color3 {
+    background: #ffac69;
+  }
+  .color4 {
+    background: #ed878e;
+  }
+  .color5 {
+    background: #e6a08a;
+  }
+  .color6 {
+    background: #d19ae9;
+  }
+  .line1 {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 15px 20px;
+  }
+  .line1 p {
+    color: #fff;
+  }
+  .bigTitle {
+    font-size: 18px;
+    flex: 0.8;
+  }
+  .smallTitle {
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .line2 {
+    display: flex;
+    padding: 0px 20px;
+    /* align-items: flex-end; */
+    /* justify-content: space-between;*/
+  }
+  .line2 p {
+    font-size: 14px;
+    color: #fff;
+  }
+  .dataContent {
+    height: 130px;
+    overflow-y: hidden;
+    padding: 15px 20px;
+    padding-bottom: 0;
+  }
+  .lineData {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+    color: #666;
+    font-size: 12px;
+  }
+  .footerContent {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    cursor: pointer;
+  }
+  .addBtn {
+    cursor: pointer;
+  }
+  .nextStep {
+    color: #fff;
+    background: #43b3db;
+    text-align: center;
+    border-radius: 5px;
+    padding: 12px 0;
+    cursor: pointer;
+    margin-top: 25px;
+  }
+  .cancel {
+    margin-top: 30px;
+    color: #fff;
+    background: #ed878e;
+    text-align: center;
+    border-radius: 5px;
+    padding: 12px 0;
+    cursor: pointer;
+  }
+  .dialogTitle {
+    position: absolute;
+    top: 20px;
+  }
+  .dialogBigTitle {
+    font-size: 18px;
+    color: #43b3db;
+  }
+  .dialogTitleLine2 {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .dialogSmallTitle {
+    color: #ed878e;
+  }
+  .error {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    line-height: 0px;
+  }
+  .error1 {
+    bottom: -8px;
+  }
+  .costumer,
+  .invoice,
+  .left,
+  .right,
+  .date {
+    display: flex;
+    align-items: center;
+  }
+  .invoice,
+  .date {
+    justify-content: space-between;
+  }
+  .costumer,
+  .invoice {
+    margin-bottom: 15px;
+  }
+  .costumer .label,
+  .costumer .pages,
+  .invoice .left .label,
+  .invoice .right .label,
+  .date .left .label,
+  .date .right .label,
+  .taxRate .valueBox .label {
+    color: #999;
+  }
+  .costumer .value {
+    color: black;
+  }
+  .costumer .pages {
+    margin-left: 25px;
+  }
+  .invoice .left .pages {
+    color: #57bbdf;
+    margin-left: 10px;
+  }
+  .date {
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e5e5e5;
+  }
+  .taxRate {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .taxRate .valueBox {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    padding: 0 0 15px 0;
+  }
+  .content {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .content .valueBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 47%;
+    margin-right: 6%;
+    padding: 7px 0;
+    position: relative;
+  }
+  .content .valueBox:nth-child(2n) {
+    margin-right: 0;
+  }
+  .content .valueBox .label,
+  .content .valueBox .value {
+    font-size: 12px;
+  }
+  .detailFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .detailFooter .nextStep {
+    width: 180px;
+    margin-top: 30px;
+  }
+  .detailFooter .cancel {
+    width: 180px;
+  }
 </style>
