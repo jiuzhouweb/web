@@ -32,7 +32,6 @@
 		<div class="checkBox">
 			<el-checkbox v-model="checked">游客登录</el-checkbox>
 		</div>
-		
 		<div class="bottomDesc">
 			<p>技术支持：南京九州会计咨询有限公司。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系电话：025-968899996</p>
 		</div>
@@ -41,121 +40,154 @@
 </template>
 
 <script>
-export default {
-  name: "login",
-  data() {
-    return {
-      input: "",
-      checked: false
-    };
-  },
-  components: {},
-  methods: {
-    login() {
-      this.$router.push({
-        path: "/index"
-      });
-    }
-  }
-};
+	export default {
+		name: "login",
+		data() {
+			return {
+				input: "",
+				checked: false
+			};
+		},
+		components: {},
+		methods: {
+			login() {
+				this.$router.push({
+					path: "/index"
+				});
+			}
+		}
+	};
 </script>
 <style>
-.account .el-input ,.password .el-input,.code .el-input{
-  margin-left: 30px;
-}
-.account .el-input--suffix .el-input__inner,.password .el-input--suffix .el-input__inner,.code .el-input--suffix .el-input__inner {
-  border: none;
-  padding: 0;
-  border-bottom: 2px solid #999;
-  border-radius: 0;
-}
-.checkBox .el-checkbox__label{
-	font-size: 20px;
-	color: #808080
-}
-.checkBox .el-checkbox__inner{
-	width: 22px;
-	height: 22px;
-}
-.checkBox .el-checkbox__inner::after{
-	    height: 13px;
-    left: 7px;
-    width: 6px;
-}
+	.account .el-input,
+	.password .el-input,
+	.code .el-input {
+		margin-left: 30px;
+	}
+	.account .el-input--suffix .el-input__inner,
+	.password .el-input--suffix .el-input__inner,
+	.code .el-input--suffix .el-input__inner {
+		border: none;
+		padding: 0;
+		border-bottom: 2px solid #999;
+		border-radius: 0;
+	}
+	.checkBox .el-checkbox__label {
+		font-size: 20px;
+		color: #808080
+	}
+	.checkBox .el-checkbox__inner {
+		width: 22px;
+		height: 22px;
+	}
+	.checkBox .el-checkbox__inner::after {
+		height: 13px;
+		left: 7px;
+		width: 6px;
+	}
 </style>
 
 <style scoped>
-.login {
-  height: 100%;
-  background: #fff;
-  /* background: url("../assets/img/bg.png") no-repeat;
-			background-size: cover; */
-}
-.topImg{
-	background:url("../assets/img/top-bg.png") no-repeat center center;
-	height:35%;
-	background-size:cover;
-}
-.title p {
-  text-align: center;
-  margin-top: 15px;
-  margin-bottom: 50px;
-  font-size: 46px;
-  color: #333;
-}
-.account,.password,.code,.loginbtn{
-  display: flex;
-  align-items: center;
-  width: 406px;
-  margin: 0 auto;
-  justify-content:center;
-}
-.password,.code{
-	margin-top:25px;
-}
-.account img,.password img {
-  width: 36px;
-}
-.codeBox{
-	width:112px;
-	height:38px;
-	background:#666666;
-	margin-left:10px;
-}
-.bottom,.checkBox{
-display: flex;
-  align-items: center;
-  width: 406px;
-  margin: 35px auto;
-  justify-content:space-between;
-}
-.register{
-	font-size:22px;
-	color:#ffac69;
-	cursor: pointer;
-}
-.forget{
-	font-size:22px;
-	color:#ed878e;
-	cursor: pointer;
-}
-.bottomDesc{
-	position: fixed;
-	bottom:15px;
-	width:406px;
-	left:50%;
-	margin-left:-203px;
-}
-.loginbtn{
-	cursor: pointer;
-}
-@media (min-width: 1200px) and (max-width: 1600px) {
-    .title p {
-  text-align: center;
-  margin-top: 15px;
-  margin-bottom: 40px;
-  font-size: 36px;
-  color: #333;
-}
-}
+	.login {
+		height: 100%;
+		background: #fff;
+		/* background: url("../assets/img/bg.png") no-repeat;
+				background-size: cover; */
+	}
+	.topImg {
+		background: url("../assets/img/top-bg.png") no-repeat center center;
+		height: 35%;
+		background-size: cover;
+	}
+	.title p {
+		text-align: center;
+		margin-top: 15px;
+		margin-bottom: 50px;
+		font-size: 46px;
+		color: #333;
+	}
+	.account,
+	.password,
+	.code,
+	.loginbtn {
+		display: flex;
+		align-items: center;
+		width: 406px;
+		margin: 0 auto;
+		justify-content: center;
+	}
+	.password,
+	.code {
+		margin-top: 25px;
+	}
+	.account img,
+	.password img {
+		width: 36px;
+	}
+	.codeBox {
+		width: 112px;
+		height: 38px;
+		background: #666666;
+		margin-left: 10px;
+	}
+	.bottom,
+	.checkBox {
+		display: flex;
+		align-items: center;
+		width: 406px;
+		margin: 35px auto;
+		justify-content: space-between;
+	}
+	.register {
+		font-size: 22px;
+		color: #ffac69;
+		cursor: pointer;
+	}
+	.forget {
+		font-size: 22px;
+		color: #ed878e;
+		cursor: pointer;
+	}
+	.bottomDesc {
+		position: fixed;
+		bottom: 15px;
+		width: 406px;
+		left: 50%;
+		margin-left: -203px;
+	}
+	.loginbtn {
+		cursor: pointer;
+	}
+	@media (min-width:768px) and (max-width: 1200px) {
+		.title p {
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 25px;
+			font-size: 36px;
+			color: #333;
+		}
+		.password,
+		.code {
+			margin-top: 15px;
+		}
+		.account img,
+		.password img {
+			width: 30px;
+		}
+		.bottom {
+			margin: 10px auto;
+		}
+		.checkBox {
+			margin: 5px auto;
+		}
+		.register {
+			font-size: 20px;
+		}
+		.forget {
+			font-size: 20px;
+		}
+		.bottomDesc {
+			bottom: 10px;
+		}
+	}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="invoice_oListModule">
-    <div class="cardBox">
+    <div class="cardBox" v-if="invoicePanelList.length>0" v-loading="loadingCard">
       <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
         <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
         <div class="topContent color1">
@@ -19,7 +19,7 @@
         <div class="dataContent">
           <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList" :key="ind">
             <p>{{child.columnTitle}}</p>
-            <p>{{child.columnValue!=''?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
+            <p @dblclick="editPanel(item,child)">{{child.columnValue!=''?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
           </div>
         </div>
         <div class="footerContent" @click="showDetail(item)">
@@ -30,6 +30,7 @@
         <img src="../../assets/img/list-add.png" style="width:100%;height:100%" alt="">
       </div>
     </div>
+    <div v-if="invoicePanelList.length==0" class="noData">暂无数据</div>
     <!-- 新增弹窗 -->
     <el-dialog class="smallDialog" :close-on-click-modal="false" :visible.sync="addDialogVisible">
       <el-form ref="form" :rules="rules" :model="form" label-width="94px">
@@ -41,13 +42,13 @@
         </el-form-item>
         <el-form-item label="计税方法：" prop="taxCalcMethod">
           <el-select v-model="form.taxCalcMethod" placeholder="请选择" @change="changeTaxMethod">
-            <el-option v-for="item in taxCalcMethodOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in taxCalcMethodOptions" :key="item.dicValue" :label="item.dicName" :value="item.dicValue">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="发票类型：" prop="invoiceType">
           <el-select v-model="form.invoiceType" placeholder="请选择" @change="changeInvoiceType">
-            <el-option v-for="item in invoiceTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in invoiceTypeOptions" :key="item.typeString" :label="item.typeString" :value="item.typeString">
             </el-option>
           </el-select>
         </el-form-item>
@@ -75,7 +76,7 @@
           <!-- <p style="float:right" v-if="item.columnEdit==0">{{item.defaultValue}}</p> -->
           <span class="error">{{item.errInfo}}</span>
         </el-form-item>
-        <el-form-item class="rightSelect" v-if="item.e9zConfigInvoiceTaxesRateList" :label="item.taxesTitle" v-for="(item,indexs) in nextStepSelectList">
+        <el-form-item class="rightSelect" v-if="item.e9zConfigInvoiceTaxesRateList.length>0" :label="item.taxesTitle" v-for="(item,indexs) in nextStepSelectList">
           <el-select v-model="item.taxesValue" placeholder="请选择">
             <el-option v-for="child in item.e9zConfigInvoiceTaxesRateList" :label="child.taxesRate" :value="child.taxesRate">
             </el-option>
@@ -92,7 +93,7 @@
         <div class="costumer">
           <p class="label">客户名称：</p>
           <p class="value">南京公司</p>
-          <p class="pages">11张</p>
+          <p class="pages">{{detailData.pages}}张</p>
         </div>
         <div class="invoice">
           <div class="left">
@@ -102,7 +103,7 @@
           </div>
           <div class="right">
             <p class="label">发票名称：</p>
-            <p class="value">农产品销售</p>
+            <p class="value">{{detailData.invoiceName}}</p>
           </div>
         </div>
         <div class="date">
@@ -132,7 +133,7 @@
       </div>
       <div class="detailFooter">
         <div class="nextStep" @click="edit()">提交</div>
-        <div class="cancel" @click="detailDialogVisible=false">关闭</div>
+        <div class="cancel" @click="closeDetail()">关闭</div>
       </div>
     </el-dialog>
   </div>
@@ -158,6 +159,10 @@
       searchList: {
         type: Object,
         default: {}
+      },
+      loadingCard: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -238,9 +243,7 @@
         nextStepList: [],
         nextStepSelectList: [],
         nextStepRes: {},
-        detailData: {},
-        value1: "9888",
-        setNo: false
+        detailData: {}
       };
     },
     created() {
@@ -254,15 +257,15 @@
         if (isNaN(f)) {
           return false;
         }
-        f = Math.round(x * Math.pow(10, pos)) / Math.pow(10, pos); // pow 幂   
+        f = Math.round(x * Math.pow(10, pos)) / Math.pow(10, pos); // pow 幂
         var s = f.toString();
-        var rs = s.indexOf('.');
+        var rs = s.indexOf(".");
         if (rs < 0) {
           rs = s.length;
-          s += '.';
+          s += ".";
         }
         while (s.length <= rs + pos) {
-          s += '0';
+          s += "0";
         }
         return s;
       },
@@ -275,13 +278,14 @@
           .then(res => {
             console.log("获取计税方法", res);
             if (res.data.code == 200) {
-              this.taxCalcMethodOptions = res.data.data.map(v => {
-                var obj = {};
-                obj.label = v.dicName;
-                obj.value = v.dicValue;
-                return obj;
-              });
+              this.taxCalcMethodOptions = res.data.data;
             }
+          })
+          .catch(err => {
+            this.$message({
+              message: "获取计税方法失败",
+              type: "error"
+            });
           });
       },
       // 更改计税方法时触发
@@ -305,21 +309,20 @@
           .then(res => {
             console.log("获取发票类型和发票名称", res);
             if (res.data.code == 200) {
-              console.log("res.data.data[1]", res.data.data);
               this.allSelectList = res.data.data;
               res.data.data.forEach((item, index) => {
                 // type是发票
                 if (item.type == "invoice") {
-                  item.list.forEach((v, index) => {
-                    var obj = {};
-                    obj.label = v.typeString;
-                    obj.value = v.typeString;
-                    this.invoiceTypeOptions.push(obj);
-                  });
+                  this.invoiceTypeOptions=item.list
                 }
               });
-              console.log("22", this.invoiceTypeOptions);
             }
+          })
+          .catch(err => {
+            this.$message({
+              message: "获取发票类型和发票名称失败",
+              type: "error"
+            });
           });
       },
       // 更改发票类型时触发
@@ -356,6 +359,9 @@
           invoiceType: "", //发票类型
           invoiceName: "" //发票名称
         };
+        //  this.taxCalcMethodOptions= []; //计税方法选择框
+        this.invoiceTypeOptions=  []; //发票类型选择框
+        this.invoiceNameOptions=  []; //发票名称选择框
         this.$nextTick(() => {
           this.$refs["form"].resetFields();
         });
@@ -368,7 +374,6 @@
         this.invoiceName = this.invoiceNameOptions
           .map(v => {
             if (v.value == this.form.invoiceName) {
-              console.log(111, v.label);
               return v.label;
             }
           })
@@ -409,6 +414,12 @@
                 }
                 this.addDialogVisible = false;
                 this.nextStepDialogVisible = true;
+              })
+              .catch(err => {
+                this.$message({
+                  message: "获取下一步字段列数据失败",
+                  type: "error"
+                });
               });
           } else {
             console.log("error submit!!");
@@ -448,19 +459,19 @@
             flag = true;
           }
         });
-        console.log(flag)
+        console.log(flag);
         if (!flag) {
           let invoiceColumns = [];
           this.detailData.e9zConfigInvoiceColumnList.forEach((item, index) => {
             var obj = {};
             obj.columnId = item.columnId;
             obj.columnValue = item.columnValue;
-            invoiceColumns.push(obj)
-          })
+            invoiceColumns.push(obj);
+          });
           let params = {
             invoiceId: this.detailData.invoiceId, //发票Id (如果是发票配置表)
             invoiceTaxableType: this.detailData.invoiceTaxableType, //应税类型：1 - 应税货物；2 - 应税劳务；3 - 应税服务
-            invoiceName: '即征即用', //发票名称 this.detailData.invoiceName
+            invoiceName: this.detailData.invoiceName, //发票名称 this.detailData.invoiceName
             invoiceListId: this.detailData.invoiceListId, //发票信息Id
             invoiceCategory: this.detailData.invoiceCategory, //发票分类：防伪税控；税务局代开；有票收入；无票收入
             invoiceType: this.detailData.invoiceType, //发票类型：（防伪税控/代开-）专票；（防伪税控/代开-）普票；（有票收入-）形式发票；（有票收入-）通用机打；（无票收入-）无票
@@ -479,15 +490,33 @@
             .then(res => {
               console.log("修改数据", res);
               if (res.data.code == 200) {
+                this.$message({
+                  message: "修改成功",
+                  type: "success"
+                });
                 this.detailDialogVisible = false;
                 this.$emit("getInvoiceLeaveShowList", {
                   taxationId: this.taxationId,
                   taxInfoId: this.taxInfoId,
                   searchList: this.searchList
-                })
+                });
               }
+            })
+            .catch(err => {
+              this.$message({
+                message: "修改数据失败",
+                type: "error"
+              });
             });
         }
+      },
+      closeDetail(){
+        this.detailDialogVisible=false;
+        this.$emit("getInvoiceLeaveShowList", {
+                  taxationId: this.taxationId,
+                  taxInfoId: this.taxInfoId,
+                  searchList: this.searchList
+                });
       },
       // 保存提交数据
       save() {
@@ -545,7 +574,6 @@
             }
           }
         });
-        // console.log('this.nextStepSelectList',this.nextStepSelectList)
         if (this.nextStepSelectList.length > 0) {
           this.nextStepSelectList.forEach((item, index) => {
             if (item.e9zConfigInvoiceTaxesRateList) {
@@ -630,7 +658,6 @@
               }
             }
           });
-          // console.log("invoiceColumns", invoiceColumns);
           let params = {
             invoiceId: this.nextStepRes.invoiceId, //发票Id (如果是发票配置表)
             invoiceTaxableType: this.nextStepRes.invoiceTaxableType, //应税类型：1 - 应税货物；2 - 应税劳务；3 - 应税服务
@@ -653,13 +680,23 @@
             .then(res => {
               console.log("插入数据", res);
               if (res.data.code == 200) {
+                this.$message({
+                  message: "添加成功",
+                  type: "success"
+                });
                 this.nextStepDialogVisible = false;
                 this.$emit("getInvoiceLeaveShowList", {
                   taxationId: this.taxationId,
                   taxInfoId: this.taxInfoId,
                   searchList: this.searchList
-                })
+                });
               }
+            })
+            .catch(err => {
+              this.$message({
+                message: "添加数据失败",
+                type: "error"
+              });
             });
         }
       },
@@ -670,11 +707,13 @@
         item.invoiceColumnList = [];
         item.taxColumnList = [];
         item.e9zConfigInvoiceColumnList.forEach(v => {
-          // if(v.columnTitle=)
           this.$set(v, "isEdit", false);
           this.$set(v, "errInfo", "");
+          if (v.columnTitle == "发票张数") {
+            item.pages = parseInt(v.columnValue);
+          }
           if (v.columnShow == 1) {
-            v.columnValue = this.fomatFloat(v.columnValue, 2)
+            v.columnValue = this.fomatFloat(v.columnValue, 2);
             item.invoiceColumnList.push(v);
           }
           if (v.columnTitle.indexOf("税率") > -1) {
@@ -683,8 +722,18 @@
         });
         this.detailData = item;
       },
+
+      editPanel(item,child){
+        this.showDetail(item)
+        this.detailData.e9zConfigInvoiceColumnList.forEach(v => {
+          if (child.columnId == v.columnId) {
+            this.$set(v, "isEdit", true);
+          } else {
+            this.$set(v, "isEdit", false);
+          }
+        });
+      },
       changeValue(item) {
-        // console.log(111,item)
         this.detailData.e9zConfigInvoiceColumnList.forEach(v => {
           if (item.columnId == v.columnId) {
             this.$set(v, "isEdit", true);
@@ -700,7 +749,6 @@
             this.$set(v, "isEdit", false);
           }
         });
-        // this.$set(item,'isEdit',false)
       }
     }
   };
@@ -982,5 +1030,11 @@
   }
   .detailFooter .cancel {
     width: 180px;
+  }
+  .noData {
+    text-align: center;
+    margin-top: 20%;
+    color: #909399;
+    font-size: 14px;
   }
 </style>

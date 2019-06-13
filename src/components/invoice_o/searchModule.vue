@@ -2,8 +2,8 @@
   <div class='search_contain'>
     <div class="row1">
       <span class="labelTitle">
-    					客户名称：
-    				</span>
+      					客户名称：
+      				</span>
       <el-select v-model="searchList.value" placeholder="请选择">
         <el-option v-for="item in searchList.options" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
@@ -11,15 +11,15 @@
     </div>
     <div class="row2">
       <span class="labelTitle">
-    					账期：
-    				</span>
+      					账期：
+      				</span>
       <el-date-picker v-model="searchList.nowDate" type="month" placeholder="选择月">
       </el-date-picker>
     </div>
     <div class="row3">
       <span class="labelTitle">
-    					发票类型：
-    				</span>
+      					发票类型：
+      				</span>
       <el-select v-model="searchList.value" placeholder="请选择">
         <el-option v-for="item in searchList.options" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
@@ -89,6 +89,11 @@
               this.$emit("getShowSumDeduct", taxation_id);
               this.$emit("getShowSumTaxPayable", taxation_id);
             }
+          }).catch((err) => {
+            this.$message({
+              message: '获取收账信息Id和税款信息id数据失败',
+              type: 'error'
+            });
           });
       }
     }

@@ -2,7 +2,7 @@
   <div class="main_contain">
     <div class="left_contain">
       <searchModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList" @getShowSumIncome="getShowSumIncome" @getShowSumDeduct="getShowSumDeduct" @getShowSumTaxPayable="getShowSumTaxPayable"></searchModule>
-      <listModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList" :invoicePanelList="invoicePanelList" :taxationId="taxationId" :taxInfoId="taxInfoId" :searchList="searchList"></listModule>
+      <listModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList" :invoicePanelList="invoicePanelList" :taxationId="taxationId" :taxInfoId="taxInfoId" :searchList="searchList" :loadingCard="loadingCard"></listModule>
       <!-- taxation_id,tax_info_id -->
     </div>
     <div class="right_contain">
@@ -14,7 +14,7 @@
         <el-table :data="tableData" show-summary border style="width: 90%;margin-left:5%">
           <el-table-column label="税种" width="50" align="center" :resizable="false">
             <template slot-scope="scope">
-  								<div class="tableSquare" :style="{background:scope.row.color}"></div>
+      				  <div class="tableSquare" :style="{background:scope.row.color}"></div>
 </template>
 					</el-table-column>
 					<el-table-column prop="invoice_amt" label="票面金额" align="right" header-align="center"  :resizable="false">
@@ -86,9 +86,10 @@
         ],
         tableDeductData: [],
         tableTaxData: [],
-        taxationId: '',
-        taxInfoId: '',
+        taxationId: "",
+        taxInfoId: "",
         searchList: {},
+        loadingCard: false,
       };
     },
     components: {
@@ -107,19 +108,19 @@
         });
       },
       //获取列表数据
-      // getInvoiceLeaveShowList(taxation_id,tax_info_id,searchList) {
       getInvoiceLeaveShowList(params) {
-        // console.log(111, taxation_id,tax_info_id,searchList);
         this.taxationId = params.taxationId;
         this.taxInfoId = params.taxInfoId;
         this.searchList = params.searchList;
         //
+        this.loadingCard = true;
         axios
           .get(
             "/api/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
             params.taxationId
           )
           .then(res => {
+            this.loadingCard = false;
             console.log("获取列表数据", res);
             if (res.data.code == 200) {
               let obj = res.data.data[0];
@@ -132,14 +133,26 @@
                 }
               }
               this.invoicePanelList = this.flatten(arr);
-              console.log("res.data.data[i]", this.invoicePanelList, this.taxationId, this.taxInfoId);
+              console.log(
+                "res.data.data[i]",
+                this.invoicePanelList,
+                this.taxationId,
+                this.taxInfoId
+              );
             }
+          }).catch((err) => {
+            this.$message({
+              message: '获取列表数据失败',
+              type: 'error'
+            });
           });
       },
       //获取右侧统计数据--收入合计
       getShowSumIncome(taxation_id) {
+        console.log('taxationId', taxation_id)
         axios.get("/test/www").then(res => {
-          // console.log("获取收入合计数据", res);
+        // axios.get("/api/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + taxation_id).then(res => {
+          console.log("获取收入合计数据", res);
           if (res.data.code == 200) {
             let nameArr = [];
             let valueArr = [];
@@ -173,11 +186,16 @@
             //   console.log('this.tableData', this.tableData)
             this.drawLine();
           }
+        }).catch((err) => {
+          this.$message({
+            message: '获取收入合计数据失败',
+            type: 'error'
+          });
         });
       },
       // 获取右侧统计数据--抵扣合计
       getShowSumDeduct() {
-        this.tableDeductData = []
+        this.tableDeductData = [];
         axios.get("/test/showSumIncome").then(res => {
           // console.log("获取抵扣合计数据", res);
           if (res.data.code == 200) {
@@ -211,6 +229,11 @@
             }
             //   console.log("this.tableDeductData", this.tableDeductData);
           }
+        }).catch((err) => {
+          this.$message({
+            message: '获取抵扣合计数据失败',
+            type: 'error'
+          });
         });
       },
       // 获取右侧统计数据--应纳税额合计
@@ -220,6 +243,11 @@
           if (res.data.code == 200) {
             this.tableTaxData = res.data.data;
           }
+        }).catch((err) => {
+          this.$message({
+            message: '获取应纳税额合计数据失败',
+            type: 'error'
+          });
         });
       },
       // 二维数组转一位数组
