@@ -78,7 +78,7 @@ export default {
 	height: 22px;
 }
 .checkBox .el-checkbox__inner::after{
-	    height: 13px;
+	height: 13px;
     left: 7px;
     width: 6px;
 }

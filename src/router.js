@@ -15,12 +15,14 @@ import template from './views/template.vue'
 import rate from './views/rate.vue'
 import dictionary from './views/dictionary.vue'
 import taxnotice from './views/taxnotice.vue'
+
+import incomeTaxCalculate from './views/incomeTaxCalculate.vue'
 Vue.use(Router)
 
 export default new Router({
 	routes: [{
 			path: '/',
-			redirect: 'login'
+			redirect: 'customer'
 		},
 		{
 			path: '/login',
@@ -106,12 +108,17 @@ export default new Router({
 					path: '/taxnotice',
 					name: 'taxnotice',
 					component: () => import( /* webpackChunkName: "about" */ './views/taxnotice.vue')
+				},
+				{
+					path: '/incomeTaxCalculate',
+					name: 'incomeTaxCalculate',
+					component: () => import( /* webpackChunkName: "about" */ './views/incomeTaxCalculate.vue')
 				}
 			]
 		},
 		{
 			path: '*',
-			redirect: 'login'
+			redirect: 'index'
 		}
 		// {
 		//   path: '/about',

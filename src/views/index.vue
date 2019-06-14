@@ -62,6 +62,10 @@
 										<el-menu-item index="/taxnotice">税款通知配置</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
+								<el-menu-item index="/incomeTaxCalculate">
+									<i class="el-icon-menu"></i>
+									<span slot="title">个税计算</span>
+								</el-menu-item>
 							</el-menu>
 						</el-col>
 					</el-row>
@@ -151,9 +155,9 @@
 			// 	console.log(res)
 			// })
 			
-			axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState').then(res => {
-				console.log(res)
-			})
+			// axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState').then(res => {
+			// 	console.log(res)
+			// })
 		}
 	}
 </script>

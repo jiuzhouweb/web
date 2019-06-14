@@ -4,19 +4,18 @@
 			<div class="contain_header">
 				<el-form :inline="true" :model="formInline" class="demo-form-inline">
 					<el-form-item label="省份选择:">
-						<el-select v-model="formInline.province">
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="division" @change='getArea'>
+							<el-option v-for='item in divisionList' :label="item.divisionName" :value="item.divisionName"></el-option>
+
 						</el-select>
 					</el-form-item>
 					<el-form-item label="城市选择:">
-						<el-select v-model="formInline.area">
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model='temArea' value-key='divisionCode'>
+							<el-option v-for='item in areaList' :label="item.divisionName" :value="item" :key='item.divisionCode'></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button type="primary">确认城市</el-button>
+						<el-button type="primary" @click='setArea'>确认城市</el-button>
 					</el-form-item>
 				</el-form>
 				<div class='info clearfix'>
@@ -155,7 +154,7 @@
 				<el-button type="primary" @click="filterFormula">立即<br />查询</el-button>
 			</div>
 			<div class="contain_body">
-				<h3>税种公式</h3>
+				<h3>税种公式<span>{{areaName}}</span></h3>
 				<ul>
 					<li v-for="item in formulaList">
 						<span class='formula span1'>{{item.invoice_category}} {{item.invoice_type}}</span>
@@ -184,9 +183,23 @@
 		name: "router1",
 		data() {
 			return {
+				division: '江苏省',
+				temArea: {
+					city: "1",
+					committee: "0",
+					country: "0",
+					divId: 15980,
+					divisionCode: "320100000000",
+					divisionName: "南京市",
+					parentName: "江苏省",
+					province: "32",
+					street: "0"
+				},
+				area: "320100000000",
+				areaName: '南京市',
+				divisionList: [],
+				areaList: [],
 				formInline: {
-					province: '',
-					area: '',
 					taxesTaxType: '',
 					taxCalcType: '',
 					tmplShowType: "0",
@@ -288,6 +301,92 @@
 		},
 		methods: {
 			/*
+			 * 获取省份
+			 * {params}
+			 * 无	
+			 * */
+			queryDivision() {
+				this.axios.post('/api/perTaxToolTwo/e9z/configDivision/selectDivision')
+					.then(res => {
+						if (res.data.code == 200) {
+							this.divisionList = res.data.data;
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+
+					}).catch(function(err) {
+						this.$message({
+							message: '获取省份失败',
+							type: 'error'
+						});
+					})
+			},
+			/*
+			 * 获取城市
+			 * {params}
+			 * 无
+			 * */
+			getArea() {
+				this.temArea = {};
+				let params = {
+					"parentName": this.division
+				};
+				this.axios.post('/api/perTaxToolTwo/e9z/configDivision/selectArea', params)
+					.then(res => {
+						if (res.data.code == 200) {
+							this.areaList = res.data.data;
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+
+					}).catch(function(err) {
+						this.$message({
+							message: '获取省份失败',
+							type: 'error'
+						});
+					})
+			},
+			getAreaDefault(){
+				let params = {
+					"parentName": this.division
+				};
+				this.axios.post('/api/perTaxToolTwo/e9z/configDivision/selectArea', params)
+					.then(res => {
+						if (res.data.code == 200) {
+							this.areaList = res.data.data;
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+				
+					}).catch(function(err) {
+						this.$message({
+							message: '获取省份失败',
+							type: 'error'
+						});
+					})
+			},
+			setArea() {
+				console.log(this.temArea);
+				this.area = this.temArea.divisionCode;
+				this.areaName = this.temArea.divisionName;
+				
+				this.queryFormulaList();
+				this.queryInvoiceType();
+				this.queryInvoiceName();
+				this.queryTemplateList();
+				this.resetSelect();
+				this.resetFilter()
+			},
+			/*
 			 * 获取纳税人类型下拉列表
 			 * {params}
 			 * 无
@@ -385,7 +484,8 @@
 					invoiceType: this.searchInvoiceType,
 					invoiceName: this.searchInvoiceName,
 					tmplName: this.searchTmplName,
-					columnTitle: this.searchColumnTitle
+					columnTitle: this.searchColumnTitle,
+					area:this.area
 				};
 				this.axios.post('/api/perTaxToolTwo/e9z/configInvoiceFormula/selectFormulaList?currentPage=' + this.currentPage +
 						'&pageCount=' + this.pageSize, params)
@@ -510,7 +610,7 @@
 			 * */
 			queryInvoiceType() {
 				let params = {
-
+					"area":this.area
 				};
 				this.axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState', params).then(res => {
 					this.invoiceTypeSearchList = res.data.data;
@@ -528,7 +628,7 @@
 			 * */
 			queryInvoiceName() {
 				let params = {
-
+					"area":this.area
 				};
 				this.axios.post('/api/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName', params).then(res => {
 					this.invoiceNameSearchList = res.data.data;
@@ -546,7 +646,7 @@
 			 * */
 			queryTemplateList() {
 				let params = {
-
+					"area":this.area
 				};
 				this.axios.post('/api/perTaxToolTwo/e9z/configTemplate/findTemplateList', params).then(res => {
 					this.templateListSearchList = res.data.data;
@@ -572,7 +672,7 @@
 			 * */
 			downLoad() {
 				var sheet = this.xlsx.utils.json_to_sheet(this.formulaList);
-				this.openDownloadDialog(this.sheet2blob(sheet), '导出.xlsx');
+				this.openDownloadDialog(this.sheet2blob(sheet), '税种公式.xlsx');
 			},
 			sheet2blob(sheet, sheetName) {
 				sheetName = sheetName || 'sheet1';
@@ -632,7 +732,8 @@
 				handler(val, oldVal) {
 					let params = {
 						"taxesTaxType": val,
-						"tmplShowType": this.formInline.tmplShowType
+						"tmplShowType": this.formInline.tmplShowType,
+						"area":this.area
 					};
 					this.axios.post('/api/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
 						this.formulaTitleList = res.data.data;
@@ -651,7 +752,8 @@
 					let params = {
 						"taxCalcType": this.formInline.taxCalcType,
 						"taxesTaxType": this.formInline.taxesTaxType,
-						"tmplShowType": this.formInline.tmplShowType
+						"tmplShowType": this.formInline.tmplShowType,
+						"area":this.area
 					};
 					this.axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
 						this.invoiceTypeList = res.data.data;
@@ -671,7 +773,8 @@
 				handler(val, oldVal) {
 					let params = {
 						"taxesTaxType": this.formInline.taxesTaxType,
-						"tmplShowType": this.formInline.tmplShowType
+						"tmplShowType": this.formInline.tmplShowType,
+						"area":this.area
 					};
 					this.axios.post('/api/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
 						this.formulaTitleList = res.data.data;
@@ -684,7 +787,8 @@
 					if (val == 1) {
 						let params = {
 							"taxesTaxType": this.formInline.taxesTaxType,
-							"tmplShowType": this.formInline.tmplShowType
+							"tmplShowType": this.formInline.tmplShowType,
+							"area":this.area
 						};
 						this.axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
 							this.templateTypeList = res.data.data;
@@ -708,6 +812,8 @@
 			this.queryInvoiceType();
 			this.queryInvoiceName();
 			this.queryTemplateList();
+			this.queryDivision();
+			this.getAreaDefault()
 		}
 	}
 </script>
@@ -933,6 +1039,10 @@
 				color: #fff
 			}
 
+			/deep/ .el-input__inner {
+				border: 1px solid #fff;
+			}
+
 			/deep/ .el-button {
 				background: #fff;
 				color: @button_orange;
@@ -1009,6 +1119,13 @@
 			font-size: 18px;
 			color: #333;
 			padding-left: 30px;
+
+			span {
+				font-size: 14px;
+				color: #ccc;
+				margin-left: 18px;
+				font-weight: normal;
+			}
 		}
 
 		li {

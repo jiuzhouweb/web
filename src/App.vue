@@ -26,7 +26,7 @@
 					var clientWidth = docEl.clientWidth
 					if (!clientWidth) return
 					docEl.style.fontSize = 100 * (clientWidth / 1920) + 'px';
-					alert(docEl.style.fontSize)
+					// alert(docEl.style.fontSize)
 				}
 				
 				if (!doc.addEventListener) return
