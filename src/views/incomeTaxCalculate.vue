@@ -25,7 +25,7 @@
 					<el-input v-model="ruleForm.bonus"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="submitForm('ruleForm')">计算</el-button>
+					<el-button type="primary" :loading="isloading" @click="submitForm('ruleForm')">计算</el-button>
 					<el-button @click="resetForm('ruleForm')">重置</el-button>
 				</el-form-item>
 			</el-form>
@@ -45,7 +45,7 @@
 				</el-form-item>
 
 			</el-form>
-			<el-form label-width="160px" class="demo-ruleForm">
+			<el-form :model="ruleForm" label-width="160px" class="demo-ruleForm">
 				<el-form-item label="应纳税所得额" prop="name">
 					<el-input v-model="calResult.taxableIncome" disabled></el-input>
 				</el-form-item>
@@ -61,23 +61,23 @@
 				<el-form-item label="速算扣除数" prop="name">
 					<el-input v-model="calResult.quickDeduction" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="当月个税（应补税额）" prop="name" v-if='!ruleForm.bonus'>
+				<el-form-item label="当月个税（应补税额）" prop="name" v-if='isShow'>
 					<el-input v-model="calResult.taxation" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="税后工资" prop="name" v-if='!ruleForm.bonus'>
+				<el-form-item label="税后工资" prop="name" v-if='isShow'>
 					<el-input v-model="calResult.afterTaxIncome" disabled></el-input>
 				</el-form-item>
 
-				<el-form-item label="【分开核算】当月个税" prop="name" v-if='ruleForm.bonus'>
+				<el-form-item label="【分开核算】当月个税" prop="name" v-if='!isShow'>
 					<el-input v-model="calResult.sepTaxation" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="【分开核算】税后工资" prop="name" v-if='ruleForm.bonus'>
+				<el-form-item label="【分开核算】税后工资" prop="name" v-if='!isShow'>
 					<el-input v-model="calResult.sepAfterTaxIncome" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="【合并核算】当月个税" prop="name" v-if='ruleForm.bonus'>
+				<el-form-item label="【合并核算】当月个税" prop="name" v-if='!isShow'>
 					<el-input v-model="calResult.comTaxation" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="【合并核算】税后工资" prop="name" v-if='ruleForm.bonus'>
+				<el-form-item label="【合并核算】税后工资" prop="name" v-if='!isShow'>
 					<el-input v-model="calResult.comAfterTaxIncome" disabled></el-input>
 				</el-form-item>
 			</el-form>
@@ -133,14 +133,23 @@
 						trigger: 'blur'
 					}]
 				},
-				calResult:[]
+				calResult:[],
+				isShow:true,
+				isloading:false
 			}
 		},
 		components: {},
 		methods: {
 			submitForm(formName) {
+				
+				if(this.ruleForm.bonus){
+					this.isShow = false
+				}else{
+					this.isShow = true
+				}
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
+						this.isloading = true;
 						let params = {
 							"currtMon": this.ruleForm.month,
 							"incomeAmount": this.ruleForm.gross_salary,
@@ -155,9 +164,11 @@
 						};
 						this.axios.post('/tax/perTaxToolTwo/monAcct/perTaxCalculator', params)
 							.then(res => {
+								this.isloading = false;
 								console.log(res.data.data);
 								this.calResult = res.data.data;
 							}).catch(function(err) {
+								this.isloading = false;
 								this.$message({
 									message: '获取结果失败',
 									type: 'error'
@@ -188,7 +199,7 @@
 			}
 		},
 		created() {
-			// this.axios.get('/tax/perTaxToolTwo/api/user/getLoginUserInfo.do')
+			// this.axios.get('/tax/perTaxToolTwo/monAcct/perTaxCalculator')
 			// .then(res => {
 			// 	console.log(res.data.data);
 			// }).catch(function(err) {
@@ -204,26 +215,24 @@
 <style lang='less' scoped>
 	.form {
 		background-color: #fff;
-		/* margin-top: 20px; */
-		/* height: calc(100% - 52px); */
 		height: 100%;
 		padding: 20px 0px 0px 20px;
-		/* display: flex; */
-		/* flex-direction: row; */
-		/* justify-content: space-between; */
 		box-sizing: border-box;
 	}
 	.formlist{
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		margin-top:20px; 
+		/* margin-top:20px; */
+		margin-top:0.2rem; 
 	}
 	.demo-ruleForm {
-		width: 460px;
+		/* width: 460px; */
+		width: 4.6rem;
 		float: left
 	}
 	.el-form-item {
-		margin-bottom: 18px;
+		/* margin-bottom: 18px; */
+		margin-bottom: 0.18rem;
 	}
 </style>

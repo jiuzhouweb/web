@@ -113,7 +113,13 @@ export default new Router({
 					path: '/incomeTaxCalculate',
 					name: 'incomeTaxCalculate',
 					component: () => import( /* webpackChunkName: "about" */ './views/incomeTaxCalculate.vue')
-				}
+				},
+				{
+					path: '/initialSheet',
+					name: 'initialSheet',
+					component: () => import( /* webpackChunkName: "about" */ './views/initialSheet.vue')
+				},
+				
 			]
 		},
 		{
