@@ -32,7 +32,6 @@
 		<div class="checkBox">
 			<el-checkbox v-model="checked">游客登录</el-checkbox>
 		</div>
-		
 		<div class="bottomDesc">
 			<p>技术支持：南京九州会计咨询有限公司。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系电话：025-968899996</p>
 		</div>
@@ -60,27 +59,31 @@ export default {
 };
 </script>
 <style>
-.account .el-input ,.password .el-input,.code .el-input{
+.account .el-input,
+.password .el-input,
+.code .el-input {
   margin-left: 30px;
 }
-.account .el-input--suffix .el-input__inner,.password .el-input--suffix .el-input__inner,.code .el-input--suffix .el-input__inner {
+.account .el-input--suffix .el-input__inner,
+.password .el-input--suffix .el-input__inner,
+.code .el-input--suffix .el-input__inner {
   border: none;
   padding: 0;
   border-bottom: 2px solid #999;
   border-radius: 0;
 }
-.checkBox .el-checkbox__label{
-	font-size: 20px;
-	color: #808080
+.checkBox .el-checkbox__label {
+  font-size: 20px;
+  color: #808080;
 }
-.checkBox .el-checkbox__inner{
-	width: 22px;
-	height: 22px;
+.checkBox .el-checkbox__inner {
+  width: 22px;
+  height: 22px;
 }
-.checkBox .el-checkbox__inner::after{
-	height: 13px;
-    left: 7px;
-    width: 6px;
+.checkBox .el-checkbox__inner::after {
+  height: 13px;
+  left: 7px;
+  width: 6px;
 }
 </style>
 
@@ -89,73 +92,205 @@ export default {
   height: 100%;
   background: #fff;
   /* background: url("../assets/img/bg.png") no-repeat;
-			background-size: cover; */
+					background-size: cover; */
 }
-.topImg{
-	background:url("../assets/img/top-bg.png") no-repeat center center;
-	height:35%;
-	background-size:cover;
+.topImg {
+  background: url("../assets/img/top-bg.png") no-repeat center center;
+  height: 35%;
+  background-size: cover;
 }
 .title p {
   text-align: center;
-  margin-top: 15px;
-  margin-bottom: 50px;
-  font-size: 46px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+  font-size: 36px;
   color: #333;
 }
-.account,.password,.code,.loginbtn{
+.account,
+.password,
+.code,
+.loginbtn {
   display: flex;
   align-items: center;
   width: 406px;
   margin: 0 auto;
-  justify-content:center;
+  justify-content: center;
 }
-.password,.code{
-	margin-top:25px;
+.password,
+.code {
+  margin-top: 15px;
 }
-.account img,.password img {
-  width: 36px;
+.codeBox {
+  width: 112px;
+  height: 38px;
+  background: #666666;
+  margin-left: 10px;
 }
-.codeBox{
-	width:112px;
-	height:38px;
-	background:#666666;
-	margin-left:10px;
+.account img,
+.password img {
+  width: 30px;
 }
-.bottom,.checkBox{
-display: flex;
+.bottom {
+  margin: 10px auto;
+}
+.checkBox {
+  margin: 5px auto;
+}
+.bottom,
+.checkBox {
+  display: flex;
   align-items: center;
   width: 406px;
-  margin: 35px auto;
-  justify-content:space-between;
+  justify-content: space-between;
 }
-.register{
-	font-size:22px;
-	color:#ffac69;
-	cursor: pointer;
+.register {
+  font-size: 20px;
+  color: #ffac69;
+  cursor: pointer;
 }
-.forget{
-	font-size:22px;
-	color:#ed878e;
-	cursor: pointer;
+.forget {
+  font-size: 20px;
+  color: #ed878e;
+  cursor: pointer;
 }
-.bottomDesc{
-	position: fixed;
-	bottom:15px;
-	width:406px;
-	left:50%;
-	margin-left:-203px;
+.bottomDesc {
+  position: fixed;
+  width: 406px;
+  left: 50%;
+  bottom: 10px;
+  margin-left: -203px;
 }
-.loginbtn{
-	cursor: pointer;
+.loginbtn {
+  cursor: pointer;
 }
-@media (min-width: 1200px) and (max-width: 1600px) {
-    .title p {
-  text-align: center;
-  margin-top: 15px;
-  margin-bottom: 40px;
-  font-size: 36px;
-  color: #333;
+@media screen and (min-width: 1024px) {
+  .title p {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    font-size: 36px;
+    color: #333;
+  }
+  .password,
+  .code {
+    margin-top: 15px;
+  }
+  .account img,
+  .password img {
+    width: 30px;
+  }
+  .bottom {
+    margin: 10px auto;
+  }
+  .checkBox {
+    margin: 5px auto;
+  }
+  .register {
+    font-size: 20px;
+  }
+  .forget {
+    font-size: 20px;
+  }
+  .bottomDesc {
+    bottom: 10px;
+  }
 }
+/*>=1024的设备*/
+@media screen and (min-width: 1100px) {
+}
+@media screen and (min-width: 1280px) {
+  
+  .bottom {
+    margin: 25px auto;
+  }
+  .checkBox {
+    margin: 15px auto;
+  }
+}
+@media screen and (min-width: 1366px) {
+}
+@media screen and (min-width: 1440px) {
+  .title p {
+    margin-top: 15px;
+    margin-bottom: 40px;
+    font-size: 46px;
+  }
+  .password,
+  .code {
+    margin-top: 15px;
+  }
+  .account img,
+  .password img {
+    width: 30px;
+  }
+  .bottom {
+    margin: 35px auto;
+  }
+  .checkBox {
+    margin: 15px auto;
+  }
+  .bottomDesc {
+    bottom: 15px;
+  }
+}
+@media screen and (min-width: 1680px) {
+  .title p {
+    margin-top: 25px;
+    margin-bottom: 50px;
+    font-size: 46px;
+  }
+  .password,
+  .code {
+    margin-top: 15px;
+  }
+  .account img,
+  .password img {
+    width: 30px;
+  }
+  .bottom {
+    margin: 35px auto;
+  }
+  .checkBox {
+    margin: 35px auto;
+  }
+  .register {
+    font-size: 22px;
+  }
+  .forget {
+    font-size: 22px;
+  }
+  .bottomDesc {
+    bottom: 15px;
+  }
+}
+@media screen and (min-width: 1920px) {
+  .title p {
+    margin-top: 25px;
+    margin-bottom: 50px;
+    font-size: 46px;
+  }
+  .password,
+  .code {
+    margin-top: 15px;
+  }
+  .account img,
+  .password img {
+    width: 30px;
+  }
+  .bottom {
+    margin: 35px auto;
+  }
+  .checkBox {
+    margin: 35px auto;
+  }
+  .register {
+    font-size: 22px;
+  }
+  .forget {
+    font-size: 22px;
+  }
+  .bottomDesc {
+    bottom: 15px;
+  }
 }
 </style>
