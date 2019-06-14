@@ -15,6 +15,7 @@ import template from './views/template.vue'
 import rate from './views/rate.vue'
 import dictionary from './views/dictionary.vue'
 import taxnotice from './views/taxnotice.vue'
+import reportForms from './views/reportForms.vue'
 
 import incomeTaxCalculate from './views/incomeTaxCalculate.vue'
 Vue.use(Router)
@@ -118,6 +119,11 @@ export default new Router({
 					path: '/initialSheet',
 					name: 'initialSheet',
 					component: () => import( /* webpackChunkName: "about" */ './views/initialSheet.vue')
+				},
+				{
+					path: '/reportForms',
+					name: 'reportForms',
+					component: () => import( /* webpackChunkName: "about" */ './views/reportForms.vue')
 				},
 				
 			]

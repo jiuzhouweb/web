@@ -313,7 +313,7 @@
               res.data.data.forEach((item, index) => {
                 // type是发票
                 if (item.type == "invoice") {
-                  this.invoiceTypeOptions=item.list
+                  this.invoiceTypeOptions = item.list
                 }
               });
             }
@@ -360,8 +360,8 @@
           invoiceName: "" //发票名称
         };
         //  this.taxCalcMethodOptions= []; //计税方法选择框
-        this.invoiceTypeOptions=  []; //发票类型选择框
-        this.invoiceNameOptions=  []; //发票名称选择框
+        this.invoiceTypeOptions = []; //发票类型选择框
+        this.invoiceNameOptions = []; //发票名称选择框
         this.$nextTick(() => {
           this.$refs["form"].resetFields();
         });
@@ -510,13 +510,13 @@
             });
         }
       },
-      closeDetail(){
-        this.detailDialogVisible=false;
+      closeDetail() {
+        this.detailDialogVisible = false;
         this.$emit("getInvoiceLeaveShowList", {
-                  taxationId: this.taxationId,
-                  taxInfoId: this.taxInfoId,
-                  searchList: this.searchList
-                });
+          taxationId: this.taxationId,
+          taxInfoId: this.taxInfoId,
+          searchList: this.searchList
+        });
       },
       // 保存提交数据
       save() {
@@ -722,8 +722,7 @@
         });
         this.detailData = item;
       },
-
-      editPanel(item,child){
+      editPanel(item, child) {
         this.showDetail(item)
         this.detailData.e9zConfigInvoiceColumnList.forEach(v => {
           if (child.columnId == v.columnId) {
@@ -1036,5 +1035,41 @@
     margin-top: 20%;
     color: #909399;
     font-size: 14px;
+  }
+  @media screen and (min-width: 1024px) {
+    .noData {
+      font-size: 18px
+    }
+  }
+  /*>=1024的设备*/
+  @media screen and (min-width: 1100px) {
+    .noData {
+      font-size: 20px
+    }
+  }
+  @media screen and (min-width: 1280px) {
+    .noData {
+      font-size: 22px;
+    }
+  }
+  @media screen and (min-width: 1366px) {
+    .noData {
+      font-size: 24px;
+    }
+  }
+  @media screen and (min-width: 1440px) {
+    .noData {
+      font-size: 26px
+    }
+  }
+  @media screen and (min-width: 1680px) {
+    .noData {
+      font-size: 28px;
+    }
+  }
+  @media screen and (min-width: 1920px) {
+    .noData {
+      font-size: 30px;
+    }
   }
 </style>
