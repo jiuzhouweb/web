@@ -326,12 +326,13 @@
   }
 </style>
 
-<style scoped>
+<style lang="less" scoped>
   .main_contain {
-    height: 100%;
+    height: calc(100% - 44px);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding:20px;
   }
   .left_contain {
     height: 100%;
