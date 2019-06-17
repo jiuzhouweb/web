@@ -11,12 +11,14 @@
 					<el-form-item label="姓名">
 						<el-input placeholder="请输入姓名" v-model="input" clearable></el-input>
 					</el-form-item>
-					<el-button type="primary" icon="el-icon-search">搜索</el-button>
+					<el-button type="primary" icon="el-icon-search" @click='setName'>搜索</el-button>
 				</el-form>
 			</div>
 		</div>
 		<div class='main_contain'>
-			<el-table :data="employeeList" stripe style="width: 100%">
+			<el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog'>批量删除</el-button>
+			<el-table :data="employeeList" stripe style="width: 100%" @selection-change="handleSelectionChange">>
+				
 				<el-table-column type="expand">
 					<template slot-scope="props">
 						<el-form label-position="left" inline class="demo-table-expand">
@@ -98,6 +100,8 @@
 						</el-form>
 					</template>
 				</el-table-column>
+				<el-table-column type="selection" width="55">
+				</el-table-column>
 				<el-table-column prop="employeeName" label="姓名" width="120">
 				</el-table-column>
 				<el-table-column prop="cardType" label="证件类型">
@@ -118,7 +122,7 @@
 					<template slot-scope="scope">
 						<!-- <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button> -->
 						<el-button type="text" size="small">编辑</el-button>
-						<el-button type="text" size="small" @click='del'>删除</el-button>
+						<el-button type="text" size="small" @click='del(scope.row)'>删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -148,7 +152,10 @@
 				formInline: {
 
 				},
-				input: ''
+				input: '',
+				name: '',
+				canDel:true,
+				multipleSelection:[]
 			}
 		},
 		components: {},
@@ -158,7 +165,7 @@
 					"page": 1,
 					"row": 10,
 					"data": {
-						"name": "",
+						"name": this.name,
 						"operateId": this.$route.query.operateId
 					}
 				};
@@ -185,16 +192,68 @@
 						});
 					})
 			},
-			del() {
+			del(row) {
 				this.$confirm('确定删除此条记录?', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
+					let params = [row];
+					this.axios.post('/miaoxing/deleteCompanyEmployee', params)
+						.then(res => {
+							if (res.data.code == 200) {
+								this.$message({
+									type: 'success',
+									message: '删除成功!'
+								});
+							} else {
+								this.$message({
+									message: res.data.msg,
+									type: 'error'
+								});
+							}
+					
+						}).catch(function(err) {
+							this.$message({
+								message: '删除失败',
+								type: 'error'
+							});
+						})
+					
+				}).catch(() => {
 					this.$message({
-						type: 'success',
-						message: '删除成功!'
+						type: 'info',
+						message: '已取消删除'
 					});
+				});
+			},
+			showDelDialog(){
+				this.$confirm('确定删除选中的记录?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					let params = this.multipleSelection;
+					this.axios.post('/miaoxing/deleteCompanyEmployee', params)
+						.then(res => {
+							if (res.data.code == 200) {
+								this.$message({
+									type: 'success',
+									message: '删除成功!'
+								});
+							} else {
+								this.$message({
+									message: res.data.msg,
+									type: 'error'
+								});
+							}
+					
+						}).catch(function(err) {
+							this.$message({
+								message: '删除失败',
+								type: 'error'
+							});
+						})
 				}).catch(() => {
 					this.$message({
 						type: 'info',
@@ -205,13 +264,28 @@
 			handleCurrentChange() {
 
 			},
+			setName() {
+				this.name = this.input;
+			},
 			goBack() {
 				this.$router.push({
-					name:"initialSheet"
+					name: "initialSheet"
 				})
+			},
+			handleSelectionChange(val){
+				 this.multipleSelection = val;
 			}
 		},
 		computed: {},
+		watch:{
+			multipleSelection(val){
+				if(val.length == 0){
+					this.canDel = true
+				}else{
+					this.canDel = false
+				}
+			}
+		},
 		created() {
 			this.queryEmployeePage();
 		}
@@ -283,7 +357,24 @@
 				height: 40px;
 				line-height: 40px;
 			}
-
+			.el-button.muldel{
+				/* float: right */
+				margin-bottom: 10px;
+			}
+			/deep/ .demo-table-expand {
+				font-size: 0;
+			}
+			
+			/deep/ .demo-table-expand label {
+				color: #99a9bf;
+				padding-left: 120px;
+			}
+			
+			/deep/ .demo-table-expand .el-form-item {
+				margin-right: 0;
+				margin-bottom: 0;
+				width: 50%;
+			}
 		}
 
 		/deep/ .el-pagination {
@@ -291,37 +382,25 @@
 			margin-top: 10px;
 		}
 
-		.demo-table-expand {
-			font-size: 0;
-		}
-
-		.demo-table-expand label {
-			width: 90px;
-			color: #99a9bf;
-		}
-
-		.demo-table-expand .el-form-item {
-			margin-right: 0;
-			margin-bottom: 0;
-			width: 50%;
-		}
+		
 	}
+
 	/*滚动条样式*/
 	::-webkit-scrollbar {
 		width: 4px;
 		/*height: 4px;*/
 	}
-	
+
 	::-webkit-scrollbar-thumb {
 		border-radius: 10px;
 		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
 		background: rgba(0, 0, 0, 0.2);
 	}
-	
+
 	::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
 		border-radius: 0;
 		background: rgba(0, 0, 0, 0.1);
-	
+
 	}
 </style>

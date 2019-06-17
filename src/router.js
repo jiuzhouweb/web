@@ -125,6 +125,7 @@ export default new Router({
 					name: 'employeeDetail',
 					component: () => import( /* webpackChunkName: "about" */ './views/employeeDetail.vue')
 				},
+				{
 					path: 'reportForms',
 					name: 'reportForms',
 					component: () => import( /* webpackChunkName: "about" */ './views/reportForms.vue')

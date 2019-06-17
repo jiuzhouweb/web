@@ -3,13 +3,28 @@
 		<el-container>
 			<el-header class='header' height='88px'>
 				<h1 class='left'>财务系统</h1>
-				<div class='left'></div>
+				<div class='pr20 mt34 right'>
+					<i class="el-icon-bell"></i>
+					<i class="el-icon-message"></i>
+					<el-dropdown>
+						<i class="el-icon-user"></i>
+						<!-- <span class="el-dropdown-link">
+							下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+						</span> -->
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item icon="el-icon-plus">{{userName}}</el-dropdown-item>
+						</el-dropdown-menu>
+					</el-dropdown>
+					
+					<i class="el-icon-setting"></i>
+				</div>
 			</el-header>
 			<el-container>
 				<el-aside width="220px">
 					<el-row class="tac">
 						<el-col>
-							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+							 @close="handleClose">
 								<el-submenu index="1">
 									<template slot="title">
 										<i class="el-icon-location"></i>
@@ -55,7 +70,7 @@
 										<span>系统配置</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/formula">税务公式配置</el-menu-item>
+										<el-menu-item index="/index/formula">税务公式配置</el-menu-item>
 										<el-menu-item index="/template">发票模版配置</el-menu-item>
 										<el-menu-item index="/rate">税率配置</el-menu-item>
 										<el-menu-item index="/dictionary">字典表配置</el-menu-item>
@@ -100,7 +115,8 @@
 
 <style lang="less" scoped>
 	@bgcolor: #e9ebf5;
-	@hcolor:#707070;
+	@hcolor: #707070;
+
 	.home,
 	.el-container {
 		height: 100%;
@@ -132,6 +148,12 @@
 	.el-header {
 		background-color: #fff;
 		padding: 0px;
+
+		i {
+			font-size: 20px;
+			margin-left: 10px
+		}
+
 	}
 
 	.el-footer {
@@ -146,7 +168,7 @@
 		width: 134px;
 		background: url("../assets/img/logo.png") @bgcolor no-repeat 24px center;
 		font-size: 26px;
-		color:@hcolor;
+		color: @hcolor;
 		padding-left: 86px;
 	}
 
@@ -161,16 +183,30 @@
 			},
 			handleClose(key, keyPath) {
 				console.log(key, keyPath);
+			},
+			queryUser(){
+				this.axios.get('/perTaxToolTwo/api/user/getLoginUserInfo.do')
+					.then(res => {
+						if (res.data.code == 200) {
+							this.userName =  res.data.user.phone;
+							console.log(res.data);
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+				
+					}).catch(function(err) {
+						this.$message({
+							message: '删除失败',
+							type: 'error'
+						});
+					})
 			}
 		},
 		created() {
-			// axios.post('/api/tttt').then(res => {
-			// 	console.log(res)
-			// })
-			
-			// axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState').then(res => {
-			// 	console.log(res)
-			// })
+			this.queryUser()
 		}
 	}
 </script>
