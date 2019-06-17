@@ -90,7 +90,7 @@
 									<span slot="title">工资表导入</span>
 								</el-menu-item>
 
-								<el-menu-item index="/reportForms">
+								<el-menu-item index="/index/reportForms">
 									<i class="el-icon-menu"></i>
 									<span slot="title">报表查看</span>
 								</el-menu-item>
