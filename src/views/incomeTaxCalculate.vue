@@ -1,9 +1,13 @@
 <template>
 	<div class='form clearfix'>
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+			<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+			<el-breadcrumb-item>个税计算</el-breadcrumb-item>
+		</el-breadcrumb>
 		<el-tag type="danger" effect="dark">
 			若在一个自然年度内，中途换工作，那么在新企业的每月工资个税将会以在新企业在职月数进行计算，或者直接编辑在新企业的累计数据
 		</el-tag>
-		<div  class='formlist clearfix'>
+		<div class='formlist clearfix'>
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
 				<el-form-item label="当前月份" prop="month">
 					<el-date-picker v-model="ruleForm.month" value-format="M" type="month" placeholder="选择月">
@@ -133,18 +137,18 @@
 						trigger: 'blur'
 					}]
 				},
-				calResult:[],
-				isShow:true,
-				isloading:false
+				calResult: [],
+				isShow: true,
+				isloading: false
 			}
 		},
 		components: {},
 		methods: {
 			submitForm(formName) {
-				
-				if(this.ruleForm.bonus){
+
+				if (this.ruleForm.bonus) {
 					this.isShow = false
-				}else{
+				} else {
 					this.isShow = true
 				}
 				this.$refs[formName].validate((valid) => {
@@ -214,23 +218,38 @@
 
 <style lang='less' scoped>
 	.form {
-		background-color: #fff;
+		background-color: #e9ebf5;
 		height: 100%;
-		padding: 20px 0px 0px 20px;
+		/* padding: 20px 0px 0px 20px; */
 		box-sizing: border-box;
+		.el-breadcrumb{
+			height: 30px;
+			line-height: 29px;
+			padding-left: 20px;
+			background-color: #fff;
+			border-top: 1px solid #F2F6FC;
+			box-sizing: border-box
+		}
+		.el-tag{
+			margin: 20px 0 0 20px;
+		}
 	}
-	.formlist{
+
+	.formlist {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		/* margin-top:20px; */
-		margin-top:0.2rem; 
+		padding-top:20px;
+		margin: 20px;
+		background: #fff;
 	}
+
 	.demo-ruleForm {
 		/* width: 460px; */
 		width: 4.6rem;
 		float: left
 	}
+
 	.el-form-item {
 		/* margin-bottom: 18px; */
 		margin-bottom: 0.18rem;

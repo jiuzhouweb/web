@@ -16,9 +16,9 @@
 										<span>收账处理</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/customer">客户查询</el-menu-item>
-										<el-menu-item index="/invoice_o">发票录入</el-menu-item>
-										<el-menu-item index="/analysis">情况统计</el-menu-item>
+										<el-menu-item index="/index/customer">客户查询</el-menu-item>
+										<el-menu-item index="/index/invoice_o">发票录入</el-menu-item>
+										<el-menu-item index="/index/analysis">情况统计</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 								<el-submenu index="2">
@@ -62,19 +62,19 @@
 										<el-menu-item index="/taxnotice">税款通知配置</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
-								<el-menu-item index="/incomeTaxCalculate">
+								<el-menu-item index="/index/incomeTaxCalculate">
 									<i class="el-icon-menu"></i>
 									<span slot="title">个税计算</span>
 								</el-menu-item>
-								<el-menu-item index="/initialSheet">
+								<el-menu-item index="/index/initialSheet">
 									<i class="el-icon-menu"></i>
 									<span slot="title">初始导入</span>
 								</el-menu-item>
-								<el-menu-item index="/incomeTaxCalculate">
+								<el-menu-item index="/index/incomeTaxCalculate">
 									<i class="el-icon-menu"></i>
 									<span slot="title">工资表导入</span>
 								</el-menu-item>
-								<el-menu-item index="/incomeTaxCalculate">
+								<el-menu-item index="/index/incomeTaxCalculate">
 									<i class="el-icon-menu"></i>
 									<span slot="title">报表查看</span>
 								</el-menu-item>
@@ -125,7 +125,7 @@
 	}
 
 	.el-main {
-		padding: 40px;
+		padding: 0px;
 	}
 
 	.el-header {

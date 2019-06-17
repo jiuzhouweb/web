@@ -34,92 +34,96 @@ export default new Router({
 			name: 'index',
 			component: () => import( /* webpackChunkName: "about" */ './views/index.vue'),
 			children: [{
-					path: '/customer',
+					path: 'customer',
 					name: 'customer',
 					component: () => import( /* webpackChunkName: "about" */ './views/customer.vue')
 				},
 				{
-					path: '/invoice_o',
+					path: 'invoice_o',
 					name: 'invoice_o',
 					component: () => import( /* webpackChunkName: "about" */ './views/invoice_o.vue')
 				},
 				{
-					path: '/analysis',
+					path: 'analysis',
 					name: 'analysis',
 					component: () => import( /* webpackChunkName: "about" */ './views/analysis.vue')
 				},
 				{
-					path: '/invoice_t',
+					path: 'invoice_t',
 					name: 'invoice_t',
 					component: () => import( /* webpackChunkName: "about" */ './views/invoice_t.vue')
 				},
 				{
-					path: '/audit',
+					path: 'audit',
 					name: 'audit',
 					component: () => import( /* webpackChunkName: "about" */ './views/audit.vue')
 				},
 				{
-					path: '/audit',
+					path: 'audit',
 					name: 'audit',
 					component: () => import( /* webpackChunkName: "about" */ './views/audit.vue')
 				},
 				{
-					path: '/notice',
+					path: 'notice',
 					name: 'notice',
 					component: () => import( /* webpackChunkName: "about" */ './views/notice.vue')
 				},
 				{
-					path: '/declare',
+					path: 'declare',
 					name: 'declare',
 					component: () => import( /* webpackChunkName: "about" */ './views/declare.vue')
 				},
 				{
-					path: '/progress',
+					path: 'progress',
 					name: '/progress',
 					component: () => import( /* webpackChunkName: "about" */ './views/progress.vue')
 				},
 				{
-					path: '/statistics',
+					path: 'statistics',
 					name: 'statistics',
 					component: () => import( /* webpackChunkName: "about" */ './views/statistics.vue')
 				},
 				
 				{
-					path: '/formula',
+					path: 'formula',
 					name: 'formula',
 					component: () => import( /* webpackChunkName: "about" */ './views/formula.vue')
 				},
 				{
-					path: '/template',
+					path: 'template',
 					name: 'template',
 					component: () => import( /* webpackChunkName: "about" */ './views/template.vue')
 				},
 				{
-					path: '/rate',
+					path: 'rate',
 					name: 'rate',
 					component: () => import( /* webpackChunkName: "about" */ './views/rate.vue')
 				},
 				{
-					path: '/dictionary',
+					path: 'dictionary',
 					name: 'dictionary',
 					component: () => import( /* webpackChunkName: "about" */ './views/dictionary.vue')
 				},
 				{
-					path: '/taxnotice',
+					path: 'taxnotice',
 					name: 'taxnotice',
 					component: () => import( /* webpackChunkName: "about" */ './views/taxnotice.vue')
 				},
 				{
-					path: '/incomeTaxCalculate',
+					path: 'incomeTaxCalculate',
 					name: 'incomeTaxCalculate',
 					component: () => import( /* webpackChunkName: "about" */ './views/incomeTaxCalculate.vue')
 				},
 				{
-					path: '/initialSheet',
+					path: 'initialSheet',
 					name: 'initialSheet',
 					component: () => import( /* webpackChunkName: "about" */ './views/initialSheet.vue')
 				},
-				
+				{
+					path: 'employeeDetail',
+					name: 'employeeDetail',
+					component: () => import( /* webpackChunkName: "about" */ './views/employeeDetail.vue')
+				},
 			]
 		},
 		{
