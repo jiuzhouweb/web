@@ -12,7 +12,7 @@
 							下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
 						</span> -->
 						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item icon="el-icon-plus">{{userName}}</el-dropdown-item>
+							<el-dropdown-item>{{userName}}</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
 					
@@ -42,15 +42,15 @@
 										<span>税务处理</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/invoice_t">发票录入</el-menu-item>
-										<el-menu-item index="/audit">审核</el-menu-item>
+										<el-menu-item index="/index/invoice_t">发票录入</el-menu-item>
+										<el-menu-item index="/index/audit">审核</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
-								<el-menu-item index="/notice">
+								<el-menu-item index="/index/notice">
 									<i class="el-icon-menu"></i>
 									<span slot="title">税款通知</span>
 								</el-menu-item>
-								<el-menu-item index="/declare">
+								<el-menu-item index="/index/declare">
 									<i class="el-icon-menu"></i>
 									<span slot="title">申报处理</span>
 								</el-menu-item>
@@ -60,8 +60,8 @@
 										<span>历史查询</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/progress">做账进度查询</el-menu-item>
-										<el-menu-item index="/statistics">统计查询</el-menu-item>
+										<el-menu-item index="/index/progress">做账进度查询</el-menu-item>
+										<el-menu-item index="/index/statistics">统计查询</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 								<el-submenu index="6">
@@ -71,10 +71,10 @@
 									</template>
 									<el-menu-item-group>
 										<el-menu-item index="/index/formula">税务公式配置</el-menu-item>
-										<el-menu-item index="/template">发票模版配置</el-menu-item>
-										<el-menu-item index="/rate">税率配置</el-menu-item>
-										<el-menu-item index="/dictionary">字典表配置</el-menu-item>
-										<el-menu-item index="/taxnotice">税款通知配置</el-menu-item>
+										<el-menu-item index="/index/template">发票模版配置</el-menu-item>
+										<el-menu-item index="/index/rate">税率配置</el-menu-item>
+										<el-menu-item index="/index/dictionary">字典表配置</el-menu-item>
+										<el-menu-item index="/index/taxnotice">税款通知配置</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 								<el-menu-item index="/index/incomeTaxCalculate">
@@ -177,6 +177,11 @@
 <script>
 	import axios from 'axios'
 	export default {
+		data(){
+			return {
+				userName:'15651965271'
+			}
+		},
 		methods: {
 			handleOpen(key, keyPath) {
 				console.log(key, keyPath);
@@ -189,6 +194,7 @@
 					.then(res => {
 						if (res.data.code == 200) {
 							this.userName =  res.data.user.phone;
+							this.$store.commit('updateUserInfo',res.data.user);
 							console.log(res.data);
 						} else {
 							this.$message({

@@ -18,7 +18,7 @@
 		<div class='main_contain'>
 			<el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog'>批量删除</el-button>
 			<el-table :data="employeeList" stripe style="width: 100%" @selection-change="handleSelectionChange">>
-				
+
 				<el-table-column type="expand">
 					<template slot-scope="props">
 						<el-form label-position="left" inline class="demo-table-expand">
@@ -121,7 +121,7 @@
 				<el-table-column fixed="right" label="操作" width="100">
 					<template slot-scope="scope">
 						<!-- <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button> -->
-						<el-button type="text" size="small">编辑</el-button>
+						<el-button type="text" size="small" @click='edit(scope.row)'>编辑</el-button>
 						<el-button type="text" size="small" @click='del(scope.row)'>删除</el-button>
 					</template>
 				</el-table-column>
@@ -130,6 +130,116 @@
 			 :current-page="currentPage">
 			</el-pagination>
 		</div>
+		<el-dialog title="编辑" :visible.sync="dialogVisible" width="90%" :before-close="handleClose">
+			<el-form :inline="true" :model="item" class="demo-form-inline" label-width="180px" :rules='rules'>
+				<el-form-item label="工号" prop="employeeCode">
+					<el-input v-model="item.employeeCode" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="姓名" prop="employeeName">
+					<el-input v-model="item.employeeName" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="证件类型">
+					<el-input v-model="item.cardType" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="证件号码">
+					<el-input v-model="item.cardNum" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="税款所属期起">
+					<el-input v-model="item.taxPeriodBegin" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="税款所属期止">
+					<el-input v-model="item.taxPeriodEnd" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="所得项目">
+					<el-input v-model="item.projectCode" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期收入">
+					<el-input v-model="item.incomeAmount" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期免税收入">
+					<el-input v-model="item.taxFreeIncome" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期基本养老保险费">
+					<el-input v-model="item.pensionInsurance" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期基本医疗保险费">
+					<el-input v-model="item.medicalInsurance" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期失业保险费">
+					<el-input v-model="item.unemploymentInsurance" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期住房公积金">
+					<el-input v-model="item.housingFund" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期企业(职业)年金">
+					<el-input v-model="item.companyAnnuity" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期商业健康保险费">
+					<el-input v-model="item.healthInsurance" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期税延养老保险费">
+					<el-input v-model="item.pension" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="本期其他扣除(其他)">
+					<el-input v-model="item.preTaxDeduction" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计收入额">
+					<el-input v-model="item.incomeAmountTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计减除费用">
+					<el-input v-model="item.deductFeeTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计专项扣除">
+					<el-input v-model="item.refDeductSumTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计子女教育支出扣除">
+					<el-input v-model="item.childEducationTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计赡养老人支出扣除">
+					<el-input v-model="item.elderlyTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计继续教育支出扣除">
+					<el-input v-model="item.continuingEducationTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计住房贷款利息支出扣除">
+					<el-input v-model="item.homeLoanTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计住房租金支出扣除">
+					<el-input v-model="item.housingRentTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计其他扣除">
+					<el-input v-model="item.preTaxDeductionTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计准予扣除的捐赠">
+					<el-input v-model="item.deductedDonationTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计应纳税所得额">
+					<el-input v-model="item.taxableIncomeTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="税率%">
+					<el-input v-model="item.rateTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计应纳税额">
+					<el-input v-model="item.payableTaxTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计减免税额">
+					<el-input v-model="item.deductTaxTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计应扣缴税额">
+					<el-input v-model="item.preWithholdTaxTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计已预缴税额">
+					<el-input v-model="item.sumWithholdTaxTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+				<el-form-item label="累计应补(退)税额">
+					<el-input v-model="item.taxationTotal" placeholder="请输入"></el-input>
+				</el-form-item>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+			</span>
+		</el-dialog>
 
 	</div>
 </template>
@@ -154,15 +264,57 @@
 				},
 				input: '',
 				name: '',
-				canDel:true,
-				multipleSelection:[]
+				canDel: true,
+				multipleSelection: [],
+				item: {},
+				dialogVisible: false,
+				rules: {
+					employeeCode: [{
+						required: true,
+						message: '请输入工号',
+						trigger: 'blur'
+					}],
+					employeeName: [{
+						required: true,
+						message: '请输入姓名',
+						trigger: 'blur'
+					}],
+					date1: [{
+						type: 'date',
+						required: true,
+						message: '请选择日期',
+						trigger: 'change'
+					}],
+					date2: [{
+						type: 'date',
+						required: true,
+						message: '请选择时间',
+						trigger: 'change'
+					}],
+					type: [{
+						type: 'array',
+						required: true,
+						message: '请至少选择一个活动性质',
+						trigger: 'change'
+					}],
+					resource: [{
+						required: true,
+						message: '请选择活动资源',
+						trigger: 'change'
+					}],
+					desc: [{
+						required: true,
+						message: '请填写活动形式',
+						trigger: 'blur'
+					}]
+				}
 			}
 		},
 		components: {},
 		methods: {
 			queryEmployeePage() {
 				let params = {
-					"page": 1,
+					"page": this.currentPage,
 					"row": 10,
 					"data": {
 						"name": this.name,
@@ -192,6 +344,10 @@
 						});
 					})
 			},
+			edit(row) {
+				this.item = row;
+				this.dialogVisible = true;
+			},
 			del(row) {
 				this.$confirm('确定删除此条记录?', '提示', {
 					confirmButtonText: '确定',
@@ -202,6 +358,8 @@
 					this.axios.post('/miaoxing/deleteCompanyEmployee', params)
 						.then(res => {
 							if (res.data.code == 200) {
+								this.currentPage = 1;
+								this.queryEmployeePage();
 								this.$message({
 									type: 'success',
 									message: '删除成功!'
@@ -212,14 +370,14 @@
 									type: 'error'
 								});
 							}
-					
+
 						}).catch(function(err) {
 							this.$message({
 								message: '删除失败',
 								type: 'error'
 							});
 						})
-					
+
 				}).catch(() => {
 					this.$message({
 						type: 'info',
@@ -227,7 +385,7 @@
 					});
 				});
 			},
-			showDelDialog(){
+			showDelDialog() {
 				this.$confirm('确定删除选中的记录?', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
@@ -237,6 +395,8 @@
 					this.axios.post('/miaoxing/deleteCompanyEmployee', params)
 						.then(res => {
 							if (res.data.code == 200) {
+								this.currentPage = 1;
+								this.queryEmployeePage();
 								this.$message({
 									type: 'success',
 									message: '删除成功!'
@@ -247,7 +407,7 @@
 									type: 'error'
 								});
 							}
-					
+
 						}).catch(function(err) {
 							this.$message({
 								message: '删除失败',
@@ -261,27 +421,30 @@
 					});
 				});
 			},
-			handleCurrentChange() {
-
+			handleCurrentChange(val) {
+				this.currentPage = val;
+				this.queryEmployeePage()
 			},
 			setName() {
+				this.currentPage = 1;
 				this.name = this.input;
+				this.queryEmployeePage()
 			},
 			goBack() {
 				this.$router.push({
 					name: "initialSheet"
 				})
 			},
-			handleSelectionChange(val){
-				 this.multipleSelection = val;
+			handleSelectionChange(val) {
+				this.multipleSelection = val;
 			}
 		},
 		computed: {},
-		watch:{
-			multipleSelection(val){
-				if(val.length == 0){
+		watch: {
+			multipleSelection(val) {
+				if (val.length == 0) {
 					this.canDel = true
-				}else{
+				} else {
 					this.canDel = false
 				}
 			}
@@ -357,19 +520,21 @@
 				height: 40px;
 				line-height: 40px;
 			}
-			.el-button.muldel{
+
+			.el-button.muldel {
 				/* float: right */
 				margin-bottom: 10px;
 			}
+
 			/deep/ .demo-table-expand {
 				font-size: 0;
 			}
-			
+
 			/deep/ .demo-table-expand label {
 				color: #99a9bf;
 				padding-left: 120px;
 			}
-			
+
 			/deep/ .demo-table-expand .el-form-item {
 				margin-right: 0;
 				margin-bottom: 0;
@@ -382,7 +547,7 @@
 			margin-top: 10px;
 		}
 
-		
+
 	}
 
 	/*滚动条样式*/

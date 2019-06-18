@@ -213,6 +213,7 @@
 		},
 		computed: {},
 		created() {
+			console.log(this.$store.state.userInfo);
 			this.queryPage();
 		}
 	}

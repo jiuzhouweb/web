@@ -23,7 +23,7 @@ Vue.use(Router)
 export default new Router({
 	routes: [{
 			path: '/',
-			redirect: 'customer'
+			redirect: '/index/customer'
 		},
 		{
 			path: '/login',
@@ -135,7 +135,7 @@ export default new Router({
 		},
 		{
 			path: '*',
-			redirect: 'index'
+			redirect: '/index/customer'
 		}
 		// {
 		//   path: '/about',
