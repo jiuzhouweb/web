@@ -9,19 +9,19 @@
 				<!-- <el-tag effect="dark">
 							初始公司表上传
 						</el-tag> -->
+				<h5 class='left'>初始录入企业表</h5>
 				<span>*若初始导入多家Excel，请勿选择公司名</span>
 				<a href="初始累计表模板.xls" download="模板">点击下载模板</a>
 			</div>
 			<div>
 				<el-form :inline="true" :model="uploadData" class="demo-form-inline">
 					<el-form-item label="账期">
-						<el-date-picker v-model="uploadData.accountPeriod" type="month" placeholder="选择月" clearable>
+						<el-date-picker v-model="uploadData.accountPeriod" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司">
-						<el-select v-model="uploadData.customerId" placeholder="活动区域" clearable>
-							<el-option label="区域一" value="jz3779"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable>
+							<el-option v-for="item in customerList" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
 					<el-button type="primary" @click='selectExcel'>选择Excel</el-button>
@@ -39,20 +39,19 @@
 
 		
 		<div class='main_contain'>
-			<h5>初始录入企业表</h5>
+			<h5>录入企业表详情</h5>
 			<div>
-				<el-form :inline="true" :model="uploadData" class="demo-form-inline">
+				<el-form :inline="true" class="demo-form-inline">
 					<el-form-item label="账期">
-						<el-date-picker v-model="uploadData.accountPeriod" type="month" placeholder="选择月" clearable>
+						<el-date-picker v-model="accountPeriod" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司">
-						<el-select v-model="uploadData.customerId" placeholder="活动区域" clearable>
-							<el-option label="区域一" value="jz3779"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
+						<el-select v-model="customerId" placeholder="请选择公司名称" clearable>
+							<el-option v-for="item in customerList" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
-					<el-button type="primary" @click='selectExcel'>搜索</el-button>
+					<el-button type="primary" @click='searchSheet'>搜索</el-button>
 					<!-- <el-button type="primary" @click='selectExcel'>重置</el-button> -->
 				</el-form>
 
@@ -72,15 +71,16 @@
 			</el-pagination>
 		</div>
 		<el-dialog title="选择Excel" :visible.sync="dialogVisible" width="30%">
-			<el-upload class="upload-demo" action="/aaa/perTaxToolTwo/api/excel/initUpload.do" :on-preview="handlePreview" ref='upload'
+			<el-upload class="upload-demo" action="/perTaxToolTwo/api/excel/initUpload.do" :on-preview="handlePreview" ref='upload'
 			 :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="10" :on-exceed="handleExceed" :file-list="fileList"
-			 :auto-upload="false" :data='uploadData'>
+			 :on-success="handleSuccess" :on-error="handleError" 
+			 :auto-upload="false" :data='uploadData' accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 				<el-button size="small" type="primary" slot="trigger">选择Excel</el-button>
 
 			</el-upload>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button size="small" type="primary" @click="submitUpload">上传</el-button>
+				<el-button type="primary" @click="submitUpload">上传</el-button>
 			</span>
 		</el-dialog>
 	</div>
@@ -105,32 +105,19 @@
 				},
 				dialogVisible: false,
 				uploadData: {
-					"accountPeriod": "2011-01",
-					"customerId": "jz3779"
+					"accountPeriod": "",
+					"customerId": ""
 				},
+				accountPeriod:'',
+				customerId:'',
 				fileList: [],
-				total: 100,
+				total: 0,
 				currentPage: 1,
 
-				tableData: [{
-					date: '2016-05-02',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1518 弄'
-				}, {
-					date: '2016-05-04',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1517 弄'
-				}, {
-					date: '2016-05-01',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1519 弄'
-				}, {
-					date: '2016-05-03',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1516 弄'
-				}],
+				tableData: [],
 				pageSize: 10,
-				employeeList: []
+				employeeList: [],
+				customerList:[]
 			}
 		},
 		components: {},
@@ -151,6 +138,35 @@
 			onSubmit() {
 				console.log('submit!');
 			},
+			searchSheet(){
+				this.uploadData.accountPeriod = this.accountPeriod;
+				this.uploadData.customerId = this.customerId;
+				this.queryPage();
+			},
+			handleSuccess(response){
+				if(response.code == 200){
+					this.fileList = [];
+					this.$message({
+						message: response.msg,
+						type: 'success'
+					});
+					this.dialogVisible = false;
+					this.queryPage();
+				}else{
+					this.fileList = [];
+					this.$message({
+						message: response.msg || "上传文件失败！",
+						type: 'error'
+					});
+				}
+			},
+			handleError(err){
+				this.fileList = [];
+				this.$message({
+					message: "上传文件失败！",
+					type: 'error'
+				});
+			},
 			handleRemove(file, fileList) {
 				console.log(file, fileList);
 			},
@@ -163,22 +179,25 @@
 			beforeRemove(file, fileList) {
 				return this.$confirm(`确定移除 ${ file.name }？`);
 			},
-			handleCurrentChange() {},
+			handleCurrentChange(val) {
+				this.currentPage = val;
+				this.queryPage();
+			},
 
 
 			queryPage() {
 				let params = {
 					row: this.pageSize,
-					page: 1,
+					page: this.currentPage,
 					data: {
-						accountPeriod: "1996-01",
-						customerId: "jz3779",
+						accountPeriod: this.uploadData.accountPeriod,
+						customerId: this.uploadData.customerId,
 						submitStatus: 1
 					}
 
 				};
-				// this.axios.post('/api/perTaxToolTwo/initialMonCom/queryPage', params)
-				this.axios.post('/miaoxing/queryPage', params)
+				this.axios.post('/perTaxToolTwo/initialMonCom/queryPage', params)
+				// this.axios.post('/miaoxing/queryPage', params)
 					.then(res => {
 						if (res.data.code == 200) {
 							this.tableData = res.data.data;
@@ -213,8 +232,9 @@
 		},
 		computed: {},
 		created() {
-			console.log(this.$store.state.userInfo);
-			this.queryPage();
+			
+			this.customerList = this.$store.state.user.customerinfoList;
+			console.log(this.customerList);
 		}
 	}
 </script>

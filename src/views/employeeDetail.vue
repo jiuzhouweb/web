@@ -138,101 +138,104 @@
 				<el-form-item label="姓名" prop="employeeName">
 					<el-input v-model="item.employeeName" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="证件类型">
-					<el-input v-model="item.cardType" placeholder="请输入"></el-input>
+				<el-form-item label="证件类型" prop="cardType">
+					<!-- <el-input v-model="item.cardType" placeholder="请输入"></el-input> -->
+					<el-select v-model="item.cardType" placeholder="请选择证件类型" clearable>
+						<el-option v-for="item in cardTypeList" :label="item.label" :value='item.value'></el-option>
+					</el-select>
 				</el-form-item>
-				<el-form-item label="证件号码">
-					<el-input v-model="item.cardNum" placeholder="请输入"></el-input>
+				<el-form-item label="证件号码" prop="cardNum">
+					<el-input type='number' v-model="item.cardNum" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="税款所属期起">
+				<el-form-item label="税款所属期起" prop="taxPeriodBegin">
 					<el-input v-model="item.taxPeriodBegin" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="税款所属期止">
+				<el-form-item label="税款所属期止" prop="taxPeriodEnd">
 					<el-input v-model="item.taxPeriodEnd" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="所得项目">
+				<el-form-item label="所得项目" prop="projectCode">
 					<el-input v-model="item.projectCode" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期收入">
-					<el-input v-model="item.incomeAmount" placeholder="请输入"></el-input>
+				<el-form-item label="本期收入" prop="incomeAmount">
+					<el-input type='number' v-model="item.incomeAmount" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期免税收入">
-					<el-input v-model="item.taxFreeIncome" placeholder="请输入"></el-input>
+				<el-form-item label="本期免税收入" prop="taxFreeIncome">
+					<el-input type='number' v-model="item.taxFreeIncome" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期基本养老保险费">
-					<el-input v-model="item.pensionInsurance" placeholder="请输入"></el-input>
+				<el-form-item label="本期基本养老保险费" prop="pensionInsurance">
+					<el-input type='number' v-model="item.pensionInsurance" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期基本医疗保险费">
-					<el-input v-model="item.medicalInsurance" placeholder="请输入"></el-input>
+				<el-form-item label="本期基本医疗保险费" prop="medicalInsurance">
+					<el-input type='number' v-model="item.medicalInsurance" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期失业保险费">
-					<el-input v-model="item.unemploymentInsurance" placeholder="请输入"></el-input>
+				<el-form-item label="本期失业保险费" prop="unemploymentInsurance">
+					<el-input type='number' v-model="item.unemploymentInsurance" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期住房公积金">
-					<el-input v-model="item.housingFund" placeholder="请输入"></el-input>
+				<el-form-item label="本期住房公积金" prop="housingFund">
+					<el-input type='number' v-model="item.housingFund" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期企业(职业)年金">
-					<el-input v-model="item.companyAnnuity" placeholder="请输入"></el-input>
+				<el-form-item label="本期企业(职业)年金" prop="companyAnnuity">
+					<el-input type='number' v-model="item.companyAnnuity" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期商业健康保险费">
-					<el-input v-model="item.healthInsurance" placeholder="请输入"></el-input>
+				<el-form-item label="本期商业健康保险费" prop="healthInsurance">
+					<el-input type='number' v-model="item.healthInsurance" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期税延养老保险费">
-					<el-input v-model="item.pension" placeholder="请输入"></el-input>
+				<el-form-item label="本期税延养老保险费" prop="pension">
+					<el-input type='number' v-model="item.pension" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="本期其他扣除(其他)">
-					<el-input v-model="item.preTaxDeduction" placeholder="请输入"></el-input>
+				<el-form-item label="本期其他扣除(其他)" prop="preTaxDeduction">
+					<el-input type='number' v-model="item.preTaxDeduction" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计收入额">
-					<el-input v-model="item.incomeAmountTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计收入额" prop="incomeAmountTotal">
+					<el-input type='number' v-model="item.incomeAmountTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计减除费用">
-					<el-input v-model="item.deductFeeTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计减除费用" prop="deductFeeTotal">
+					<el-input type='number' v-model="item.deductFeeTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计专项扣除">
-					<el-input v-model="item.refDeductSumTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计专项扣除" prop="refDeductSumTotal">
+					<el-input type='number' v-model="item.refDeductSumTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计子女教育支出扣除">
-					<el-input v-model="item.childEducationTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计子女教育支出扣除" prop="childEducationTotal">
+					<el-input type='number' v-model="item.childEducationTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计赡养老人支出扣除">
+				<el-form-item label="累计赡养老人支出扣除" prop="elderlyTotal">
 					<el-input v-model="item.elderlyTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计继续教育支出扣除">
-					<el-input v-model="item.continuingEducationTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计继续教育支出扣除" prop="continuingEducationTotal">
+					<el-input type='number' v-model="item.continuingEducationTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计住房贷款利息支出扣除">
-					<el-input v-model="item.homeLoanTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计住房贷款利息支出扣除" prop="homeLoanTotal">
+					<el-input type='number' v-model="item.homeLoanTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计住房租金支出扣除">
-					<el-input v-model="item.housingRentTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计住房租金支出扣除" prop="housingRentTotal">
+					<el-input type='number' v-model="item.housingRentTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计其他扣除">
-					<el-input v-model="item.preTaxDeductionTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计其他扣除" prop="preTaxDeductionTotal">
+					<el-input type='number' v-model="item.preTaxDeductionTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计准予扣除的捐赠">
-					<el-input v-model="item.deductedDonationTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计准予扣除的捐赠" prop="deductedDonationTotal">
+					<el-input type='number' v-model="item.deductedDonationTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计应纳税所得额">
-					<el-input v-model="item.taxableIncomeTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计应纳税所得额" prop="taxableIncomeTotal">
+					<el-input type='number' v-model="item.taxableIncomeTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="税率%">
-					<el-input v-model="item.rateTotal" placeholder="请输入"></el-input>
+				<el-form-item label="税率%" prop="rateTotal">
+					<el-input type='number' v-model="item.rateTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计应纳税额">
-					<el-input v-model="item.payableTaxTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计应纳税额" prop="payableTaxTotal">
+					<el-input type='number' v-model="item.payableTaxTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计减免税额">
-					<el-input v-model="item.deductTaxTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计减免税额" prop="deductTaxTotal">
+					<el-input type='number' v-model="item.deductTaxTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计应扣缴税额">
-					<el-input v-model="item.preWithholdTaxTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计应扣缴税额" prop="preWithholdTaxTotal">
+					<el-input type='number' v-model="item.preWithholdTaxTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计已预缴税额">
-					<el-input v-model="item.sumWithholdTaxTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计已预缴税额" prop="sumWithholdTaxTotal">
+					<el-input type='number' v-model="item.sumWithholdTaxTotal" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="累计应补(退)税额">
-					<el-input v-model="item.taxationTotal" placeholder="请输入"></el-input>
+				<el-form-item label="累计应补(退)税额" prop="taxationTotal">
+					<el-input type='number' v-model="item.taxationTotal" placeholder="请输入"></el-input>
 				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
@@ -291,23 +294,68 @@
 						message: '请选择时间',
 						trigger: 'change'
 					}],
-					type: [{
-						type: 'array',
+					cardType: [{
 						required: true,
-						message: '请至少选择一个活动性质',
+						message: '请选择证照类型',
 						trigger: 'change'
 					}],
-					resource: [{
+					cardNum: [{
 						required: true,
-						message: '请选择活动资源',
-						trigger: 'change'
+						message: '请输入证照号码',
+						trigger: 'blur'
 					}],
-					desc: [{
+					incomeAmount: [{
 						required: true,
-						message: '请填写活动形式',
+						message: '请输入本期收入',
 						trigger: 'blur'
 					}]
-				}
+				},
+				cardTypeList:[
+					{
+						label:"居民身份证",
+						value:'居民身份证'
+					},
+					{
+						label:"中国护照",
+						value:'中国护照'
+					},
+					{
+						label:"港澳居民来往内地通行证",
+						value:'港澳居民来往内地通行证'
+					},
+					{
+						label:"港澳居民居住证",
+						value:'港澳居民居住证'
+					},
+					{
+						label:"台湾居民来往大陆通行证",
+						value:'台湾居民来往大陆通行证'
+					},
+					{
+						label:"台湾居民居住证",
+						value:'台湾居民居住证'
+					},
+					{
+						label:"外国护照",
+						value:'外国护照'
+					},
+					{
+						label:"外国人永久居留身份证",
+						value:'外国人永久居留身份证'
+					},
+					{
+						label:"外国人工作许可证（A类）",
+						value:'外国人工作许可证（A类）'
+					},
+					{
+						label:"外国人工作许可证（B类）",
+						value:'外国人工作许可证（B类）'
+					},
+					{
+						label:"外国人工作许可证（C类）",
+						value:'外国人工作许可证（C类）'
+					},
+				]
 			}
 		},
 		components: {},
@@ -321,7 +369,8 @@
 						"operateId": this.$route.query.operateId
 					}
 				};
-				this.axios.post('/miaoxing/queryEmployeePage', params)
+				// this.axios.post('/miaoxing/queryEmployeePage', params)
+				this.axios.post('/perTaxToolTwo/initialMonCom/queryEmployeePage', params)
 					.then(res => {
 						if (res.data.code == 200) {
 							this.employeeList = res.data.data;
@@ -345,7 +394,7 @@
 					})
 			},
 			edit(row) {
-				this.item = row;
+				this.item = JSON.parse(JSON.stringify(row));
 				this.dialogVisible = true;
 			},
 			del(row) {
@@ -355,7 +404,7 @@
 					type: 'warning'
 				}).then(() => {
 					let params = [row];
-					this.axios.post('/miaoxing/deleteCompanyEmployee', params)
+					this.axios.post('/perTaxToolTwo/initialMonSal/deleteCompanyEmployee', params)
 						.then(res => {
 							if (res.data.code == 200) {
 								this.currentPage = 1;
@@ -392,7 +441,7 @@
 					type: 'warning'
 				}).then(() => {
 					let params = this.multipleSelection;
-					this.axios.post('/miaoxing/deleteCompanyEmployee', params)
+					this.axios.post('/perTaxToolTwo/initialMonSal/deleteCompanyEmployee', params)
 						.then(res => {
 							if (res.data.code == 200) {
 								this.currentPage = 1;
