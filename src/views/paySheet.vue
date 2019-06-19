@@ -34,16 +34,17 @@
 			<h5>月度录入表</h5>
 			<div>
 				<el-form :inline="true" class="demo-form-inline" size="small">
-					<el-form-item label="公司">
-						<el-select v-model="customerId" placeholder="请选择公司名称" clearable>
-							<el-option v-for="(item,index) in customerList" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
-						</el-select>
-					</el-form-item>
 					<el-form-item label="账期">
 						<el-date-picker v-model="accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月"
 						 clearable>
 						</el-date-picker>
 					</el-form-item>
+					<el-form-item label="公司">
+						<el-select v-model="customerId" placeholder="请选择公司名称" clearable>
+							<el-option v-for="(item,index) in customerList" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
+						</el-select>
+					</el-form-item>
+					
 					<el-form-item label="状态">
 						<el-select v-model="statusVaule" placeholder="请选择状态" clearable>
 							<el-option label="已提交" value="1"></el-option>
@@ -58,7 +59,7 @@
 			<el-button type="primary" size='mini' @click='calc' v-if="calcFlag">计算</el-button>
 			<el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog'
 			 v-if="tableData1.length>0">批量删除</el-button>
-			<el-table class="table1" :data="tableData1" stripe style="width: 100%;margin-top:20px" @selection-change="handleSelectionChange">
+			<el-table class="table1" :data="tableData1" stripe style="width: 100%" @selection-change="handleSelectionChange">
 
 				<el-table-column type="expand">
 					<template slot-scope="props">
@@ -137,7 +138,7 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '1')})"
+			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '1')})"
 			 :current-page="currentPage1" :page-size="pageSize1" layout="total, prev, pager, next, jumper" :total="total1">
 			</el-pagination>
 		</div>
@@ -148,7 +149,7 @@
 			<div>
 				<el-button type="primary" @click='submitAll' v-if="calcFlag">提交</el-button>
 			</div>
-			<el-table :data="tableData2" style="width: 100%;margin-top:20px;" stripe>
+			<el-table :data="tableData2" style="width: 100%;" stripe>
 				<el-table-column label="序号" type='index' width="50" :resizable="false"></el-table-column>
 				<el-table-column label="姓名" prop="employeeName" :resizable="false"></el-table-column>
 				<el-table-column label="证件号码" prop="cardNum" :resizable="false"></el-table-column>
@@ -168,7 +169,7 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '2')})"
+			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '2')})"
 			 :current-page="currentPage2" :page-size="pageSize2" layout="total, prev, pager, next, jumper" :total="total2">
 			</el-pagination>
 		</div>
@@ -186,7 +187,7 @@
 				<el-table-column label="已缴税额" prop="prepaidTax" :resizable="false"></el-table-column>
 				<el-table-column label="应补（退）税额" prop="taxation" :resizable="false"></el-table-column>
 			</el-table>
-			<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '3')})"
+			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '3')})"
 			 :current-page="currentPage3" :page-size="pageSize3" layout="total, prev, pager, next, jumper" :total="total3">
 			</el-pagination>
 		</div>
@@ -1530,7 +1531,7 @@
 		.main_contain {
 			background: #fff;
 			margin: 0 20px;
-			padding: 0px 20px; // height: calc(100% - 190px);
+			padding: 0px 20px 10px; // height: calc(100% - 190px);
 
 			h5 {
 				height: 40px;
@@ -1540,6 +1541,7 @@
 			/deep/ .el-pagination {
 				text-align: right;
 				margin-top: 10px;
+				/* margin-bottom: 10px; */
 			}
 		}
 

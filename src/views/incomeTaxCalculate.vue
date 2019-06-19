@@ -238,7 +238,10 @@
 	.demo-ruleForm {
 		/* width: 460px; */
 		width: 4.6rem;
-		float: left
+		float: left;
+		/deep/ .el-date-editor{
+			width: 100%
+		}
 	}
 
 	.el-form-item {
