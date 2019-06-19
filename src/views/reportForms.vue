@@ -12,7 +12,7 @@
 				</div>
 				<div class="row2">
 					<span class="labelTitle">账期：</span>
-					<el-date-picker v-model="searchList.nowDate" type="month" placeholder="选择月" value-format="yyyy-MM">
+					<el-date-picker v-model="searchList.nowDate" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月">
 					</el-date-picker>
 				</div>
 				<div class="row3">
@@ -220,7 +220,10 @@
 						}
 					],
 					statusVaule: "1"
-				},
+        },
+        accountPeriod:'',
+				customerId:'',
+        statusVaule:'1',
 				activeName: "1",
 				tableTabs: [{
 						title: "人员信息",
@@ -266,7 +269,9 @@
 			};
 		},
 		created() {
-			this.searchList.options = this.$store.state.user.customerinfoList;
+      this.searchList.options = this.$store.state.user.customerinfoList;
+      // this.searchList.value=this.searchList.options[0].value;
+      console.log('this.searchList.options',this.searchList.options)
 			this.getNowMonth();
 			this.getTableData("1");
 		},
@@ -276,7 +281,8 @@
 				var year = date.getFullYear();
 				var month = date.getMonth() + 1;
 				month = month < 10 ? "0" + month : month;
-				this.searchList.nowDate = year.toString() + "-" + month.toString();
+        this.searchList.nowDate = year.toString() + "-" + month.toString();
+        this.accountPeriod=year.toString() + "-" + month.toString();
 			},
 			// 获取表格数据
 			getTableData(name) {
@@ -300,9 +306,9 @@
 				this.loading = true;
 				let params = {
 					data: {
-						customerId: this.searchList.value,
-						accountPeriod: this.searchList.nowDate,
-						submitStatus: this.searchList.statusVaule,
+						customerId: this.customerId,
+						accountPeriod: this.accountPeriod,
+						submitStatus: this.submitStatus,
 						type: type
 					},
 					page: this.pageNum,
@@ -332,7 +338,7 @@
 					});
 			},
 			handleClick(tab, event) {
-				console.log("tab.name", tab.name);
+				console.log("tab.name", this.accountPeriod);
 				this.getTableData(tab.name);
 			},
 			handleSizeChange(val) {
@@ -344,7 +350,9 @@
 				this.getTableData(this.activeName)
 			},
 			search() {
-				console.log("statusVaule", this.searchList.statusVaule);
+        this.accountPeriod=this.searchList.nowDate;
+        this.customerId=this.searchList.value;
+        this.statusVaule=this.searchList.statusVaule;
 				this.getTableData(this.activeName)
 			},
 			clear() {
