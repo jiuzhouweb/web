@@ -131,7 +131,7 @@
 			</el-pagination>
 		</div>
 		<el-dialog title="编辑" :visible.sync="dialogVisible" width="90%" :before-close="handleClose">
-			<el-form :inline="true" :model="item" class="demo-form-inline" label-width="180px" :rules='rules'>
+			<el-form :inline="true" :model="item" class="demo-form-inline" label-width="180px" :rules='rules'  ref="ruleForm">
 				<el-form-item label="工号" prop="employeeCode">
 					<el-input v-model="item.employeeCode" placeholder="请输入"></el-input>
 				</el-form-item>
@@ -140,7 +140,7 @@
 				</el-form-item>
 				<el-form-item label="证件类型" prop="cardType">
 					<!-- <el-input v-model="item.cardType" placeholder="请输入"></el-input> -->
-					<el-select v-model="item.cardType" placeholder="请选择证件类型" clearable>
+					<el-select v-model="item.cardType" placeholder="请选择证件类型">
 						<el-option v-for="item in cardTypeList" :label="item.label" :value='item.value'></el-option>
 					</el-select>
 				</el-form-item>
@@ -148,13 +148,20 @@
 					<el-input type='number' v-model="item.cardNum" placeholder="请输入"></el-input>
 				</el-form-item>
 				<el-form-item label="税款所属期起" prop="taxPeriodBegin">
-					<el-input v-model="item.taxPeriodBegin" placeholder="请输入"></el-input>
+					<!-- <el-input v-model="item.taxPeriodBegin" placeholder="请输入"></el-input> -->
+					<el-date-picker v-model="item.taxPeriodBegin" type="date" placeholder="选择日期" value-format='yyyy-MM-dd'>
+					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="税款所属期止" prop="taxPeriodEnd">
-					<el-input v-model="item.taxPeriodEnd" placeholder="请输入"></el-input>
+					<!-- <el-input v-model="item.taxPeriodEnd" placeholder="请输入"></el-input> -->
+					<el-date-picker v-model="item.taxPeriodEnd" type="date" placeholder="选择日期" value-format='yyyy-MM-dd'>
+					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="所得项目" prop="projectCode">
-					<el-input v-model="item.projectCode" placeholder="请输入"></el-input>
+					<el-select v-model="item.projectCode" placeholder="请选择所得项目">
+						<el-option v-for="item in projectList" :label="item.label" :value='item.value'></el-option>
+					</el-select>
+					<!-- <el-input v-model="item.projectCode" placeholder="请输入"></el-input> -->
 				</el-form-item>
 				<el-form-item label="本期收入" prop="incomeAmount">
 					<el-input type='number' v-model="item.incomeAmount" placeholder="请输入"></el-input>
@@ -240,7 +247,7 @@
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+				<el-button type="primary" @click="editCommit('ruleForm')">确 定</el-button>
 			</span>
 		</el-dialog>
 
@@ -272,31 +279,24 @@
 				item: {},
 				dialogVisible: false,
 				rules: {
-					employeeCode: [{
-						required: true,
-						message: '请输入工号',
-						trigger: 'blur'
-					}],
+					// employeeCode: [{
+					// 	required: true,
+					// 	message: '请输入工号',
+					// 	trigger: 'blur'
+					// }],
 					employeeName: [{
 						required: true,
 						message: '请输入姓名',
 						trigger: 'blur'
 					}],
-					date1: [{
-						type: 'date',
-						required: true,
-						message: '请选择日期',
-						trigger: 'change'
-					}],
-					date2: [{
-						type: 'date',
-						required: true,
-						message: '请选择时间',
-						trigger: 'change'
-					}],
 					cardType: [{
 						required: true,
 						message: '请选择证照类型',
+						trigger: 'change'
+					}],
+					projectCode: [{
+						required: true,
+						message: '请选择所得项目',
 						trigger: 'change'
 					}],
 					cardNum: [{
@@ -310,50 +310,62 @@
 						trigger: 'blur'
 					}]
 				},
-				cardTypeList:[
-					{
-						label:"居民身份证",
-						value:'居民身份证'
+				cardTypeList: [{
+						label: "居民身份证",
+						value: '居民身份证'
 					},
 					{
-						label:"中国护照",
-						value:'中国护照'
+						label: "中国护照",
+						value: '中国护照'
 					},
 					{
-						label:"港澳居民来往内地通行证",
-						value:'港澳居民来往内地通行证'
+						label: "港澳居民来往内地通行证",
+						value: '港澳居民来往内地通行证'
 					},
 					{
-						label:"港澳居民居住证",
-						value:'港澳居民居住证'
+						label: "港澳居民居住证",
+						value: '港澳居民居住证'
 					},
 					{
-						label:"台湾居民来往大陆通行证",
-						value:'台湾居民来往大陆通行证'
+						label: "台湾居民来往大陆通行证",
+						value: '台湾居民来往大陆通行证'
 					},
 					{
-						label:"台湾居民居住证",
-						value:'台湾居民居住证'
+						label: "台湾居民居住证",
+						value: '台湾居民居住证'
 					},
 					{
-						label:"外国护照",
-						value:'外国护照'
+						label: "外国护照",
+						value: '外国护照'
 					},
 					{
-						label:"外国人永久居留身份证",
-						value:'外国人永久居留身份证'
+						label: "外国人永久居留身份证",
+						value: '外国人永久居留身份证'
 					},
 					{
-						label:"外国人工作许可证（A类）",
-						value:'外国人工作许可证（A类）'
+						label: "外国人工作许可证（A类）",
+						value: '外国人工作许可证（A类）'
 					},
 					{
-						label:"外国人工作许可证（B类）",
-						value:'外国人工作许可证（B类）'
+						label: "外国人工作许可证（B类）",
+						value: '外国人工作许可证（B类）'
 					},
 					{
-						label:"外国人工作许可证（C类）",
-						value:'外国人工作许可证（C类）'
+						label: "外国人工作许可证（C类）",
+						value: '外国人工作许可证（C类）'
+					},
+				],
+				projectList: [{
+						label: "正常工资薪金",
+						value: '正常工资薪金'
+					},
+					{
+						label: "一般劳务报酬所得",
+						value: '一般劳务报酬所得'
+					},
+					{
+						label: "稿酬所得",
+						value: '稿酬所得'
 					},
 				]
 			}
@@ -397,6 +409,45 @@
 				this.item = JSON.parse(JSON.stringify(row));
 				this.dialogVisible = true;
 			},
+			editCommit(formName) {
+				console.log('item222',this.item);
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						console.log('item',this.item);
+						let params = this.item;
+						this.axios.post('/perTaxToolTwo/initialMonCom/saveCompanyEmployee', params)
+							.then(res => {
+								this.dialogVisible = false;
+								if (res.data.code == 200) {
+									this.currentPage = 1;
+									this.queryEmployeePage();
+						
+									this.$message({
+										type: 'success',
+										message: '编辑成功!'
+									});
+								} else {
+									this.$message({
+										message: res.data.msg,
+										type: 'error'
+									});
+								}
+						
+							}).catch(function(err) {
+								this.dialogVisible = false;
+								this.$message({
+									message: '编辑失败',
+									type: 'error'
+								});
+							})
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
+				
+			},
+
 			del(row) {
 				this.$confirm('确定删除此条记录?', '提示', {
 					confirmButtonText: '确定',

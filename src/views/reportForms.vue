@@ -12,7 +12,7 @@
 				</div>
 				<div class="row2">
 					<span class="labelTitle">账期：</span>
-					<el-date-picker v-model="searchList.nowDate" type="month" placeholder="选择月">
+					<el-date-picker v-model="searchList.nowDate" type="month" placeholder="选择月" value-format="yyyy-MM">
 					</el-date-picker>
 				</div>
 				<div class="row3">
