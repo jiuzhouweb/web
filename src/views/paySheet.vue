@@ -12,15 +12,18 @@
       <div>
         <el-form :inline="true" :model="uploadData" class="demo-form-inline">
           <el-form-item label="账期">
-            <el-date-picker v-model="uploadData.accountPeriod" type="month" placeholder="选择月" clearable>
+            <el-date-picker v-model="uploadData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月" clearable>
             </el-date-picker>
           </el-form-item>
           <el-form-item label="公司">
-            <el-select v-model="uploadData.customerId" placeholder="活动区域" clearable>
-              <el-option label="区域一" value="jz3779"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable>
+              <el-option v-for="(item,index) in customerList" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="证件号导入">
+            <el-switch v-model="switchvalue"></el-switch>
+          </el-form-item>
+          
           <el-button type="primary" @click='selectExcel'>选择Excel</el-button>
           <el-button type="primary" @click='continueExcel'>沿用上月</el-button>
         </el-form>
@@ -29,29 +32,28 @@
     <div class='main_contain'>
       <h5>月度录入表</h5>
       <div>
-        <el-form :inline="true" :model="uploadData" class="demo-form-inline">
+        <el-form :inline="true" class="demo-form-inline">
           <el-form-item label="公司">
-            <el-select v-model="uploadData.customerId" placeholder="活动区域" clearable>
-              <el-option label="区域一" value="jz3779"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="customerId" placeholder="请选择公司名称" clearable>
+              <el-option v-for="(item,index) in customerList" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="账期">
-            <el-date-picker v-model="uploadData.accountPeriod" type="month" placeholder="选择月" clearable>
+            <el-date-picker v-model="accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月" clearable>
             </el-date-picker>
           </el-form-item>
           <el-form-item label="状态">
-            <el-select v-model="uploadData.statusVaule" placeholder="活动区域" clearable>
+            <el-select v-model="statusVaule" placeholder="请选择状态" clearable>
               <el-option label="已提交" value="1"></el-option>
               <el-option label="未提交" value="0"></el-option>
             </el-select>
           </el-form-item>
           <el-button type="primary" @click='search'>搜索</el-button>
-          <el-button type="primary" @click='addUser'>新增员工</el-button>
+          <el-button type="primary" @click='addUser' v-if="calcFlag">新增员工</el-button>
           <!-- <el-button type="primary" @click='selectExcel'>重置</el-button> -->
         </el-form>
       </div>
-      <el-button type="primary" size='mini' @click='calc'>计算</el-button>
+      <el-button type="primary" size='mini' @click='calc' v-if="calcFlag">计算</el-button>
       <el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog' v-if="tableData1.length>0">批量删除</el-button>
       <el-table class="table1" :data="tableData1" border stripe style="width: 100%;margin-top:20px" @selection-change="handleSelectionChange">>
         <el-table-column type="expand">
@@ -131,14 +133,16 @@
           </template>
 				</el-table-column>
 			</el-table>
-			<el-pagination style="margin-top:10px;" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage1" :page-sizes="[10, 20, 30, 40,50]" :page-size="pageSize1" layout="total, sizes, prev, pager, next, jumper" :total="total1">
+			<el-pagination style="margin-top:10px;" @size-change="((val)=>{handleSizeChange(val, '1')})" @current-change="((val)=>{handleCurrentChange(val, '1')})" :current-page="currentPage1" :page-sizes="[10, 20, 30, 40,50]" :page-size="pageSize1" layout="total, sizes, prev, pager, next, jumper" :total="total1">
       </el-pagination>
 		</div>
 
     <div class='main_contain bottomTable'>
-      <span class="title">累计工资薪金汇算表【不包括劳务报酬、稿酬及其他非工资薪金，如需查看请点击</span><span class="title reportFrom">报表查看</span><span class="title"> 】</span>
-			
-			<el-table :data="tableData2" style="width: 100%" stripe border>
+      <span class="title">累计工资薪金汇算表【不包括劳务报酬、稿酬及其他非工资薪金，如需查看请点击</span><span class="title reportFrom">报表查看</span><span class="title"> 】</span>			
+      <div>
+        <el-button type="primary" @click='submitAll' v-if="calcFlag">提交</el-button>
+      </div>
+			<el-table :data="tableData2" style="width: 100%;margin-top:20px;" stripe border>
 				<el-table-column label="序号" type='index' width="80"></el-table-column>
 				<el-table-column label="姓名" prop="employeeName"></el-table-column>
 				<el-table-column label="证件号码" prop="cardNum"></el-table-column>
@@ -159,7 +163,7 @@
                   </template>
                 </el-table-column>
 			</el-table>
-			<el-pagination style="margin-top:10px;" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage2" :page-sizes="[10, 20, 30, 40,50]" :page-size="pageSize2" layout="total, sizes, prev, pager, next, jumper" :total="total2">
+			<el-pagination style="margin-top:10px;" @size-change="((val)=>{handleSizeChange(val, '2')})" @current-change="((val)=>{handleCurrentChange(val, '2')})" :current-page="currentPage2" :page-sizes="[10, 20, 30, 40,50]" :page-size="pageSize2" layout="total, sizes, prev, pager, next, jumper" :total="total2">
       </el-pagination>
 		</div>
 
@@ -176,7 +180,7 @@
         <el-table-column label="已缴税额" prop="prepaidTax"></el-table-column>
         <el-table-column label="应补（退）税额" prop="taxation"></el-table-column>
       </el-table>
-			<el-pagination style="margin-top:10px;" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage3" :page-sizes="[10, 20, 30, 40,50]" :page-size="pageSize3" layout="total, sizes, prev, pager, next, jumper" :total="total3">
+			<el-pagination style="margin-top:10px;" @size-change="((val)=>{handleSizeChange(val, '3')})" @current-change="((val)=>{handleCurrentChange(val, '3')})" :current-page="currentPage3" :page-sizes="[10, 20, 30, 40,50]" :page-size="pageSize3" layout="total, sizes, prev, pager, next, jumper" :total="total3">
       </el-pagination>
 		</div>
     <div v-if="tableData3.length==0" class="tips">
@@ -356,21 +360,21 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination style="margin-top:10px;" @current-change="handleCurrentChange" :current-page="currentPage4" :page-size="pageSize4" layout="total, prev, pager, next" :total="total4">
+      <el-pagination style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})" :current-page="currentPage4" :page-size="pageSize4" layout="total, prev, pager, next" :total="total4">
       </el-pagination>
     </el-dialog>
 
-
-		<el-dialog title="选择Excel" :visible.sync="dialogVisible" width="30%">
-			<el-upload class="upload-demo" action="/aaa/perTaxToolTwo/api/excel/initUpload.do" :on-preview="handlePreview" ref='upload'
+    <el-dialog title="选择Excel" :visible.sync="dialogVisible" width="30%">
+			<el-upload class="upload-demo" action="/perTaxToolTwo/api/excel/monthlyUpload.do" :on-preview="handlePreview" ref='upload'
 			 :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="10" :on-exceed="handleExceed" :file-list="fileList"
-			 :auto-upload="false" :data='uploadData'>
+			 :on-success="handleSuccess" :on-error="handleError" 
+			 :auto-upload="false" :data='uploadData' accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 				<el-button size="small" type="primary" slot="trigger">选择Excel</el-button>
 
 			</el-upload>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button size="small" type="primary" @click="submitUpload">上传</el-button>
+				<el-button type="primary" @click="submitUpload">上传</el-button>
 			</span>
 		</el-dialog>
 	</div>
@@ -381,7 +385,7 @@ export default {
   name: "paySheet",
   data() {
     var validateInt = (rule, value, callback) => {
-      var reg =/^[0-9]+(\.\d+)?$/;
+      var reg = /^[0-9]+(\.\d+)?$/;
       if (value === "") {
         callback();
       } else if (!reg.test(value)) {
@@ -391,7 +395,7 @@ export default {
       }
     };
     var validateMax60 = (rule, value, callback) => {
-      var reg =/^6000$|^(\d|[1-9]\d)(\.\d+)*$/;
+      var reg = /^6000$|^(\d|[1-9]\d)(\.\d+)*$/;
       if (value === "") {
         callback();
       } else if (!reg.test(value)) {
@@ -401,7 +405,7 @@ export default {
       }
     };
     var validateMax48 = (rule, value, callback) => {
-      var reg =/^4800$|^(\d|[1-9]\d)(\.\d+)*$/;
+      var reg = /^4800$|^(\d|[1-9]\d)(\.\d+)*$/;
       if (value === "") {
         callback();
       } else if (!reg.test(value)) {
@@ -411,7 +415,7 @@ export default {
       }
     };
     var validateMax10 = (rule, value, callback) => {
-      var reg =/^1000$|^(\d|[1-9]\d)(\.\d+)*$/;
+      var reg = /^1000$|^(\d|[1-9]\d)(\.\d+)*$/;
       if (value === "") {
         callback();
       } else if (!reg.test(value)) {
@@ -421,7 +425,7 @@ export default {
       }
     };
     var validateMax15 = (rule, value, callback) => {
-      var reg =/^1500$|^(\d|[1-9]\d)(\.\d+)*$/;
+      var reg = /^1500$|^(\d|[1-9]\d)(\.\d+)*$/;
       if (value === "") {
         callback();
       } else if (!reg.test(value)) {
@@ -431,7 +435,7 @@ export default {
       }
     };
     var validateMax800 = (rule, value, callback) => {
-      var reg =/^80000$|^(\d|[1-9]\d)(\.\d+)*$/;
+      var reg = /^80000$|^(\d|[1-9]\d)(\.\d+)*$/;
       if (value === "") {
         callback();
       } else if (!reg.test(value)) {
@@ -440,14 +444,19 @@ export default {
         callback();
       }
     };
-    
+
     return {
       dialogVisible: false,
       uploadData: {
         accountPeriod: "",
-        customerId: "jz3779",
-        statusVaule: "0"
+        customerId: "",
+        inputType:'',
       },
+      switchvalue:false,
+      // inputType: 1，
+      accountPeriod: "",
+      customerId: "",
+      statusVaule: "1",
       fileList: [],
       tableData1: [],
       currentPage1: 1,
@@ -807,7 +816,9 @@ export default {
       dialogVisibleCalc: false,
       calcData: {},
       addFlag: false,
-      operateId: ""
+      operateId: "",
+      customerList: [],
+      calcFlag: false
     };
   },
   watch: {
@@ -817,25 +828,27 @@ export default {
       } else {
         this.canDel = false;
       }
+    },
+    switchvalue(val){
+      if(val){
+        this.uploadData.inputType=1;
+      }else{
+        this.uploadData.inputType="";
+      }
+      console.log('this.uploadData.inputType',this.uploadData.inputType)
     }
   },
   components: {},
   methods: {
-    getNowMonth() {
-      var date = new Date();
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      month = month < 10 ? "0" + month : month;
-      this.uploadData.accountPeriod = year.toString() + "-" + month.toString();
-    },
+    // 1.8 操作表id接口
     getOperatorId() {
       let params = {
         row: this.pageSize1,
         page: this.pageNum1,
         data: {
-          accountPeriod: this.uploadData.accountPeriod,
-          customerId: this.uploadData.customerId,
-          submitStatus: this.uploadData.statusVaule
+          accountPeriod: this.accountPeriod,
+          customerId: this.customerId,
+          submitStatus: this.statusVaule
         }
       };
       this.axios
@@ -857,14 +870,15 @@ export default {
           });
         });
     },
+    // 1.3 搜索接口(导入员工信息展示)
     getTableData1() {
       let params = {
         row: this.pageSize1,
         page: this.pageNum1,
         data: {
-          accountPeriod: this.uploadData.accountPeriod,
-          customerId: this.uploadData.customerId,
-          submitStatus: this.uploadData.statusVaule
+          accountPeriod: this.accountPeriod,
+          customerId: this.customerId,
+          submitStatus: this.statusVaule
         }
       };
       this.axios
@@ -887,15 +901,16 @@ export default {
           });
         });
     },
+    // 1.4 搜索接口(计算累计汇算表展示)
     getTableData2() {
       let params = {
         row: this.pageSize2,
         page: this.pageNum2,
         data: {
-          accountPeriod: this.uploadData.accountPeriod,
-          customerId: this.uploadData.customerId,
+          accountPeriod: this.accountPeriod,
+          customerId: this.customerId,
           employeeName: "",
-          submitStatus: this.uploadData.statusVaule
+          submitStatus: this.statusVaule
         }
       };
       this.axios
@@ -918,15 +933,16 @@ export default {
           });
         });
     },
+    // 1.5 搜索接口（选择年终统筹展示）
     getTableData3() {
       let params = {
         row: this.pageSize3,
         page: this.pageNum3,
         data: {
-          accountPeriod: this.uploadData.accountPeriod,
-          customerId: this.uploadData.customerId,
+          accountPeriod: this.accountPeriod,
+          customerId: this.customerId,
           employeeName: "",
-          submitStatus: this.uploadData.statusVaule
+          submitStatus: this.statusVaule
         }
       };
       this.axios
@@ -949,10 +965,11 @@ export default {
           });
         });
     },
-    getMonthDetail(cardNum, operateId) {
+    // 获取月度工资表详细数据  /perTaxToolTwo/monDetail/queryList
+    getMonthDetail(cardNum) {
       let params = {
         cardNum: cardNum,
-        operateId: operateId
+        operateId: this.operateId
       };
       this.axios
         .post("/test/monDetail", params)
@@ -973,12 +990,13 @@ export default {
           });
         });
     },
+    // /perTaxToolTwo/monAcct/queryChoosePage
     getTableData4() {
       let params = {
         row: this.pageSize4,
         page: this.pageNum4,
         data: {
-          operateId: "17732"
+          operateId: this.operateId
         }
       };
       this.axios
@@ -1010,7 +1028,7 @@ export default {
     handleClick(row) {
       console.log("获取详细数据", row);
       this.dialogVisibleDetail = true;
-      this.getMonthDetail(row.cardNum, row.operateId);
+      this.getMonthDetail(row.cardNum);
     },
     search() {
       // 获取操作表id
@@ -1018,6 +1036,11 @@ export default {
       this.getTableData1();
       this.getTableData2();
       this.getTableData3();
+      if (this.statusVaule == 0) {
+        this.calcFlag = true;
+      } else {
+        this.calcFlag = false;
+      }
     },
     selectExcel() {
       this.dialogVisible = true;
@@ -1052,6 +1075,37 @@ export default {
     submitUpload() {
       this.$refs.upload.submit();
     },
+    handleSuccess(response) {
+      if (response.code == 200) {
+        this.fileList = [];
+        this.$message({
+          message: response.msg,
+          type: "success"
+        });
+        this.dialogVisible = false;
+        this.accountPeriod=this.uploadData.accountPeriod;
+        this.customerId=this.uploadData.customerId;
+        this.statusVaule='0';
+        this.addFlag=true;
+        this.getOperatorId();
+        this.getTableData1();
+        this.getTableData2();
+        this.getTableData3();
+      } else {
+        this.fileList = [];
+        this.$message({
+          message: response.msg || "上传文件失败！",
+          type: "error"
+        });
+      }
+    },
+    handleError(err) {
+      this.fileList = [];
+      this.$message({
+        message: "上传文件失败！",
+        type: "error"
+      });
+    },
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
@@ -1068,15 +1122,34 @@ export default {
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
-    handleSizeChange(val) {
-      console.log('111')
-      this.pageSize = val;
-      this.getTableData3();
+    handleSizeChange(val, type) {
+      if (type == "1") {
+        this.pageSize1 = val;
+        this.getTableData1();
+      } else if (type == "2") {
+        this.pageSize2 = val;
+        this.getTableData2();
+      } else if (type == "3") {
+        this.pageSize3 = val;
+        this.getTableData3();
+      }
     },
-    handleCurrentChange(val) {
-      console.log('222')
-      this.pageNum = val;
-      this.getTableData3();
+    handleCurrentChange(val, type) {
+      if (type == "1") {
+        this.pageNum1 = val;
+        this.getTableData1();
+      } else if (type == "2") {
+        this.pageNum2 = val;
+        this.getTableData2();
+      } else if (type == "3") {
+        this.pageNum3 = val;
+        this.getTableData3();
+      } else if (type == "4") {
+        this.pageNum4 = val;
+        this.getTableData4();
+        // 在此保存计算年终奖
+        this.saveCalc("1");
+      }
     },
     handleEdit(row) {
       this.$router.push({
@@ -1210,7 +1283,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        // 先调取计算接口
+        // 先调取计算接口 /perTaxToolTwo/monAcct/CalculatorSingleCompany
         let params = {};
         this.axios
           .post("/test/CalculatorSingleCompany", params)
@@ -1267,6 +1340,35 @@ export default {
       }
 
       console.log("params", params);
+
+      // /perTaxToolTwo/monAcct/chooseCalcTypeList
+      this.axios
+        .post("/test/CalculatorSingleCompany", params)
+        .then(res => {
+          if (res.data.code == 200) {
+            if (res.data.data.length > 0) {
+              this.dialogVisibleCalc = true;
+              // 再获取弹出层表格的数据
+              this.getTableData4();
+            } else {
+              this.dialogVisibleCalc = false;
+              this.getTableData1();
+              this.getTableData2();
+              this.getTableData3();
+            }
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: "error"
+            });
+          }
+        })
+        .catch(function(err) {
+          this.$message({
+            message: "删除失败",
+            type: "error"
+          });
+        });
     },
     continueAdd() {},
     save(formName) {
@@ -1283,9 +1385,9 @@ export default {
       let params = this.item;
 
       if (this.addFlag) {
-        params.accountPeriod = this.uploadData.accountPeriod;
-        params.customerId = this.uploadData.customerId;
-        params.submitStatus = this.uploadData.statusVaule;
+        params.accountPeriod = this.accountPeriod;
+        params.customerId = this.customerId;
+        params.submitStatus = this.statusVaule;
         params.monthlyId = "";
         params.operateId = "";
       }
@@ -1315,11 +1417,50 @@ export default {
             type: "error"
           });
         });
+    },
+    submitAll() {
+      let params = {
+        operateIdM: this.operateId
+      };
+      this.$confirm("您确定要提交【月度工资表】和【累计汇算表】吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.axios
+          .post("/perTaxToolTwo/api/user/import/subExcel.do", params)
+          .then(res => {
+            if (res.data.code == 200) {
+              this.statusVaule = "0";
+              this.addFlag = false;
+              this.getTableData1();
+              this.getTableData2();
+              this.getTableData3();
+              this.$message({
+                type: "success",
+                message: res.data.msg
+              });
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(function(err) {
+            this.$message({
+              message: "新增失败",
+              type: "error"
+            });
+          });
+      });
     }
   },
   computed: {},
   created() {
-    this.getNowMonth();
+    this.customerList = this.$store.state.user.customerinfoList;
+    console.log(this.customerList);
+    // this.getNowMonth();
   }
 };
 </script>
