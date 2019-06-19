@@ -194,7 +194,7 @@
 					.then(res => {
 						if (res.data.code == 200) {
 							this.userName =  res.data.user.phone;
-							this.$store.commit('updateUserInfo',res.data.user);
+							this.$store.commit('updateUser',res.data.user);
 							console.log(res.data);
 						} else {
 							this.$message({

@@ -166,7 +166,7 @@
 							"sumDeductFee": this.totalDecrease,
 							"yearAwards": this.ruleForm.bonus
 						};
-						this.axios.post('/tax/perTaxToolTwo/monAcct/perTaxCalculator', params)
+						this.axios.post('/perTaxToolTwo/monAcct/perTaxCalculator', params)
 							.then(res => {
 								this.isloading = false;
 								console.log(res.data.data);
@@ -203,15 +203,6 @@
 			}
 		},
 		created() {
-			// this.axios.get('/tax/perTaxToolTwo/monAcct/perTaxCalculator')
-			// .then(res => {
-			// 	console.log(res.data.data);
-			// }).catch(function(err) {
-			// 	this.$message({
-			// 		message: '获取结果失败',
-			// 		type: 'error'
-			// 	});
-			// })
 		}
 	}
 </script>
