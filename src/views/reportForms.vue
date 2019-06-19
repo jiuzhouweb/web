@@ -5,29 +5,29 @@
 			<div class='search_contain'>
 				<div class="row1">
 					<span class="labelTitle">公司：</span>
-					<el-select v-model="searchList.value" placeholder="请选择">
+					<el-select v-model="searchList.value" placeholder="请选择" size="small">
 						<el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 						</el-option>
 					</el-select>
 				</div>
 				<div class="row2">
 					<span class="labelTitle">账期：</span>
-					<el-date-picker v-model="searchList.nowDate" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月">
+					<el-date-picker v-model="searchList.nowDate" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月" size="small">
 					</el-date-picker>
 				</div>
 				<div class="row3">
 					<span class="labelTitle">状态：</span>
-					<el-select v-model="searchList.statusVaule" placeholder="请选择">
+					<el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
 						<el-option v-for="item in searchList.status" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
 				</div>
-				<el-button type="primary" @click="search()" style="margin-left:20px">查看</el-button>
-				<el-button @click="clear()">重置</el-button>
+				<el-button type="primary" @click="search()" style="margin-left:20px" size="small">查看</el-button>
+				<el-button @click="clear()" size="small">重置</el-button>
 			</div>
 		</div>
 		<div class="content">
-			<el-button type="primary" icon="el-icon-success">一键导出</el-button>
+			<el-button type="primary" icon="el-icon-success" size="small">一键导出</el-button>
 			<div class="tableBox">
 				<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 					<el-tab-pane :label="item.title" :name="item.name" v-for="(item,index) in tableTabs" :key="index">

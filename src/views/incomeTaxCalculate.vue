@@ -8,7 +8,7 @@
 			若在一个自然年度内，中途换工作，那么在新企业的每月工资个税将会以在新企业在职月数进行计算，或者直接编辑在新企业的累计数据
 		</el-tag>
 		<div class='formlist clearfix'>
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm" size="small">
 				<el-form-item label="当前月份" prop="month">
 					<el-date-picker v-model="ruleForm.month" value-format="M" type="month" placeholder="选择月">
 					</el-date-picker>
@@ -33,7 +33,7 @@
 					<el-button @click="resetForm('ruleForm')">重置</el-button>
 				</el-form-item>
 			</el-form>
-			<el-form :model="ruleForm" label-width="130px" class="demo-ruleForm">
+			<el-form :model="ruleForm" label-width="130px" class="demo-ruleForm" size="small">
 
 				<el-form-item label="累计收入" prop="name">
 					<el-input v-model="totalSalary" disabled></el-input>
@@ -49,7 +49,7 @@
 				</el-form-item>
 
 			</el-form>
-			<el-form :model="ruleForm" label-width="160px" class="demo-ruleForm">
+			<el-form :model="ruleForm" label-width="160px" class="demo-ruleForm" size="small">
 				<el-form-item label="应纳税所得额" prop="name">
 					<el-input v-model="calResult.taxableIncome" disabled></el-input>
 				</el-form-item>
