@@ -31,7 +31,151 @@
 			<div class="tableBox">
 				<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 					<el-tab-pane :label="item.title" :name="item.name" v-for="(item,index) in tableTabs" :key="index">
-						<el-table v-loading="loading" :data="item.tableData" border style="width: 100%">
+						<el-table v-loading="loading" :data="item.tableData" style="width: 100%">
+							<el-table-column type="expand" v-show='item.name==5 || item.name==6'>
+								<template slot-scope="props">
+									<el-form label-position="left" inline class="demo-table-expand">
+										<!-- <el-form-item label="本期基本养老保险费">
+											<span>{{ props.row.pensionInsurance }}</span>
+										</el-form-item> -->
+
+										<el-form-item v-if="item.name==1" label="是否残疾">
+											<span>{{ props.row.isDiasbility }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="是否烈属">
+											<span>{{ props.row.isMartyr }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="是否孤老">
+											<span>{{ props.row.isLonely }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="残疾证号">
+											<span>{{ props.row.diasbilityNum }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="烈属证号">
+											<span>{{ props.row.martyrNum }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="个人投资额">
+											<span>{{ props.row.individualInvestment }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="个人投资比例(%)">
+											<span>{{ props.row.individualInvestmentRatio }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="备注">
+											<span>{{ props.row.remark }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="是否境外人员">
+											<span>{{ props.row.isOverseasPerson }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="中文名">
+											<span>{{ props.row.chineseName }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="涉税事由">
+											<span>{{ props.row.taxRelatedCauses }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="出生国家(地区)">
+											<span>{{ props.row.birthCountry }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="首次入境时间">
+											<span>{{ props.row.firstEntryCountryDate }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="预计离境时间">
+											<span>{{ props.row.estimateDepartureCountryDate }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="其他证照类型">
+											<span>{{ props.row.otherCardType }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="其他证照号码">
+											<span>{{ props.row.otherCardNum }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="户籍所在地（省）">
+											<span>{{ props.row.censusRegisterProvince }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="户籍所在地（市）">
+											<span>{{ props.row.censusRegisterCity }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="户籍所在地（区县）">
+											<span>{{ props.row.censusRegisterCounty }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="户籍所在地（详细地址）">
+											<span>{{ props.row.censusRegisterDetail }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="居住地址（省）">
+											<span>{{ props.row.liveAddressProvince }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="居住地址（市）">
+											<span>{{ props.row.liveAddressCity }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="居住地址（区县）">
+											<span>{{ props.row.liveAddressCounty }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="居住地址（详细地址）">
+											<span>{{ props.row.liveAddressDetail }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="联系地址（省）">
+											<span>{{ props.row.contactAddressProvince }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="联系地址（市）">
+											<span>{{ props.row.contactAddressCity }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="联系地址（区县）">
+											<span>{{ props.row.contactAddressCounty }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="联系地址（详细地址）">
+											<span>{{ props.row.contactAddressDetail }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="电子邮箱">
+											<span>{{ props.row.email }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="学历">
+											<span>{{ props.row.education }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="开户银行">
+											<span>{{ props.row.bankDeposit }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="银行账号">
+											<span>{{ props.row.bankAccount }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==1" label="职务">
+											<span>{{ props.row.post }}</span>
+										</el-form-item>
+
+										<el-form-item v-if="item.name==2" label="累计子女教育">
+											<span>{{ props.row.sumChildEducation }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==2" label="累计继续教育">
+											<span>{{ props.row.sumContinuingEducation }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==2" label="累计住房贷款利息">
+											<span>{{ props.row.sumHomeLoan }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==2" label="累计住房租金">
+											<span>{{ props.row.sumHousingRent }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==2" label="累计赡养老人">
+											<span>{{ props.row.sumElderly }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==2" label="企业(职业)年金">
+											<span>{{ props.row.companyAnnuity }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==2" label="商业健康保险">
+											<span>{{ props.row.healthInsurance }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==2" label="税延养老保险">
+											<span>{{ props.row.pension }}</span>
+										</el-form-item>
+										<el-form-item v-if="item.name==2" label="其他">
+											<span>{{ props.row.otherFee }}</span>
+										</el-form-item>
+
+										<!-- <el-table-column v-if="item.name==2||item.name==5" prop="healthInsurance" label="商业健康保险" width="110">
+										</el-table-column>
+										<el-table-column v-if="item.name==2||item.name==5" prop="pension" label="税延养老保险" width="110">
+										</el-table-column> -->
+
+
+									</el-form>
+								</template>
+							</el-table-column>
 							<el-table-column label="序号" type="index" width="50">
 							</el-table-column>
 							<el-table-column prop="employeeCode" label="工号">
@@ -40,7 +184,7 @@
 							</el-table-column>
 							<el-table-column prop="cardType" label="证照类型" width="100">
 							</el-table-column>
-							<el-table-column prop="cardNum" label="证照号码">
+							<el-table-column prop="cardNum" label="证照号码" width="180">
 							</el-table-column>
 							<el-table-column v-if="item.name==1" prop="areaName" label="国籍(地区)" width="90">
 							</el-table-column>
@@ -58,72 +202,7 @@
 							</el-table-column>
 							<el-table-column v-if="item.name==1" prop="quitDate" label="离职日期" width="100">
 							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="isDiasbility" label="是否残疾">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="isMartyr" label="是否烈属">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="isLonely" label="是否孤老">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="diasbilityNum" label="残疾证号">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="martyrNum" label="烈属证号">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="individualInvestment" label="个人投资额" width="100">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="individualInvestmentRatio" label="个人投资比例(%)" width="130">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="remark" label="备注">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="isOverseasPerson" label="是否境外人员" width="110">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="chineseName" label="中文名">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="taxRelatedCauses" label="涉税事由">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="birthCountry" label="出生国家(地区)" width="120">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="firstEntryCountryDate" label="首次入境时间" width="110">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="estimateDepartureCountryDate" label="预计离境时间" width="110">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="otherCardType" label="其他证照类型" width="110">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="otherCardNum" label="其他证照号码" width="110">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="censusRegisterProvince" label="户籍所在地（省）" width="140">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="censusRegisterCity" label="户籍所在地（市）" width="140">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="censusRegisterCounty" label="户籍所在地（区县）" width="150">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="censusRegisterDetail" label="户籍所在地（详细地址）" width="180">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="liveAddressProvince" label="居住地址（省）" width="120">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="liveAddressCity" label="居住地址（市）" width="120">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="liveAddressCounty" label="居住地址（区县）" width="140">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="liveAddressDetail" label="居住地址（详细地址）" width="170">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="contactAddressProvince" label="联系地址（省）" width="120">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="contactAddressCity" label="联系地址（市）" width="120">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="contactAddressCounty" label="联系地址（区县）" width="140">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="contactAddressDetail" label="联系地址（详细地址）" width="170">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="email" label="电子邮箱">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="education" label="学历">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="bankDeposit" label="开户银行">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="bankAccount" label="银行账号">
-							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="post" label="职务">
-							</el-table-column>
+
 							<el-table-column v-if="item.name==5||item.name==6" prop="projectCode" label="所得项目">
 							</el-table-column>
 							<el-table-column v-if="item.name==2||item.name==4||item.name==5" :prop="item.name==2?'monIncomeAmount':'incomeAmount'"
@@ -140,21 +219,10 @@
 							</el-table-column>
 							<el-table-column v-if="item.name==2" prop="monHousingFund" label="住房公积金" width="100">
 							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="sumChildEducation" label="累计子女教育" width="110">
+
+							<el-table-column v-if="item.name==5" prop="healthInsurance" label="商业健康保险" width="110">
 							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="sumContinuingEducation" label="累计继续教育" width="110">
-							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="sumHomeLoan" label="累计住房贷款利息" width="140">
-							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="sumHousingRent" label="累计住房租金" width="110">
-							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="sumElderly" label="累计赡养老人" width="110">
-							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="companyAnnuity" label="企业(职业)年金" width="120">
-							</el-table-column>
-							<el-table-column v-if="item.name==2||item.name==5" prop="healthInsurance" label="商业健康保险" width="110">
-							</el-table-column>
-							<el-table-column v-if="item.name==2||item.name==5" prop="pension" label="税延养老保险" width="110">
+							<el-table-column v-if="item.name==5" prop="pension" label="税延养老保险" width="110">
 							</el-table-column>
 							<el-table-column v-if="item.name==3" prop="incomeAmount" label="全年一次性奖金额">
 							</el-table-column>
@@ -162,7 +230,7 @@
 							</el-table-column>
 							<el-table-column v-if="item.name==3||item.name==6||item.name==7" prop="taxFreeIncome" label="免税收入">
 							</el-table-column>
-							<el-table-column v-if="item.name==2||item.name==4||item.name==7" prop="otherFee" label="其他">
+							<el-table-column v-if="item.name==4||item.name==7" prop="otherFee" label="其他">
 							</el-table-column>
 							<el-table-column v-if="item.name==3" prop="otherIncome" label="其他">
 							</el-table-column>
@@ -170,20 +238,19 @@
 							</el-table-column>
 							<el-table-column v-if="item.name==6||item.name==7" prop="donationType" label="捐赠方式">
 							</el-table-column>
-							<el-table-column v-if="item.name!=1" prop="deductedDonation" label="准予扣除的捐赠额" width="140">
+							<el-table-column v-if="item.name!=1 && item.name!=2" prop="deductedDonation" label="准予扣除的捐赠额" width="140">
 							</el-table-column>
 							<el-table-column v-if="item.name==5" prop="otherFee" label="其他">
 							</el-table-column>
-							<el-table-column v-if="item.name!=1" prop="deductTax" label="减免税额">
+							<el-table-column v-if="item.name!=1 && item.name!=2" prop="deductTax" label="减免税额">
 							</el-table-column>
 							<el-table-column v-if="item.name==4||item.name==5" prop="taxation" label="税款">
 							</el-table-column>
 							<el-table-column v-if="item.name!=1" prop="remark" label="备注">
 							</el-table-column>
 						</el-table>
-						<el-pagination style="margin-top:10px;" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-						 :current-page="currentPage" :page-sizes="[10, 20, 30, 40,50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
-						 :total="total">
+						<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+						 :page-size=10 layout="total, prev, pager, next, jumper" :total="total">
 						</el-pagination>
 					</el-tab-pane>
 				</el-tabs>
@@ -220,10 +287,10 @@
 						}
 					],
 					statusVaule: "1"
-        },
-        accountPeriod:'',
-				customerId:'',
-        statusVaule:'1',
+				},
+				accountPeriod: '',
+				customerId: '',
+				statusVaule: '1',
 				activeName: "1",
 				tableTabs: [{
 						title: "人员信息",
@@ -269,9 +336,9 @@
 			};
 		},
 		created() {
-      this.searchList.options = this.$store.state.user.customerinfoList;
-      // this.searchList.value=this.searchList.options[0].value;
-      console.log('this.searchList.options',this.searchList.options)
+			this.searchList.options = this.$store.state.user.customerinfoList;
+			// this.searchList.value=this.searchList.options[0].value;
+			console.log('this.searchList.options', this.searchList.options)
 			this.getNowMonth();
 			this.getTableData("1");
 		},
@@ -281,8 +348,8 @@
 				var year = date.getFullYear();
 				var month = date.getMonth() + 1;
 				month = month < 10 ? "0" + month : month;
-        this.searchList.nowDate = year.toString() + "-" + month.toString();
-        this.accountPeriod=year.toString() + "-" + month.toString();
+				this.searchList.nowDate = year.toString() + "-" + month.toString();
+				this.accountPeriod = year.toString() + "-" + month.toString();
 			},
 			// 获取表格数据
 			getTableData(name) {
@@ -308,7 +375,7 @@
 					data: {
 						customerId: this.customerId,
 						accountPeriod: this.accountPeriod,
-						submitStatus: this.submitStatus,
+						submitStatus: this.statusVaule,
 						type: type
 					},
 					page: this.pageNum,
@@ -317,7 +384,7 @@
 				let url;
 				url = "/perTaxToolTwo/api/excel/queryPage.do";
 				axios
-					.post(url,params)
+					.post(url, params)
 					.then(res => {
 						console.log("获取表格数据", res);
 						this.loading = false;
@@ -350,9 +417,9 @@
 				this.getTableData(this.activeName)
 			},
 			search() {
-        this.accountPeriod=this.searchList.nowDate;
-        this.customerId=this.searchList.value;
-        this.statusVaule=this.searchList.statusVaule;
+				this.accountPeriod = this.searchList.nowDate;
+				this.customerId = this.searchList.value;
+				this.statusVaule = this.searchList.statusVaule;
 				this.getTableData(this.activeName)
 			},
 			clear() {
@@ -363,9 +430,29 @@
 	};
 </script>
 
-<style scoped>
+<style scoped lang="less">
 	.reportForms {
 		padding: 20px;
+
+		/deep/ .el-pagination {
+			text-align: right;
+			margin-top: 10px;
+		}
+
+		/deep/ .demo-table-expand {
+			font-size: 0;
+		}
+
+		/deep/ .demo-table-expand label {
+			color: #99a9bf;
+			// padding-left: 120px;
+		}
+
+		/deep/ .demo-table-expand .el-form-item {
+			margin-right: 0;
+			margin-bottom: 0;
+			width: 50%;
+		}
 	}
 
 	.search {
