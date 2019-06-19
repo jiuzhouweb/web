@@ -139,7 +139,7 @@
 		</div>
 
     <div class='main_contain bottomTable'>
-      <span class="title">累计工资薪金汇算表【不包括劳务报酬、稿酬及其他非工资薪金，如需查看请点击</span><span class="title reportFrom">报表查看</span><span class="title"> 】</span>			
+      <span class="title">累计工资薪金汇算表【不包括劳务报酬、稿酬及其他非工资薪金，如需查看请点击</span><span @click="goReportForms" class="title reportFrom">报表查看</span><span class="title"> 】</span>			
       <div>
         <el-button type="primary" @click='submitAll' v-if="calcFlag">提交</el-button>
       </div>
@@ -1432,6 +1432,11 @@ export default {
             type: "error"
           });
         });
+    },
+    goReportForms(){
+      this.$router.push({
+					path: '/index/reportForms',
+				});
     },
     submitAll() {
       let params = {
