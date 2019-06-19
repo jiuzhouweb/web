@@ -56,6 +56,14 @@ module.exports = {
 					'^/miaoxing': ''
 				}
 			},
+			'/test': {
+				target: ' https://www.easy-mock.com/mock/5cf5cdc4b1f9bc4337c5e5d3/cwsystemtest', //对应自己的接口
+				changeOrigin: true,
+				ws: true,
+				pathRewrite: {
+					'^/test': ''
+				}
+			},
 		}
 	}
 }
