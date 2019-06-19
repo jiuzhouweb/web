@@ -56,7 +56,7 @@
       <el-button type="primary" size='mini' @click='calc' v-if="calcFlag">计算</el-button>
       <el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog' v-if="tableData1.length>0">批量删除</el-button>
       <el-table class="table1" :data="tableData1" stripe style="width: 100%;margin-top:20px" @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55"></el-table-column>
+        
         <el-table-column type="expand">
           <template slot-scope="props">
     						<el-form label-position="left" inline class="demo-table-expand">
@@ -117,7 +117,7 @@
     						</el-form>
           </template>
 				</el-table-column>
-				
+				<el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="序号" type='index' width="50"></el-table-column>
 				<el-table-column prop="employeeName" label="姓名" width="120"></el-table-column>
 				<el-table-column prop="cardType" label="证件类型"></el-table-column>
@@ -1032,8 +1032,11 @@ export default {
     search() {
       // 获取操作表id
       this.getOperatorId();
+      this.pageNum1='1';
       this.getTableData1();
+      this.pageNum2='1';
       this.getTableData2();
+      this.pageNum3='1';
       this.getTableData3();
       if (this.statusVaule == 0) {
         this.calcFlag = true;
@@ -1054,8 +1057,11 @@ export default {
         .post("/test/continueExcel", params)
         .then(res => {
           if (res.data.code == 200) {
+            this.pageNum1='1';
             this.getTableData1();
+            this.pageNum2='1';
             this.getTableData2();
+            this.pageNum3='1';
             this.getTableData3();
           } else {
             this.$message({
@@ -1087,8 +1093,11 @@ export default {
         this.statusVaule = "0";
         this.addFlag = true;
         this.getOperatorId();
+        this.pageNum1='1';
         this.getTableData1();
+        this.pageNum2='1';
         this.getTableData2();
+        this.pageNum3='1';
         this.getTableData3();
       } else {
         this.fileList = [];
@@ -1137,14 +1146,6 @@ export default {
         // 在此保存计算年终奖
         this.saveCalc("1");
       }
-    },
-    handleEdit(row) {
-      this.$router.push({
-        path: "/index/employeeDetail",
-        query: {
-          operateId: row.operateId
-        }
-      });
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -1210,8 +1211,12 @@ export default {
           .post("/perTaxToolTwo/initialMonSal/deletemonth", params)
           .then(res => {
             if (res.data.code == 200) {
-              // this.currentPage = 1;
-              // this.queryEmployeePage();
+              this.pageNum1='1';
+              this.getTableData1();
+              this.pageNum2='1';
+              this.getTableData2();
+              this.pageNum3='1';
+              this.getTableData3();
               this.$message({
                 type: "success",
                 message: res.data.msg
@@ -1243,8 +1248,12 @@ export default {
           .post("/perTaxToolTwo/initialMonSal/deletemonth", params)
           .then(res => {
             if (res.data.code == 200) {
-              // this.currentPage = 1;
-              // this.queryEmployeePage();
+              this.pageNum1='1';
+              this.getTableData1();
+              this.pageNum2='1';
+              this.getTableData2();
+              this.pageNum3='1';
+              this.getTableData3();
               this.$message({
                 type: "success",
                 message: res.data.msg
@@ -1279,6 +1288,7 @@ export default {
               if (res.data.data.length > 0) {
                 this.dialogVisibleCalc = true;
                 // 再获取弹出层表格的数据
+                this.pageNum4='1';
                 this.getTableData4();
               }
             } else {
@@ -1346,11 +1356,15 @@ export default {
               if (res.data.data.length > 0) {
                 this.dialogVisibleCalc = true;
                 // 再获取弹出层表格的数据
+                this.pageNum4='1';
                 this.getTableData4();
               } else {
                 this.dialogVisibleCalc = false;
+                this.pageNum1='1';
                 this.getTableData1();
+                this.pageNum2='1';
                 this.getTableData2();
+                this.pageNum3='1';
                 this.getTableData3();
               }
             } else {
@@ -1395,9 +1409,12 @@ export default {
         .post("/perTaxToolTwo/Employee/addOrEditTaxEmployee", params)
         .then(res => {
           if (res.data.code == 200) {
-            this.getTableData1();
-            this.getTableData2();
-            this.getTableData3();
+            this.pageNum1='1';
+              this.getTableData1();
+              this.pageNum2='1';
+              this.getTableData2();
+              this.pageNum3='1';
+              this.getTableData3();
             this.$message({
               type: "success",
               message: res.data.msg
@@ -1431,8 +1448,11 @@ export default {
             if (res.data.code == 200) {
               this.statusVaule = "0";
               this.addFlag = false;
+              this.pageNum1='1';
               this.getTableData1();
+              this.pageNum2='1';
               this.getTableData2();
+              this.pageNum3='1';
               this.getTableData3();
               this.$message({
                 type: "success",
