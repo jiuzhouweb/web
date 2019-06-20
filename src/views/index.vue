@@ -216,7 +216,7 @@
 			}
 		},
 		created() {
-			this.queryUser()
+			// this.queryUser()
 		}
 	}
 </script>

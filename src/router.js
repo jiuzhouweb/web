@@ -18,6 +18,7 @@ import taxnotice from './views/taxnotice.vue'
 import reportForms from './views/reportForms.vue'
 import paySheet from './views/paySheet.vue'
 import payEdit from './views/payEdit.vue'
+import personalIncomeIndex from './views/personalIncomeIndex.vue'
 import incomeTaxCalculate from './views/incomeTaxCalculate.vue'
 Vue.use(Router)
 
@@ -138,6 +139,10 @@ export default new Router({
 					path: 'payEdit',
 					name: 'payEdit',
 					component: () => import( /* webpackChunkName: "about" */ './views/payEdit.vue')
+				},{
+					path: 'personalIncomeIndex',
+					name: 'personalIncomeIndex',
+					component: () => import( /* webpackChunkName: "about" */ './views/personalIncomeIndex.vue')
 				}
 				
 				

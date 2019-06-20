@@ -3,7 +3,7 @@
     <div class="cardBox" v-if="invoicePanelList.length>0" v-loading="loadingCard">
       <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
         <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
-        <div class="topContent color1">
+        <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
           <div class="line1">
             <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
             <p v-if="item.invoiceId" class="bigTitle">税金：80000元</p>
@@ -13,13 +13,17 @@
           <div v-if="!item.tmplId" class="line2">
             <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
             <p>{{item.invoiceCategory}}</p>
-            <p style="margin-left:15px;">{{item.invoiceType}}</p>
+            <p style="margin-left:0.15rem;">{{item.invoiceType}}</p>
           </div>
         </div>
         <div class="dataContent">
           <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList" :key="ind">
             <p>{{child.columnTitle}}</p>
-            <p @dblclick="editPanel(item,child)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
+            <p v-if="child.columnTitle=='发票项目类型'">{{child.columnValue=='1'?'一般':'即征即退'}}</p>
+            <p v-if="child.columnTitle=='应税类型'&&child.columnValue=='1'">应税货物</p>
+            <p v-if="child.columnTitle=='应税类型'&&child.columnValue=='2'">应税劳务</p>
+            <p v-if="child.columnTitle=='应税类型'&&child.columnValue=='3'">应税服务</p>
+            <p v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'" @dblclick="editPanel(item,child)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
           </div>
         </div>
         <div class="footerContent" @click="showDetail(item)">
@@ -33,7 +37,7 @@
     <div v-if="invoicePanelList.length==0" class="noData">暂无数据</div>
     <!-- 新增弹窗 -->
     <el-dialog class="smallDialog" :close-on-click-modal="false" :visible.sync="addDialogVisible">
-      <el-form ref="form" :rules="rules" :model="form" label-width="94px">
+      <el-form ref="form" :rules="rules" :model="form" label-width="1.1rem">
         <el-form-item label="票面张数：" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
@@ -66,7 +70,7 @@
     <el-dialog class="smallNextDialog" :close-on-click-modal="false" :visible.sync="nextStepDialogVisible">
       <div class="dialogTitle">
         <p class="dialogSmallTitle">{{form.invoiceType}}</p>
-        <p class="dialogSmallTitle" style="margin-top:15px">{{invoiceName}}</p>
+        <p class="dialogSmallTitle" style="margin-top:0.15rem">{{invoiceName}}</p>
       </div>
       <el-form ref="form2" :model="form2">
         <el-form-item v-if="item.columnShow == 1&&item.columnEdit==1" :label="item.columnTitle" v-for="(item,index) in nextStepList" :key="index">
@@ -120,7 +124,13 @@
       <div class="taxRate">
         <div class="valueBox" v-for="(item,index) in detailData.taxColumnList" :key="index">
           <p class="label">{{item.columnTitle}}：</p>
-          <p class="value">{{item.columnValue}}</p>
+          <p class="value" v-if="item.columnTitle=='城建税税率'">{{item.columnValue}}</p>
+          <el-select v-if="item.columnTitle=='增值税税率'" v-model="item.columnValue" placeholder="请选择">
+            <el-option v-for="item in zengzhiTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
+          </el-select>
+          <el-select v-if="item.columnTitle=='印花税税率'" v-model="item.columnValue" placeholder="请选择">
+            <el-option v-for="item in yinhuaTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
+          </el-select>
         </div>
       </div>
       <div class="content">
@@ -144,6 +154,10 @@ import axios from "axios";
 export default {
   name: "listModule",
   props: {
+    taxesList:{
+      type: Array,
+      default: []
+    },
     invoicePanelList: {
       type: Array,
       default: []
@@ -163,6 +177,19 @@ export default {
     loadingCard: {
       type: Boolean,
       default: false
+    }
+  },
+  watch:{
+    taxesList(val){
+      console.log('taxesList111',val)
+      val.forEach(item=>{
+        if(item.taxesName=='增值税'){
+          this.zengzhiTaxList=item.taxes;
+        }else if(item.taxesName=='印花税'){
+          this.yinhuaTaxList=item.taxes;
+        }
+      })
+      console.log('this.zengzhiTaxList0',this.zengzhiTaxList)
     }
   },
   data() {
@@ -255,7 +282,9 @@ export default {
       nextStepList: [],
       nextStepSelectList: [],
       nextStepRes: {},
-      detailData: {}
+      detailData: {},
+      zengzhiTaxList:[],
+      yinhuaTaxList:[]
     };
   },
   created() {
@@ -684,9 +713,9 @@ export default {
             invoiceColumns.push(obj);
           } else {
             obj.columnValue = item.defaultValue;
-            if (item.columnShow == 1 && item.columnEdit == 1) {
+            // if (item.columnShow == 1 && item.columnEdit == 1) {
               invoiceColumns.push(obj);
-            }
+            // }
           }
         });
         let params = {
@@ -765,6 +794,7 @@ export default {
           item.invoiceColumnList.push(v);
         }
         if (v.columnTitle.indexOf("税率") > -1) {
+          v.columnValue=parseFloat(v.columnValue)
           item.taxColumnList.push(v);
         }
       });
@@ -810,54 +840,62 @@ export default {
 <style>
 .smallDialog .el-dialog,
 .smallNextDialog .el-dialog {
-  width: 280px;
+  width: 3.6rem;
 }
 .detailDialog .el-dialog {
-  width: 560px;
+  width: 5.60rem;
 }
 .detailDialog .el-dialog__body {
-  padding: 30px 45px;
+  padding: 0.30rem 0.45rem;
 }
 .detailDialog .el-input {
-  width: 80px;
+  width: 0.9rem;
   float: right;
-  font-size: 12px;
+  font-size: 0.12rem;
 }
 .detailDialog .el-input__inner {
-  padding: 0 5px;
-  height: 30px;
-  line-height: 30px;
+  padding: 0 0.05rem;
+  height: 0.30rem;
+  line-height: 0.30rem;
+}
+.detailDialog .el-input__icon{
+  line-height: 0.3rem
+}
+.smallDialog .el-form-item__label{
+      width: 1rem;
+    font-size: 0.14rem;
+    padding: 0 0.12rem 0 0;
 }
 .smallNextDialog .el-form-item__content {
-  line-height: 30px;
+  line-height: 0.30rem;
 }
 .smallNextDialog .el-input__icon {
-  line-height: 30px;
+  line-height: 0.30rem;
 }
 .smallNextDialog .el-dialog__body {
-  padding: 50px 15px;
+  padding: 0.50rem 0.15rem;
 }
 .smallNextDialog .el-input {
-  width: 80px;
+  width: 0.80rem;
   float: right;
-  font-size: 12px;
+  font-size: 0.12rem;
 }
 .smallNextDialog .el-form-item {
-  margin-bottom: 11px;
+  margin-bottom: 0.11rem;
 }
 .smallNextDialog .el-form-item__label {
-  font-size: 12px;
-  padding: 0 5px 0 0;
-  line-height: 30px;
+  font-size: 0.12rem;
+  padding: 0 0.05rem 0 0;
+  line-height: 0.30rem;
 }
 .smallNextDialog .el-input__inner {
-  padding: 0 5px;
-  height: 25px;
-  line-height: 25px;
+  padding: 0 0.05rem;
+  height: 0.25rem;
+  line-height: 0.25rem;
 }
 .el-date-editor.el-input,
 .el-date-editor.el-input__inner {
-  width: 120px;
+  width: 1.2rem;
 }
 .rightSelect .el-select {
   float: right;
@@ -866,20 +904,20 @@ export default {
 
 <style scoped>
 .invoice_oListModule {
-  /* width: 1180px; */
+  /* width: 1180rem; */
 }
 .cardBox {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 0.2rem;
 }
 .eachCard {
   width: 24.25%;
-  height: 253px;
-  border-radius: 5px;
-  margin-top: 20px;
+  height: 2.53rem;
+  border-radius: 0.05rem;
+  margin-top: 0.2rem;
   background: #fff;
   margin-right: 1%;
   position: relative;
@@ -889,7 +927,7 @@ export default {
   margin-right: 0;
 }
 .topContent {
-  height: 80px;
+  height: 0.9rem;
 }
 .color1 {
   background: #43b3db;
@@ -909,50 +947,59 @@ export default {
 .color6 {
   background: #d19ae9;
 }
+.color7 {
+  background: #7baddc;
+}
+.color8 {
+  background: #8fc879;
+}
+.color9 {
+  background: #8e8ec5;
+}
 .line1 {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 15px 20px;
+  padding: 0.15rem 0.2rem;
 }
 .line1 p {
   color: #fff;
 }
 .bigTitle {
-  font-size: 18px;
+  font-size: 0.18rem;
   flex: 0.8;
 }
 .smallTitle {
-  font-size: 12px;
+  font-size: 0.12rem;
   cursor: pointer;
 }
 .line2 {
   display: flex;
-  padding: 0px 20px;
+  padding: 0rem 0.2rem;
   /* align-items: flex-end; */
   /* justify-content: space-between;*/
 }
 .line2 p {
-  font-size: 14px;
+  font-size: 0.14rem;
   color: #fff;
 }
 .dataContent {
-  height: 130px;
+  height: 1.30rem;
   overflow-y: hidden;
-  padding: 15px 20px;
+  padding: 0.15rem 0.2rem;
   padding-bottom: 0;
 }
 .lineData {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 0;
+  padding: 0.05rem 0;
   color: #666;
-  font-size: 12px;
+  font-size: 0.12rem;
 }
 .footerContent {
   position: absolute;
-  bottom: 6px;
+  bottom: 0.03rem;
   left: 50%;
   cursor: pointer;
 }
@@ -963,44 +1010,44 @@ export default {
   color: #fff;
   background: #43b3db;
   text-align: center;
-  border-radius: 5px;
-  padding: 12px 0;
+  border-radius: 0.05rem;
+  padding: 0.12rem 0;
   cursor: pointer;
-  margin-top: 25px;
+  margin-top: 0.25rem;
 }
 .cancel {
-  margin-top: 30px;
+  margin-top: 0.3rem;
   color: #fff;
   background: #ed878e;
   text-align: center;
-  border-radius: 5px;
-  padding: 12px 0;
+  border-radius: 0.05rem;
+  padding: 0.12rem 0;
   cursor: pointer;
 }
 .dialogTitle {
   position: absolute;
-  top: 20px;
+  top: 0.2rem;
 }
 .dialogBigTitle {
-  font-size: 18px;
+  font-size: 0.18rem;
   color: #43b3db;
 }
 .dialogTitleLine2 {
   display: flex;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 0.08rem;
 }
 .dialogSmallTitle {
   color: #ed878e;
 }
 .error {
   position: absolute;
-  bottom: 0;
+  bottom: -0.03rem;
   left: 0;
-  line-height: 0px;
+  line-height: 0rem;
 }
 .error1 {
-  bottom: -8px;
+  bottom: -0.08rem;
 }
 .costumer,
 .invoice,
@@ -1016,7 +1063,7 @@ export default {
 }
 .costumer,
 .invoice {
-  margin-bottom: 15px;
+  margin-bottom: 0.15rem;
 }
 .costumer .label,
 .costumer .pages,
@@ -1031,27 +1078,27 @@ export default {
   color: black;
 }
 .costumer .pages {
-  margin-left: 25px;
+  margin-left: 0.25rem;
 }
 .invoice .left .pages {
   color: #57bbdf;
-  margin-left: 10px;
+  margin-left: 0.10rem;
 }
 .date {
-  padding-bottom: 20px;
-  border-bottom: 2px solid #e5e5e5;
+  padding-bottom: 0.20rem;
+  border-bottom: 0.02rem solid #e5e5e5;
 }
 .taxRate {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 0.20rem;
 }
 .taxRate .valueBox {
   display: flex;
   align-items: center;
   width: 50%;
-  padding: 0 0 15px 0;
+  padding: 0 0 0.15rem 0;
 }
 .content {
   display: flex;
@@ -1064,7 +1111,7 @@ export default {
   justify-content: space-between;
   width: 47%;
   margin-right: 6%;
-  padding: 7px 0;
+  padding: 0.07rem 0;
   position: relative;
 }
 .content .valueBox:nth-child(2n) {
@@ -1072,7 +1119,7 @@ export default {
 }
 .content .valueBox .label,
 .content .valueBox .value {
-  font-size: 12px;
+  font-size: 0.12rem;
 }
 .detailFooter {
   display: flex;
@@ -1080,52 +1127,16 @@ export default {
   justify-content: space-around;
 }
 .detailFooter .nextStep {
-  width: 180px;
-  margin-top: 30px;
+  width: 1.80rem;
+  margin-top: 0.30rem;
 }
 .detailFooter .cancel {
-  width: 180px;
+  width: 1.80rem;
 }
 .noData {
   text-align: center;
   margin-top: 20%;
   color: #909399;
-  font-size: 14px;
-}
-@media screen and (min-width: 1024px) {
-  .noData {
-    font-size: 18px;
-  }
-}
-/*>=1024的设备*/
-@media screen and (min-width: 1100px) {
-  .noData {
-    font-size: 20px;
-  }
-}
-@media screen and (min-width: 1280px) {
-  .noData {
-    font-size: 22px;
-  }
-}
-@media screen and (min-width: 1366px) {
-  .noData {
-    font-size: 24px;
-  }
-}
-@media screen and (min-width: 1440px) {
-  .noData {
-    font-size: 26px;
-  }
-}
-@media screen and (min-width: 1680px) {
-  .noData {
-    font-size: 28px;
-  }
-}
-@media screen and (min-width: 1920px) {
-  .noData {
-    font-size: 30px;
-  }
+  font-size: 0.14rem;
 }
 </style>

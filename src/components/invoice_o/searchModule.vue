@@ -26,8 +26,8 @@
       </el-select>
     </div>
     <div class="searchButton" @click="search()">查询</div>
-    <div class="importButton">发票导入</div>
-    <div class="deleteButton">批量删除</div>
+    <!-- <div class="importButton">发票导入</div> -->
+    <!-- <div class="deleteButton">批量删除</div> -->
   </div>
 </template>
 
@@ -76,8 +76,10 @@
             console.log("获取收账信息Id和税款信息id", res);
             if (res.data.code == 200) {
               // 在这里获取收账税款id
-              taxation_id = res.data.data.taxation_id;
-              tax_info_id = res.data.data.tax_info_id;
+              // taxation_id = res.data.data.taxation_id;
+              // tax_info_id = res.data.data.tax_info_id;
+              taxation_id = '1';
+              tax_info_id = '1';
               // 真正接口需要传参：收账税款id
               // this.$emit("getInvoiceLeaveShowList", taxation_id, tax_info_id,this.searchList);
               this.$emit("getInvoiceLeaveShowList", {
@@ -95,6 +97,9 @@
               type: 'error'
             });
           });
+
+
+        
       }
     }
   };
@@ -102,40 +107,40 @@
 
 <style scoped>
   div.search_contain {
-    /* width: 1180px; */
-    /* height: 78px; */
+    /* width: 1180rem; */
+    /* height: 78rem; */
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-top-left-radius: 0.05rem;
+    border-top-right-radius: 0.05rem;
     background: #fff;
-    padding: 20px 20px;
+    padding: 0.20rem 0.20rem;
   }
   .labelTitle {
     color: #999;
-    font-size: 14px;
+    font-size: 0.14rem;
   }
   .importButton {
     background: #43b3db;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 0.05rem;
     cursor: pointer;
-    padding: 7px 35px;
+    padding: 0.07rem 0.35rem;
   }
   .searchButton {
     background: #ffb980;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 0.05rem;
     cursor: pointer;
-    padding: 7px 35px;
+    padding: 0.07rem 0.35rem;
   }
   .deleteButton {
     background: #ed878e;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 0.05rem;
     cursor: pointer;
-    padding: 7px 35px;
+    padding: 0.07rem 0.35rem;
   }
 </style>

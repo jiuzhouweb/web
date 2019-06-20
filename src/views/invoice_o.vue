@@ -2,13 +2,13 @@
   <div class="main_contain">
     <div class="left_contain">
       <searchModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList" @getShowSumIncome="getShowSumIncome" @getShowSumDeduct="getShowSumDeduct" @getShowSumTaxPayable="getShowSumTaxPayable"></searchModule>
-      <listModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList" :invoicePanelList="invoicePanelList" :taxationId="taxationId" :taxInfoId="taxInfoId" :searchList="searchList" :loadingCard="loadingCard"></listModule>
+      <listModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList" :invoicePanelList="invoicePanelList" :taxesList="taxesList" :taxationId="taxationId" :taxInfoId="taxInfoId" :searchList="searchList" :loadingCard="loadingCard"></listModule>
       <!-- taxation_id,tax_info_id -->
     </div>
     <div class="right_contain">
       <div class="charts">
         <p class="chartsTitle">收入合计</p>
-        <div id="myChart" :style="{width: '100%', height: '200px'}"></div>
+        <div id="myChart" :style="{width: '100%', height: '2rem'}"></div>
       </div>
       <div class="chartsTable">
         <el-table :data="tableData" show-summary border style="width: 90%;margin-left:5%">
@@ -29,7 +29,7 @@
 			<div class="charts">
 				<p class="chartsTitle">抵扣合计</p>
 			</div>
-			<div class="chartsTable" style="margin-top:20px">
+			<div class="chartsTable" style="margin-top:0.20rem">
 				<el-table :data="tableDeductData" :show-header="false" border style="width: 90%;margin-left:5%">
 					<el-table-column prop="name" align="left" header-align="center"  :resizable="false">
 					</el-table-column>
@@ -41,7 +41,7 @@
 			<div class="charts">
 				<p class="chartsTitle">应纳税额合计</p>
 			</div>
-			<div class="chartsTable" style="margin-top:20px;margin-bottom: 20px;">
+			<div class="chartsTable" style="margin-top:0.20rem;margin-bottom: 0.20rem;">
 				<el-table :data="tableTaxData" show-summary border style="width: 90%;margin-left:5%">
 					<el-table-column label="税种" prop="name" align="center" header-align="center"  :resizable="false">
 					</el-table-column>
@@ -72,6 +72,7 @@
         tableData: [],
         invoiceList: [],
         invoicePanelList: [],
+        taxesList:[],
         nameData: [],
         seriesData: [],
         color: [
@@ -169,6 +170,8 @@
                 if (obj[i].length > 0) {
                   if (i !== "taxesList") {
                     arr.push(obj[i]);
+                  }else {
+                    this.taxesList=obj[i];
                   }
                 }
               }
@@ -355,52 +358,52 @@
 </script>
 <style>
   .chartsTable .el-table th>.cell {
-    font-size: 14px;
+    font-size: 0.14rem;
     color: #333;
   }
   .chartsTable .el-table td div {
-    font-size: 12px;
+    font-size: 0.12rem;
     color: #666;
   }
   .chartsTable .el-table td,
   .el-table th {
-    padding: 4px 0;
+    padding: 0.04rem 0;
   }
 </style>
 
 <style lang="less" scoped>
   .main_contain {
-    height: calc(100% - 44px);
+    height: calc(100% - 0.44em);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding:20px;
+    padding:0.20rem;
   }
   .left_contain {
     height: 100%;
     flex: 3;
-    min-width: 800px;
-    margin-right: 20px;
+    min-width: 8rem;
+    margin-right: 0.20rem;
   }
   .right_contain {
     // height: 100%;
     flex: 1;
-    border-radius: 5px;
+    border-radius: 0.05rem;
     background: #fff;
     overflow-y: auto;
     overflow-x: hidden;
   }
   .chartsTitle {
-    padding: 20px 20px 0 20px;
-    font-size: 18px;
+    padding: 0.20rem 0.20rem 0 0.20rem;
+    font-size: 0.18rem;
     color: #4fb8dd;
   }
   .chartsTable {
-    margin-top: -36px;
+    margin-top: -0.36rem;
   }
   .tableSquare {
-    width: 9px;
-    height: 9px;
+    width: 0.09rem;
+    height:0.09rem;
     border-radius: 50%;
     margin: 0 auto;
   }
