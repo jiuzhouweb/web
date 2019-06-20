@@ -97,15 +97,55 @@
       listModule
     },
     mounted() {
-      // this.getUserInfo();
+      // this.getTaxInfo();
+      // this.findAutoConfigTemplate();
     },
     methods: {
-      // 获取用户信息
-      getUserInfo() {
-        axios.get("/log/api/user/getLoginUserInfo.do").then(res => {
-          console.log("获取用户信息", res);
-          if (res.data.code == 200) {}
-        });
+      // 获取收账税款id
+      getTaxInfo() {
+        let params = {
+          accountPeriod: "2019-05", //账期
+          customerId: 1, //客户Id
+          stepName: "发票录入" //步骤名称
+        };
+        let taxation_id, tax_info_id;
+        axios
+          .post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
+          .then(res => {
+            console.log("获取收账信息Id和税款信息id", res);
+            if (res.data.code == 200) {
+              this.taxationId = res.data.data.taxation_id;
+              this.taxInfoId = res.data.data.tax_info_id;
+            }
+          }).catch((err) => {
+            this.$message({
+              message: '获取收账信息Id和税款信息id数据失败',
+              type: 'error'
+            });
+          });
+      },
+      // 自动加载模板
+      findAutoConfigTemplate() {
+        let params = {
+          accountPeriod: "2019-05", //账期
+          customerId: 1, //客户Id
+          stepName: "发票录入" //步骤名称
+        };
+        let taxation_id, tax_info_id;
+        axios
+          .post("/api/perTaxToolTwo/e9z/configTemplate/findAutoConfigTemplate?tmplType="+0)
+          .then(res => {
+            console.log("自动加载模块", res);
+            if (res.data.code == 200) {
+              this.invoicePanelList=res.data.data;
+              console.log('invoicePanelList',this.invoicePanelList)
+            }
+          }).catch((err) => {
+            this.$message({
+              message: '自动加载模块失败',
+              type: 'error'
+            });
+          });
       },
       //获取列表数据
       getInvoiceLeaveShowList(params) {
@@ -117,7 +157,7 @@
         axios
           .get(
             "/api/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
-            params.taxationId
+            params.taxationId+"&tmplType="+0
           )
           .then(res => {
             this.loadingCard = false;
@@ -150,8 +190,8 @@
       //获取右侧统计数据--收入合计
       getShowSumIncome(taxation_id) {
         console.log('taxationId', taxation_id)
-        axios.get("/test/www").then(res => {
-        // axios.get("/api/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + taxation_id).then(res => {
+        // axios.get("/test/www").then(res => {
+        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + taxation_id).then(res => {
           console.log("获取收入合计数据", res);
           if (res.data.code == 200) {
             let nameArr = [];
@@ -194,9 +234,10 @@
         });
       },
       // 获取右侧统计数据--抵扣合计
-      getShowSumDeduct() {
+      getShowSumDeduct(taxation_id) {
         this.tableDeductData = [];
-        axios.get("/test/showSumIncome").then(res => {
+        // axios.get("/test/showSumIncome").then(res => {
+          axios.get("/api/perTaxToolTwo/e9zCalculate/showSumDeduct?taxationId=" + taxation_id).then(res => {
           // console.log("获取抵扣合计数据", res);
           if (res.data.code == 200) {
             for (var key in res.data.data) {
@@ -237,8 +278,9 @@
         });
       },
       // 获取右侧统计数据--应纳税额合计
-      getShowSumTaxPayable() {
-        axios.get("/test/showSumTaxPayable").then(res => {
+      getShowSumTaxPayable(taxation_id) {
+        // axios.get("/test/showSumTaxPayable").then(res => {
+          axios.get("/api/perTaxToolTwo/e9zCalculate/showSumTaxPayable?taxationId=" + taxation_id).then(res => {
           // console.log("获取应纳税额合计数据", res);
           if (res.data.code == 200) {
             this.tableTaxData = res.data.data;
@@ -341,7 +383,7 @@
     margin-right: 20px;
   }
   .right_contain {
-    height: 100%;
+    // height: 100%;
     flex: 1;
     border-radius: 5px;
     background: #fff;

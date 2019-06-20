@@ -17,6 +17,7 @@ import dictionary from './views/dictionary.vue'
 import taxnotice from './views/taxnotice.vue'
 import reportForms from './views/reportForms.vue'
 import paySheet from './views/paySheet.vue'
+import payEdit from './views/payEdit.vue'
 import incomeTaxCalculate from './views/incomeTaxCalculate.vue'
 Vue.use(Router)
 
@@ -133,7 +134,12 @@ export default new Router({
 					path: 'paySheet',
 					name: 'paySheet',
 					component: () => import( /* webpackChunkName: "about" */ './views/paySheet.vue')
+				},{
+					path: 'payEdit',
+					name: 'payEdit',
+					component: () => import( /* webpackChunkName: "about" */ './views/payEdit.vue')
 				}
+				
 				
 			]
 		},

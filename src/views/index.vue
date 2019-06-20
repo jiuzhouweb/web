@@ -94,6 +94,10 @@
 									<i class="el-icon-menu"></i>
 									<span slot="title">报表查看</span>
 								</el-menu-item>
+								<el-menu-item index="/index/payEdit">
+									<i class="el-icon-menu"></i>
+									<span slot="title">工资表变更</span>
+								</el-menu-item>
 							</el-menu>
 						</el-col>
 					</el-row>
