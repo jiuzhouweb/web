@@ -1,0 +1,425 @@
+<template>
+  <div class='main clearfix'>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>工资表变更</el-breadcrumb-item>
+    </el-breadcrumb>
+    <div class='search_contain'>
+      <div class='info'>
+        <span>工资表上传 请上传多家公司</span>
+      </div>
+      <div>
+        <el-button type="primary" @click='selectExcel'>选择Excel</el-button>
+      </div>
+    </div>
+    <div class='main_contain'>
+      <h5>月度工资表</h5>
+      <el-button type="primary" size='mini' @click='calc'>计算筹划</el-button>
+      
+      <el-table class="table1" :data="tableData1" border stripe style="width: 100%;margin-top:20px" @selection-change="((val)=>{handleSelectionChange(val, '1')})">        
+        <el-table-column type="selection" width="50"></el-table-column>
+        <el-table-column label="序号" type='index' width="50" :resizable="false"></el-table-column>
+        <el-table-column prop="employeeName" label="公司" :resizable="false"></el-table-column>
+        <el-table-column prop="employeeName" label="纳税人识别号" :resizable="false"></el-table-column>
+        <el-table-column prop="employeeName" label="账期" :resizable="false"></el-table-column>
+		<el-table-column fixed="right" label="操作" :resizable="false" width="160">
+          <template slot-scope="scope">
+            <el-button type="primary" size="small" @click='edit(scope.row)'>年终统筹方案选择</el-button>
+          </template>
+				</el-table-column>
+			</el-table>
+			<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '1')})" :current-page="currentPage1"  :page-size="pageSize1" layout="total, prev, pager, next, jumper" :total="total1">
+            </el-pagination>
+		</div>
+
+    <el-dialog title="易点个税年终奖筹划方案" class="dialogCalc" :visible.sync="dialogVisibleCalc" width="70%" style="margin-top:15vh" @selection-change="((val)=>{handleSelectionChange(val, '2')})">
+      <div class="buttons">
+        <el-button icon="el-icon-collection" size='mini' @click="saveCalc()">保存</el-button>
+      </div>
+      <el-table :data="tableData4" style="width: 100%;margin-top:20px" stripe border>
+        <el-table-column type="selection" width="50"></el-table-column>
+        <el-table-column label="姓名" prop="employeeName" :resizable="false"></el-table-column>
+        <el-table-column label="收入额" prop="incomeAmount" :resizable="false"></el-table-column>
+        <el-table-column label="年终奖" prop="yearAwards" :resizable="false"></el-table-column>
+        <el-table-column label="分开核算个税" prop="sepTaxation" :resizable="false"></el-table-column>
+        <el-table-column label="合并核算个税" prop="comTaxation" :resizable="false"></el-table-column>
+        <el-table-column label="推荐方案" prop="suggestType" :resizable="false"></el-table-column>
+        <el-table-column label="操作" width="260" :resizable="false">
+          <template slot-scope="scope">
+            <el-radio-group v-model="scope.row.radio" size="small">
+              <el-radio-button label="分开核算"></el-radio-button>
+              <el-radio-button label="合并核算"></el-radio-button>
+              <el-radio-button label="推荐核算"></el-radio-button>
+            </el-radio-group>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})" :current-page="currentPage4" :page-size="pageSize4" layout="total, prev, pager, next" :total="total4">
+      </el-pagination>
+    </el-dialog>
+
+    <el-dialog title="选择Excel" :visible.sync="dialogVisible" width="30%">
+			<el-upload class="upload-demo" action="/perTaxToolTwo/api/excel/monthlyUpload.do" :on-preview="handlePreview" ref='upload'
+			 :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="10" :on-exceed="handleExceed" :file-list="fileList"
+			 :on-success="handleSuccess" :on-error="handleError" 
+			 :auto-upload="false" :data='uploadData' accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+				<el-button size="small" type="primary" slot="trigger">选择Excel</el-button>
+
+			</el-upload>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="submitUpload">上传</el-button>
+			</span>
+		</el-dialog>
+	</div>
+</template>
+
+<script>
+export default {
+  name: "payEdit",
+  data() {
+    return {
+      dialogVisible: false,
+      uploadData: {},
+      accountPeriod: "",
+      customerId: "",
+      fileList: [],
+      tableData1: [],
+      currentPage1: 1,
+      pageSize1: 10,
+      pageNum1: 1,
+      total1: 0,
+      tableData4: [],
+      currentPage4: 1,
+      pageSize4: 10,
+      pageNum4: 1,
+      total4: 0,
+      multipleSelection1: [], //多选
+      multipleSelection2: [], //多选
+
+      dialogVisibleCalc: false,
+      operateId: "",
+      customerList: []
+    };
+  },
+  watch: {},
+  components: {},
+  methods: {
+    // 操作表id接口
+    getOperatorId() {
+      let params = {
+        row: this.pageSize1,
+        page: this.pageNum1,
+        data: {
+          accountPeriod: this.accountPeriod,
+          customerId: this.customerId,
+          submitStatus: this.statusVaule
+        }
+      };
+      this.axios
+        .post("/perTaxToolTwo/initialMonCom/queryPage", params)
+        .then(res => {
+          if (res.data.code == 200) {
+            this.operateId = res.data.data[0].operateId;
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: "error"
+            });
+          }
+        })
+        .catch(function(err) {
+          this.$message({
+            message: "获取操作表id失败",
+            type: "error"
+          });
+        });
+    },
+    // 1.3 搜索接口(导入员工信息展示)
+    getTableData1() {
+      let params = {
+        row: this.pageSize1,
+        page: this.pageNum1,
+        data: {
+          accountPeriod: this.accountPeriod,
+          customerId: this.customerId,
+          submitStatus: this.statusVaule
+        }
+      };
+      this.axios
+        .post("/test/tableData1", params)
+        .then(res => {
+          if (res.data.code == 200) {
+            this.tableData1 = res.data.data;
+            this.total1 = res.data.count;
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: "error"
+            });
+          }
+        })
+        .catch(function(err) {
+          this.$message({
+            message: "获取月度录入表失败",
+            type: "error"
+          });
+        });
+    },
+
+    // /perTaxToolTwo/monAcct/queryChoosePage
+    getTableData4() {
+      let params = {
+        row: this.pageSize4,
+        page: this.pageNum4,
+        data: {
+          operateId: this.operateId
+        }
+      };
+      this.axios
+        .post("/test/tableData4", params)
+        .then(res => {
+          if (res.data.code == 200) {
+            this.tableData4 = res.data.data;
+            this.total4 = res.data.count;
+            this.tableData4.forEach((item, index) => {
+              this.$set(item, "radio", "推荐核算");
+              // item.radio='推荐核算'
+            });
+            console.log("11", this.tableData4);
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: "error"
+            });
+          }
+        })
+        .catch(function(err) {
+          this.$message({
+            message: "获取失败",
+            type: "error"
+          });
+        });
+    },
+    selectExcel() {
+      this.dialogVisible = true;
+    },
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
+    handleSuccess(response) {
+      if (response.code == 200) {
+        this.fileList = [];
+        this.$message({
+          message: response.msg,
+          type: "success"
+        });
+        this.dialogVisible = false;
+        this.pageNum1 = "1";
+        this.getTableData1();
+      } else {
+        this.fileList = [];
+        this.$message({
+          message: response.msg || "上传文件失败！",
+          type: "error"
+        });
+      }
+    },
+    handleError(err) {
+      this.fileList = [];
+      this.$message({
+        message: "上传文件失败！",
+        type: "error"
+      });
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      //   this.$message.warning(
+      //     `当前限制选择 3 个文件，本次选择了 ${
+      //       files.length
+      //     } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+      //   );
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    handleCurrentChange(val, type) {
+      if (type == "1") {
+        this.pageNum1 = val;
+        this.getTableData1();
+      } else if (type == "2") {
+        // 在此保存计算年终奖
+        this.pageNum4 = val;
+        this.getTableData4();
+        this.saveCalc("1");
+      }
+    },
+    handleSelectionChange(val, type) {
+      if (type == "1") {
+        this.multipleSelection1 = val;
+      } else if (type == "2") {
+        this.multipleSelection2 = val;
+      }
+    },
+
+    edit(row) {
+      console.log("row.", row);
+      this.item = row;
+      this.dialogVisibleCalc = true;
+      this.getTableData4();
+    },
+    calc() {
+      console.log(this.multipleSelection1);
+      let params = {};
+      this.axios
+        .post("/test/CalculatorSingleCompany", params)
+        .then(res => {
+          if (res.data.code == 200) {
+            this.pageNum1 = "1";
+            this.getTableData1();
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: "error"
+            });
+          }
+        })
+        .catch(function(err) {
+          this.$message({
+            message: "计算失败",
+            type: "error"
+          });
+        });
+    },
+    saveCalc(type) {
+      console.log(this.multipleSelection2);
+      let params = {};
+      this.axios
+        .post("/test/CalculatorSingleCompany", params)
+        .then(res => {
+          if (res.data.code == 200) {
+            if (type == "1") {
+            } else {
+              this.dialogVisibleCalc = false;
+              this.pageNum1 = "1";
+              this.getTableData1();
+            }
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: "error"
+            });
+          }
+        })
+        .catch(function(err) {
+          this.$message({
+            message: "保存失败",
+            type: "error"
+          });
+        });
+    }
+  },
+  computed: {},
+  created() {
+    this.customerList = this.$store.state.user.customerinfoList;
+    console.log(this.customerList);
+  }
+};
+</script>
+<style>
+.table1 .demo-table-expand label {
+  color: #99a9bf;
+  padding-left: 120px;
+}
+.table1 .demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+.dialogAdd .el-input,
+.dialogAdd .el-select,
+.dialogAdd .el-date-editor {
+  width: 200px;
+}
+.dialogCalc .el-dialog__body {
+  padding-top: 0;
+}
+</style>
+
+<style lang='less' scoped>
+.main {
+  /* background: #fff; */
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  .el-breadcrumb {
+    height: 30px;
+    line-height: 29px;
+    padding-left: 20px;
+    background-color: #fff;
+    border-top: 1px solid #f2f6fc;
+    box-sizing: border-box;
+  }
+  /deep/ .el-table__header tr,
+  .el-table__header th {
+    padding: 0;
+    height: 40px;
+  }
+  /deep/ .el-table__body tr,
+  .el-table__body td {
+    padding: 0;
+    height: 40px;
+  }
+  /deep/ .el-table td {
+    padding: 6px 0;
+  }
+  .search_contain {
+    background: #fff;
+    height: 100px;
+    padding-left: 20px;
+    margin: 20px;
+    .info {
+      height: 40px;
+      line-height: 40px;
+    }
+    a {
+      margin-left: 10px;
+    }
+  }
+  .main_contain {
+    background: #fff;
+    margin: 0 20px;
+    padding: 0px 20px; // height: calc(100% - 190px);
+    h5 {
+      height: 40px;
+      line-height: 40px;
+    }
+    /deep/ .el-pagination {
+      text-align: right;
+      margin-top: 10px;
+    }
+  }
+  .title {
+    font-weight: bold;
+    line-height: 40px;
+  }
+  .reportFrom {
+    color: red;
+    cursor: pointer;
+  }
+  .bottomTable {
+    margin-top: 20px;
+  }
+  .tips {
+    color: #2e78ff;
+    font-size: 14px;
+    line-height: 40px;
+    margin: 0 20px;
+  }
+}
+</style>

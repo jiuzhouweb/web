@@ -21,82 +21,86 @@
 			</el-header>
 			<el-container>
 				<el-aside width="220px">
-					<!-- <el-row class="tac">
-						<el-col> -->
-					<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
-					 @close="handleClose">
-						<el-submenu index="1">
-							<template slot="title">
-								<i class="el-icon-location"></i>
-								<span>收账处理</span>
-							</template>
-							<el-menu-item-group>
-								<el-menu-item index="/index/customer">客户查询</el-menu-item>
-								<el-menu-item index="/index/invoice_o">发票录入</el-menu-item>
-								<el-menu-item index="/index/analysis">情况统计</el-menu-item>
-							</el-menu-item-group>
-						</el-submenu>
-						<el-submenu index="2">
-							<template slot="title">
-								<i class="el-icon-location"></i>
-								<span>税务处理</span>
-							</template>
-							<el-menu-item-group>
-								<el-menu-item index="/index/invoice_t">发票录入</el-menu-item>
-								<el-menu-item index="/index/audit">审核</el-menu-item>
-							</el-menu-item-group>
-						</el-submenu>
-						<el-menu-item index="/index/notice">
-							<i class="el-icon-menu"></i>
-							<span slot="title">税款通知</span>
-						</el-menu-item>
-						<el-menu-item index="/index/declare">
-							<i class="el-icon-menu"></i>
-							<span slot="title">申报处理</span>
-						</el-menu-item>
-						<el-submenu index="5">
-							<template slot="title">
-								<i class="el-icon-location"></i>
-								<span>历史查询</span>
-							</template>
-							<el-menu-item-group>
-								<el-menu-item index="/index/progress">做账进度查询</el-menu-item>
-								<el-menu-item index="/index/statistics">统计查询</el-menu-item>
-							</el-menu-item-group>
-						</el-submenu>
-						<el-submenu index="6">
-							<template slot="title">
-								<i class="el-icon-location"></i>
-								<span>系统配置</span>
-							</template>
-							<el-menu-item-group>
-								<el-menu-item index="/index/formula">税务公式配置</el-menu-item>
-								<el-menu-item index="/index/template">发票模版配置</el-menu-item>
-								<el-menu-item index="/index/rate">税率配置</el-menu-item>
-								<el-menu-item index="/index/dictionary">字典表配置</el-menu-item>
-								<el-menu-item index="/index/taxnotice">税款通知配置</el-menu-item>
-							</el-menu-item-group>
-						</el-submenu>
-						<el-menu-item index="/index/incomeTaxCalculate">
-							<i class="el-icon-menu"></i>
-							<span slot="title">个税计算</span>
-						</el-menu-item>
-						<el-menu-item index="/index/initialSheet">
-							<i class="el-icon-menu"></i>
-							<span slot="title">初始导入</span>
-						</el-menu-item>
-						<el-menu-item index="/index/paySheet">
-							<i class="el-icon-menu"></i>
-							<span slot="title">工资表导入</span>
-						</el-menu-item>
+					<el-row class="tac">
+						<el-col>
+							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+							 @close="handleClose">
+								<el-submenu index="1">
+									<template slot="title">
+										<i class="el-icon-location"></i>
+										<span>收账处理</span>
+									</template>
+									<el-menu-item-group>
+										<el-menu-item index="/index/customer">客户查询</el-menu-item>
+										<el-menu-item index="/index/invoice_o">发票录入</el-menu-item>
+										<el-menu-item index="/index/analysis">情况统计</el-menu-item>
+									</el-menu-item-group>
+								</el-submenu>
+								<el-submenu index="2">
+									<template slot="title">
+										<i class="el-icon-location"></i>
+										<span>税务处理</span>
+									</template>
+									<el-menu-item-group>
+										<el-menu-item index="/index/invoice_t">发票录入</el-menu-item>
+										<el-menu-item index="/index/audit">审核</el-menu-item>
+									</el-menu-item-group>
+								</el-submenu>
+								<el-menu-item index="/index/notice">
+									<i class="el-icon-menu"></i>
+									<span slot="title">税款通知</span>
+								</el-menu-item>
+								<el-menu-item index="/index/declare">
+									<i class="el-icon-menu"></i>
+									<span slot="title">申报处理</span>
+								</el-menu-item>
+								<el-submenu index="5">
+									<template slot="title">
+										<i class="el-icon-location"></i>
+										<span>历史查询</span>
+									</template>
+									<el-menu-item-group>
+										<el-menu-item index="/index/progress">做账进度查询</el-menu-item>
+										<el-menu-item index="/index/statistics">统计查询</el-menu-item>
+									</el-menu-item-group>
+								</el-submenu>
+								<el-submenu index="6">
+									<template slot="title">
+										<i class="el-icon-location"></i>
+										<span>系统配置</span>
+									</template>
+									<el-menu-item-group>
+										<el-menu-item index="/index/formula">税务公式配置</el-menu-item>
+										<el-menu-item index="/index/template">发票模版配置</el-menu-item>
+										<el-menu-item index="/index/rate">税率配置</el-menu-item>
+										<el-menu-item index="/index/dictionary">字典表配置</el-menu-item>
+										<el-menu-item index="/index/taxnotice">税款通知配置</el-menu-item>
+									</el-menu-item-group>
+								</el-submenu>
+								<el-menu-item index="/index/incomeTaxCalculate">
+									<i class="el-icon-menu"></i>
+									<span slot="title">个税计算</span>
+								</el-menu-item>
+								<el-menu-item index="/index/initialSheet">
+									<i class="el-icon-menu"></i>
+									<span slot="title">初始导入</span>
+								</el-menu-item>
+								<el-menu-item index="/index/paySheet">
+									<i class="el-icon-menu"></i>
+									<span slot="title">工资表导入</span>
+								</el-menu-item>
 
-						<el-menu-item index="/index/reportForms">
-							<i class="el-icon-menu"></i>
-							<span slot="title">报表查看</span>
-						</el-menu-item>
-					</el-menu>
-					<!-- </el-col>
-					</el-row> -->
+								<el-menu-item index="/index/reportForms">
+									<i class="el-icon-menu"></i>
+									<span slot="title">报表查看</span>
+								</el-menu-item>
+								<el-menu-item index="/index/payEdit">
+									<i class="el-icon-menu"></i>
+									<span slot="title">工资表变更</span>
+								</el-menu-item>
+							</el-menu>
+						</el-col>
+					</el-row>
 				</el-aside>
 				<el-container>
 					<el-main>
@@ -238,7 +242,7 @@
 			}
 		},
 		created() {
-			this.queryUser()
+			// this.queryUser()
 		}
 	}
 </script>
