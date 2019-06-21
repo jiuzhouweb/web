@@ -9,14 +9,14 @@
         </el-option>
       </el-select>
     </div>
-    <div class="row2">
+    <div class="row2" style="margin-left:0.2rem">
       <span class="labelTitle">
       					账期：
       				</span>
       <el-date-picker v-model="searchList.nowDate" type="month" placeholder="选择月">
       </el-date-picker>
     </div>
-    <div class="row3">
+    <!-- <div class="row3" style="margin-left:0.2rem">
       <span class="labelTitle">
       					发票类型：
       				</span>
@@ -24,7 +24,7 @@
         <el-option v-for="item in searchList.options" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
-    </div>
+    </div> -->
     <div class="searchButton" @click="search()">查询</div>
     <!-- <div class="importButton">发票导入</div> -->
     <!-- <div class="deleteButton">批量删除</div> -->
@@ -104,6 +104,11 @@
     }
   };
 </script>
+<style>
+.search_contain .el-date-editor.el-input, .el-date-editor.el-input__inner{
+      width: 1.6rem;
+}
+</style>
 
 <style scoped>
   div.search_contain {
@@ -112,7 +117,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     border-top-left-radius: 0.05rem;
     border-top-right-radius: 0.05rem;
     background: #fff;
@@ -135,6 +140,7 @@
     border-radius: 0.05rem;
     cursor: pointer;
     padding: 0.07rem 0.35rem;
+    margin-left:0.2rem
   }
   .deleteButton {
     background: #ed878e;

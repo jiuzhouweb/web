@@ -1,6 +1,6 @@
 <template>
     <div class="personalIncomeIndex">
-        <div class="step1">
+        <div class="step1" style="cursor:pointer" @click="jumpPage('1')">
             <div class="line1">
                 <img src="../assets/img/icon-1.png" alt="">
                 <p>步骤1</p>
@@ -11,7 +11,7 @@
                 进入初始导入中，可以先下载初始工资表模板，编辑初始数据后上传。
             </p>
         </div>
-        <div class="step2">
+        <div class="step2" style="cursor:pointer" @click="jumpPage('2')">
             <div class="line1">
                 <img src="../assets/img/icon-2.png" alt="">
                 <p>步骤2</p>
@@ -19,7 +19,7 @@
             </div>
             <p class="title">计算薪酬</p>
         </div>
-        <div class="step3">
+        <div class="step3" style="cursor:pointer" @click="jumpPage('3')">
             <div class="line1">
                 <img src="../assets/img/icon-3.png" alt="">
                 <p>步骤3</p>
@@ -29,7 +29,25 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+    methods:{
+        jumpPage(type){
+            if(type=='1'){
+                this.$router.push({
+					path: '/index/initialSheet',
+				});
+            }else if(type=='2'){
+                this.$router.push({
+					path: '/index/incomeTaxCalculate',
+				});
+            }else if(type=='3'){
+                this.$router.push({
+					path: '/index/reportForms',
+				});
+            }
+        }
+    }
+};
 </script>
 
 <style lang="less" scoped>

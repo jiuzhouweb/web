@@ -317,9 +317,185 @@
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisibleAdd = false">取 消</el-button>
-				<el-button type="primary" v-if="addFlag" @click="continueAdd">继续新增员工基础信息</el-button>
+				<el-button type="primary" v-if="addFlag" @click="continueAdd(item)">继续新增员工基础信息</el-button>
 				<el-button type="primary" v-if="addFlag" @click="save(item)">保存员工工资信息</el-button>
 				<el-button type="primary" v-if="!addFlag" @click="save(item)">确 定</el-button>
+			</span>
+		</el-dialog>
+
+		<el-dialog title="新增员工基础信息" :visible.sync="dialogVisibleBasicInfo" width="90%" class="dialogAdd">
+			<el-form :inline="true" :ref="itemBasicInfo" :model="itemBasicInfo" class="demo-form-inline" label-width="180px" size="small">
+				<el-form-item label="姓名">
+					<el-input v-model="itemBasicInfo.employeeName" placeholder="请输入姓名"></el-input>
+				</el-form-item>
+				<el-form-item label="证件类型">
+					<el-select v-model="itemBasicInfo.cardType" placeholder="请选择" clearable>
+						<el-option label="居民身份证" value="居民身份证"></el-option>
+						<el-option label="中国护照" value="中国护照"></el-option>
+						<el-option label="港澳居民来往内地通行证" value="港澳居民来往内地通行证"></el-option>
+						<el-option label="港澳居民居住证" value="港澳居民居住证"></el-option>
+						<el-option label="台湾居民来往大陆通行证" value="台湾居民来往大陆通行证"></el-option>
+						<el-option label="台湾居民居住证" value="台湾居民居住证"></el-option>
+						<el-option label="外国护照" value="外国护照"></el-option>
+						<el-option label="外国人永久居留身份证" value="外国人永久居留身份证"></el-option>
+						<el-option label="外国人工作许可证（A类）" value="外国人工作许可证（A类）"></el-option>
+						<el-option label="外国人工作许可证（B类）" value="外国人工作许可证（B类）"></el-option>
+						<el-option label="外国人工作许可证（C类）" value="外国人工作许可证（C类）"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="证件号码">
+					<el-input v-model="itemBasicInfo.cardNum" placeholder="请输入证件号码"></el-input>
+				</el-form-item>
+				<el-form-item label="国籍(地区)">
+					<el-input v-model="itemBasicInfo.areaName" placeholder="请输入国籍(地区)"></el-input>
+				</el-form-item>
+				<el-form-item label="性别">
+					<el-select v-model="itemBasicInfo.sex" placeholder="请选择" clearable>
+						<el-option label="男" value="1"></el-option>
+						<el-option label="女" value="0"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="出生日期">
+					<el-date-picker v-model="itemBasicInfo.birthDate" type="date" format="yyyy-MM-dd " value-format="yyyy-MM-dd"
+					 placeholder="请选择出生日期"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="人员状态">
+					<el-input v-model="itemBasicInfo.employeeStatus" placeholder="请输入人员状态"></el-input>
+				</el-form-item>
+				<el-form-item label="任职受雇从业类型">
+					<el-input v-model="itemBasicInfo.employeeType" placeholder="请输入任职受雇从业类型"></el-input>
+				</el-form-item>
+				<el-form-item label="手机号码">
+					<el-input v-model="itemBasicInfo.phoneNum" placeholder="请输入手机号码"></el-input>
+				</el-form-item>
+				<el-form-item label="任职受雇从业日期">
+					<el-date-picker v-model="itemBasicInfo.employeeDate" type="date" format="yyyy-MM-dd " value-format="yyyy-MM-dd"
+					 placeholder="请选择任职受雇从业日期"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="离职日期">
+					<el-date-picker v-model="itemBasicInfo.quitDate" type="date" format="yyyy-MM-dd " value-format="yyyy-MM-dd"
+					 placeholder="请选择离职日期"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="是否残疾">
+					<el-select v-model="itemBasicInfo.isDiasbility" placeholder="请选择" clearable>
+						<el-option label="是" value="1"></el-option>
+						<el-option label="否" value="0"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="是否烈属">
+					<el-select v-model="itemBasicInfo.isMartyr" placeholder="请选择" clearable>
+						<el-option label="是" value="1"></el-option>
+						<el-option label="否" value="0"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="是否孤老">
+					<el-select v-model="itemBasicInfo.isLonely" placeholder="请选择" clearable>
+						<el-option label="是" value="1"></el-option>
+						<el-option label="否" value="0"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="残疾证号">
+					<el-input v-model="itemBasicInfo.diasbilityNum" placeholder="请输入残疾证号"></el-input>
+				</el-form-item>
+				<el-form-item label="烈属证号">
+					<el-input v-model="itemBasicInfo.martyrNum" placeholder="请输入烈属证号"></el-input>
+				</el-form-item>
+				<el-form-item label="个人投资额">
+					<el-input v-model="itemBasicInfo.individualInvestment" placeholder="请输入个人投资额"></el-input>
+				</el-form-item>
+				<el-form-item label="个人投资比例(%)">
+					<el-input v-model="itemBasicInfo.individualInvestmentRatio" placeholder="请输入个人投资比例(%)"></el-input>
+				</el-form-item>
+				<el-form-item label="备注">
+					<el-input v-model="itemBasicInfo.remark" placeholder="请输入备注"></el-input>
+				</el-form-item>
+				<el-form-item label="是否境外人员">
+					<el-select v-model="itemBasicInfo.isOverseasPerson" placeholder="请选择" clearable>
+						<el-option label="是" value="1"></el-option>
+						<el-option label="否" value="0"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="中文名">
+					<el-input v-model="itemBasicInfo.chineseName" placeholder="请输入中文名"></el-input>
+				</el-form-item>
+				<el-form-item label="涉税事由">
+					<el-input v-model="itemBasicInfo.taxRelatedCauses" placeholder="请输入涉税事由"></el-input>
+				</el-form-item>
+				<el-form-item label="出生国家(地区)">
+					<el-input v-model="itemBasicInfo.birthCountry" placeholder="请输入出生国家(地区)"></el-input>
+				</el-form-item>
+				<el-form-item label="首次入境时间">
+					<el-date-picker v-model="itemBasicInfo.firstEntryCountryDate" type="date" format="yyyy-MM-dd " value-format="yyyy-MM-dd"
+					 placeholder="请选择首次入境时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="预计离境时间">
+					<el-date-picker v-model="itemBasicInfo.estimateDepartureCountryDate" type="date" format="yyyy-MM-dd " value-format="yyyy-MM-dd"
+					 placeholder="请选择预计离境时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="其他证照类型">
+					<el-input v-model="itemBasicInfo.otherCardType" placeholder="请输入其他证照类型"></el-input>
+				</el-form-item>
+				<el-form-item label="其他证照号码">
+					<el-input v-model="itemBasicInfo.otherCardNum" placeholder="请输入其他证照号码"></el-input>
+				</el-form-item>
+				<el-form-item label="户籍所在地（省）">
+					<el-input v-model="itemBasicInfo.censusRegisterProvince" placeholder="请输入户籍所在地（省）"></el-input>
+				</el-form-item>
+				<el-form-item label="户籍所在地（市）">
+					<el-input v-model="itemBasicInfo.censusRegisterCity" placeholder="请输入户籍所在地（市）"></el-input>
+				</el-form-item>
+				<el-form-item label="户籍所在地（区县）">
+					<el-input v-model="itemBasicInfo.censusRegisterCounty" placeholder="请输入户籍所在地（区县）"></el-input>
+				</el-form-item>
+				<el-form-item label="户籍所在地（详细地址）">
+					<el-input v-model="itemBasicInfo.censusRegisterDetail" placeholder="请输入户籍所在地（详细地址）"></el-input>
+				</el-form-item>
+				<el-form-item label="居住地址（省）">
+					<el-input v-model="itemBasicInfo.liveAddressProvince" placeholder="请输入居住地址（省）"></el-input>
+				</el-form-item>
+				<el-form-item label="居住地址（市）">
+					<el-input v-model="itemBasicInfo.liveAddressCity" placeholder="请输入居住地址（市）"></el-input>
+				</el-form-item>
+				<el-form-item label="居住地址（区县）">
+					<el-input v-model="itemBasicInfo.liveAddressCounty" placeholder="请输入居住地址（区县）"></el-input>
+				</el-form-item>
+				<el-form-item label="居住地址（详细地址）">
+					<el-input v-model="itemBasicInfo.liveAddressDetail" placeholder="请输入居住地址（详细地址）"></el-input>
+				</el-form-item>
+				<el-form-item label="联系地址（省）">
+					<el-input v-model="itemBasicInfo.contactAddressProvince" placeholder="请输入联系地址（省）"></el-input>
+				</el-form-item>
+				<el-form-item label="联系地址（市）">
+					<el-input v-model="itemBasicInfo.contactAddressCity" placeholder="请输入联系地址（市）"></el-input>
+				</el-form-item>
+				<el-form-item label="联系地址（区县）">
+					<el-input v-model="itemBasicInfo.contactAddressCounty" placeholder="请输入联系地址（区县）"></el-input>
+				</el-form-item>
+				<el-form-item label="联系地址（详细地址）">
+					<el-input v-model="itemBasicInfo.contactAddressDetail" placeholder="请输入联系地址（详细地址）"></el-input>
+				</el-form-item>
+				<el-form-item label="电子邮箱">
+					<el-input v-model="itemBasicInfo.email" placeholder="请输入电子邮箱"></el-input>
+				</el-form-item>
+				<el-form-item label="学历">
+					<el-input v-model="itemBasicInfo.education" placeholder="请输入学历"></el-input>
+				</el-form-item>
+				<el-form-item label="开户银行">
+					<el-input v-model="itemBasicInfo.bankDeposit" placeholder="请输入开户银行"></el-input>
+				</el-form-item>
+				<el-form-item label="银行账号">
+					<el-input v-model="itemBasicInfo.bankAccount" placeholder="请输入银行账号"></el-input>
+				</el-form-item>
+				<el-form-item label="职务">
+					<el-input v-model="itemBasicInfo.post" placeholder="请输入职务"></el-input>
+				</el-form-item>
+				<el-form-item label="婚姻状况">
+					<el-input v-model="itemBasicInfo.civilState" placeholder="请输入婚姻状况"></el-input>
+				</el-form-item>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="dialogVisibleBasicInfo = false">取 消</el-button>
+				<el-button type="primary" @click="dialogVisibleBasicInfo = false">确 定</el-button>
 			</span>
 		</el-dialog>
 
@@ -805,7 +981,55 @@
 				operateId: "",
 				customerList: [],
 				calcFlag: false,
-				tag: 3
+				tag: 3,
+				dialogVisibleBasicInfo:false,
+				itemBasicInfo:{
+					employeeCode:'',
+					employeeName:'',
+					cardType:'',
+					cardNum:'',
+					sex:'',
+					birthDate:'',
+					employeeStatus:'',
+					employeeType:'',
+					phoneNum:'',
+					employeeDate:'',
+					quitDate:'',
+					isDiasbility:'',
+					isMartyr:'',
+					isLonely:'',
+					diasbilityNum:'',
+					martyrNum:'',
+					individualInvestment:'',
+					individualInvestmentRatio:'',
+					remark:'',
+					isOverseasPerson:'',
+					chineseName:'',
+					taxRelatedCauses:'',
+					birthCountry:'',
+					firstEntryCountryDate:'',
+					estimateDepartureCountryDate:'',
+					otherCardType:'',
+					otherCardNum:'',
+					censusRegisterProvince:'',
+					censusRegisterCity:'',
+					censusRegisterCounty:'',
+					censusRegisterDetail:'',
+					liveAddressProvince:'',
+					liveAddressCity:'',
+					liveAddressCounty:'',
+					liveAddressDetail:'',
+					contactAddressProvince:'',
+					contactAddressCity:'',
+					contactAddressCounty:'',
+					contactAddressDetail:'',
+					email:'',
+					education:'',
+					bankDeposit:'',
+					bankAccount:'',
+					post:'',
+					civilState:'',
+				},
 			};
 		},
 		watch: {
@@ -1415,7 +1639,21 @@
 
 				});
 			},
-			continueAdd() {},
+			continueAdd(formName) {
+				this.$refs[formName].validate(valid => {
+					if (valid) {
+						this.dialogVisibleBasicInfo=true;
+						this.itemBasicInfo.employeeName=this.item.employeeName;
+						this.itemBasicInfo.cardType=this.item.cardType;
+						this.itemBasicInfo.cardNum=this.item.cardNum;
+						this.itemBasicInfo.email=this.item.email;
+					} else {
+						console.log("error submit!!");
+						return false;
+					}
+				});
+				
+			},
 			save(formName) {
 				this.$refs[formName].validate(valid => {
 					if (valid) {
