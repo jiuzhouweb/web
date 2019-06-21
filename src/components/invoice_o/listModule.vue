@@ -8,7 +8,7 @@
             <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
             <p v-if="item.invoiceId" class="bigTitle">税金：80000元</p>
             <p class="smallTitle" @click="showDetail(item)">详情</p>
-            <p class="smallTitle">删除</p>
+            <!-- <p class="smallTitle">删除</p> -->
           </div>
           <div v-if="!item.tmplId" class="line2">
             <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
@@ -796,7 +796,7 @@ export default {
         if (v.columnTitle == "是否是辅导期") {
           if(v.columnValue=='1'){
             v.columnValue='是'
-          }else if(v.columnValue=='0'){
+          }else if(v.columnValue=='2'){
             v.columnValue='否'
           }
         }
@@ -969,7 +969,7 @@ export default {
 }
 .line1 {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   padding: 0.15rem 0.2rem;
 }
