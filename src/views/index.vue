@@ -23,8 +23,8 @@
 				<el-aside width="220px">
 					<el-row class="tac">
 						<el-col>
-							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
-							 @close="handleClose">
+							<el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							 @open="handleOpen" @close="handleClose">
 								<el-submenu index="1">
 									<template slot="title">
 										<i class="el-icon-location"></i>
@@ -77,6 +77,11 @@
 										<el-menu-item index="/index/taxnotice">税款通知配置</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
+							</el-menu>
+							<!-- <el-menu v-if='menu.indexOf("易点个税") >= 0'  router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" -->
+							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+
+							 @close="handleClose">
 								<el-menu-item index="/index/incomeTaxCalculate">
 									<i class="el-icon-menu"></i>
 									<span slot="title">个税计算</span>
@@ -107,7 +112,7 @@
 						<keep-alive>
 							<router-view></router-view>
 						</keep-alive>
-						
+
 					</el-main>
 					<el-footer height='44px'>
 						技术支持：南京九洲会计咨询有限公司
@@ -148,9 +153,9 @@
 
 	.tac.el-row,
 	.el-col,
-	.el-menu {
-		height: 100%;
-	}
+	// .el-menu {
+	// 	height: 100%;
+	// }
 
 	.el-main {
 		padding: 0px;
@@ -209,7 +214,9 @@
 	export default {
 		data() {
 			return {
-				userName: '15651965271'
+				userName: '15651965271',
+				userId: "",
+				menu: []
 			}
 		},
 		methods: {
@@ -224,8 +231,31 @@
 					.then(res => {
 						if (res.data.code == 200) {
 							this.userName = res.data.user.phone;
+							this.userId = res.data.user.operatorId;
+							// this.menuList = res.data.user.menuList;
+							// this.menuList.forEach((item, index) => {
+							// 	this.menu.push(item.productName);
+							// })
+							// console.log('shuiwu',this.menu.indexOf('税务平台'));
+							// console.log('geshui',this.menu.indexOf('易点个税'));
+							// alert(res.data.user.phone);
 							this.$store.commit('updateUser', res.data.user);
-							console.log(res.data);
+							// this.axios.get('/perTaxToolTwo/api/user/getCustList.do?userId=' + this.userId)
+							// 	.then(resp => {
+							// 		if (resp.data.code == 200) {
+							// 		} else {
+							// 			this.$message({
+							// 				message: resp.data.msg,
+							// 				type: 'error'
+							// 			});
+							// 		}
+							// 
+							// 	}).catch(function(err) {
+							// 		this.$message({
+							// 			message: '获取客户信息失败',
+							// 			type: 'error'
+							// 		});
+							// 	})
 						} else {
 							this.$message({
 								message: res.data.msg,
@@ -235,14 +265,14 @@
 
 					}).catch(function(err) {
 						this.$message({
-							message: '删除失败',
+							message: '获取用户信息失败',
 							type: 'error'
 						});
 					})
 			}
 		},
 		created() {
-			// this.queryUser()
+			this.queryUser()
 		}
 	}
 </script>

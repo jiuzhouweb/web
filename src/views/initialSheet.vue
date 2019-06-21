@@ -275,7 +275,10 @@
 		created() {
 
 			this.customerList = this.$store.state.user.customerinfoList;
-			console.log(this.customerList);
+			// console.log(this.customerList);
+		},
+		updated() {
+			console.log(this.$store.state.user.customerinfoList);
 		}
 	}
 </script>

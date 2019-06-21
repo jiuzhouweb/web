@@ -25,7 +25,7 @@ Vue.use(Router)
 export default new Router({
 	routes: [{
 			path: '/',
-			redirect: '/index/customer'
+			redirect: '/index/incomeTaxCalculate'
 		},
 		{
 			path: '/login',
@@ -150,7 +150,7 @@ export default new Router({
 		},
 		{
 			path: '*',
-			redirect: '/index/customer'
+			redirect: '/index/incomeTaxCalculate'
 		}
 		// {
 		//   path: '/about',
