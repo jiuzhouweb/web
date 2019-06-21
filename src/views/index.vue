@@ -1,7 +1,7 @@
 <template>
 	<div class='home'>
 		<el-container>
-			<el-header class='header' height='88px'>
+			<el-header class='header' height='0.88rem'>
 				<h1 class='left'>财务系统</h1>
 				<div class='pr20 mt34 right'>
 					<i class="el-icon-bell"></i>
@@ -20,7 +20,7 @@
 				</div>
 			</el-header>
 			<el-container>
-				<el-aside width="220px">
+				<el-aside width="2.2rem">
 					<el-row class="tac">
 						<el-col>
 							<el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
@@ -114,7 +114,7 @@
 						</keep-alive>
 
 					</el-main>
-					<el-footer height='44px'>
+					<el-footer height='0.44rem'>
 						技术支持：南京九洲会计咨询有限公司
 					</el-footer>
 				</el-container>
@@ -153,55 +153,55 @@
 
 	.tac.el-row,
 	.el-col,
-	// .el-menu {
-	// 	height: 100%;
-	// }
+	.el-menu {
+		height: 100%;
+	}
 
 	.el-main {
-		padding: 0px;
+		padding: 0rem;
 	}
 
 	.el-header {
 		background-color: #fff;
-		padding: 0px;
+		padding: 0rem;
 
 		i {
-			font-size: 20px;
-			margin-left: 10px
+			font-size: 0.20rem;
+			margin-left: 0.10rem
 		}
 
 	}
 
 	.el-footer {
-		line-height: 44px;
+		line-height: 0.44rem;
 		background-color: #fff;
 		text-align: center
 	}
 
 	h1 {
 		height: 100%;
-		line-height: 88px;
-		width: 134px;
-		background: url("../assets/img/logo.png") @bgcolor no-repeat 24px center;
-		font-size: 26px;
+		line-height: 0.88rem;
+		width: 1.34rem;
+		background: url("../assets/img/logo.png") @bgcolor no-repeat 0.24rem center;
+		font-size: 0.26rem;
 		color: @hcolor;
-		padding-left: 86px;
+		padding-left: 0.86rem;
 	}
 
 	/*滚动条样式*/
 	::-webkit-scrollbar {
-		width: 4px;
-		/*height: 4px;*/
+		width: 0.04rem;
+		/*height: 4rem;*/
 	}
 
 	::-webkit-scrollbar-thumb {
-		border-radius: 10px;
-		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+		border-radius: 0.10rem;
+		-webkit-box-shadow: inset 0 0 0.05rem rgba(0, 0, 0, 0.2);
 		background: rgba(0, 0, 0, 0.2);
 	}
 
 	::-webkit-scrollbar-track {
-		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+		-webkit-box-shadow: inset 0 0 0.05rem rgba(0, 0, 0, 0.2);
 		border-radius: 0;
 		background: rgba(0, 0, 0, 0.1);
 
