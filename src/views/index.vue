@@ -15,92 +15,95 @@
 							<el-dropdown-item>{{userName}}</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
-					
+
 					<i class="el-icon-setting"></i>
 				</div>
 			</el-header>
 			<el-container>
 				<el-aside width="220px">
-					<el-row class="tac">
-						<el-col>
-							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
-							 @close="handleClose">
-								<el-submenu index="1">
-									<template slot="title">
-										<i class="el-icon-location"></i>
-										<span>收账处理</span>
-									</template>
-									<el-menu-item-group>
-										<el-menu-item index="/index/customer">客户查询</el-menu-item>
-										<el-menu-item index="/index/invoice_o">发票录入</el-menu-item>
-										<el-menu-item index="/index/analysis">情况统计</el-menu-item>
-									</el-menu-item-group>
-								</el-submenu>
-								<el-submenu index="2">
-									<template slot="title">
-										<i class="el-icon-location"></i>
-										<span>税务处理</span>
-									</template>
-									<el-menu-item-group>
-										<el-menu-item index="/index/invoice_t">发票录入</el-menu-item>
-										<el-menu-item index="/index/audit">审核</el-menu-item>
-									</el-menu-item-group>
-								</el-submenu>
-								<el-menu-item index="/index/notice">
-									<i class="el-icon-menu"></i>
-									<span slot="title">税款通知</span>
-								</el-menu-item>
-								<el-menu-item index="/index/declare">
-									<i class="el-icon-menu"></i>
-									<span slot="title">申报处理</span>
-								</el-menu-item>
-								<el-submenu index="5">
-									<template slot="title">
-										<i class="el-icon-location"></i>
-										<span>历史查询</span>
-									</template>
-									<el-menu-item-group>
-										<el-menu-item index="/index/progress">做账进度查询</el-menu-item>
-										<el-menu-item index="/index/statistics">统计查询</el-menu-item>
-									</el-menu-item-group>
-								</el-submenu>
-								<el-submenu index="6">
-									<template slot="title">
-										<i class="el-icon-location"></i>
-										<span>系统配置</span>
-									</template>
-									<el-menu-item-group>
-										<el-menu-item index="/index/formula">税务公式配置</el-menu-item>
-										<el-menu-item index="/index/template">发票模版配置</el-menu-item>
-										<el-menu-item index="/index/rate">税率配置</el-menu-item>
-										<el-menu-item index="/index/dictionary">字典表配置</el-menu-item>
-										<el-menu-item index="/index/taxnotice">税款通知配置</el-menu-item>
-									</el-menu-item-group>
-								</el-submenu>
-								<el-menu-item index="/index/incomeTaxCalculate">
-									<i class="el-icon-menu"></i>
-									<span slot="title">个税计算</span>
-								</el-menu-item>
-								<el-menu-item index="/index/initialSheet">
-									<i class="el-icon-menu"></i>
-									<span slot="title">初始导入</span>
-								</el-menu-item>
-								<el-menu-item index="/index/paySheet">
-									<i class="el-icon-menu"></i>
-									<span slot="title">工资表导入</span>
-								</el-menu-item>
+					<!-- <el-row class="tac">
+						<el-col> -->
+					<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+					 @close="handleClose">
+						<el-submenu index="1">
+							<template slot="title">
+								<i class="el-icon-location"></i>
+								<span>收账处理</span>
+							</template>
+							<el-menu-item-group>
+								<el-menu-item index="/index/customer">客户查询</el-menu-item>
+								<el-menu-item index="/index/invoice_o">发票录入</el-menu-item>
+								<el-menu-item index="/index/analysis">情况统计</el-menu-item>
+							</el-menu-item-group>
+						</el-submenu>
+						<el-submenu index="2">
+							<template slot="title">
+								<i class="el-icon-location"></i>
+								<span>税务处理</span>
+							</template>
+							<el-menu-item-group>
+								<el-menu-item index="/index/invoice_t">发票录入</el-menu-item>
+								<el-menu-item index="/index/audit">审核</el-menu-item>
+							</el-menu-item-group>
+						</el-submenu>
+						<el-menu-item index="/index/notice">
+							<i class="el-icon-menu"></i>
+							<span slot="title">税款通知</span>
+						</el-menu-item>
+						<el-menu-item index="/index/declare">
+							<i class="el-icon-menu"></i>
+							<span slot="title">申报处理</span>
+						</el-menu-item>
+						<el-submenu index="5">
+							<template slot="title">
+								<i class="el-icon-location"></i>
+								<span>历史查询</span>
+							</template>
+							<el-menu-item-group>
+								<el-menu-item index="/index/progress">做账进度查询</el-menu-item>
+								<el-menu-item index="/index/statistics">统计查询</el-menu-item>
+							</el-menu-item-group>
+						</el-submenu>
+						<el-submenu index="6">
+							<template slot="title">
+								<i class="el-icon-location"></i>
+								<span>系统配置</span>
+							</template>
+							<el-menu-item-group>
+								<el-menu-item index="/index/formula">税务公式配置</el-menu-item>
+								<el-menu-item index="/index/template">发票模版配置</el-menu-item>
+								<el-menu-item index="/index/rate">税率配置</el-menu-item>
+								<el-menu-item index="/index/dictionary">字典表配置</el-menu-item>
+								<el-menu-item index="/index/taxnotice">税款通知配置</el-menu-item>
+							</el-menu-item-group>
+						</el-submenu>
+						<el-menu-item index="/index/incomeTaxCalculate">
+							<i class="el-icon-menu"></i>
+							<span slot="title">个税计算</span>
+						</el-menu-item>
+						<el-menu-item index="/index/initialSheet">
+							<i class="el-icon-menu"></i>
+							<span slot="title">初始导入</span>
+						</el-menu-item>
+						<el-menu-item index="/index/paySheet">
+							<i class="el-icon-menu"></i>
+							<span slot="title">工资表导入</span>
+						</el-menu-item>
 
-								<el-menu-item index="/index/reportForms">
-									<i class="el-icon-menu"></i>
-									<span slot="title">报表查看</span>
-								</el-menu-item>
-							</el-menu>
-						</el-col>
-					</el-row>
+						<el-menu-item index="/index/reportForms">
+							<i class="el-icon-menu"></i>
+							<span slot="title">报表查看</span>
+						</el-menu-item>
+					</el-menu>
+					<!-- </el-col>
+					</el-row> -->
 				</el-aside>
 				<el-container>
 					<el-main>
-						<router-view></router-view>
+						<keep-alive>
+							<router-view></router-view>
+						</keep-alive>
+						
 					</el-main>
 					<el-footer height='44px'>
 						技术支持：南京九洲会计咨询有限公司
@@ -133,6 +136,10 @@
 
 	.el-menu {
 		border: none
+	}
+
+	.el-aside {
+		background: #fff
 	}
 
 	.tac.el-row,
@@ -172,14 +179,33 @@
 		padding-left: 86px;
 	}
 
+	/*滚动条样式*/
+	::-webkit-scrollbar {
+		width: 4px;
+		/*height: 4px;*/
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+		background: rgba(0, 0, 0, 0.2);
+	}
+
+	::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+		border-radius: 0;
+		background: rgba(0, 0, 0, 0.1);
+
+	}
+
 	//
 </style>
 <script>
 	import axios from 'axios'
 	export default {
-		data(){
+		data() {
 			return {
-				userName:'15651965271'
+				userName: '15651965271'
 			}
 		},
 		methods: {
@@ -189,12 +215,12 @@
 			handleClose(key, keyPath) {
 				console.log(key, keyPath);
 			},
-			queryUser(){
+			queryUser() {
 				this.axios.get('/perTaxToolTwo/api/user/getLoginUserInfo.do')
 					.then(res => {
 						if (res.data.code == 200) {
-							this.userName =  res.data.user.phone;
-							this.$store.commit('updateUser',res.data.user);
+							this.userName = res.data.user.phone;
+							this.$store.commit('updateUser', res.data.user);
 							console.log(res.data);
 						} else {
 							this.$message({
@@ -202,7 +228,7 @@
 								type: 'error'
 							});
 						}
-				
+
 					}).catch(function(err) {
 						this.$message({
 							message: '删除失败',

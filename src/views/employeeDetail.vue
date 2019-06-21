@@ -7,11 +7,11 @@
 		<div class='search_contain'>
 
 			<div>
-				<el-form :inline="true" class="demo-form-inline">
+				<el-form :inline="true" class="demo-form-inline" size="small">
 					<el-form-item label="姓名">
 						<el-input placeholder="请输入姓名" v-model="input" clearable></el-input>
 					</el-form-item>
-					<el-button type="primary" icon="el-icon-search" @click='setName'>搜索</el-button>
+					<el-button type="primary" icon="el-icon-search" @click='setName' size="small">搜索</el-button>
 				</el-form>
 			</div>
 		</div>
@@ -131,7 +131,8 @@
 			</el-pagination>
 		</div>
 		<el-dialog title="编辑" :visible.sync="dialogVisible" width="90%" :before-close="handleClose">
-			<el-form :inline="true" :model="item" class="demo-form-inline" label-width="180px" :rules='rules'  ref="ruleForm">
+			<el-form :inline="true" :model="item" class="demo-form-inline" label-width="180px" :rules='rules' ref="ruleForm"
+			 size="small">
 				<el-form-item label="工号" prop="employeeCode">
 					<el-input v-model="item.employeeCode" placeholder="请输入"></el-input>
 				</el-form-item>
@@ -410,10 +411,10 @@
 				this.dialogVisible = true;
 			},
 			editCommit(formName) {
-				console.log('item222',this.item);
+				console.log('item222', this.item);
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
-						console.log('item',this.item);
+						console.log('item', this.item);
 						let params = this.item;
 						this.axios.post('/perTaxToolTwo/initialMonCom/saveCompanyEmployee', params)
 							.then(res => {
@@ -421,7 +422,7 @@
 								if (res.data.code == 200) {
 									this.currentPage = 1;
 									this.queryEmployeePage();
-						
+
 									this.$message({
 										type: 'success',
 										message: '编辑成功!'
@@ -432,7 +433,7 @@
 										type: 'error'
 									});
 								}
-						
+
 							}).catch(function(err) {
 								this.dialogVisible = false;
 								this.$message({
@@ -445,7 +446,7 @@
 						return false;
 					}
 				});
-				
+
 			},
 
 			del(row) {
@@ -576,6 +577,21 @@
 
 		/deep/ .el-table td {
 			padding: 6px 0;
+		}
+
+		.el-dialog .el-form {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			flex-wrap: wrap
+		}
+
+		/deep/ .el-form-item__content {
+			width: 180px;
+		}
+
+		/deep/ .el-date-editor.el-input {
+			width: 180px;
 		}
 
 		.el-page-header {

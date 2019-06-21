@@ -34,7 +34,7 @@
 
 	.left_contain {
 		width: 1180px;
-		background: pink;
+		/* background: pink; */
 		float: left;
 		height: 100%;
 	}

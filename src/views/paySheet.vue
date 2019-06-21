@@ -18,7 +18,8 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable>
-							<el-option v-for="(item,index) in customerList" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
+							<el-option v-for="(item,index) in $store.state.user.customerinfoList" :key="index" :label="item.customerName"
+							 :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="证件号导入">
@@ -41,10 +42,11 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<el-select v-model="customerId" placeholder="请选择公司名称" clearable>
-							<el-option v-for="(item,index) in customerList" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
+							<el-option v-for="(item,index) in $store.state.user.customerinfoList" :key="index" :label="item.customerName"
+							 :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
-					
+
 					<el-form-item label="状态">
 						<el-select v-model="statusVaule" placeholder="请选择状态" clearable>
 							<el-option label="已提交" value="1"></el-option>
@@ -138,8 +140,8 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '1')})"
-			 :current-page="currentPage1" :page-size="pageSize1" layout="total, prev, pager, next, jumper" :total="total1">
+			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '1')})" :current-page="currentPage1"
+			 :page-size="pageSize1" layout="total, prev, pager, next, jumper" :total="total1">
 			</el-pagination>
 		</div>
 
@@ -147,7 +149,7 @@
 			<span class="title">累计工资薪金汇算表【不包括劳务报酬、稿酬及其他非工资薪金，如需查看请点击</span><span @click="goReportForms" class="title reportFrom">报表查看</span><span
 			 class="title"> 】</span>
 			<div>
-				<el-button type="primary" @click='submitAll' v-if="calcFlag">提交</el-button>
+				<el-button type="primary" @click='submitAll' v-if="calcFlag" size="small">提交</el-button>
 			</div>
 			<el-table :data="tableData2" style="width: 100%;" stripe>
 				<el-table-column label="序号" type='index' width="50" :resizable="false"></el-table-column>
@@ -169,8 +171,8 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '2')})"
-			 :current-page="currentPage2" :page-size="pageSize2" layout="total, prev, pager, next, jumper" :total="total2">
+			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '2')})" :current-page="currentPage2"
+			 :page-size="pageSize2" layout="total, prev, pager, next, jumper" :total="total2">
 			</el-pagination>
 		</div>
 
@@ -187,8 +189,8 @@
 				<el-table-column label="已缴税额" prop="prepaidTax" :resizable="false"></el-table-column>
 				<el-table-column label="应补（退）税额" prop="taxation" :resizable="false"></el-table-column>
 			</el-table>
-			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '3')})"
-			 :current-page="currentPage3" :page-size="pageSize3" layout="total, prev, pager, next, jumper" :total="total3">
+			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '3')})" :current-page="currentPage3"
+			 :page-size="pageSize3" layout="total, prev, pager, next, jumper" :total="total3">
 			</el-pagination>
 		</div>
 		<div v-if="tableData3.length==0" class="tips">
@@ -196,7 +198,7 @@
 		</div>
 
 		<el-dialog :title="addFlag?'新增':'编辑'" :visible.sync="dialogVisibleAdd" width="90%" class="dialogAdd">
-			<el-form :inline="true" :ref="item" :model="item" class="demo-form-inline" label-width="180px" :rules='rules'>
+			<el-form :inline="true" :ref="item" :model="item" class="demo-form-inline" label-width="180px" :rules='rules' size="small">
 				<el-form-item label="姓名" prop="employeeName">
 					<el-input v-model="item.employeeName" placeholder="请输入姓名"></el-input>
 				</el-form-item>
@@ -322,7 +324,8 @@
 		</el-dialog>
 
 		<el-dialog title="月度工资表详细" :visible.sync="dialogVisibleDetail" width="50%" style="margin-top:15vh">
-			<el-tabs v-model="activeName" @tab-click="handleClick">
+			<!-- <el-tabs v-model="activeName" @tab-click="handleClick"> -->
+			<el-tabs v-model="activeName">
 				<el-tab-pane :label="item.title" :name="item.name" v-for="(item,index) in tableTabs" :key="index">
 					<el-table :data="tableDataDetail" border style="width: 100%">
 						<el-table-column label="月份" prop="accountPeriod"></el-table-column>
@@ -360,9 +363,22 @@
 				<el-table-column label="分开核算个税" prop="sepTaxation" width="120" :resizable="false"></el-table-column>
 				<el-table-column label="合并核算个税" prop="comTaxation" width="120" :resizable="false"></el-table-column>
 				<el-table-column label="推荐方案" prop="suggestType" width="120" :resizable="false"></el-table-column>
-				<el-table-column label="操作" :resizable="false">
+				<el-table-column :resizable="false">
+					<template slot="header" slot-scope="scope">
+						<el-dropdown @command="handleCommand">
+							<span class="el-dropdown-link">
+								操作<i class="el-icon-arrow-down el-icon--right"></i>
+							</span>
+							<el-dropdown-menu slot="dropdown">
+								<el-dropdown-item command="分开核算">全部分开核算</el-dropdown-item>
+								<el-dropdown-item command="合并核算">全部合并核算</el-dropdown-item>
+								<el-dropdown-item command="推荐核算">全部推荐核算</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
+						<el-button size='mini' type='primary' @click="saveCalc()">保存年终筹划</el-button>
+					</template>
 					<template slot-scope="scope">
-						<el-radio-group v-model="scope.row.radio" size="small">
+						<el-radio-group v-model="scope.row.radio" size="small" @change='setIsAll'>
 							<el-radio-button label="分开核算"></el-radio-button>
 							<el-radio-button label="合并核算"></el-radio-button>
 							<el-radio-button label="推荐核算"></el-radio-button>
@@ -370,8 +386,8 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
-			 :current-page="currentPage4" :page-size="pageSize4" layout="total, prev, pager, next" :total="total4">
+			<el-pagination background style="margin-top:10px;text-align: right;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
+			 :current-page="currentPage4" :page-size="pageSize4" layout="total, prev, pager, next,jumper" :total="total4">
 			</el-pagination>
 		</el-dialog>
 
@@ -391,6 +407,7 @@
 </template>
 
 <script>
+	// import qs from	'qs'
 	export default {
 		name: "paySheet",
 		data() {
@@ -787,7 +804,8 @@
 				addFlag: false,
 				operateId: "",
 				customerList: [],
-				calcFlag: false
+				calcFlag: false,
+				tag: 3
 			};
 		},
 		watch: {
@@ -960,12 +978,12 @@
 					});
 			},
 			// /perTaxToolTwo/monAcct/queryChoosePage
-			getTableData4() {
+			getTableData4(operateId) {
 				let params = {
 					row: this.pageSize4,
 					page: this.pageNum4,
 					data: {
-						operateId: this.operateId
+						operateId: operateId
 					}
 				};
 				this.axios
@@ -1250,16 +1268,22 @@
 					type: "warning"
 				}).then(() => {
 					// 先调取计算接口 /perTaxToolTwo/monAcct/CalculatorSingleCompany
-					let params = {};
+					let params = {
+						operateId: this.operateId
+					};
 					this.axios
-						.post("/perTaxToolTwo/monAcct/CalculatorSingleCompany", params)
+						.post("/perTaxToolTwo/monAcct/CalculatorSingleCompany", this.qs.stringify(params), {
+							headers: {
+								'Content-Type': 'application/x-www-form-urlencoded'
+							}
+						})
 						.then(res => {
 							if (res.data.code == 200) {
 								if (res.data.data.length > 0) {
 									this.dialogVisibleCalc = true;
 									// 再获取弹出层表格的数据
 									this.pageNum4 = '1';
-									this.getTableData4();
+									this.getTableData4(res.data.data[0].operateId);
 								}
 							} else {
 								this.$message({
@@ -1276,11 +1300,11 @@
 						});
 				});
 			},
-			saveCalc(type) {
+			saveCalc() {
 				console.log(this.tableData4);
 				let params = {};
 				let confirmInfo;
-				if (type == "1") {
+				if (this.tag == 0) {
 					let paramArr = [];
 					this.tableData4.forEach(item => {
 						var obj = {};
@@ -1297,15 +1321,15 @@
 					});
 					params = [paramArr];
 					confirmInfo = "您确定要保存年终筹划吗？";
-				} else if (type == "2") {
+				} else if (this.tag == 1) {
 					params.type = "1";
 					params.operateId = this.operateId;
 					confirmInfo = "您确定要年终筹划全是【分开核算】吗？";
-				} else if (type == "3") {
+				} else if (this.tag == 2) {
 					params.type = "2";
 					params.operateId = this.operateId;
 					confirmInfo = "您确定要年终筹划全是【合并核算】吗？";
-				} else if (type == "4") {
+				} else if (this.tag == 3) {
 					params.type = "3";
 					params.operateId = this.operateId;
 					confirmInfo = "您确定要年终筹划全是【推荐核算】吗？";
@@ -1319,37 +1343,76 @@
 					type: "warning"
 				}).then(() => {
 					// /perTaxToolTwo/monAcct/chooseCalcTypeList
-					this.axios
-						.post("/perTaxToolTwo/monAcct/chooseCalcTypeList", params)
-						.then(res => {
-							if (res.data.code == 200) {
-								if (res.data.data.length > 0) {
-									this.dialogVisibleCalc = true;
-									// 再获取弹出层表格的数据
-									this.pageNum4 = '1';
-									this.getTableData4();
+					if (this.tag == 0) {
+						this.axios
+							.post("/perTaxToolTwo/monAcct/chooseCalcTypeList", params)
+							.then(res => {
+								if (res.data.code == 200) {
+									if (res.data.data.length > 0) {
+										this.dialogVisibleCalc = true;
+										// 再获取弹出层表格的数据
+										this.pageNum4 = '1';
+										this.getTableData4();
+									} else {
+										this.dialogVisibleCalc = false;
+										this.pageNum1 = '1';
+										this.getTableData1();
+										this.pageNum2 = '1';
+										this.getTableData2();
+										this.pageNum3 = '1';
+										this.getTableData3();
+									}
 								} else {
-									this.dialogVisibleCalc = false;
-									this.pageNum1 = '1';
-									this.getTableData1();
-									this.pageNum2 = '1';
-									this.getTableData2();
-									this.pageNum3 = '1';
-									this.getTableData3();
+									this.$message({
+										message: res.data.msg,
+										type: "error"
+									});
 								}
-							} else {
+							})
+							.catch(function(err) {
 								this.$message({
-									message: res.data.msg,
+									message: "保存失败",
 									type: "error"
 								});
-							}
-						})
-						.catch(function(err) {
-							this.$message({
-								message: "保存失败",
-								type: "error"
 							});
-						});
+					} else {
+						this.axios
+							.post("/perTaxToolTwo/monAcct/chooseCalcTypeListAll", this.qs.stringify(params), {
+								headers: {
+									'Content-Type': 'application/x-www-form-urlencoded'
+								}
+							})
+							.then(res => {
+								if (res.data.code == 200) {
+									if (res.data.data.length > 0) {
+										this.dialogVisibleCalc = true;
+										// 再获取弹出层表格的数据
+										this.pageNum4 = '1';
+										this.getTableData4();
+									} else {
+										this.dialogVisibleCalc = false;
+										this.pageNum1 = '1';
+										this.getTableData1();
+										this.pageNum2 = '1';
+										this.getTableData2();
+										this.pageNum3 = '1';
+										this.getTableData3();
+									}
+								} else {
+									this.$message({
+										message: res.data.msg,
+										type: "error"
+									});
+								}
+							})
+							.catch(function(err) {
+								this.$message({
+									message: "保存失败",
+									type: "error"
+								});
+							});
+					}
+
 				});
 			},
 			continueAdd() {},
@@ -1379,6 +1442,7 @@
 					.post("/perTaxToolTwo/Employee/addOrEditTaxEmployee", params)
 					.then(res => {
 						if (res.data.code == 200) {
+							this.dialogVisibleAdd = false;
 							this.pageNum1 = '1';
 							this.getTableData1();
 							this.pageNum2 = '1';
@@ -1390,6 +1454,7 @@
 								message: res.data.msg
 							});
 						} else {
+							// this.dialogVisibleAdd = false;
 							this.$message({
 								message: res.data.msg,
 								type: "error"
@@ -1397,6 +1462,7 @@
 						}
 					})
 					.catch(function(err) {
+						this.dialogVisibleAdd = false;
 						this.$message({
 							message: "新增失败",
 							type: "error"
@@ -1418,7 +1484,11 @@
 					type: "warning"
 				}).then(() => {
 					this.axios
-						.post("/perTaxToolTwo/api/user/import/subExcel.do", params)
+						.post("/perTaxToolTwo/api/user/import/subExcel.do", this.qs.stringify(params), {
+							headers: {
+								'Content-Type': 'application/x-www-form-urlencoded'
+							}
+						})
 						.then(res => {
 							if (res.data.code == 200) {
 								this.statusVaule = "0";
@@ -1447,10 +1517,39 @@
 							});
 						});
 				});
+
+			},
+			setIsAll() {
+				this.tag = 0;
+				console.log("tag", this.tag)
+			},
+			handleCommand(command) {
+				switch (command) {
+					case '分开核算':
+						this.tag = 1;
+						break;
+					case '合并核算':
+						this.tag = 2;
+						break;
+					case '推荐核算':
+						this.tag = 3;
+						break;
+					default:
+						break;
+				}
+				this.tableData4.forEach((item, index) => {
+					item.radio = command;
+				})
+				console.log("tagaaaa", this.tag)
 			}
 		},
 		computed: {},
 		created() {
+			// alert(this.qs.stringify({
+			// 		confirmButtonText: "确定",
+			// 		cancelButtonText: "取消",
+			// 		type: "warning"
+			// 	}))
 			this.customerList = this.$store.state.user.customerinfoList;
 			console.log(this.customerList);
 			// this.getNowMonth();

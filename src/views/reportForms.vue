@@ -6,7 +6,7 @@
 				<div class="row1">
 					<span class="labelTitle">公司：</span>
 					<el-select v-model="searchList.value" placeholder="请选择" size="small">
-						<el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+						<el-option v-for="item in $store.state.user.customerinfoList" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 						</el-option>
 					</el-select>
 				</div>
@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<div class="content">
-			<el-button type="primary" icon="el-icon-success" size="small">一键导出</el-button>
+			<el-button type="primary" icon="el-icon-success" size="small" @click='exportExcel'>一键导出</el-button>
 			<div class="tableBox">
 				<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 					<el-tab-pane :label="item.title" :name="item.name" v-for="(item,index) in tableTabs" :key="index">
@@ -425,6 +425,9 @@
 			clear() {
 				this.searchList.statusVaule = '1';
 				this.searchList.nowDate = ''
+			},
+			exportExcel(){
+				window.location.href = "/perTaxToolTwo/api/excel/exportExcel.do?customerId=" + this.customerId + "&accountPeriod=" + this.accountPeriod + "&submitStatus=" + this.statusVaule;
 			}
 		}
 	};

@@ -10,7 +10,9 @@ import store from './store'
 // import echarts from 'echarts'
 // Vue.prototype.$echarts = echarts 
 import axios from 'axios'
+import qs from 'qs'
 Vue.prototype.axios = axios;
+Vue.prototype.qs = qs;
 Vue.prototype.xlsx = xlsx;
 import regExpUtil from './utils/regExp.js'
 Vue.prototype.regExpUtil = regExpUtil;
