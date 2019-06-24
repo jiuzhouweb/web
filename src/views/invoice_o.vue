@@ -98,56 +98,8 @@
       listModule
     },
     mounted() {
-      // this.getTaxInfo();
-      // this.findAutoConfigTemplate();
     },
     methods: {
-      // 获取收账税款id
-      getTaxInfo() {
-        let params = {
-          accountPeriod: "2019-05", //账期
-          customerId: 1, //客户Id
-          stepName: "发票录入" //步骤名称
-        };
-        let taxation_id, tax_info_id;
-        axios
-          .post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
-          .then(res => {
-            console.log("获取收账信息Id和税款信息id", res);
-            if (res.data.code == 200) {
-              this.taxationId = res.data.data.taxation_id;
-              this.taxInfoId = res.data.data.tax_info_id;
-            }
-          }).catch((err) => {
-            this.$message({
-              message: '获取收账信息Id和税款信息id数据失败',
-              type: 'error'
-            });
-          });
-      },
-      // 自动加载模板
-      findAutoConfigTemplate() {
-        let params = {
-          accountPeriod: "2019-05", //账期
-          customerId: 1, //客户Id
-          stepName: "发票录入" //步骤名称
-        };
-        let taxation_id, tax_info_id;
-        axios
-          .post("/api/perTaxToolTwo/e9z/configTemplate/findAutoConfigTemplate?tmplType="+0)
-          .then(res => {
-            console.log("自动加载模块", res);
-            if (res.data.code == 200) {
-              this.invoicePanelList=res.data.data;
-              console.log('invoicePanelList',this.invoicePanelList)
-            }
-          }).catch((err) => {
-            this.$message({
-              message: '自动加载模块失败',
-              type: 'error'
-            });
-          });
-      },
       //获取列表数据
       getInvoiceLeaveShowList(params) {
         this.taxationId = params.taxationId;
@@ -373,7 +325,7 @@
 
 <style lang="less" scoped>
   .main_contain {
-    height: calc(100% - 0.44em);
+    height: calc(100% - 0.4rem);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

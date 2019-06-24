@@ -71,16 +71,16 @@
 						<el-input v-model='formInline.formula' ref='inp' disabled></el-input>
 						<el-button type='warning' :disabled='canCommit' @click='resetFormula'>清空</el-button>
 					</el-form-item>
-					<el-form-item style='margin-bottom: 10px;' v-if="formInline.e9z && formInline.tmplShowType == '0' || formInline.columnTitle && formInline.tmplShowType == '1'">
+					<el-form-item style='margin-bottom: 0.10rem;' v-if="formInline.e9z && formInline.tmplShowType == '0' || formInline.columnTitle && formInline.tmplShowType == '1'">
 						<div>
-							<el-button style='margin-left: 0px;margin-right: 10px;' type='mini' v-for='item in cal' @click='createFormula(item.dicName)'>{{item.dicName}}</el-button>
+							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in cal' @click='createFormula(item.dicName)'>{{item.dicName}}</el-button>
 						</div>
 
 					</el-form-item>
 
 					<el-form-item v-if="formInline.e9z && formInline.tmplShowType == '0' || formInline.columnTitle && formInline.tmplShowType == '1'">
 						<div>
-							<el-button style='margin-left: 0px;margin-right: 10px;' type='mini' v-for='item in formulaTitleList' @click='createFormula(item.column_title)'>{{item.column_title}}</el-button>
+							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in formulaTitleList' @click='createFormula(item.column_title)'>{{item.column_title}}</el-button>
 
 						</div>
 
@@ -125,22 +125,22 @@
 							<el-option label="其他模板" value="1"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="计税方法:" v-show="searchTmplShowType == '0'">
+					<el-form-item label="计税方法:" v-if="searchTmplShowType == '0'">
 						<el-select clearable v-model="searchTaxCalcType">
 							<el-option v-for='item in taxCalcTypeList' :label="item.dicName" :value="item.dicValue"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="发票类型:" v-show="searchTmplShowType == '0'">
+					<el-form-item label="发票类型:" v-if="searchTmplShowType == '0'">
 						<el-select clearable v-model="searchInvoiceType">
 							<el-option v-for='item in invoiceTypeSearchList' :label="item.invoiceType" :value="item.invoiceType"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="发票名称:" v-show="searchTmplShowType == '0'">
+					<el-form-item label="发票名称:" v-if="searchTmplShowType == '0'">
 						<el-select clearable v-model="searchInvoiceName" @change='getE9zConfigInvoice'>
 							<el-option v-for='item in invoiceNameSearchList' :label="item.invoiceName" :value="item.invoiceName"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="模板名称:" v-show="searchTmplShowType == '1'">
+					<el-form-item label="模板名称:" v-if="searchTmplShowType == '1'">
 						<el-select clearable v-model="searchTmplName" @change='getColumnTitle' value-key='tmplId'>
 							<el-option v-for='item in templateListSearchList' :label="item.tmplName" :value="item"></el-option>
 						</el-select>
@@ -828,18 +828,18 @@
 
 	/*滚动条样式*/
 	::-webkit-scrollbar {
-		width: 4px;
-		/*height: 4px;*/
+		width: 0.04rem;
+		/*height: 4rem;*/
 	}
 
 	::-webkit-scrollbar-thumb {
-		border-radius: 10px;
-		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+		border-radius: 0.10rem;
+		-webkit-box-shadow: inset 0 0 0.05rem rgba(0, 0, 0, 0.2);
 		background: rgba(0, 0, 0, 0.2);
 	}
 
 	::-webkit-scrollbar-track {
-		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+		-webkit-box-shadow: inset 0 0 0.05rem rgba(0, 0, 0, 0.2);
 		border-radius: 0;
 		background: rgba(0, 0, 0, 0.1);
 
@@ -851,7 +851,9 @@
 	}
 
 	.main_contain {
-		height: 100%;
+		padding: 0.2rem;
+		width: calc(100% - 0.4rem);
+		height: calc(100% - 0.4rem);
 
 
 
@@ -864,30 +866,36 @@
 	}
 
 	.left_contain {
-		width: calc(50% - 15px);
+		width: calc(50% - 0.15rem);
 		background: #fff;
-		border-radius: 6px;
+		border-radius: 0.06rem;
 		float: left;
 		height: 100%;
 
 		.contain_header {
-			height: 200px;
+			height: 2rem;
 			box-sizing: border-box;
-			padding: 40px 30px;
-			background: url(../assets/img/list-bg1.png);
-			border-top-left-radius: 6px;
-			border-top-right-radius: 6px;
+			padding: 0.2rem 0.2rem;
+			background: url(../assets/img/list-bg1.png) no-repeat;
+			background-size: cover;
+			border-top-left-radius: 0.06rem;
+			border-top-right-radius:0.06rem;
 
 			/deep/ .el-select__caret {
-				color: #fff
+				color: #fff;
+				line-height: 0.4rem;
 			}
 
 			/deep/ .el-button {
 				background: #fff;
 				color: @button;
-				width: 130px;
-				height: 40px;
+				width: 1.3rem;
+				height: 0.40rem;
+				line-height: 0;
 				border-color: #fff
+			}
+			/deep/ .el-input{
+				font-size: 0.14rem
 			}
 
 			/deep/ .el-form-item__label {
@@ -901,46 +909,48 @@
 				justify-content: space-between;
 
 				.el-form-item {
-					margin-right: 0px
+					margin-right: 0rem
 				}
 			}
 
 			/deep/ .info {
 				width: 100%;
-				margin-top: 20px;
+				margin-top: 0.20rem;
 
 				/deep/ .el-button {
 					float: right;
 					background: #fff;
 					color: @button;
-					width: 130px;
-					height: 40px;
+					width: 1.3rem;
+					height: 0.4rem;
 					border-color: #fff
 				}
 
 				.large {
-					font-size: 30px;
+					font-size: 0.3rem;
 					color: #fff
 				}
 
 				.mini {
-					font-size: 16px;
+					font-size: 0.16rem;
 					color: #fff;
-					margin-left: 20px;
+					margin-left: 0.20rem;
 				}
 			}
 
 			/deep/ .el-input__inner {
-				border: 1px solid #fff;
+				border: 0.01rem solid #fff;
 				background: transparent;
 				color: #fff;
-				width: 180px
+				width: 1.8rem;
+				line-height: 0.4rem;
+    			height: 0.4rem;
 			}
 		}
 
 		.contain_body {
-			padding: 40px 40px 0px;
-			height: calc(100% - 200px);
+			padding: 0.2rem 0.2rem 0rem;
+			height: calc(100% - 2rem);
 			box-sizing: border-box;
 			overflow-y: scroll;
 		}
@@ -952,10 +962,12 @@
 			flex-wrap: wrap;
 
 			/deep/ .el-form-item {
-				margin-right: 0px;
+				margin-right: 0rem;
 
 				label {
-					width: 100px;
+					// width: 1rem;
+					font-size: 0.14rem;
+					padding: 0 0.12rem 0 0;
 				}
 
 				.el-form-item__content {}
@@ -964,7 +976,7 @@
 
 			/deep/ .el-form-item.long {
 				label {
-					width: 140px;
+					// width: 1.4rem;
 				}
 
 			}
@@ -973,10 +985,10 @@
 				width: 100%;
 
 				.el-form-item__content {
-					width: calc(100% - 100px);
+					width: calc(100% - 1rem);
 
 					.el-input {
-						width: calc(100% - 140px);
+						width: calc(100% - 1.4rem);
 
 						.el-input__inner {
 							width: 100%;
@@ -985,8 +997,8 @@
 					}
 
 					.el-button {
-						width: 120px;
-						margin-left: 20px;
+						width: 1.2rem;
+						margin-left: 0.2rem;
 						background-color: @orange;
 						border-color: @orange;
 					}
@@ -995,13 +1007,13 @@
 		}
 
 		/deep/ .el-input__inner {
-			width: 120px;
+			width: 1.2rem;
 		}
 
 		p {
 			color: @pcolor;
-			font-size: 14px;
-			line-height: 30px;
+			font-size: 0.14rem;
+			line-height: 0.30rem;
 
 			span {
 				color: @scolor;
@@ -1010,148 +1022,153 @@
 
 		.el-button.confirm {
 			display: block;
-			margin: 40px auto;
-			width: 280px;
-			height: 70px;
-			font-size: 18px;
+			margin: 0.4rem auto;
+			width: 2.8rem;
+			height: 0.7rem;
+			font-size: 0.18rem;
 		}
 	}
 
 	.right_contain {
-		width: calc(50% - 15px);
+		width: calc(50% - 0.15rem);
 		height: 100%;
 		float: right;
 		background: #fff;
-		border-radius: 6px;
+		border-radius: 0.06rem;
 
 		.contain_header {
-			height: 200px;
+			height: 2rem;
 			box-sizing: border-box;
-			padding: 40px 30px;
+			padding: 0.2rem 0.2rem;
 			display: flex;
 			flex-direction: row;
 
-			background: url(../assets/img/list-bg2.png);
-			border-top-left-radius: 6px;
-			border-top-right-radius: 6px;
+			background: url(../assets/img/list-bg2.png) no-repeat;
+			background-size: cover;
+			border-top-left-radius: 0.06rem;
+			border-top-right-radius: 0.06rem;
 
 			/deep/ .el-select__caret {
-				color: #fff
+				color: #fff;
+				line-height: 0.4rem;
 			}
 
 			/deep/ .el-input__inner {
-				border: 1px solid #fff;
+				border: 0.01rem solid #fff;
+				line-height: 0.4rem;
+    			height: 0.4rem;
 			}
 
 			/deep/ .el-button {
 				background: #fff;
 				color: @button_orange;
-				width: 105px;
-				height: 120px;
-				margin-left: 30px;
+				width: 1.05rem;
+				height: 1.20rem;
+				margin-left: 0.30rem;
 				border-color: #fff;
-				font-size: 18px;
-				letter-spacing: 5px;
+				font-size: 0.18rem;
+				letter-spacing: 0.05rem;
 				line-height: 2;
 			}
 		}
 
 		/deep/ .el-form-item__label {
-			color: #fff
+			color: #fff;
+			font-size: 0.14rem
 		}
 
 		/deep/ .el-form {
-			width: calc(100% - 135px);
+			width: calc(100% - 1.35rem);
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
 			flex-wrap: wrap;
-			align-content: space-between;
+			// align-content: space-between;
 
 			.el-form-item {
-				margin-right: 0px
+				margin-right: 0rem
 			}
 		}
 
 		/deep/.el-form-item {
 			/* width: 25%; */
-			margin-bottom: 0px;
+			margin-bottom: 0rem;
 		}
 
 		/deep/ .info {
 			width: 100%;
-			margin-top: 20px;
+			margin-top: 0.20rem;
 
 			/deep/ .el-button {
 				float: right;
 				background: #fff;
 				color: @button;
-				width: 130px;
-				height: 40px;
+				width: 1.30rem;
+				height: 0.40rem;
 				border-color: #fff
 			}
 
 			.large {
-				font-size: 30px;
+				font-size: 0.30rem;
 				color: #fff
 			}
 
 			.mini {
-				font-size: 16px;
+				font-size: 0.16rem;
 				color: #fff;
-				margin-left: 20px;
+				margin-left: 0.20rem;
 			}
 		}
 
 		/deep/ .el-input__inner {
-			border: 1px solid #fff;
+			border: 0.01rem solid #fff;
 			background: transparent;
 			color: #fff;
-			width: 100px
+			width: 1.5rem
 		}
 	}
 
 	.contain_body {
 		h3 {
-			margin-top: 24px;
-			height: 60px;
-			line-height: 60px;
-			font-size: 18px;
+			margin-top: 0.24rem;
+			height: 0.60rem;
+			line-height: 0.60rem;
+			font-size: 0.18rem;
 			color: #333;
-			padding-left: 30px;
+			padding-left: 0.30rem;
 
 			span {
-				font-size: 14px;
+				font-size: 0.14rem;
 				color: #ccc;
-				margin-left: 18px;
+				margin-left: 0.18rem;
 				font-weight: normal;
 			}
 		}
 
 		li {
-			font-size: 14px;
-			height: 28px;
-			line-height: 28px;
+			font-size: 0.14rem;
+			height: 0.28rem;
+			line-height: 0.28rem;
 			color: #454545;
-			padding-left: 30px;
+			padding-left: 0.30rem;
 
 			span.span1 {
 
-				width: 160px;
+				width: 1.60rem;
 			}
 
 			span.span2 {
 
-				width: 160px;
+				width: 1.60rem;
 			}
 
 			span.span3 {
-				max-width: calc(100% - 390px);
+				max-width: calc(100% - 3.90rem);
 			}
 
 			.formula {
 				float: left;
-				/* max-width: calc(100% - 140px); */
+				/* max-width: calc(100% - 140rem); */
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
@@ -1160,13 +1177,13 @@
 
 		span.blue {
 			float: left;
-			font-size: 14px;
-			margin-left: 10px;
+			font-size: 0.14rem;
+			margin-left: 0.10rem;
 		}
 
 		/deep/ .el-pagination {
 			text-align: right;
-			margin-top: 10px;
+			margin-top: 0.10rem;
 		}
 	}
 </style>

@@ -8,7 +8,7 @@
             <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
             <p v-if="item.invoiceId" class="bigTitle">税金：80000元</p>
             <p class="smallTitle" @click="showDetail(item)">详情</p>
-            <p class="smallTitle">删除</p>
+            <!-- <p class="smallTitle">删除</p> -->
           </div>
           <div v-if="!item.tmplId" class="line2">
             <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
@@ -19,10 +19,11 @@
         <div class="dataContent">
           <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList" :key="ind">
             <p>{{child.columnTitle}}</p>
-            <p v-if="child.columnTitle=='发票项目类型'">{{child.columnValue=='1'?'一般':'即征即退'}}</p>
-            <p v-if="child.columnTitle=='应税类型'&&child.columnValue=='1'">应税货物</p>
-            <p v-if="child.columnTitle=='应税类型'&&child.columnValue=='2'">应税劳务</p>
-            <p v-if="child.columnTitle=='应税类型'&&child.columnValue=='3'">应税服务</p>
+            <p v-if="child.columnTitle=='发票项目类型'&&(child.columnValue=='1'||child.columnValue=='一般')">一般</p>
+            <p v-if="child.columnTitle=='发票项目类型'&&(child.columnValue=='2'||child.columnValue=='即征即退')">即征即退</p>
+            <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='1'||child.columnValue=='应税货物')">应税货物</p>
+            <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='2'||child.columnValue=='应税劳务')">应税劳务</p>
+            <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='3'||child.columnValue=='应税服务')">应税服务</p>
             <p v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'" @dblclick="editPanel(item,child)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
           </div>
         </div>
@@ -294,8 +295,9 @@ export default {
   methods: {
     // 四舍五入
     fomatFloat(x, pos) {
+      // console.log('xxx',x)
       if (x) {
-        if (x.indexOf(".") > -1) {
+        if (x.toString().indexOf(".") > -1) {
           var f = parseFloat(x);
           if (isNaN(f)) {
             return false;
@@ -775,19 +777,28 @@ export default {
           item.pages = parseInt(v.columnValue);
         }
         if (v.columnTitle == "发票项目类型") {
-          v.columnValue = v.columnValue=='1'?'一般':'即征即退';
+          if(v.columnValue=='1'){
+            v.columnValue='一般'
+          }else if(v.columnValue=='2'){
+            v.columnValue='即征即退'
+          }
+          
         }
         if (v.columnTitle == "应税类型") {
           if(v.columnValue=='1'){
-            v.columnValue=='应税货物'
+            v.columnValue='应税货物'
           }else if(v.columnValue=='2'){
-            v.columnValue==' 应税劳务'
+            v.columnValue=' 应税劳务'
           }else if(v.columnValue=='3'){
-            v.columnValue==' 应税服务'
+            v.columnValue=' 应税服务'
           }
         }
         if (v.columnTitle == "是否是辅导期") {
-          v.columnValue = v.columnValue=='1'?'是':'否';
+          if(v.columnValue=='1'){
+            v.columnValue='是'
+          }else if(v.columnValue=='2'){
+            v.columnValue='否'
+          }
         }
         if (v.columnShow == 1) {
           v.columnValue =v.columnValue? this.fomatFloat(v.columnValue, 2): this.fomatFloat(v.defaultValue, 2);
@@ -958,7 +969,7 @@ export default {
 }
 .line1 {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   padding: 0.15rem 0.2rem;
 }
