@@ -21,7 +21,7 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<el-select v-model="uploadData.customerId" placeholder="请选择账期" clearable>
-							<el-option v-for="item in $store.state.user.customerinfoList" :label="item.customerName" :value='item.customerId'></el-option>
+							<el-option v-for="item in $store.state.cust" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
 					<el-button type="primary" @click='selectExcel("formName")' size="small">选择Excel</el-button>
@@ -48,7 +48,7 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<el-select v-model="search.customerId" placeholder="请选择公司名称" clearable>
-							<el-option v-for="item in $store.state.user.customerinfoList" :label="item.customerName" :value='item.customerId'></el-option>
+							<el-option v-for="item in $store.state.cust" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
 					<el-button type="primary" size="small" @click='searchSheet("formName1")'>搜索</el-button>

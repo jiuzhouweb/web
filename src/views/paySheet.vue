@@ -18,7 +18,7 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable>
-							<el-option v-for="(item,index) in $store.state.user.customerinfoList" :key="index" :label="item.customerName"
+							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName"
 							 :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
@@ -42,7 +42,7 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<el-select v-model="customerId" placeholder="请选择公司名称" clearable>
-							<el-option v-for="(item,index) in $store.state.user.customerinfoList" :key="index" :label="item.customerName"
+							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName"
 							 :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
@@ -346,17 +346,17 @@
 			</el-tabs>
 		</el-dialog>
 
-		<el-dialog title="易点个税年终奖筹划方案" class="dialogCalc" :visible.sync="dialogVisibleCalc" width="60%" style="margin-top:15vh">
+		<el-dialog title="易点个税年终奖筹划方案" class="dialogCalc" :visible.sync="dialogVisibleCalc" width="60%">
 			<span class="title">个税合计：【分开核算】{{calcData.sepTaxation}}【合并核算】{{calcData.comTaxation}}</span><span class="title reportFrom">【推荐核算】</span><span
 			 class="title"> {{calcData.suggestTaxation}}</span>
-			<div class="buttons">
+			<!-- <div class="buttons">
 				<el-button icon="el-icon-collection" size='mini' @click="saveCalc('1')">保存年终筹划</el-button>
 				<el-button icon="el-icon-collection" size='mini' @click="saveCalc('2')">年终筹划默认全是分开核算</el-button>
 				<el-button icon="el-icon-collection" size='mini' @click="saveCalc('3')">年终筹划默认全是合并核算</el-button>
 				<el-button icon="el-icon-collection" type="primary" size='mini' @click="saveCalc('4')">年终筹划默认全是推荐核算</el-button>
-			</div>
+			</div> -->
 
-			<el-table :data="tableData4" style="width: 100%;margin-top:20px" stripe border>
+			<el-table :data="tableTem[index]" style="width: 100%;margin-top:20px" stripe border>
 				<el-table-column label="姓名" prop="employeeName" :resizable="false"></el-table-column>
 				<el-table-column label="收入额" prop="incomeAmount" width="100" :resizable="false"></el-table-column>
 				<el-table-column label="年终奖" prop="yearAwards" width="100" :resizable="false"></el-table-column>
@@ -365,7 +365,7 @@
 				<el-table-column label="推荐方案" prop="suggestType" width="120" :resizable="false"></el-table-column>
 				<el-table-column :resizable="false">
 					<template slot="header" slot-scope="scope">
-						<el-dropdown @command="handleCommand">
+						<el-dropdown @command="handleCommand" style='float: left;line-height: 28px;'>
 							<span class="el-dropdown-link">
 								操作<i class="el-icon-arrow-down el-icon--right"></i>
 							</span>
@@ -375,7 +375,7 @@
 								<el-dropdown-item command="推荐核算">全部推荐核算</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
-						<el-button size='mini' type='primary' @click="saveCalc()">保存年终筹划</el-button>
+						<el-button size='mini' type='primary' @click="saveCalc()" style='float: right;'>保存年终筹划</el-button>
 					</template>
 					<template slot-scope="scope">
 						<el-radio-group v-model="scope.row.radio" size="small" @change='setIsAll'>
@@ -805,7 +805,9 @@
 				operateId: "",
 				customerList: [],
 				calcFlag: false,
-				tag: 3
+				tag: 3,
+				tableTem:[],
+				index:0
 			};
 		},
 		watch: {
@@ -980,7 +982,8 @@
 			// /perTaxToolTwo/monAcct/queryChoosePage
 			getTableData4(operateId) {
 				let params = {
-					row: this.pageSize4,
+					// row: this.pageSize4,
+					row: 99999,
 					page: this.pageNum4,
 					data: {
 						operateId: operateId
@@ -995,8 +998,13 @@
 							this.total4 = res.data.count;
 							this.tableData4.forEach((item, index) => {
 								this.$set(item, "radio", "推荐核算");
+								this.$set(item, "chooseType", "3");
 								// item.radio='推荐核算'
 							});
+							for (let i = 0; i < this.tableData4.length; i += 10) {
+								this.tableTem.push(this.tableData4.slice(i, i + 10));
+							}
+							
 							console.log("11", this.tableData4);
 						} else {
 							this.$message({
@@ -1129,10 +1137,11 @@
 					this.pageNum3 = val;
 					this.getTableData3();
 				} else if (type == "4") {
-					this.pageNum4 = val;
-					this.getTableData4();
+					this.index = val - 1;
+					// this.pageNum4 = val;
+					// this.getTableData4();
 					// 在此保存计算年终奖
-					this.saveCalc("1");
+					// this.saveCalc("1");
 				}
 			},
 			handleSelectionChange(val) {
@@ -1537,9 +1546,15 @@
 					default:
 						break;
 				}
+				// for(let i = 0; i < this.tableTem.length;i++){
+				// 	
+				// }
 				this.tableData4.forEach((item, index) => {
 					item.radio = command;
 				})
+				for (let i = 0; i < this.tableData4.length; i += 10) {
+					this.tableTem.push(this.tableData4.slice(i, i + 10));
+				}
 				console.log("tagaaaa", this.tag)
 			}
 		},

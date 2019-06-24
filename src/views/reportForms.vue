@@ -6,7 +6,7 @@
 				<div class="row1">
 					<span class="labelTitle">公司：</span>
 					<el-select v-model="searchList.value" placeholder="请选择" size="small">
-						<el-option v-for="item in $store.state.user.customerinfoList" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+						<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 						</el-option>
 					</el-select>
 				</div>
@@ -336,9 +336,9 @@
 			};
 		},
 		created() {
-			this.searchList.options = this.$store.state.user.customerinfoList;
+			// this.searchList.options = this.$store.state.user.customerinfoList;
 			// this.searchList.value=this.searchList.options[0].value;
-			console.log('this.searchList.options', this.searchList.options)
+			// console.log('this.searchList.options', this.searchList.options)
 			this.getNowMonth();
 			this.getTableData("1");
 		},

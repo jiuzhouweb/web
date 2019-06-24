@@ -6,13 +6,14 @@
 				<div class='pr20 mt34 right'>
 					<i class="el-icon-bell"></i>
 					<i class="el-icon-message"></i>
-					<el-dropdown>
+					<el-dropdown @command="handleCommand">
 						<i class="el-icon-user"></i>
 						<!-- <span class="el-dropdown-link">
 							下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
 						</span> -->
 						<el-dropdown-menu slot="dropdown">
 							<el-dropdown-item>{{userName}}</el-dropdown-item>
+							<el-dropdown-item command='logout'>退出登录</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
 
@@ -78,10 +79,11 @@
 									</el-menu-item-group>
 								</el-submenu>
 							</el-menu>
-							<!-- <el-menu v-if='menu.indexOf("易点个税") >= 0'  router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" -->
-							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+							<el-menu v-if='menu.indexOf("易点个税") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							 @open="handleOpen" @close="handleClose">
+								<!-- <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+							  @close="handleClose"> -->
 
-							 @close="handleClose">
 								<el-menu-item index="/index/incomeTaxCalculate">
 									<i class="el-icon-menu"></i>
 									<span slot="title">个税计算</span>
@@ -232,30 +234,28 @@
 						if (res.data.code == 200) {
 							this.userName = res.data.user.phone;
 							this.userId = res.data.user.operatorId;
-							// this.menuList = res.data.user.menuList;
-							// this.menuList.forEach((item, index) => {
-							// 	this.menu.push(item.productName);
-							// })
-							// console.log('shuiwu',this.menu.indexOf('税务平台'));
-							// console.log('geshui',this.menu.indexOf('易点个税'));
-							// alert(res.data.user.phone);
+							this.menuList = res.data.user.menuList;
+							this.menuList.forEach((item, index) => {
+								this.menu.push(item.productName);
+							})
 							this.$store.commit('updateUser', res.data.user);
-							// this.axios.get('/perTaxToolTwo/api/user/getCustList.do?userId=' + this.userId)
-							// 	.then(resp => {
-							// 		if (resp.data.code == 200) {
-							// 		} else {
-							// 			this.$message({
-							// 				message: resp.data.msg,
-							// 				type: 'error'
-							// 			});
-							// 		}
-							// 
-							// 	}).catch(function(err) {
-							// 		this.$message({
-							// 			message: '获取客户信息失败',
-							// 			type: 'error'
-							// 		});
-							// 	})
+							this.axios.get('/perTaxToolTwo/api/user/getCustList.do?userId=' + this.userId)
+								.then(res => {
+									if (res.data.code == 200) {
+										this.$store.commit('updateCust', res.data.data);
+									} else {
+										this.$message({
+											message: res.data.msg,
+											type: 'error'
+										});
+									}
+
+								}).catch(function(err) {
+									this.$message({
+										message: '获取客户信息失败',
+										type: 'error'
+									});
+								})
 						} else {
 							this.$message({
 								message: res.data.msg,
@@ -269,7 +269,47 @@
 							type: 'error'
 						});
 					})
-			}
+			},
+			handleCommand(command) {
+				if (command == 'logout') {
+					this.axios.post('/perTaxToolTwo/api/user/logout.do')
+						.then(res => {
+							// if (res.data == 1) {
+							// 	
+								this.clearCookie();
+								window.location = res.data;
+								// console.log(document.cookie);
+								// document.cookie = "JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+								// console.log(document.cookie);
+								// window.location.reload()
+							// }
+
+						}).catch(function(err) {
+							// this.$message({
+							// 	message: '获取客户信息失败',
+							// 	type: 'error'
+							// });
+						})
+				}
+			},
+			clearCookie() {
+				var date = new Date();
+				date.setTime(date.getTime() - 10000);
+				var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+				if (keys) {
+					for (var i = keys.length; i--;)
+						document.cookie = keys[i] + "=0; expire=" + date.toGMTString() + "; path=/";
+				}
+			},
+
+			//删除cookie
+			delCookie(name) {
+				var exp = new Date();
+				exp.setTime(exp.getTime() - 1);
+				var cval = common.getCookie(name);
+				if (cval != null)
+					document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+			},
 		},
 		created() {
 			this.queryUser()

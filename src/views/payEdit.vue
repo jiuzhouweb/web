@@ -9,7 +9,7 @@
 				<span>工资表上传 请上传多家公司</span>
 			</div>
 			<div>
-				<el-button type="primary" @click='selectExcel'>选择Excel</el-button>
+				<el-button type="primary" @click='selectExcel' size="small">选择Excel</el-button>
 			</div>
 		</div>
 		<div class='main_contain'>
@@ -33,12 +33,11 @@
 			</el-pagination>
 		</div>
 
-		<el-dialog title="易点个税年终奖筹划方案" class="dialogCalc" :visible.sync="dialogVisibleCalc" width="70%"
-		 @selection-change="((val)=>{handleSelectionChange(val, '2')})">
+		<el-dialog title="易点个税年终奖筹划方案" class="dialogCalc" :visible.sync="dialogVisibleCalc" width="70%" @selection-change="((val)=>{handleSelectionChange(val, '2')})">
 			<div class="buttons">
 				<el-button icon="el-icon-collection" size='mini' @click="saveCalc()">保存</el-button>
 			</div>
-			<el-table :data="tableData4" style="width: 100%;margin-top:20px" stripe border>
+			<el-table :data="tableTem[index]" style="width: 100%;margin-top:20px" stripe border>
 				<!-- <el-table-column type="selection" width="50"></el-table-column> -->
 				<el-table-column label="姓名" prop="employeeName" :resizable="false"></el-table-column>
 				<el-table-column label="收入额" prop="incomeAmount" :resizable="false"></el-table-column>
@@ -59,6 +58,8 @@
 			<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
 			 :current-page="currentPage4" :page-size="pageSize4" layout="total, prev, pager, next" :total="total4">
 			</el-pagination>
+			<el-dialog width="30%" title="内层 Dialog" :visible.sync="innerVisible" append-to-body>
+			</el-dialog>
 		</el-dialog>
 
 		<el-dialog title="选择Excel" :visible.sync="dialogVisible" width="30%">
@@ -102,7 +103,9 @@
 				dialogVisibleCalc: false,
 				operateId: "",
 				customerList: [],
-				pageoperateId:''
+				pageoperateId: '',
+				tableTem:[],
+				index:0
 			};
 		},
 		watch: {},
@@ -173,7 +176,8 @@
 			// /perTaxToolTwo/monAcct/queryChoosePage
 			getTableData4() {
 				let params = {
-					row: this.pageSize4,
+					// row: this.pageSize4,
+					row: 99999,
 					page: this.pageNum4,
 					data: {
 						operateId: this.pageoperateId
@@ -190,6 +194,9 @@
 								this.$set(item, "chooseType", "3");
 								// item.radio='推荐核算'
 							});
+							for (let i = 0; i < this.tableData4.length; i += 10) {
+								this.tableTem.push(this.tableData4.slice(i, i + 10));
+							}
 							console.log("11", this.tableData4);
 						} else {
 							this.$message({
@@ -233,7 +240,7 @@
 						}
 					}).catch(err => {
 						this.$message({
-							message:"上传文件失败！",
+							message: "上传文件失败！",
 							type: "error"
 						});
 					})
@@ -285,9 +292,10 @@
 					this.getTableData1();
 				} else if (type == "4") {
 					// 在此保存计算年终奖
-					this.pageNum4 = val;
-					this.getTableData4();
-					this.saveCalc("1");
+					// this.pageNum4 = val;
+					// this.getTableData4();
+					this.index = val - 1;
+					// this.saveCalc("1");
 				}
 			},
 			// handleSelectionChange(val, type) {
@@ -346,37 +354,38 @@
 					});
 			},
 			saveCalc(type) {
-				console.log(this.multipleSelection2);
-				let params = {};
-				this.axios
-					.post("/test/CalculatorSingleCompany", params)
-					.then(res => {
-						if (res.data.code == 200) {
-							if (type == "1") {} else {
-								this.dialogVisibleCalc = false;
-								this.pageNum1 = "1";
-								this.getTableData1();
-							}
-						} else {
-							this.$message({
-								message: res.data.msg,
-								type: "error"
-							});
-						}
-					})
-					.catch(function(err) {
-						this.$message({
-							message: "保存失败",
-							type: "error"
-						});
-					});
+				this.dialogVisibleCalc = false;
+				// console.log(this.multipleSelection2);
+				// let params = {};
+				// this.axios
+				// 	.post("/test/CalculatorSingleCompany", params)
+				// 	.then(res => {
+				// 		if (res.data.code == 200) {
+				// 			if (type == "1") {} else {
+				// 				this.dialogVisibleCalc = false;
+				// 				this.pageNum1 = "1";
+				// 				this.getTableData1();
+				// 			}
+				// 		} else {
+				// 			this.$message({
+				// 				message: res.data.msg,
+				// 				type: "error"
+				// 			});
+				// 		}
+				// 	})
+				// 	.catch(function(err) {
+				// 		this.$message({
+				// 			message: "保存失败",
+				// 			type: "error"
+				// 		});
+				// 	});
 			},
-			setChooseType(val,item){
-				if(val == '分开核算'){
+			setChooseType(val, item) {
+				if (val == '分开核算') {
 					item.chooseType = 1
-				}else if(val == '合并核算'){
+				} else if (val == '合并核算') {
 					item.chooseType = 2
-				}else{
+				} else {
 					item.chooseType = 3
 				}
 			}
