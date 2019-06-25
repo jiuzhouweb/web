@@ -5,8 +5,8 @@
       					客户名称：
       				</span>
       <el-select v-model="searchList.value" placeholder="请选择">
-        <el-option v-for="item in searchList.options" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
+        <el-option v-for="item in $store.state.user.customerinfoList" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+				</el-option>
       </el-select>
     </div>
     <div class="row2" style="margin-left:0.2rem">
@@ -49,11 +49,15 @@
           ],
           value: "",
           nowDate: ""
-        }
+        },
+        customerId:'',
+        accountPeriod:'',
       };
     },
     created() {
-      this.getNowMonth();
+      this.searchList.options = this.$store.state.user.customerinfoList;
+			console.log('this.searchList.options', this.searchList.options)
+			this.getNowMonth();
     },
     methods: {
       getNowMonth() {
@@ -62,24 +66,28 @@
         var month = date.getMonth() + 1;
         month = month < 10 ? "0" + month : month;
         this.searchList.nowDate = year.toString() + "-" + month.toString();
+        this.accountPeriod = year.toString() + "-" + month.toString();
       },
       search() {
+        this.accountPeriod = this.searchList.nowDate;
+				this.customerId = this.searchList.value;
+				this.statusVaule = this.searchList.statusVaule;
         let params = {
-          accountPeriod: "2019-05", //账期
-          customerId: 1, //客户Id
+          accountPeriod:this.accountPeriod, //账期
+          customerId: this.customerId, //客户Id
           stepName: "发票录入" //步骤名称
         };
         let taxation_id, tax_info_id;
         axios
-          .post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
+          .post("/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
           .then(res => {
             console.log("获取收账信息Id和税款信息id", res);
             if (res.data.code == 200) {
               // 在这里获取收账税款id
-              // taxation_id = res.data.data.taxation_id;
-              // tax_info_id = res.data.data.tax_info_id;
-              taxation_id = '1';
-              tax_info_id = '1';
+              taxation_id = res.data.data.taxation_id;
+              tax_info_id = res.data.data.tax_info_id;
+              // taxation_id = '1';
+              // tax_info_id = '1';
               // 真正接口需要传参：收账税款id
               // this.$emit("getInvoiceLeaveShowList", taxation_id, tax_info_id,this.searchList);
               this.$emit("getInvoiceLeaveShowList", {

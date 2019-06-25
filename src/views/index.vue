@@ -24,7 +24,9 @@
 				<el-aside width="2.2rem">
 					<el-row class="tac">
 						<el-col>
-							<el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							<!-- <el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							 @open="handleOpen" @close="handleClose"> -->
+							 <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
 							 @open="handleOpen" @close="handleClose">
 								<el-submenu index="1">
 									<template slot="title">
@@ -51,10 +53,19 @@
 									<i class="el-icon-menu"></i>
 									<span slot="title">税款通知</span>
 								</el-menu-item>
-								<el-menu-item index="/index/declare">
+								<!-- <el-menu-item index="/index/declare">
 									<i class="el-icon-menu"></i>
 									<span slot="title">申报处理</span>
-								</el-menu-item>
+								</el-menu-item> -->
+								<el-submenu index="4">
+									<template slot="title">
+										<i class="el-icon-location"></i>
+										<span>申报处理</span>
+									</template>
+									<el-menu-item-group>
+										<el-menu-item index="/index/showReport">查看报表</el-menu-item>
+									</el-menu-item-group>
+								</el-submenu>
 								<el-submenu index="5">
 									<template slot="title">
 										<i class="el-icon-location"></i>
