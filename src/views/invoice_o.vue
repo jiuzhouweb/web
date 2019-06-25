@@ -109,7 +109,7 @@
         this.loadingCard = true;
         axios
           .get(
-            "/api/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
+            "/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
             params.taxationId+"&tmplType="+0
           )
           .then(res => {
@@ -146,7 +146,7 @@
       getShowSumIncome(taxation_id) {
         console.log('taxationId', taxation_id)
         // axios.get("/test/www").then(res => {
-        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + taxation_id).then(res => {
+        axios.get("/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + taxation_id).then(res => {
           console.log("获取收入合计数据", res);
           if (res.data.code == 200) {
             let nameArr = [];
@@ -192,7 +192,7 @@
       getShowSumDeduct(taxation_id) {
         this.tableDeductData = [];
         // axios.get("/test/showSumIncome").then(res => {
-          axios.get("/api/perTaxToolTwo/e9zCalculate/showSumDeduct?taxationId=" + taxation_id).then(res => {
+          axios.get("/perTaxToolTwo/e9zCalculate/showSumDeduct?taxationId=" + taxation_id).then(res => {
           // console.log("获取抵扣合计数据", res);
           if (res.data.code == 200) {
             for (var key in res.data.data) {
@@ -235,7 +235,7 @@
       // 获取右侧统计数据--应纳税额合计
       getShowSumTaxPayable(taxation_id) {
         // axios.get("/test/showSumTaxPayable").then(res => {
-          axios.get("/api/perTaxToolTwo/e9zCalculate/showSumTaxPayable?taxationId=" + taxation_id).then(res => {
+          axios.get("/perTaxToolTwo/e9zCalculate/showSumTaxPayable?taxationId=" + taxation_id).then(res => {
           // console.log("获取应纳税额合计数据", res);
           if (res.data.code == 200) {
             this.tableTaxData = res.data.data;

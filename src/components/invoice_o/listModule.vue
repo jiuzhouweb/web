@@ -324,7 +324,7 @@ export default {
     getTaxCalcMethod() {
       axios
         .post(
-          "/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
+          "/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
         )
         .then(res => {
           console.log("获取计税方法", res);
@@ -356,7 +356,7 @@ export default {
         tmplShowType: 0
       };
       axios
-        .post("/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
+        .post("/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
         .then(res => {
           console.log("获取发票类型和发票名称", res);
           if (res.data.code == 200) {
@@ -436,7 +436,7 @@ export default {
           };
           axios
             .post(
-              "/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
+              "/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
               params
             )
             .then(res => {
@@ -548,7 +548,7 @@ export default {
         };
         console.log("params", params);
         axios
-          .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+          .post("/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
           .then(res => {
             console.log("修改数据", res);
             if (res.data.code == 200) {
@@ -740,7 +740,7 @@ export default {
         };
         console.log("params", params);
         axios
-          .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+          .post("/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
           .then(res => {
             console.log("插入数据", res);
             if (res.data.code == 200) {
