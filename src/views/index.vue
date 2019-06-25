@@ -24,10 +24,10 @@
 				<el-aside width="2.2rem">
 					<el-row class="tac">
 						<el-col>
-							<!-- <el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
-							 @open="handleOpen" @close="handleClose"> -->
-							 <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							<el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
 							 @open="handleOpen" @close="handleClose">
+							 <!-- <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							 @open="handleOpen" @close="handleClose"> -->
 								<el-submenu index="1">
 									<template slot="title">
 										<i class="el-icon-location"></i>
