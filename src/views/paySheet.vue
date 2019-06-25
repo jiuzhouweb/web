@@ -203,7 +203,7 @@
 					<el-input v-model="item.employeeName" placeholder="请输入姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="证件类型" prop="cardType">
-					<el-select v-model="item.cardType" placeholder="请选择" clearable>
+					<el-select v-model="item.cardType" placeholder="请选择">
 						<el-option label="居民身份证" value="居民身份证"></el-option>
 						<el-option label="中国护照" value="中国护照"></el-option>
 						<el-option label="港澳居民来往内地通行证" value="港澳居民来往内地通行证"></el-option>
@@ -225,7 +225,12 @@
 					 placeholder="请选择任职受雇日期"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="所得项目名称" prop="projectCode">
-					<el-input v-model="item.projectCode" placeholder="请输入"></el-input>
+					<el-select v-model="item.projectCode" placeholder="请选择">
+						<el-option label="正常工资薪金" value="正常工资薪金"></el-option>
+						<el-option label="一般劳务报酬所得" value="一般劳务报酬所得"></el-option>
+						<el-option label="稿酬所得" value="稿酬所得"></el-option>
+					</el-select>
+					<!-- <el-input v-model="item.projectCode" placeholder="请输入"></el-input> -->
 				</el-form-item>
 				<el-form-item label="收入额" prop="incomeAmount">
 					<el-input v-model="item.incomeAmount" placeholder="请输入收入额"></el-input>
@@ -1205,6 +1210,7 @@
 			},
 			// /perTaxToolTwo/monAcct/queryChoosePage
 			getTableData4(operateId) {
+				this.tableTem = [];
 				let params = {
 					// row: this.pageSize4,
 					row: 99999,
@@ -1278,6 +1284,8 @@
 					.then(res => {
 						if (res.data.code == 200) {
 							this.pageNum1 = '1';
+							this.customerId = this.uploadData.customerId;
+							this.accountPeriod = this.uploadData.accountPeriod;
 							this.getTableData1();
 							this.pageNum2 = '1';
 							this.getTableData2();
@@ -1374,10 +1382,10 @@
 			addUser() {
 				this.item = {
 					employeeName: "",
-					cardType: "",
+					cardType: "居民身份证",
 					cardNum: "",
 					employmentDate: "",
-					projectCode: "",
+					projectCode: "正常工资薪金",
 					incomeAmount: "0",
 					reportedIncome: "0",
 					taxFreeIncome: "0",
@@ -1407,18 +1415,18 @@
 				};
 				this.addFlag = true;
 				this.dialogVisibleAdd = true;
-				this.$nextTick(() => {
-					this.$refs[this.item].resetFields();
-				});
+				// this.$nextTick(() => {
+				// 	this.$refs[this.item].resetFields();
+				// });
 			},
 			edit(row) {
 				console.log("row.", row);
 				this.item = row;
 				this.addFlag = false;
 				this.dialogVisibleAdd = true;
-				this.$nextTick(() => {
-					this.$refs[this.item].resetFields();
-				});
+				// this.$nextTick(() => {
+				// 	this.$refs[this.item].resetFields();
+				// });
 			},
 			del(row) {
 				this.$confirm("确定删除此条记录?", "提示", {

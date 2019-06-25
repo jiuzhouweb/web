@@ -16,7 +16,7 @@
 			<h5>月度工资表</h5>
 			<el-button type="primary" size='mini' @click='calc'>计算筹划</el-button>
 
-			<el-table class="table1" :data="tableData1" border stripe style="width: 100%;margin-top:20px" @selection-change="((val)=>{handleSelectionChange(val, '1')})">
+			<el-table class="table1" :data="tableData1" border stripe style="width: 100%;margin-top:20px" @selection-change="((val)=>{handleSelectionChange(val)})">
 				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="序号" type='index' width="50" :resizable="false"></el-table-column>
 				<el-table-column prop="customerName" label="公司" :resizable="false"></el-table-column>
@@ -33,7 +33,7 @@
 			</el-pagination>
 		</div>
 
-		<el-dialog title="易点个税年终奖筹划方案" class="dialogCalc" :visible.sync="dialogVisibleCalc" width="70%" @selection-change="((val)=>{handleSelectionChange(val, '2')})">
+		<el-dialog title="易点个税年终奖筹划方案" class="dialogCalc" :visible.sync="dialogVisibleCalc" width="70%">
 			<div class="buttons">
 				<el-button icon="el-icon-collection" size='mini' @click="saveCalc()">保存</el-button>
 			</div>
@@ -298,13 +298,10 @@
 					// this.saveCalc("1");
 				}
 			},
-			// handleSelectionChange(val, type) {
-			// 	if (type == "1") {
-			// 		this.multipleSelection1 = val;
-			// 	} else if (type == "4") {
-			// 		this.multipleSelection2 = val;
-			// 	}
-			// },
+			handleSelectionChange(val) {
+				this.multipleSelection1 = val;
+				console.log(this.multipleSelection1);
+			},
 
 			edit(row) {
 				// let params = {
