@@ -19,7 +19,7 @@
 			<el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog'>批量删除</el-button>
 			<el-table :data="employeeList" stripe style="width: 100%" @selection-change="handleSelectionChange">>
 
-				<el-table-column type="expand">
+				<el-table-column align="center" type="expand">
 					<template slot-scope="props">
 						<el-form label-position="left" inline class="demo-table-expand">
 							<el-form-item label="本期基本养老保险费">
@@ -100,25 +100,31 @@
 						</el-form>
 					</template>
 				</el-table-column>
-				<el-table-column type="selection" width="55">
+				<el-table-column align="center" type="selection" width="55">
 				</el-table-column>
-				<el-table-column prop="employeeName" label="姓名" width="120">
+				<el-table-column align="center" prop="employeeName" label="姓名" width="120">
 				</el-table-column>
-				<el-table-column prop="cardType" label="证件类型">
+				<el-table-column align="center" prop="cardType" label="证件类型">
 				</el-table-column>
-				<el-table-column prop="cardNum" label="证件号码">
+				<!-- <el-table-column align="center" prop="cardNum" label="证件号码">
+				</el-table-column> -->
+				<el-table-column label="证件号码">
+					<template scope="scope">
+						<!-- <el-input v-show="scope.row.tedit" size="small" v-model="scope.row.cardNum"></el-input> -->
+						<div contenteditable="true" @blur="editSingle($event,scope.row)" v-text='scope.row.cardNum'></div>
+					</template>
 				</el-table-column>
-				<el-table-column prop="taxPeriodBegin" label="税款所属期起">
+				<el-table-column align="center" prop="taxPeriodBegin" label="税款所属期起">
 				</el-table-column>
-				<el-table-column prop="taxPeriodEnd" label="税款所属期止">
+				<el-table-column align="center" prop="taxPeriodEnd" label="税款所属期止">
 				</el-table-column>
-				<el-table-column prop="projectCode" label="所得项目">
+				<el-table-column align="center" prop="projectCode" label="所得项目">
 				</el-table-column>
-				<el-table-column prop="incomeAmount" label="本期收入">
+				<el-table-column align="center" prop="incomeAmount" label="本期收入">
 				</el-table-column>
-				<el-table-column prop="taxFreeIncome" label="本期免税收入">
+				<el-table-column align="center" prop="taxFreeIncome" label="本期免税收入">
 				</el-table-column>
-				<el-table-column fixed="right" label="操作" width="100">
+				<el-table-column align="center" fixed="right" label="操作" width="100">
 					<template slot-scope="scope">
 						<!-- <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button> -->
 						<el-button type="text" size="small" @click='edit(scope.row)'>编辑</el-button>
@@ -267,6 +273,7 @@
 		name: "incomeTaxCalculate",
 		data() {
 			return {
+				tedit:false,
 				employeeList: [],
 				currentPage: 1,
 				total: 0,
@@ -538,6 +545,35 @@
 			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
+			},
+			setEdit(index){
+				this.employeeList[index].tedit = true;
+				console.log(this.employeeList)
+			},
+			editSingle(event,row){
+				row.cardNum = event.target.innerText;
+				let params = row;
+				this.axios.post('/perTaxToolTwo/initialMonCom/saveCompanyEmployee', params)
+					.then(res => {
+						if (res.data.code == 200) {
+							this.queryEmployeePage();
+							// this.$message({
+							// 	type: 'success',
+							// 	message: '编辑成功!'
+							// });
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+				
+					}).catch(function(err) {
+						this.$message({
+							message: '编辑失败',
+							type: 'error'
+						});
+					})
 			}
 		},
 		computed: {},
@@ -579,6 +615,14 @@
 			padding: 6px 0;
 		}
 
+		/deep/ .el-table th {
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+			background: #ebf6fb;
+		}
+
 		.el-dialog .el-form {
 			display: flex;
 			flex-direction: row;
@@ -592,6 +636,30 @@
 
 		/deep/ .el-date-editor.el-input {
 			width: 180px;
+		}
+
+		/deep/ .el-table__body tr,
+		.el-table__body td {
+			padding: 0;
+			height: 40px;
+			background-color: #fff7f1;
+		}
+
+		/deep/ .el-table__body tr.el-table__row--striped {
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table thead {
+			color: #343434;
+		}
+
+		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+			background-color: #efe9e5;
+		}
+
+		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+			border-bottom-color: #fff;
+			background: #ebf6fb;
 		}
 
 		.el-page-header {

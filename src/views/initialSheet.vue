@@ -57,10 +57,10 @@
 
 			</div>
 			<el-table :data="tableData" style="width: 100%" stripe border>
-				<el-table-column label="序号" type='index' width="80"></el-table-column>
-				<el-table-column label="账期" prop="accountPeriod"></el-table-column>
-				<el-table-column label="企业名称" prop="customerName"></el-table-column>
-				<el-table-column label="操作">
+				<el-table-column align="center" label="序号" type='index' width="80"></el-table-column>
+				<el-table-column align="center" label="账期" prop="accountPeriod"></el-table-column>
+				<el-table-column align="center" label="企业名称" prop="customerName"></el-table-column>
+				<el-table-column align="center" label="操作">
 					<template slot-scope="scope">
 						<el-button size="mini" type='primary' @click="handleEdit(scope.row)">查看企业员工详情</el-button>
 					</template>
@@ -107,11 +107,11 @@
 					"accountPeriod": "",
 					"customerId": ""
 				},
-				search:{
+				search: {
 					"accountPeriod": '',
 					"customerId": '',
 				},
-				
+
 				fileList: [],
 				total: 0,
 				currentPage: 1,
@@ -178,7 +178,7 @@
 				});
 				// this.uploadData.accountPeriod = this.accountPeriod;
 				// this.uploadData.customerId = this.customerId;
-				
+
 			},
 			handleSuccess(response) {
 				if (response.code == 200) {
@@ -192,7 +192,7 @@
 					this.search.customerId = this.uploadData.customerId;
 					this.accountPeriod = this.uploadData.accountPeriod;
 					this.customerId = this.uploadData.customerId;
-					this.queryPage(this.uploadData.accountPeriod,this.uploadData.customerId);
+					this.queryPage(this.uploadData.accountPeriod, this.uploadData.customerId);
 				} else {
 					this.fileList = [];
 					this.$message({
@@ -222,7 +222,7 @@
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;
-				this.queryPage(this.accountPeriod,this.customerId);
+				this.queryPage(this.accountPeriod, this.customerId);
 			},
 
 
@@ -303,16 +303,39 @@
 		.el-table__header th {
 			padding: 0;
 			height: 40px;
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table th {
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+			background: #ebf6fb;
 		}
 
 		/deep/ .el-table__body tr,
 		.el-table__body td {
 			padding: 0;
 			height: 40px;
+			background-color: #fff7f1;
 		}
 
-		/deep/ .el-table td {
-			padding: 6px 0;
+		/deep/ .el-table__body tr.el-table__row--striped {
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table thead {
+			color: #343434;
+		}
+
+		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+			background-color: #efe9e5;
+		}
+
+		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+			border-bottom-color: #fff;
+			background: #ebf6fb;
 		}
 
 		.search_contain {

@@ -1,5 +1,9 @@
 <template>
 	<div class="reportForms">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+			<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+			<el-breadcrumb-item>报表查看</el-breadcrumb-item>
+		</el-breadcrumb>
 		<div class='search'>
 			<div class="title">报表查看</div>
 			<div class='search_contain'>
@@ -12,7 +16,8 @@
 				</div>
 				<div class="row2">
 					<span class="labelTitle">账期：</span>
-					<el-date-picker v-model="searchList.nowDate" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月" size="small">
+					<el-date-picker v-model="searchList.nowDate" type="month" format="yyyy-MM" value-format="yyyy-MM" placeholder="选择月"
+					 size="small">
 					</el-date-picker>
 				</div>
 				<div class="row3">
@@ -31,8 +36,8 @@
 			<div class="tableBox">
 				<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 					<el-tab-pane :label="item.title" :name="item.name" v-for="(item,index) in tableTabs" :key="index">
-						<el-table v-loading="loading" :data="item.tableData" style="width: 100%">
-							<el-table-column type="expand" v-show='item.name==5 || item.name==6'>
+						<el-table v-loading="loading" :data="item.tableData" style="width: 100%" stripe>
+							<el-table-column align="center" type="expand" v-show='item.name==5 || item.name==6'>
 								<template slot-scope="props">
 									<el-form label-position="left" inline class="demo-table-expand">
 										<!-- <el-form-item label="本期基本养老保险费">
@@ -176,77 +181,78 @@
 									</el-form>
 								</template>
 							</el-table-column>
-							<el-table-column label="序号" type="index" width="50">
+							<el-table-column align="center" label="序号" type="index" width="50">
 							</el-table-column>
-							<el-table-column prop="employeeCode" label="工号">
+							<el-table-column align="center" prop="employeeCode" label="工号">
 							</el-table-column>
-							<el-table-column prop="employeeName" label="姓名">
+							<el-table-column align="center" prop="employeeName" label="姓名">
 							</el-table-column>
-							<el-table-column prop="cardType" label="证照类型" width="100">
+							<el-table-column align="center" prop="cardType" label="证照类型" width="100">
 							</el-table-column>
-							<el-table-column prop="cardNum" label="证照号码" width="180">
+							<el-table-column align="center" prop="cardNum" label="证照号码" width="180">
 							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="areaName" label="国籍(地区)" width="90">
+							<el-table-column align="center" v-if="item.name==1" prop="areaName" label="国籍(地区)" width="90">
 							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="sex" label="性别">
+							<el-table-column align="center" v-if="item.name==1" prop="sex" label="性别">
 							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="birthDate" label="出生日期" width="100">
+							<el-table-column align="center" v-if="item.name==1" prop="birthDate" label="出生日期" width="100">
 							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="employeeStatus" label="人员状态">
+							<el-table-column align="center" v-if="item.name==1" prop="employeeStatus" label="人员状态">
 							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="employeeType" label="任职受雇从业类型" width="140">
+							<el-table-column align="center" v-if="item.name==1" prop="employeeType" label="任职受雇从业类型" width="140">
 							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="phoneNum" label="手机号码">
+							<el-table-column align="center" v-if="item.name==1" prop="phoneNum" label="手机号码">
 							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="employeeDate" label="任职受雇从业日期" width="140">
+							<el-table-column align="center" v-if="item.name==1" prop="employeeDate" label="任职受雇从业日期" width="140">
 							</el-table-column>
-							<el-table-column v-if="item.name==1" prop="quitDate" label="离职日期" width="100">
+							<el-table-column align="center" v-if="item.name==1" prop="quitDate" label="离职日期" width="100">
 							</el-table-column>
 
-							<el-table-column v-if="item.name==5||item.name==6" prop="projectCode" label="所得项目">
+							<el-table-column align="center" v-if="item.name==5||item.name==6" prop="projectCode" label="所得项目">
 							</el-table-column>
-							<el-table-column v-if="item.name==2||item.name==4||item.name==5" :prop="item.name==2?'monIncomeAmount':'incomeAmount'"
+							<el-table-column align="center" v-if="item.name==2||item.name==4||item.name==5" :prop="item.name==2?'monIncomeAmount':'incomeAmount'"
 							 label="本期收入">
 							</el-table-column>
-							<el-table-column v-if="item.name==2||item.name==4||item.name==5" :prop="item.name==2?'monTaxFreeIncome':'taxFreeIncome'"
+							<el-table-column align="center" v-if="item.name==2||item.name==4||item.name==5" :prop="item.name==2?'monTaxFreeIncome':'taxFreeIncome'"
 							 label="本期免税收入" width="110">
 							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="monPensionInsurance" label="基本养老保险费" width="120">
+							<el-table-column align="center" v-if="item.name==2" prop="monPensionInsurance" label="基本养老保险费" width="120">
 							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="monMedicalInsurance" label="基本医疗保险费" width="120">
+							<el-table-column align="center" v-if="item.name==2" prop="monMedicalInsurance" label="基本医疗保险费" width="120">
 							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="monUnemploymentInsurance" label="失业保险费" width="100">
+							<el-table-column align="center" v-if="item.name==2" prop="monUnemploymentInsurance" label="失业保险费" width="100">
 							</el-table-column>
-							<el-table-column v-if="item.name==2" prop="monHousingFund" label="住房公积金" width="100">
+							<el-table-column align="center" v-if="item.name==2" prop="monHousingFund" label="住房公积金" width="100">
 							</el-table-column>
 
-							<el-table-column v-if="item.name==5" prop="healthInsurance" label="商业健康保险" width="110">
+							<el-table-column align="center" v-if="item.name==5" prop="healthInsurance" label="商业健康保险" width="110">
 							</el-table-column>
-							<el-table-column v-if="item.name==5" prop="pension" label="税延养老保险" width="110">
+							<el-table-column align="center" v-if="item.name==5" prop="pension" label="税延养老保险" width="110">
 							</el-table-column>
-							<el-table-column v-if="item.name==3" prop="incomeAmount" label="全年一次性奖金额">
+							<el-table-column align="center" v-if="item.name==3" prop="incomeAmount" label="全年一次性奖金额">
 							</el-table-column>
-							<el-table-column v-if="item.name==6||item.name==7" prop="incomeAmount" label="收入">
+							<el-table-column align="center" v-if="item.name==6||item.name==7" prop="incomeAmount" label="收入">
 							</el-table-column>
-							<el-table-column v-if="item.name==3||item.name==6||item.name==7" prop="taxFreeIncome" label="免税收入">
+							<el-table-column align="center" v-if="item.name==3||item.name==6||item.name==7" prop="taxFreeIncome" label="免税收入">
 							</el-table-column>
-							<el-table-column v-if="item.name==4||item.name==7" prop="otherFee" label="其他">
+							<el-table-column align="center" v-if="item.name==4||item.name==7" prop="otherFee" label="其他">
 							</el-table-column>
-							<el-table-column v-if="item.name==3" prop="otherIncome" label="其他">
+							<el-table-column align="center" v-if="item.name==3" prop="otherIncome" label="其他">
 							</el-table-column>
-							<el-table-column v-if="item.name==6||item.name==7" prop="actualDonation" label="实际捐赠额">
+							<el-table-column align="center" v-if="item.name==6||item.name==7" prop="actualDonation" label="实际捐赠额">
 							</el-table-column>
-							<el-table-column v-if="item.name==6||item.name==7" prop="donationType" label="捐赠方式">
+							<el-table-column align="center" v-if="item.name==6||item.name==7" prop="donationType" label="捐赠方式">
 							</el-table-column>
-							<el-table-column v-if="item.name!=1 && item.name!=2" prop="deductedDonation" label="准予扣除的捐赠额" width="140">
+							<el-table-column align="center" v-if="item.name!=1 && item.name!=2" prop="deductedDonation" label="准予扣除的捐赠额"
+							 width="140">
 							</el-table-column>
-							<el-table-column v-if="item.name==5" prop="otherFee" label="其他">
+							<el-table-column align="center" v-if="item.name==5" prop="otherFee" label="其他">
 							</el-table-column>
-							<el-table-column v-if="item.name!=1 && item.name!=2" prop="deductTax" label="减免税额">
+							<el-table-column align="center" v-if="item.name!=1 && item.name!=2" prop="deductTax" label="减免税额">
 							</el-table-column>
-							<el-table-column v-if="item.name==4||item.name==5" prop="taxation" label="税款">
+							<el-table-column align="center" v-if="item.name==4||item.name==5" prop="taxation" label="税款">
 							</el-table-column>
-							<el-table-column v-if="item.name!=1" prop="remark" label="备注">
+							<el-table-column align="center" v-if="item.name!=1" prop="remark" label="备注">
 							</el-table-column>
 						</el-table>
 						<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -426,8 +432,9 @@
 				this.searchList.statusVaule = '1';
 				this.searchList.nowDate = ''
 			},
-			exportExcel(){
-				window.location.href = "/perTaxToolTwo/api/excel/exportExcel.do?customerId=" + this.customerId + "&accountPeriod=" + this.accountPeriod + "&submitStatus=" + this.statusVaule;
+			exportExcel() {
+				window.location.href = "/perTaxToolTwo/api/excel/exportExcel.do?customerId=" + this.customerId + "&accountPeriod=" +
+					this.accountPeriod + "&submitStatus=" + this.statusVaule;
 			}
 		}
 	};
@@ -435,11 +442,31 @@
 
 <style scoped lang="less">
 	.reportForms {
-		padding: 20px;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+
+		.el-breadcrumb {
+			height: 30px;
+			line-height: 29px;
+			padding-left: 20px;
+			background-color: #fff;
+			border-top: 1px solid #f2f6fc;
+			box-sizing: border-box;
+		}
 
 		/deep/ .el-pagination {
 			text-align: right;
 			margin-top: 10px;
+		}
+
+		/deep/ .el-table th {
+			background-color: #ebf6fb;
+			height: 40px;
+		}
+
+		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+			background: #ebf6fb;
 		}
 
 		/deep/ .demo-table-expand {
@@ -458,11 +485,43 @@
 		}
 	}
 
+	/deep/ .el-table__body tr,
+	.el-table__body td {
+		padding: 0;
+		height: 40px;
+
+		background-color: #fff7f1;
+	}
+
+	/deep/ .el-table__body tr.el-table__row--striped {
+		background-color: #ebf6fb;
+	}
+
+	/deep/ .el-table thead {
+		color: #343434;
+		// font-size: 16px;
+	}
+
+	/deep/ .el-tabs__header {
+		margin: 0px;
+	}
+
+	// /deep/ .el-table__body tr:hover{
+	// 	background-color: #efe9e5;
+	// }
+	/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+		background-color: #efe9e5;
+	}
+
+	/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+		border-bottom-color: #fff;
+		background: #ebf6fb;
+	}
+
 	.search {
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
 		background: #fff;
 		padding: 20px 20px;
+		margin: 20px;
 	}
 
 	.title {
@@ -507,7 +566,7 @@
 	.content {
 		background: #fff;
 		padding: 20px 20px;
-		margin-top: 20px;
+		margin: 20px;
 	}
 
 	.tableBox {

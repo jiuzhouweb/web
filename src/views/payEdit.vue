@@ -17,14 +17,14 @@
 			<el-button type="primary" size='mini' @click='calc'>计算筹划</el-button>
 
 			<el-table class="table1" :data="tableData1" border stripe style="width: 100%;margin-top:20px" @selection-change="((val)=>{handleSelectionChange(val)})">
-				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="序号" type='index' width="50" :resizable="false"></el-table-column>
-				<el-table-column prop="customerName" label="公司" :resizable="false"></el-table-column>
-				<el-table-column prop="taxPayerId" label="纳税人识别号" :resizable="false"></el-table-column>
-				<el-table-column prop="accountPeriod" label="账期" :resizable="false"></el-table-column>
-				<el-table-column fixed="right" label="操作" :resizable="false" width="160">
+				<el-table-column align="center" type="selection" width="50"></el-table-column>
+				<el-table-column align="center" label="序号" type='index' width="50" :resizable="false"></el-table-column>
+				<el-table-column align="center" prop="customerName" label="公司" :resizable="false"></el-table-column>
+				<el-table-column align="center" prop="taxPayerId" label="纳税人识别号" :resizable="false"></el-table-column>
+				<el-table-column align="center" prop="accountPeriod" label="账期" :resizable="false"></el-table-column>
+				<el-table-column align="center" fixed="right" label="操作" :resizable="false" width="160">
 					<template slot-scope="scope">
-						<el-button type="primary" size="small" @click='edit(scope.row)'>年终统筹方案选择</el-button>
+						<el-button type="primary" size="small" @click='edit(scope.row,scope.$index)'>年终统筹方案选择</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -33,26 +33,46 @@
 			</el-pagination>
 		</div>
 
-		<el-dialog title="易点个税年终奖筹划方案" class="dialogCalc" :visible.sync="dialogVisibleCalc" width="70%">
+		<el-dialog title="易点个税年终奖筹划方案" class="dialogCalc" :visible.sync="dialogVisibleCalc" width="70%" @close="closeDilog">
 			<div class="buttons">
-				<el-button icon="el-icon-collection" size='mini' @click="saveCalc()">保存</el-button>
+				<!-- <el-button icon="el-icon-collection" size='mini' @click="saveCalc()">保存</el-button> -->
 			</div>
 			<el-table :data="tableTem[index]" style="width: 100%;margin-top:20px" stripe border>
 				<!-- <el-table-column type="selection" width="50"></el-table-column> -->
-				<el-table-column label="姓名" prop="employeeName" :resizable="false"></el-table-column>
-				<el-table-column label="收入额" prop="incomeAmount" :resizable="false"></el-table-column>
-				<el-table-column label="年终奖" prop="yearAwards" :resizable="false"></el-table-column>
-				<el-table-column label="分开核算个税" prop="sepTaxation" :resizable="false"></el-table-column>
-				<el-table-column label="合并核算个税" prop="comTaxation" :resizable="false"></el-table-column>
-				<el-table-column label="推荐方案" prop="suggestType" :resizable="false"></el-table-column>
-				<el-table-column label="操作" width="260" :resizable="false">
+				<el-table-column align="center" label="姓名" prop="employeeName" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="收入额" prop="incomeAmount" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="年终奖" prop="yearAwards" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="分开核算个税" prop="sepTaxation" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="合并核算个税" prop="comTaxation" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="推荐方案" prop="suggestType" :resizable="false"></el-table-column>
+				<el-table-column align="center" width="260" :resizable="false">
+					<template slot="header" slot-scope="scope">
+						<el-dropdown @command="handleCommand" style='float: left;line-height: 28px;'>
+							<span class="el-dropdown-link">
+								操作<i class="el-icon-arrow-down el-icon--right"></i>
+							</span>
+							<el-dropdown-menu slot="dropdown">
+								<el-dropdown-item command="分开核算">全部分开核算</el-dropdown-item>
+								<el-dropdown-item command="合并核算">全部合并核算</el-dropdown-item>
+								<el-dropdown-item command="推荐核算">全部推荐核算</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
+						<el-button size='mini' type='primary' @click="saveCalc()" style='float: right;'>保存年终筹划</el-button>
+					</template>
 					<template slot-scope="scope">
-						<el-radio-group v-model="scope.row.radio" size="small" @change="setChooseType(scope.row.radio,scope.row)">
+						<el-radio-group v-model="scope.row.radio1" size="small" @change="setChooseType(scope.row.radio1,scope.row)">
 							<el-radio-button label="分开核算"></el-radio-button>
 							<el-radio-button label="合并核算"></el-radio-button>
 							<el-radio-button label="推荐核算"></el-radio-button>
 						</el-radio-group>
 					</template>
+					<!-- <template slot-scope="scope">
+						<el-radio-group v-model="scope.row.radio1" size="small" @change="setChooseType(scope.row.radio1,scope.row)">
+							<el-radio-button label="分开核算"></el-radio-button>
+							<el-radio-button label="合并核算"></el-radio-button>
+							<el-radio-button label="推荐核算"></el-radio-button>
+						</el-radio-group>
+					</template> -->
 				</el-table-column>
 			</el-table>
 			<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
@@ -70,7 +90,7 @@
 
 			</el-upload>
 			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button @click="cancelUpload">取 消</el-button>
 				<el-button type="primary" @click="submitUpload">上传</el-button>
 			</span>
 		</el-dialog>
@@ -104,8 +124,9 @@
 				operateId: "",
 				customerList: [],
 				pageoperateId: '',
-				tableTem:[],
-				index:0
+				tableTem: [],
+				index: 0,
+				tindex: 0
 			};
 		},
 		watch: {},
@@ -237,8 +258,19 @@
 					}).then(res => { //手动上传貌似无法触发成功或失败的钩子函数，因此这里手动调用 
 						if (res.data.code == 200) {
 							this.tableData1 = res.data.data.result;
+							this.total1 = res.data.data.result.length;
+							this.dialogVisible = false;
+
+
+						} else {
+							this.fileList = [];
+							this.$message({
+								message: "上传文件失败！",
+								type: "error"
+							});
 						}
 					}).catch(err => {
+						this.fileList = [];
 						this.$message({
 							message: "上传文件失败！",
 							type: "error"
@@ -302,8 +334,11 @@
 				this.multipleSelection1 = val;
 				console.log(this.multipleSelection1);
 			},
-
-			edit(row) {
+			cancelUpload() {
+				this.fileList = [];
+				this.dialogVisible = false;
+			},
+			edit(row, index) {
 				// let params = {
 				// 	row: this.pageSize4,
 				// 	page: this.pageNum4,
@@ -323,19 +358,38 @@
 				// 			type: "error"
 				// 		});
 				// 	})
-				this.pageoperateId = row.operateId;
+				// this.pageoperateId = row.operateId;
+				this.tindex = index;
+				this.index = 0;
+				this.tableTem = [];
+				this.tableData4 = row.dataList;
+				console.log("22222", this.tableData1[0].dataList);
+				console.log("33333", row.dataList);
+				this.total4 = row.dataList.length;
+				this.tableData4.forEach((item, index) => {
+					this.$set(item, "radio1", item.radio);
+					this.$set(item, "chooseType1", item.chooseType);
+					// item.radio='推荐核算'
+				});
+				for (let i = 0; i < this.tableData4.length; i += 10) {
+					this.tableTem.push(this.tableData4.slice(i, i + 10));
+				}
 				this.dialogVisibleCalc = true;
-				this.getTableData4(this.pageoperateId);
+				// this.getTableData4(this.pageoperateId);
 			},
 			calc() {
 				console.log(this.multipleSelection1);
-				let params = {};
+				var arr = [];
+				this.multipleSelection1.forEach((item, index) => {
+					arr.push(item.dataList);
+				})
+				let params = arr;
 				this.axios
-					.post("/test/CalculatorSingleCompany", params)
+					.post("/perTaxToolTwo/monAcct/chooseCalcTypeList.do", params)
 					.then(res => {
-						if (res.data.code == 200) {
-							this.pageNum1 = "1";
-							this.getTableData1();
+						if (res.data.code == 200 && res.data.data.length == 0) {
+							this.tableData1 = [];
+							this.total1 = res.data.data.length;
 						} else {
 							this.$message({
 								message: res.data.msg,
@@ -350,42 +404,60 @@
 						});
 					});
 			},
-			saveCalc(type) {
+			saveCalc() {
 				this.dialogVisibleCalc = false;
-				// console.log(this.multipleSelection2);
-				// let params = {};
-				// this.axios
-				// 	.post("/test/CalculatorSingleCompany", params)
-				// 	.then(res => {
-				// 		if (res.data.code == 200) {
-				// 			if (type == "1") {} else {
-				// 				this.dialogVisibleCalc = false;
-				// 				this.pageNum1 = "1";
-				// 				this.getTableData1();
-				// 			}
-				// 		} else {
-				// 			this.$message({
-				// 				message: res.data.msg,
-				// 				type: "error"
-				// 			});
-				// 		}
-				// 	})
-				// 	.catch(function(err) {
-				// 		this.$message({
-				// 			message: "保存失败",
-				// 			type: "error"
-				// 		});
-				// 	});
+				console.log(this.tableTem);
+				var arr = Array.prototype.concat.apply([], this.tableTem);
+				arr.forEach((item, index) => {
+					item.chooseType = item.chooseType1;
+					item.radio = item.radio1;
+				})
+				this.tableData1[this.tindex].dataList = arr;
+				console.log("11111", this.tableData1[0].dataList);
+			},
+			closeDilog() {
+				console.log(this.tableTem);
 			},
 			setChooseType(val, item) {
 				if (val == '分开核算') {
-					item.chooseType = 1
+					item.chooseType1 = 1
 				} else if (val == '合并核算') {
-					item.chooseType = 2
+					item.chooseType1 = 2
 				} else {
-					item.chooseType = 3
+					item.chooseType1 = 3
 				}
-			}
+			},
+			handleCommand(command) {
+				switch (command) {
+					case '分开核算':
+						this.tableData4.forEach((item, index) => {
+							item.radio1 = command;
+							item.chooseType1 = 1;
+						})
+						break;
+					case '合并核算':
+						this.tableData4.forEach((item, index) => {
+							item.radio1 = command;
+							item.chooseType1 = 2;
+						})
+						break;
+					case '推荐核算':
+						this.tableData4.forEach((item, index) => {
+							item.radio1 = command;
+							item.chooseType1 = 3;
+						})
+						break;
+					default:
+						break;
+				}
+				// for(let i = 0; i < this.tableTem.length;i++){
+				// 	
+				// }
+
+				for (let i = 0; i < this.tableData4.length; i += 10) {
+					this.tableTem.push(this.tableData4.slice(i, i + 10));
+				}
+			},
 		},
 		computed: {},
 		created() {
@@ -439,14 +511,41 @@
 			height: 40px;
 		}
 
-		/deep/ .el-table__body tr,
-		.el-table__body td {
-			padding: 0;
-			height: 40px;
+		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+			background: #ebf6fb;
+		}
+
+		/deep/ .el-table th {
+			background-color: #ebf6fb;
 		}
 
 		/deep/ .el-table td {
 			padding: 6px 0;
+		}
+
+		/deep/ .el-table__body tr,
+		.el-table__body td {
+			padding: 0;
+			height: 40px;
+
+			background-color: #fff7f1;
+		}
+
+		/deep/ .el-table__body tr.el-table__row--striped {
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table thead {
+			color: #343434;
+		}
+
+		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+			background-color: #efe9e5;
+		}
+
+		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+			border-bottom-color: #fff;
+			background: #ebf6fb;
 		}
 
 		.search_contain {

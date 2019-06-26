@@ -18,8 +18,7 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable>
-							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName"
-							 :value='item.customerId'></el-option>
+							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="证件号导入">
@@ -42,8 +41,7 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<el-select v-model="customerId" placeholder="请选择公司名称" clearable>
-							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName"
-							 :value='item.customerId'></el-option>
+							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
 
@@ -61,7 +59,7 @@
 			<el-button type="primary" size='mini' @click='calc' v-if="calcFlag">计算</el-button>
 			<el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog'
 			 v-if="tableData1.length>0">批量删除</el-button>
-			<el-table class="table1" :data="tableData1" stripe style="width: 100%" @selection-change="handleSelectionChange">
+			<el-table class="table1" :data="tableData1" stripe style="width: 100%;margin-top: 20px;" @selection-change="handleSelectionChange">
 
 				<el-table-column type="expand">
 					<template slot-scope="props">
@@ -123,17 +121,17 @@
 						</el-form>
 					</template>
 				</el-table-column>
-				<el-table-column type="selection" width="55"></el-table-column>
-				<el-table-column label="序号" type='index' width="50"></el-table-column>
-				<el-table-column prop="employeeName" label="姓名" width="120"></el-table-column>
-				<el-table-column prop="cardType" label="证件类型"></el-table-column>
-				<el-table-column prop="cardNum" label="证件号码"></el-table-column>
-				<el-table-column prop="employmentDate" label="任职受雇日期"></el-table-column>
-				<el-table-column prop="projectCode" label="所得项目名称"></el-table-column>
-				<el-table-column prop="incomeAmount" label="收入额"></el-table-column>
-				<el-table-column prop="reportedIncome" label="已申报收入"></el-table-column>
-				<el-table-column prop="taxFreeIncome" label="免税所得"></el-table-column>
-				<el-table-column fixed="right" label="操作" width="100">
+				<el-table-column align="center" type="selection" width="55"></el-table-column>
+				<el-table-column align="center" label="序号" type='index' width="50"></el-table-column>
+				<el-table-column align="center" prop="employeeName" label="姓名" width="120"></el-table-column>
+				<el-table-column align="center" prop="cardType" label="证件类型"></el-table-column>
+				<el-table-column align="center" prop="cardNum" label="证件号码"></el-table-column>
+				<el-table-column align="center" prop="employmentDate" label="任职受雇日期"></el-table-column>
+				<el-table-column align="center" prop="projectCode" label="所得项目名称"></el-table-column>
+				<el-table-column align="center" prop="incomeAmount" label="收入额"></el-table-column>
+				<el-table-column align="center" prop="reportedIncome" label="已申报收入"></el-table-column>
+				<el-table-column align="center" prop="taxFreeIncome" label="免税所得"></el-table-column>
+				<el-table-column align="center" fixed="right" label="操作" width="100">
 					<template slot-scope="scope">
 						<el-button type="text" size="small" @click='edit(scope.row)'>编辑</el-button>
 						<el-button type="text" size="small" @click='del(scope.row)'>删除</el-button>
@@ -151,21 +149,21 @@
 			<div>
 				<el-button type="primary" @click='submitAll' v-if="calcFlag" size="small">提交</el-button>
 			</div>
-			<el-table :data="tableData2" style="width: 100%;" stripe>
-				<el-table-column label="序号" type='index' width="50" :resizable="false"></el-table-column>
-				<el-table-column label="姓名" prop="employeeName" :resizable="false"></el-table-column>
-				<el-table-column label="证件号码" prop="cardNum" :resizable="false"></el-table-column>
-				<el-table-column label="任职受雇日期" prop="employmentDate" width="120" :resizable="false"></el-table-column>
-				<el-table-column label="收入额" prop="incomeAmount" width="80" :resizable="false"></el-table-column>
-				<el-table-column label="年终奖" prop="yearAwards" width="90" :resizable="false"></el-table-column>
-				<el-table-column label="五险一金" prop="insurance" width="90" :resizable="false"></el-table-column>
-				<el-table-column label="专项附加扣除" prop="specialDeduction" width="120" :resizable="false"></el-table-column>
-				<el-table-column label="其他扣除项" prop="otherDeduction" width="110" :resizable="false"></el-table-column>
-				<el-table-column label="应纳税所得额" prop="taxableIncome" width="120" :resizable="false"></el-table-column>
-				<el-table-column label="应纳税额" prop="payableTax" width="90" :resizable="false"></el-table-column>
-				<el-table-column label="已缴税额" prop="withholdTax" width="90" :resizable="false"></el-table-column>
-				<el-table-column label="应补（退）税额" prop="taxation" width="130" :resizable="false"></el-table-column>
-				<el-table-column label="操作" :resizable="false">
+			<el-table :data="tableData2" style="width: 100%;margin-top: 20px;" stripe>
+				<el-table-column align="center" label="序号" type='index' width="50" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="姓名" prop="employeeName" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="证件号码" prop="cardNum" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="任职受雇日期" prop="employmentDate" width="120" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="收入额" prop="incomeAmount" width="80" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="年终奖" prop="yearAwards" width="90" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="五险一金" prop="insurance" width="90" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="专项附加扣除" prop="specialDeduction" width="120" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="其他扣除项" prop="otherDeduction" width="110" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="应纳税所得额" prop="taxableIncome" width="120" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="应纳税额" prop="payableTax" width="90" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="已缴税额" prop="withholdTax" width="90" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="应补（退）税额" prop="taxation" width="130" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="操作" :resizable="false">
 					<template slot-scope="scope">
 						<el-button @click="handleClick(scope.row)" type="text" size="small">查看详细</el-button>
 					</template>
@@ -179,15 +177,15 @@
 		<div v-if="tableData3.length>0" class='main_contain bottomTable' style="margin-bottom:20px">
 			<span class="title">年终奖工资表</span>
 			<el-table :data="tableData3" style="width: 100%" stripe border>
-				<el-table-column label="序号" type='index' width="50" :resizable="false"></el-table-column>
-				<el-table-column label="姓名" prop="employeeName" :resizable="false"></el-table-column>
-				<el-table-column label="证件号码" prop="cardNum" :resizable="false"></el-table-column>
-				<el-table-column label="任职受雇日期" prop="employmentDate" :resizable="false"></el-table-column>
-				<el-table-column label="收入额" prop="incomeAmount" :resizable="false"></el-table-column>
-				<el-table-column label="应纳税所得额" prop="taxableIncome" :resizable="false"></el-table-column>
-				<el-table-column label="应纳税额" prop="preWithholdTax" :resizable="false"></el-table-column>
-				<el-table-column label="已缴税额" prop="prepaidTax" :resizable="false"></el-table-column>
-				<el-table-column label="应补（退）税额" prop="taxation" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="序号" type='index' width="50" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="姓名" prop="employeeName" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="证件号码" prop="cardNum" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="任职受雇日期" prop="employmentDate" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="收入额" prop="incomeAmount" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="应纳税所得额" prop="taxableIncome" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="应纳税额" prop="preWithholdTax" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="已缴税额" prop="prepaidTax" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="应补（退）税额" prop="taxation" :resizable="false"></el-table-column>
 			</el-table>
 			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '3')})" :current-page="currentPage3"
 			 :page-size="pageSize3" layout="total, prev, pager, next, jumper" :total="total3">
@@ -329,7 +327,8 @@
 		</el-dialog>
 
 		<el-dialog title="新增员工基础信息" :visible.sync="dialogVisibleBasicInfo" width="90%" class="dialogAdd">
-			<el-form :inline="true" :ref="itemBasicInfo" :model="itemBasicInfo" class="demo-form-inline" label-width="180px" size="small">
+			<el-form :inline="true" :ref="itemBasicInfo" :model="itemBasicInfo" class="demo-form-inline" label-width="180px"
+			 size="small" :rules="rulesBasic">
 				<el-form-item label="姓名">
 					<el-input v-model="itemBasicInfo.employeeName" placeholder="请输入姓名"></el-input>
 				</el-form-item>
@@ -500,7 +499,7 @@
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisibleBasicInfo = false">取 消</el-button>
-				<el-button type="primary" @click="dialogVisibleBasicInfo = false">确 定</el-button>
+				<el-button type="primary" @click="basicInfoCommit(itemBasicInfo)">确 定</el-button>
 			</span>
 		</el-dialog>
 
@@ -509,19 +508,19 @@
 			<el-tabs v-model="activeName">
 				<el-tab-pane :label="item.title" :name="item.name" v-for="(item,index) in tableTabs" :key="index">
 					<el-table :data="tableDataDetail" border style="width: 100%">
-						<el-table-column label="月份" prop="accountPeriod"></el-table-column>
-						<el-table-column v-if="item.name==1" label="本月收入" prop="monIncome"></el-table-column>
-						<el-table-column v-if="item.name==2" label="累计收入" prop="sumIncome"></el-table-column>
-						<el-table-column v-if="item.name==2" label="费用扣除标准" prop="sumDeductStandard"></el-table-column>
-						<el-table-column label="五险一金" v-if="item.name==1||item.name==2" :prop="item.name==1?'monInsurance':'sumInsurance'"></el-table-column>
-						<el-table-column label="专项附加扣除" v-if="item.name==1||item.name==2" :prop="item.name==1?'monAddDeduct':'sumAddDeduct'"></el-table-column>
-						<el-table-column label="其他扣除项" v-if="item.name==1||item.name==2" :prop="item.name==1?'monOthDeduct':'sumOthDeduct'"></el-table-column>
-						<el-table-column v-if="item.name==3" label="预交应纳税所得" prop="calQuickDeduction"></el-table-column>
-						<el-table-column v-if="item.name==3" label="税率" prop="calRate"></el-table-column>
-						<el-table-column v-if="item.name==3" label="速算扣除数" prop="calQuickDeduction"></el-table-column>
-						<el-table-column v-if="item.name==3" label="应纳税额" prop="calQuickDeduction"></el-table-column>
-						<el-table-column v-if="item.name==3" label="已缴税额" prop="calQuickDeduction"></el-table-column>
-						<el-table-column v-if="item.name==3" label="应补（退）税额" prop="calQuickDeduction"></el-table-column>
+						<el-table-column align="center" label="月份" prop="accountPeriod"></el-table-column>
+						<el-table-column align="center" v-if="item.name==1" label="本月收入" prop="monIncome"></el-table-column>
+						<el-table-column align="center" v-if="item.name==2" label="累计收入" prop="sumIncome"></el-table-column>
+						<el-table-column align="center" v-if="item.name==2" label="费用扣除标准" prop="sumDeductStandard"></el-table-column>
+						<el-table-column align="center" label="五险一金" v-if="item.name==1||item.name==2" :prop="item.name==1?'monInsurance':'sumInsurance'"></el-table-column>
+						<el-table-column align="center" label="专项附加扣除" v-if="item.name==1||item.name==2" :prop="item.name==1?'monAddDeduct':'sumAddDeduct'"></el-table-column>
+						<el-table-column align="center" label="其他扣除项" v-if="item.name==1||item.name==2" :prop="item.name==1?'monOthDeduct':'sumOthDeduct'"></el-table-column>
+						<el-table-column align="center" v-if="item.name==3" label="预交应纳税所得" prop="calQuickDeduction"></el-table-column>
+						<el-table-column align="center" v-if="item.name==3" label="税率" prop="calRate"></el-table-column>
+						<el-table-column align="center" v-if="item.name==3" label="速算扣除数" prop="calQuickDeduction"></el-table-column>
+						<el-table-column align="center" v-if="item.name==3" label="应纳税额" prop="calQuickDeduction"></el-table-column>
+						<el-table-column align="center" v-if="item.name==3" label="已缴税额" prop="calQuickDeduction"></el-table-column>
+						<el-table-column align="center" v-if="item.name==3" label="应补（退）税额" prop="calQuickDeduction"></el-table-column>
 					</el-table>
 				</el-tab-pane>
 			</el-tabs>
@@ -538,13 +537,13 @@
 			</div> -->
 
 			<el-table :data="tableTem[index]" style="width: 100%;margin-top:20px" stripe border>
-				<el-table-column label="姓名" prop="employeeName" :resizable="false"></el-table-column>
-				<el-table-column label="收入额" prop="incomeAmount" width="100" :resizable="false"></el-table-column>
-				<el-table-column label="年终奖" prop="yearAwards" width="100" :resizable="false"></el-table-column>
-				<el-table-column label="分开核算个税" prop="sepTaxation" width="120" :resizable="false"></el-table-column>
-				<el-table-column label="合并核算个税" prop="comTaxation" width="120" :resizable="false"></el-table-column>
-				<el-table-column label="推荐方案" prop="suggestType" width="120" :resizable="false"></el-table-column>
-				<el-table-column :resizable="false">
+				<el-table-column align="center" label="姓名" prop="employeeName" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="收入额" prop="incomeAmount" width="100" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="年终奖" prop="yearAwards" width="100" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="分开核算个税" prop="sepTaxation" width="120" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="合并核算个税" prop="comTaxation" width="120" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="推荐方案" prop="suggestType" width="120" :resizable="false"></el-table-column>
+				<el-table-column align="center" :resizable="false">
 					<template slot="header" slot-scope="scope">
 						<el-dropdown @command="handleCommand" style='float: left;line-height: 28px;'>
 							<span class="el-dropdown-link">
@@ -980,6 +979,25 @@
 						trigger: "blur"
 					}]
 				},
+
+				rulesBasic: {
+					employeeName: [{
+						required: true,
+						message: "请输入姓名",
+						trigger: "blur"
+					}],
+					cardType: [{
+						required: true,
+						message: "请选择证件类型",
+						trigger: "change"
+					}],
+					cardNum: [{
+						required: true,
+						message: "请输入证件号码",
+						trigger: "blur"
+					}]
+				},
+
 				dialogVisibleCalc: false,
 				calcData: {},
 				addFlag: false,
@@ -987,55 +1005,55 @@
 				customerList: [],
 				calcFlag: false,
 				tag: 3,
-				tableTem:[],
-				index:0,
-				dialogVisibleBasicInfo:false,
-				itemBasicInfo:{
-					employeeCode:'',
-					employeeName:'',
-					cardType:'',
-					cardNum:'',
-					sex:'',
-					birthDate:'',
-					employeeStatus:'',
-					employeeType:'',
-					phoneNum:'',
-					employeeDate:'',
-					quitDate:'',
-					isDiasbility:'',
-					isMartyr:'',
-					isLonely:'',
-					diasbilityNum:'',
-					martyrNum:'',
-					individualInvestment:'',
-					individualInvestmentRatio:'',
-					remark:'',
-					isOverseasPerson:'',
-					chineseName:'',
-					taxRelatedCauses:'',
-					birthCountry:'',
-					firstEntryCountryDate:'',
-					estimateDepartureCountryDate:'',
-					otherCardType:'',
-					otherCardNum:'',
-					censusRegisterProvince:'',
-					censusRegisterCity:'',
-					censusRegisterCounty:'',
-					censusRegisterDetail:'',
-					liveAddressProvince:'',
-					liveAddressCity:'',
-					liveAddressCounty:'',
-					liveAddressDetail:'',
-					contactAddressProvince:'',
-					contactAddressCity:'',
-					contactAddressCounty:'',
-					contactAddressDetail:'',
-					email:'',
-					education:'',
-					bankDeposit:'',
-					bankAccount:'',
-					post:'',
-					civilState:'',
+				tableTem: [],
+				index: 0,
+				dialogVisibleBasicInfo: false,
+				itemBasicInfo: {
+					employeeCode: '',
+					employeeName: '',
+					cardType: '',
+					cardNum: '',
+					sex: '',
+					birthDate: '',
+					employeeStatus: '',
+					employeeType: '',
+					phoneNum: '',
+					employeeDate: '',
+					quitDate: '',
+					isDiasbility: '',
+					isMartyr: '',
+					isLonely: '',
+					diasbilityNum: '',
+					martyrNum: '',
+					individualInvestment: '',
+					individualInvestmentRatio: '',
+					remark: '',
+					isOverseasPerson: '',
+					chineseName: '',
+					taxRelatedCauses: '',
+					birthCountry: '',
+					firstEntryCountryDate: '',
+					estimateDepartureCountryDate: '',
+					otherCardType: '',
+					otherCardNum: '',
+					censusRegisterProvince: '',
+					censusRegisterCity: '',
+					censusRegisterCounty: '',
+					censusRegisterDetail: '',
+					liveAddressProvince: '',
+					liveAddressCity: '',
+					liveAddressCounty: '',
+					liveAddressDetail: '',
+					contactAddressProvince: '',
+					contactAddressCity: '',
+					contactAddressCounty: '',
+					contactAddressDetail: '',
+					email: '',
+					education: '',
+					bankDeposit: '',
+					bankAccount: '',
+					post: '',
+					civilState: '',
 				},
 			};
 		},
@@ -1234,7 +1252,7 @@
 							for (let i = 0; i < this.tableData4.length; i += 10) {
 								this.tableTem.push(this.tableData4.slice(i, i + 10));
 							}
-							
+
 							console.log("11", this.tableData4);
 						} else {
 							this.$message({
@@ -1319,6 +1337,7 @@
 					this.accountPeriod = this.uploadData.accountPeriod;
 					this.customerId = this.uploadData.customerId;
 					this.statusVaule = "0";
+					this.calcFlag = true;
 					this.addFlag = true;
 					this.getOperatorId();
 					this.pageNum1 = '1';
@@ -1659,17 +1678,18 @@
 			continueAdd(formName) {
 				this.$refs[formName].validate(valid => {
 					if (valid) {
-						this.dialogVisibleBasicInfo=true;
-						this.itemBasicInfo.employeeName=this.item.employeeName;
-						this.itemBasicInfo.cardType=this.item.cardType;
-						this.itemBasicInfo.cardNum=this.item.cardNum;
-						this.itemBasicInfo.email=this.item.email;
+						this.submit();
+						this.dialogVisibleBasicInfo = true;
+						this.itemBasicInfo.employeeName = this.item.employeeName;
+						this.itemBasicInfo.cardType = this.item.cardType;
+						this.itemBasicInfo.cardNum = this.item.cardNum;
+						this.itemBasicInfo.email = this.item.email;
 					} else {
 						console.log("error submit!!");
 						return false;
 					}
 				});
-				
+
 			},
 			save(formName) {
 				this.$refs[formName].validate(valid => {
@@ -1680,6 +1700,17 @@
 						return false;
 					}
 				});
+			},
+			basicInfoCommit(formName) {
+				this.$refs[formName].validate(valid => {
+					if (valid) {
+						this.submitBasic();
+					} else {
+						console.log("error submit!!");
+						return false;
+					}
+				});
+
 			},
 			submit() {
 				let params = this.item;
@@ -1724,6 +1755,36 @@
 						});
 					});
 			},
+			submitBasic() {
+				let params = this.itemBasicInfo;
+
+				console.log("params", params);
+				this.axios
+					.post("/perTaxToolTwo/Employee/addOrEditPersonInfo", params)
+					.then(res => {
+						if (res.data.code == 200) {
+							this.dialogVisibleBasicInfo = false;
+							this.$message({
+								type: "success",
+								message: res.data.msg
+							});
+						} else {
+							// this.dialogVisibleAdd = false;
+							this.$message({
+								message: res.data.msg,
+								type: "error"
+							});
+						}
+					})
+					.catch(function(err) {
+						this.dialogVisibleAdd = false;
+						this.$message({
+							message: "新增失败",
+							type: "error"
+						});
+					});
+			},
+
 			goReportForms() {
 				this.$router.push({
 					path: '/index/reportForms',
@@ -1862,10 +1923,44 @@
 			height: 40px;
 		}
 
+		/deep/ .el-table th {
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+			background: #ebf6fb;
+		}
+
 		/deep/ .el-table__body tr,
 		.el-table__body td {
 			padding: 0;
 			height: 40px;
+		}
+
+		/deep/ .el-table__body tr,
+		.el-table__body td {
+			padding: 0;
+			height: 40px;
+
+			background-color: #fff7f1;
+		}
+
+		/deep/ .el-table__body tr.el-table__row--striped {
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table thead {
+			color: #343434;
+			// font-size: 16px;
+		}
+
+		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+			background-color: #efe9e5;
+		}
+
+		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+			border-bottom-color: #fff;
+			background: #ebf6fb;
 		}
 
 		/deep/ .el-table td {
