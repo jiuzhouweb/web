@@ -1,6 +1,18 @@
 <template>
   <div class="invoice_oListModule">
     <div class="cardBox" v-if="invoicePanelList.length>0" v-loading="loadingCard">
+      <div class="eachCard">
+        <div class="topContent tophj hjColor">
+          <p class="comName">{{searchList.value}}</p>
+          <p class="dateName">{{searchList.nowDate}}</p>
+          <p class="title">工资</p>
+        </div>
+        <div class="dataContent topData">
+          <p class="number">税金：{{gsskhj}}元</p>
+          <div class="importButton" @click="statPerTaxation()">刷新</div>
+          <div class="searchButton" @click="goImport()">导入</div>
+        </div>
+      </div>
       <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
         <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
         <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
@@ -285,14 +297,57 @@ export default {
       nextStepRes: {},
       detailData: {},
       zengzhiTaxList:[],
-      yinhuaTaxList:[]
+      yinhuaTaxList:[],
+      gsskhj:'', // 个税税款合计
     };
   },
   created() {
     // console.log('taxInfoId',this.taxInfoId)
     this.getTaxCalcMethod();
+    this.statPerTaxation();
   },
   methods: {
+    goImport(){
+      this.$router.push({
+        path: '/index/paySheet',
+					query: {
+            customerId: this.searchList.value,
+            accountPeriod: this.searchList.nowDate,
+					}
+      })
+    },
+    // 查询个税税款合计
+    statPerTaxation(){
+      let params={
+        customerId:this.searchList.value,
+        accountPeriod:this.searchList.nowDate,
+      }
+      axios
+        .post(
+          "/perTaxToolTwo/api/import/statPerTaxation"
+        )
+        .then(res => {
+          console.log("查询个税税款合计", res);
+          if (res.data.code == 200) {
+            if(res.data.data){
+              this.gsskhj = res.data.data;
+            }else{
+              this.$message({
+                message: "未上传工资表",
+                type: "warning"
+              });
+            }
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: "查询个税税款合计失败",
+            type: "error"
+          });
+        });
+      
+
+    },
     // 四舍五入
     fomatFloat(x, pos) {
       // console.log('xxx',x)
@@ -967,6 +1022,9 @@ export default {
 .color9 {
   background: #8e8ec5;
 }
+.hjColor{
+  background:#ffb980;
+}
 .line1 {
   display: flex;
   align-items: center;
@@ -1150,4 +1208,61 @@ export default {
   color: #909399;
   font-size: 0.14rem;
 }
+.importButton {
+    background: #43b3db;
+    color: #fff;
+    border-radius: 0.05rem;
+    cursor: pointer;
+    padding: 0.07rem 0.35rem;
+        position: absolute;
+    bottom: 0.5rem;
+    width: calc(100% - 1.5rem);
+    text-align: center;
+    margin-left: 0.2rem;
+  }
+  .searchButton {
+    background: #ffb980;
+    color: #fff;
+    border-radius: 0.05rem;
+    cursor: pointer;
+    padding: 0.07rem 0.35rem;
+    margin-left:0.2rem;
+        position: absolute;
+    bottom: 0rem;
+    width: calc(100% - 1.5rem);
+    text-align: center;
+  }
+  .deleteButton {
+    background: #ed878e;
+    color: #fff;
+    border-radius: 0.05rem;
+    cursor: pointer;
+    padding: 0.07rem 0.35rem;
+  }
+  .tophj .comName{
+    font-size: 0.14rem;
+    color: #fff;
+    margin-left: 0.2rem;
+    padding-top: 0.14rem;
+  }
+  .tophj .dateName{
+    font-size: 0.12rem;
+    color: #fff;
+    margin-left: 0.2rem;
+    margin-top: 0rem;
+  }
+  .tophj .title{
+        font-size: 0.16rem;
+    color: #fff;
+    margin-top: 0.06rem;
+    margin-left: 0.2rem;
+  }
+  .topData{
+    position: relative;
+  }
+  .topData .number{
+        font-size: 0.18rem;
+    text-align: center;
+    color: #43b3db;
+  }
 </style>
