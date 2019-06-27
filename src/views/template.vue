@@ -5,13 +5,12 @@
 				<div class='title'>发票模板配置</div>
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
 					<el-form-item label="模板名称:">
-						<el-select v-model='formInline.customId'>
-							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
-						</el-select>
+						<el-input v-model='formInline.name'></el-input>
 					</el-form-item>
 					<el-form-item label="纳税人类型:">
-						<el-date-picker v-model="formInline.period" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
-						</el-date-picker>
+						<el-select v-model='formInline.customId'>
+							<el-option v-for='item in dicNameList' :label="item.customerName" :value="item.customerId"></el-option>
+						</el-select>
 					</el-form-item>
 					<el-form-item>
 						<el-button @click='search'>查询</el-button>
@@ -52,8 +51,6 @@
 </template>
 
 <script>
-	import searchModule from "../components/customer/searchModule.vue"
-	import listModule from "../components/customer/listModule.vue"
 	export default {
 		name: "router1",
 		data() {
@@ -83,96 +80,8 @@
 			}
 		},
 		components: {
-			searchModule,
-			listModule
 		},
 		methods: {
-			/*
-			 * 获取省份
-			 * {params}
-			 * 无	
-			 * */
-			queryDivision() {
-				this.axios.post('/api/perTaxToolTwo/e9z/configDivision/selectDivision')
-					.then(res => {
-						if (res.data.code == 200) {
-							this.divisionList = res.data.data;
-						} else {
-							this.$message({
-								message: res.data.msg,
-								type: 'error'
-							});
-						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '获取省份失败',
-							type: 'error'
-						});
-					})
-			},
-			/*
-			 * 获取城市
-			 * {params}
-			 * 无
-			 * */
-			getArea() {
-				this.temArea = {};
-				let params = {
-					"parentName": this.division
-				};
-				this.axios.post('/api/perTaxToolTwo/e9z/configDivision/selectArea', params)
-					.then(res => {
-						if (res.data.code == 200) {
-							this.areaList = res.data.data;
-						} else {
-							this.$message({
-								message: res.data.msg,
-								type: 'error'
-							});
-						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '获取省份失败',
-							type: 'error'
-						});
-					})
-			},
-			getAreaDefault(){
-				let params = {
-					"parentName": this.division
-				};
-				this.axios.post('/api/perTaxToolTwo/e9z/configDivision/selectArea', params)
-					.then(res => {
-						if (res.data.code == 200) {
-							this.areaList = res.data.data;
-						} else {
-							this.$message({
-								message: res.data.msg,
-								type: 'error'
-							});
-						}
-				
-					}).catch(function(err) {
-						this.$message({
-							message: '获取省份失败',
-							type: 'error'
-						});
-					})
-			},
-			setArea() {
-				console.log(this.temArea);
-				this.area = this.temArea.divisionCode;
-				this.areaName = this.temArea.divisionName;
-				
-				this.queryFormulaList();
-				this.queryInvoiceType();
-				this.queryInvoiceName();
-				this.queryTemplateList();
-				this.resetSelect();
-				this.resetFilter()
-			},
 			/*
 			 * 获取纳税人类型下拉列表
 			 * {params}
@@ -180,7 +89,7 @@
 			 * 一般纳税，小规模纳税
 			 * */
 			queryDicName() {
-				this.axios.post('/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=税务类型').then(res => {
+				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=税务类型').then(res => {
 					this.dicNameList = res.data.data;
 				}).catch(function(err) {
 					this.$message({
@@ -189,418 +98,37 @@
 					});
 				})
 			},
-
-			/*
-			 * 获取计税方法下拉列表
-			 * {params}
-			 * 无
-			 * 一般计税，简易计税
-			 * */
-			queryRateMethods() {
-				this.axios.post('/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法').then(res => {
-					this.taxCalcTypeList = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取计税方法失败',
-						type: 'error'
-					});
-				})
-			},
-
-			/*
-			 * 获取公式字符下拉列表
-			 * {params}
-			 * 无
-			 * +-*等
-			 * */
-			queryCalSymbol() {
-				this.axios.post('/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=公式字符').then(res => {
-					this.cal = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取公式字符失败',
-						type: 'error'
-					});
-				})
-			},
-
-			/*
-			 * 根据发票类型获取发票名称
-			 * */
-			getInvoiceName(value) {
-				this.formInline.invoiceName = "";
-				this.invoiceNameList = value.invoiceList;
-			},
-			/*
-			 * 根据发票名称获取税种及相关列类型
-			 * */
-			getE9zConfigInvoice(value) {
-				this.e9zConfigInvoiceColumnList = value.e9zConfigInvoiceColumnList;
-				this.e9zConfigInvoiceTaxesList = value.e9zConfigInvoiceTaxesList;
-				this.e9zConcat = this.e9zConfigInvoiceColumnList.concat(this.e9zConfigInvoiceTaxesList);
-				this.e9zConcat.forEach((item, index) => {
-					item.tag = index;
-				})
-			},
-			/*
-			 * 根据模板名称获取相关列类型
-			 * */
-			getColumnTitle(value) {
-				this.e9zConfigInvoiceColumn = value.e9zConfigInvoiceColumnList;
-				this.e9zConfigInvoiceColumn.forEach((item, index) => {
-					item.tag = index;
-				})
-			},
-
-			/*
-			 * 根据税种及相关列获取已有的计算公式
-			 * */
-			setFormula(value) {
-				console.log(value)
-				this.formInline.formula = value.formula ? value.formula : '';
-			},
-			/*
-			 * 获取右侧税种公式列表
-			 * */
-			queryFormulaList() {
-				var _this = this;
+			
+			queryTemplateList(){
 				let params = {
-					taxesTaxType: this.searchTaxesTaxType,
-					taxCalcType: this.searchTaxCalcType,
-					tmplShowType: this.searchTmplShowType,
-					invoiceType: this.searchInvoiceType,
-					invoiceName: this.searchInvoiceName,
-					tmplName: this.searchTmplName,
-					columnTitle: this.searchColumnTitle,
-					area:this.area
+					// state:1
 				};
-				this.axios.post('/api/perTaxToolTwo/e9z/configInvoiceFormula/selectFormulaList?currentPage=' + this.currentPage +
-						'&pageCount=' + this.pageSize, params)
+				this.axios.post('/perTaxToolTwo/e9z/configTemplate/findTemplateListByTypeAndName', params)
 					.then(res => {
 						if (res.data.code == 200) {
-							this.formulaList = res.data.data.list;
-							this.length = this.formulaList.length;
-							this.total = res.data.data.total;
-							for (let i = 0; i < _this.pageSize - _this.length; i++) {
-								_this.formulaList.push({});
-							}
-							console.log(this.formulaList)
+							this.tableList = res.data.data;
+							// this.total = 
 						} else {
 							this.$message({
 								message: res.data.msg,
 								type: 'error'
 							});
 						}
-
+				
 					}).catch(function(err) {
 						this.$message({
-							message: '获取税种公式列表失败',
+							message: '获取字典列表失败',
 							type: 'error'
 						});
 					})
-			},
-			/*
-			 * 点击公式字符和中文字符生成公式
-			 * 
-			 * */
-			createFormula(value) {
-				this.formInline.formula += value;
-			},
-
-			/*
-			 * 判断公式合法性并创建公式
-			 * 
-			 * */
-			judgeRegExp(formName) {
-				if (this.regExpUtil.formulaRegExp(this.formInline.formula).type == 'success') {
-					this.$message({
-						message: this.regExpUtil.formulaRegExp(this.formInline.formula).msg,
-						type: 'success'
-					});
-					if (this.formInline.tmplShowType == '0') {
-						var params = {
-							invoiceTaxesId: this.formInline.e9z.columnId || this.formInline.e9z.invoiceTaxesId,
-							formulaId: this.formInline.e9z.formulaId,
-							taxesTaxType: this.formInline.taxesTaxType,
-							formula: this.formInline.formula,
-							type: this.formInline.e9z.columnId ? 2 : 1,
-							taxesTitle: this.formInline.e9z.taxesTitle,
-						};
-					} else {
-						var params = {
-							invoiceTaxesId: this.formInline.columnTitle.columnId,
-							formulaId: this.formInline.columnTitle.formulaId,
-							taxesTaxType: this.formInline.taxesTaxType,
-							formula: this.formInline.formula,
-							type: 2
-						};
-					}
-
-					this.axios.post('/api/perTaxToolTwo/e9z/configInvoiceFormula/updateInvoiceFormulaById', params).then(res => {
-						if (res.data.code == 200) {
-							this.$message({
-								message: '公式添加成功',
-								type: 'success'
-							});
-							this.resetSelect();
-							this.formInline.tmplShowType = '0';
-							this.queryFormulaList();
-						} else {
-							this.$message({
-								message: res.data.msg,
-								type: 'error'
-							});
-						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '公式添加失败',
-							type: 'error'
-						});
-					})
-					// this.showCommitBtn = true;
-				} else {
-					this.$message.error(this.regExpUtil.formulaRegExp(this.formInline.formula));
-					// this.showCommitBtn = false;
-				}
-			},
-			/*
-			 * 清空公式按钮
-			 * 
-			 * */
-			resetFormula() {
-				this.formInline.formula = "";
-			},
-			resetSelect(val) {
-				this.formInline.taxCalcType = '';
-				this.formInline.invoiceType = '';
-				this.formInline.invoiceName = '';
-				this.formInline.e9z = '';
-				this.formInline.tmplName = '';
-				this.formInline.columnTitle = '';
-				this.formInline.formula = '';
-			},
-
-			resetFilter(val) {
-				this.searchTaxCalcType = '';
-				this.searchInvoiceType = '';
-				this.searchInvoiceName = '';
-				this.searchTmplName = '';
-				this.searchColumnTitle = '';
-			},
-
-
-			/*
-			 * 查询右侧发票类型下拉列表
-			 * {params}
-			 * 无
-			 * */
-			queryInvoiceType() {
-				let params = {
-					"area":this.area
-				};
-				this.axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState', params).then(res => {
-					this.invoiceTypeSearchList = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取发票类型失败',
-						type: 'error'
-					});
-				})
-			},
-			/*
-			 * 查询右侧发票名称下拉列表
-			 * {params}
-			 * 无
-			 * */
-			queryInvoiceName() {
-				let params = {
-					"area":this.area
-				};
-				this.axios.post('/api/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName', params).then(res => {
-					this.invoiceNameSearchList = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取发票名称失败',
-						type: 'error'
-					});
-				})
-			},
-			/*
-			 * 查询右侧模板名称下拉列表
-			 * {params}
-			 * 无
-			 * */
-			queryTemplateList() {
-				let params = {
-					"area":this.area
-				};
-				this.axios.post('/api/perTaxToolTwo/e9z/configTemplate/findTemplateList', params).then(res => {
-					this.templateListSearchList = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取模板名称失败',
-						type: 'error'
-					});
-				})
-			},
-			/*
-			 * 公式过滤
-			 * {params}
-			 * 无
-			 * */
-			filterFormula() {
-				this.queryFormulaList();
-			},
-			/*
-			 * 公式过滤
-			 * {params}
-			 * 无
-			 * */
-			downLoad() {
-				var sheet = this.xlsx.utils.json_to_sheet(this.formulaList);
-				this.openDownloadDialog(this.sheet2blob(sheet), '税种公式.xlsx');
-			},
-			sheet2blob(sheet, sheetName) {
-				sheetName = sheetName || 'sheet1';
-				var workbook = {
-					SheetNames: [sheetName],
-					Sheets: {}
-				};
-				workbook.Sheets[sheetName] = sheet;
-				// 生成excel的配置项
-				var wopts = {
-					bookType: 'xlsx', // 要生成的文件类型
-					bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
-					type: 'binary'
-				};
-				var wbout = this.xlsx.write(workbook, wopts);
-				var blob = new Blob([s2ab(wbout)], {
-					type: "application/octet-stream"
-				});
-				// 字符串转ArrayBuffer
-				function s2ab(s) {
-					var buf = new ArrayBuffer(s.length);
-					var view = new Uint8Array(buf);
-					for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-					return buf;
-				}
-				return blob;
-			},
-			openDownloadDialog(url, saveName) {
-				if (typeof url == 'object' && url instanceof Blob) {
-					url = URL.createObjectURL(url); // 创建blob地址
-				}
-				var aLink = document.createElement('a');
-				aLink.href = url;
-				aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
-				var event;
-				if (window.MouseEvent) event = new MouseEvent('click');
-				else {
-					event = document.createEvent('MouseEvents');
-					event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				}
-				aLink.dispatchEvent(event);
-			},
-
-			/*
-			 * 分页事件
-			 * {params}
-			 * 无
-			 * */
-			handleCurrentChange(val) {
-				this.currentPage = val;
-				this.queryFormulaList();
-				console.log(`当前页: ${val}`);
 			}
+
 		},
-		watch: {
-			"formInline.taxesTaxType": {
-				handler(val, oldVal) {
-					let params = {
-						"taxesTaxType": val,
-						"tmplShowType": this.formInline.tmplShowType,
-						"area":this.area
-					};
-					this.axios.post('/api/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
-						this.formulaTitleList = res.data.data;
-					}).catch(function(err) {
-						this.$message({
-							message: '获取公式标题失败',
-							type: 'error'
-						});
-					})
-				},
-				deep: true
-
-			},
-			"formInline.taxCalcType": {
-				handler(val, oldVal) {
-					let params = {
-						"taxCalcType": this.formInline.taxCalcType,
-						"taxesTaxType": this.formInline.taxesTaxType,
-						"tmplShowType": this.formInline.tmplShowType,
-						"area":this.area
-					};
-					this.axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
-						this.invoiceTypeList = res.data.data;
-					}).catch(function(err) {
-						this.$message({
-							message: '获取发票/模板公式失败',
-							type: 'error'
-						});
-					})
-				},
-				deep: true
-
-
-
-			},
-			"formInline.tmplShowType": {
-				handler(val, oldVal) {
-					let params = {
-						"taxesTaxType": this.formInline.taxesTaxType,
-						"tmplShowType": this.formInline.tmplShowType,
-						"area":this.area
-					};
-					this.axios.post('/api/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
-						this.formulaTitleList = res.data.data;
-					}).catch(function(err) {
-						this.$message({
-							message: '获取模板名称失败',
-							type: 'error'
-						});
-					})
-					if (val == 1) {
-						let params = {
-							"taxesTaxType": this.formInline.taxesTaxType,
-							"tmplShowType": this.formInline.tmplShowType,
-							"area":this.area
-						};
-						this.axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
-							this.templateTypeList = res.data.data;
-						}).catch(function(err) {
-							this.$message({
-								message: '获取发票/模板公式失败',
-								type: 'error'
-							});
-						})
-					}
-				},
-				deep: true
-			}
-		},
+		watch: {},
 		computed: {},
 		created() {
 			this.queryDicName();
-			this.queryRateMethods();
-			this.queryFormulaList();
-			this.queryCalSymbol();
-			this.queryInvoiceType();
-			this.queryInvoiceName();
-			this.queryTemplateList();
-			this.queryDivision();
-			this.getAreaDefault()
+			this.queryTemplateList()
 		}
 	}
 </script>
