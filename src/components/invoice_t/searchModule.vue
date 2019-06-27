@@ -5,7 +5,7 @@
       					客户名称：
       				</span>
       <el-select v-model="searchList.value" placeholder="请选择">
-        <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+        <el-option v-for="item in $store.state.user.customerinfoList" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 				</el-option>
       </el-select>
     </div>
