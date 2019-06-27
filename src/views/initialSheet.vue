@@ -274,11 +274,11 @@
 		computed: {},
 		created() {
 
-			this.customerList = this.$store.state.user.customerinfoList;
+			this.customerList = this.$store.state.cust;
 			// console.log(this.customerList);
 		},
 		updated() {
-			console.log(this.$store.state.user.customerinfoList);
+			console.log(this.$store.state.cust);
 		}
 	}
 </script>

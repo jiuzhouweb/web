@@ -55,7 +55,7 @@
       };
     },
     created() {
-      this.searchList.options = this.$store.state.user.customerinfoList;
+      this.searchList.options = this.$store.state.cust;
 			console.log('this.searchList.options', this.searchList.options)
 			this.getNowMonth();
     },
