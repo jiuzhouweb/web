@@ -39,13 +39,13 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
+				<!-- <el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
 				 :current-page="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
-				</el-pagination>
+				</el-pagination> -->
 			</div>
 		</div>
 		<el-dialog title="" :visible.sync="dialogTableVisible" width="8rem">
-			<el-table :data="roleList" border stripe @selection-change="handleSelectionChange" ref='multipleTable'>
+			<el-table :data="roleList" row-key='roleId' border stripe @selection-change="handleSelectionChange" ref='multipleTable'>
 				<el-table-column align="center" type="selection" width="55"></el-table-column>
 				<el-table-column align="center" property="roleName" label="角色"></el-table-column>
 				<el-table-column align="center" property="remark" label="备注"></el-table-column>
@@ -143,16 +143,21 @@
 			handleEdit(index, row) {
 				this.dialogTableVisible = true;
 				this.userId = row.userId;
-				// if (row) {
-				// 	row.roleList.forEach(row => {
-				// 		this.$refs.multipleTable.toggleRowSelection(row);
-				// 	});
-				// } else {
-				// 	this.$refs.multipleTable.clearSelection();
-				// }
+				this.$nextTick(function(){
+					if (row) {
+						row.roleList.forEach(({roleId}) => {
+							const id = this.roleList.findIndex( item => item.roleId === roleId)
+							this.$refs.multipleTable.toggleRowSelection(this.roleList[id], true);
+						});
+					} else {
+						this.$refs.multipleTable.clearSelection();
+					}
+				})
+				
 			},
 			hideDialog() {
 				this.dialogTableVisible = false;
+				this.$refs.multipleTable.clearSelection();
 			},
 			modifyRole() {
 				
@@ -161,6 +166,7 @@
 				})
 				let params = this.multipleSelection;
 				this.axios.post('/perTaxToolTwo/e9z/configUserRole/saveUserRoleList', params).then(res => {
+					this.$refs.multipleTable.clearSelection();
 					if (res.data.code == 200) {
 						this.dialogTableVisible = false;
 						this.findUserRoleList()
@@ -172,6 +178,7 @@
 					}
 
 				}).catch(function(err) {
+					this.$refs.multipleTable.clearSelection();
 					this.$message({
 						message: '获取用户列表失败',
 						type: 'error'
