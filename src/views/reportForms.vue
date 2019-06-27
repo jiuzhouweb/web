@@ -342,7 +342,7 @@
 			};
 		},
 		created() {
-			// this.searchList.options = this.$store.state.user.customerinfoList;
+			// this.searchList.options = this.$store.state.cust;
 			// this.searchList.value=this.searchList.options[0].value;
 			// console.log('this.searchList.options', this.searchList.options)
 			this.getNowMonth();

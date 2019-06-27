@@ -1872,7 +1872,7 @@
 			// 		cancelButtonText: "取消",
 			// 		type: "warning"
 			// 	}))
-			this.customerList = this.$store.state.user.customerinfoList;
+			this.customerList = this.$store.state.cust;
 			console.log(this.customerList);
 			// this.getNowMonth();
 		}
