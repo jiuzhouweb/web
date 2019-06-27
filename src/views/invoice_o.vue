@@ -360,15 +360,6 @@
       // listModule
     },
     watch: {
-      selectGet(vId){
-        this.userobj = {};
-        
-        this.userobj = this.$store.state.cust.find((item)=>{//这里的selectList就是上面遍历的数据源
-            return item.customerId === vId;//筛选出匹配数据
-        });
-        console.log('当前选择的用户信息',userobj);//
-      
-    },
       taxesList(val) {
         console.log('taxesList111', val)
         val.forEach(item => {
@@ -388,6 +379,15 @@
       this.getTaxCalcMethod();
     },
     methods: {
+      selectGet(vId){
+        this.userobj = {};
+        
+        this.userobj = this.$store.state.cust.find((item)=>{//这里的selectList就是上面遍历的数据源
+            return item.customerId === vId;//筛选出匹配数据
+        });
+        console.log('当前选择的用户信息',userobj);//
+      
+    },
       getNowMonth() {
         var date = new Date();
         var year = date.getFullYear();
