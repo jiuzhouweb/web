@@ -11,6 +11,8 @@ import store from './store'
 // Vue.prototype.$echarts = echarts 
 import axios from 'axios'
 import qs from 'qs'
+import charts from 'echarts'
+Vue.prototype.$echarts = charts
 Vue.prototype.axios = axios;
 Vue.prototype.qs = qs;
 Vue.prototype.xlsx = xlsx;

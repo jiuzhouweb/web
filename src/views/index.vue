@@ -24,19 +24,19 @@
 				<el-aside width="2.2rem">
 					<el-row class="tac">
 						<el-col>
-							<el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
-							 @open="handleOpen" @close="handleClose">
-							 <!-- <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							<!-- <el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
 							 @open="handleOpen" @close="handleClose"> -->
+							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+							 @close="handleClose">
 								<el-submenu index="1">
 									<template slot="title">
 										<i class="el-icon-location"></i>
-										<span>收账处理</span>
+										<span>收账</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/index/customer">客户查询</el-menu-item>
+										<!-- <el-menu-item index="/index/customer">客户查询</el-menu-item> -->
 										<el-menu-item index="/index/invoice_o">发票录入</el-menu-item>
-										<el-menu-item index="/index/analysis">情况统计</el-menu-item>
+										<!-- <el-menu-item index="/index/analysis">情况统计</el-menu-item> -->
 									</el-menu-item-group>
 								</el-submenu>
 								<el-submenu index="2">
@@ -45,14 +45,14 @@
 										<span>税务处理</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/index/invoice_t">发票录入</el-menu-item>
-										<el-menu-item index="/index/audit">审核</el-menu-item>
+										<el-menu-item index="/index/invoice_t">会计做账</el-menu-item>
+										<el-menu-item index="/index/audit">税款审核</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
-								<el-menu-item index="/index/notice">
+								<!-- <el-menu-item index="/index/notice">
 									<i class="el-icon-menu"></i>
 									<span slot="title">税款通知</span>
-								</el-menu-item>
+								</el-menu-item> -->
 								<!-- <el-menu-item index="/index/declare">
 									<i class="el-icon-menu"></i>
 									<span slot="title">申报处理</span>
@@ -62,9 +62,15 @@
 										<i class="el-icon-location"></i>
 										<span>申报处理</span>
 									</template>
-									<el-menu-item-group>
-										<el-menu-item index="/index/showReport">查看报表</el-menu-item>
-									</el-menu-item-group>
+									<el-submenu index="4-1">
+										<template slot="title">查看报表</template>
+										<el-menu-item index="/index/showReport">工资表报表</el-menu-item>
+										<el-menu-item index="/index/showReport">税务报表</el-menu-item>
+									</el-submenu>
+								</el-submenu>
+								<!-- <el-menu-item-group>
+									<el-menu-item index="/index/showReport">查看报表</el-menu-item>
+								</el-menu-item-group> -->
 								</el-submenu>
 								<el-submenu index="5">
 									<template slot="title">
@@ -72,7 +78,7 @@
 										<span>历史查询</span>
 									</template>
 									<el-menu-item-group>
-										<el-menu-item index="/index/progress">做账进度查询</el-menu-item>
+										<el-menu-item index="/index/progress">历史操作记录</el-menu-item>
 										<el-menu-item index="/index/statistics">统计查询</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
@@ -86,7 +92,7 @@
 										<el-menu-item index="/index/template">发票模版配置</el-menu-item>
 										<el-menu-item index="/index/rate">税率配置</el-menu-item>
 										<el-menu-item index="/index/dictionary">字典表配置</el-menu-item>
-										<el-menu-item index="/index/taxnotice">税款通知配置</el-menu-item>
+										<el-menu-item index="/index/taxnotice">人员角色分配</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 							</el-menu>
@@ -167,7 +173,7 @@
 	.tac.el-row,
 	.el-col,
 	.el-menu {
-		height: 100%;
+		// height: 100%;
 	}
 
 	.el-main {
@@ -287,12 +293,12 @@
 						.then(res => {
 							// if (res.data == 1) {
 							// 	
-								this.clearCookie();
-								window.location = res.data;
-								// console.log(document.cookie);
-								// document.cookie = "JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-								// console.log(document.cookie);
-								// window.location.reload()
+							this.clearCookie();
+							window.location = res.data;
+							// console.log(document.cookie);
+							// document.cookie = "JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+							// console.log(document.cookie);
+							// window.location.reload()
 							// }
 
 						}).catch(function(err) {

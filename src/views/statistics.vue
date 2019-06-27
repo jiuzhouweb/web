@@ -1,47 +1,305 @@
 <template>
 	<div class="main_contain">
 		<div class="left_contain">
-			<searchModule></searchModule>
-			<listModule></listModule>
-		</div>
-		<div class="right_contain">
+			<div class="contain_header">
+				<div class='title'>完成情况统计</div>
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
+					<el-form-item label="员工姓名:">
+						<el-select v-model='formInline.customId'>
+							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="账期:">
+						<el-date-picker v-model="formInline.period" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
+						</el-date-picker>
+					</el-form-item>
+					<el-form-item label="会计步骤:">
+						<el-select v-model='formInline.stepName'>
+							<el-option v-for='item in stepList' :label="item" :value="item"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item>
+						<el-button @click='search'>查询</el-button>
+					</el-form-item>
+				</el-form>
+			</div>
+			<div class="contain_body clearfix">
+				<div v-show='detail.length > 0' id='myChart' class='left' style="width: 500px;height: 500px;"></div>
+				<div v-show='detail.length <= 0' class='left' style="width: 500px;height: 500px;text-align: center;line-height: 500px; border: 1px solid #efefef;box-sizing: border-box;margin-right: 20px;">
+					暂无图表
+				</div>
+				<div class='right' style="width: calc(100% - 520px);height: 100%;">
+					<el-table :data="detail" style="width: 100%" stripe border>
+						<el-table-column align="center" label="工号" prop="executeUserId" :resizable="false"></el-table-column>
+						<el-table-column align="center" label="姓名" prop="executeUserName" :resizable="false"></el-table-column>
+						<el-table-column align="center" label="账期" prop="period" :resizable="false"></el-table-column>
+						<el-table-column align="center" label="会计步骤" prop="stepName" :resizable="false"></el-table-column>
+						<el-table-column align="center" label="完成情况" :resizable="false">
+							<el-table-column align="center" prop="total" label="合计">
+							</el-table-column>
+							<el-table-column align="center" prop="completed" label="已完成">
+							</el-table-column>
+							<el-table-column align="center" prop="incomplete" label="未完成">
+							</el-table-column>
+						</el-table-column>
 
+					</el-table>
+					<!-- <el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
+					 :current-page="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
+					</el-pagination> -->
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import searchModule from "../components/customer/searchModule.vue"
-	import listModule from "../components/customer/listModule.vue"
 	export default {
 		name: "router1",
 		data() {
 			return {
-				message: "12334456"
+				message: "12334456",
+				formInline: {
+					customId: '',
+					period: '',
+					stepName: ''
+				},
+				stepList: [
+					"发票录入", "做账", "大额审核", "税款审核", "申报"
+				],
+				detail: [],
+				currentPage: 1,
+				pageSize: 10,
+				total: 0,
+				completed: [],
+				con:[],
+				incomplete:[],
+				nameList:[]
 			}
 		},
-		components: {
-			searchModule,
-			listModule
+		components: {},
+		methods: {
+			search() {
+				this.formInline.executeUserId = this.$store.state.user.operatorId;
+				let params = this.formInline;
+				this.axios.post('/perTaxToolTwo/e9z/historyQuery/selectPageList', this.qs.stringify(params), {
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					}
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.detail = res.data.data;
+						this.detail.forEach((item, index) => {
+							this.completed.push(item.completed);
+							this.incomplete.push(item.incomplete);
+							this.con.push(item.incomplete + item.completed);
+							this.nameList.push(item.executeUserName);
+						})
+						this.drawLine()
+					} else {
+						this.$message({
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
+
+				}).catch(function(err) {
+					this.$message({
+						message: '获取历史失败',
+						type: 'error'
+					});
+				})
+			},
+			drawLine() {
+				// 基于准备好的dom，初始化echarts实例
+				let myChart = this.$echarts.init(document.getElementById("myChart"));
+				this.echarts1_option = {
+					color:["#ed878e","#ffb980","#43b3db"],
+					title: {
+						// text: '世界人口总量',
+						// subtext: '数据来自网络'
+					},
+					tooltip: {
+						// trigger: 'axis',
+						// axisPointer: {
+						// 	type: 'shadow'
+						// }
+					},
+					legend: {
+						data: ['合计', '已完成', '未完成']
+					},
+					grid: {
+						top:'40',
+						right: '80',
+						bottom:'40',
+						left:'80'
+					},
+					xAxis: {
+						name:'完成情况',
+						type: 'value',
+						boundaryGap: [0, 0.01],
+						axisLine:{
+							lineStyle:{
+								color:"#b3b3b3"
+							}
+						},
+						splitLine:{
+							lineStyle:{
+								color:"#eaeaea"
+							}
+						}
+					},
+					yAxis: {
+						name:'员工姓名',
+						type: 'category',
+						data: this.nameList,
+						axisLine:{
+							lineStyle:{
+								color:"#b3b3b3"
+							}
+						}
+					},
+					series: [{
+							name: '合计',
+							type: 'bar',
+							data: this.con,
+							barWidth:20
+						},
+						{
+							name: '已完成',
+							type: 'bar',
+							data: this.completed,
+							barWidth:20
+						},
+						{
+							name: '未完成',
+							type: 'bar',
+							data: this.incomplete,
+							barWidth:20
+						}
+					],
+					
+				};;
+				// 绘制图表
+				myChart.setOption(this.echarts1_option);
+			}
+		},
+		mounted() {
+			// this.drawLine()
 		}
 	}
 </script>
 
-<style scoped>
+<style scoped lang="less">
 	.main_contain {
+		width: 100%;
 		height: 100%;
+		padding: 20px;
+		box-sizing: border-box;
+
+		.left_contain {
+			height: 100%
+		}
 	}
 
-	.left_contain {
-		width: 1180px;
-		/* background: pink; */
-		float: left;
-		height: 100%;
-	}
-	.right_contain{
-		width: 420px;
-		height: 100%;
-		float: right;
-		background: purple;
+	.contain_header {
+		height: 2rem;
+		padding: 0px 30px;
+		background: url(../assets/img/list-bg1.png) no-repeat;
+		background-size: cover;
+		border-top-left-radius: 0.06rem;
+		border-top-right-radius: 0.06rem;
+
+		.title {
+			font-size: 0.24rem;
+			height: 1rem;
+			line-height: 1.24rem;
+			color: #fff;
 		}
+
+		/deep/ .el-form-item--mini .el-form-item__label {
+			color: #fff;
+		}
+
+		/deep/ .el-form {
+			margin-top: 0.1rem
+		}
+	}
+
+	.contain_body {
+		height: calc(100% - 2rem);
+		box-sizing: border-box;
+		padding: 0.2rem 0.2rem;
+		background: #fff;
+
+		.contain_body_div {
+			align-items: center;
+			display: flex;
+			position: relative;
+
+			i {
+				background: pink;
+				display: inline-block;
+				width: 0.4rem;
+				height: 0.4rem;
+				border-radius: 0.2rem;
+			}
+
+			.circle {
+				display: inline-block;
+				width: 0.1rem;
+				height: 0.1rem;
+				border-radius: 0.05rem;
+				background-color: #c9c9c9;
+				margin-right: 0.06rem
+			}
+		}
+		/deep/ .el-table__header tr,
+		.el-table__header th {
+			padding: 0;
+			height: 40px;
+		}
+		
+		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+			background: #ebf6fb;
+		}
+		
+		/deep/ .el-table th {
+			background-color: #ebf6fb;
+		}
+		
+		/deep/ .el-table td {
+			padding: 6px 0;
+		}
+		
+		/deep/ .el-table__body tr,
+		.el-table__body td {
+			padding: 0;
+			height: 40px;
+		
+			background-color: #fff7f1;
+		}
+		
+		/deep/ .el-table__body tr.el-table__row--striped {
+			background-color: #ebf6fb;
+		}
+		
+		/deep/ .el-table thead {
+			color: #343434;
+		}
+		
+		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+			background-color: #efe9e5;
+		}
+		
+		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+			border-bottom-color: #fff;
+			background: #ebf6fb;
+		}
+	}
+
+	/deep/ .el-pagination {
+		text-align: right;
+		margin-top: 0.10rem;
+	}
 </style>
