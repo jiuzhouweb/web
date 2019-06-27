@@ -306,7 +306,7 @@
 			 * 无	
 			 * */
 			queryDivision() {
-				this.axios.post('/api/perTaxToolTwo/e9z/configDivision/selectDivision')
+				this.axios.post('/perTaxToolTwo/e9z/configDivision/selectDivision')
 					.then(res => {
 						if (res.data.code == 200) {
 							this.divisionList = res.data.data;
@@ -334,7 +334,7 @@
 				let params = {
 					"parentName": this.division
 				};
-				this.axios.post('/api/perTaxToolTwo/e9z/configDivision/selectArea', params)
+				this.axios.post('/perTaxToolTwo/e9z/configDivision/selectArea', params)
 					.then(res => {
 						if (res.data.code == 200) {
 							this.areaList = res.data.data;
@@ -356,7 +356,7 @@
 				let params = {
 					"parentName": this.division
 				};
-				this.axios.post('/api/perTaxToolTwo/e9z/configDivision/selectArea', params)
+				this.axios.post('/perTaxToolTwo/e9z/configDivision/selectArea', params)
 					.then(res => {
 						if (res.data.code == 200) {
 							this.areaList = res.data.data;
@@ -393,7 +393,7 @@
 			 * 一般纳税，小规模纳税
 			 * */
 			queryDicName() {
-				this.axios.post('/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=税务类型').then(res => {
+				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=税务类型').then(res => {
 					this.dicNameList = res.data.data;
 				}).catch(function(err) {
 					this.$message({
@@ -410,7 +410,7 @@
 			 * 一般计税，简易计税
 			 * */
 			queryRateMethods() {
-				this.axios.post('/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法').then(res => {
+				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法').then(res => {
 					this.taxCalcTypeList = res.data.data;
 				}).catch(function(err) {
 					this.$message({
@@ -427,7 +427,7 @@
 			 * +-*等
 			 * */
 			queryCalSymbol() {
-				this.axios.post('/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=公式字符').then(res => {
+				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=公式字符').then(res => {
 					this.cal = res.data.data;
 				}).catch(function(err) {
 					this.$message({
@@ -487,7 +487,7 @@
 					columnTitle: this.searchColumnTitle,
 					area:this.area
 				};
-				this.axios.post('/api/perTaxToolTwo/e9z/configInvoiceFormula/selectFormulaList?currentPage=' + this.currentPage +
+				this.axios.post('/perTaxToolTwo/e9z/configInvoiceFormula/selectFormulaList?currentPage=' + this.currentPage +
 						'&pageCount=' + this.pageSize, params)
 					.then(res => {
 						if (res.data.code == 200) {
@@ -549,7 +549,7 @@
 						};
 					}
 
-					this.axios.post('/api/perTaxToolTwo/e9z/configInvoiceFormula/updateInvoiceFormulaById', params).then(res => {
+					this.axios.post('/perTaxToolTwo/e9z/configInvoiceFormula/updateInvoiceFormulaById', params).then(res => {
 						if (res.data.code == 200) {
 							this.$message({
 								message: '公式添加成功',
@@ -612,7 +612,7 @@
 				let params = {
 					"area":this.area
 				};
-				this.axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState', params).then(res => {
+				this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState', params).then(res => {
 					this.invoiceTypeSearchList = res.data.data;
 				}).catch(function(err) {
 					this.$message({
@@ -630,7 +630,7 @@
 				let params = {
 					"area":this.area
 				};
-				this.axios.post('/api/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName', params).then(res => {
+				this.axios.post('/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName', params).then(res => {
 					this.invoiceNameSearchList = res.data.data;
 				}).catch(function(err) {
 					this.$message({
@@ -648,7 +648,7 @@
 				let params = {
 					"area":this.area
 				};
-				this.axios.post('/api/perTaxToolTwo/e9z/configTemplate/findTemplateList', params).then(res => {
+				this.axios.post('/perTaxToolTwo/e9z/configTemplate/findTemplateList', params).then(res => {
 					this.templateListSearchList = res.data.data;
 				}).catch(function(err) {
 					this.$message({
@@ -735,7 +735,7 @@
 						"tmplShowType": this.formInline.tmplShowType,
 						"area":this.area
 					};
-					this.axios.post('/api/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
+					this.axios.post('/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
 						this.formulaTitleList = res.data.data;
 					}).catch(function(err) {
 						this.$message({
@@ -755,7 +755,7 @@
 						"tmplShowType": this.formInline.tmplShowType,
 						"area":this.area
 					};
-					this.axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
+					this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
 						this.invoiceTypeList = res.data.data;
 					}).catch(function(err) {
 						this.$message({
@@ -776,7 +776,7 @@
 						"tmplShowType": this.formInline.tmplShowType,
 						"area":this.area
 					};
-					this.axios.post('/api/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
+					this.axios.post('/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
 						this.formulaTitleList = res.data.data;
 					}).catch(function(err) {
 						this.$message({
@@ -790,7 +790,7 @@
 							"tmplShowType": this.formInline.tmplShowType,
 							"area":this.area
 						};
-						this.axios.post('/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
+						this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
 							this.templateTypeList = res.data.data;
 						}).catch(function(err) {
 							this.$message({
