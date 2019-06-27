@@ -30,6 +30,7 @@
                 </div>
                 <el-button type="primary" @click="search()" style="margin-left:20px" size="small">查看</el-button>
                 <el-button @click="clear()" size="small">重置</el-button>
+                <el-button @click="outputFile" size="small">导出</el-button>
             </div>
         </div>
         <div class="titleBox" v-if="statusVaule=='一般纳税人主表'">
@@ -45,7 +46,7 @@
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM " value-format="yyyy-MM" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
-                        <el-form-item label="填表日期：">
+                        <el-form-item class="tianbiaoDate" label="填表日期：">
                             <el-date-picker v-model="uploadData.tianbiaoData" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择日期" clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -63,19 +64,25 @@
                     </div>
                     <div class="line3">
                         <el-form-item label="纳税人名称：">
-                            <div class="inlineInput">
+                            <div class="inlineInput input1">
                                 <el-input v-model="uploadData.taxerName"></el-input>
-                                <span style="width:0.8rem">（公章）</span>
+                                <span style="width:1.6rem">（公章）</span>
                             </div>
                         </el-form-item>
                         <el-form-item label="法定代表人姓名：">
-                            <el-input v-model="uploadData.legalName"></el-input>
+                            <div class="input2">
+                                <el-input v-model="uploadData.legalName"></el-input>
+                            </div>
                         </el-form-item>
                         <el-form-item label="注册地址：">
-                            <el-input v-model="uploadData.registerAddress"></el-input>
+                            <div class="input3">
+                                <el-input v-model="uploadData.registerAddress"></el-input>
+                            </div>
                         </el-form-item>
                         <el-form-item label="生产经营地址：">
-                            <el-input v-model="uploadData.runAddress"></el-input>
+                            <div class="input4">
+                                <el-input v-model="uploadData.runAddress"></el-input>
+                            </div>
                         </el-form-item>
                     </div>
                     <div class="line4">
@@ -131,7 +138,7 @@
                         <el-form-item label="纳税人名称：">
                             <div class="inlineInput">
                                 <el-input v-model="uploadData.taxerName"></el-input>
-                                <span style="width:0.8rem">（公章）</span>
+                                <span style="width:1.6rem">（公章）</span>
                             </div>
                         </el-form-item>
                         <el-form-item label="金额单位：">
@@ -157,7 +164,7 @@
                         <el-form-item label="纳税人名称：">
                             <div class="inlineInput">
                                 <el-input v-model="uploadData.taxerName"></el-input>
-                                <span style="width:0.8rem">（公章）</span>
+                                <span style="width:1.6rem">（公章）</span>
                             </div>
                         </el-form-item>
                         <el-form-item label="金额单位：">
@@ -203,7 +210,7 @@
                         <el-form-item label="纳税人名称：">
                             <div class="inlineInput">
                                 <el-input v-model="uploadData.taxerName"></el-input>
-                                <span style="width:0.8rem">（公章）</span>
+                                <span style="width:1.6rem">（公章）</span>
                             </div>
                         </el-form-item>
                         <el-form-item label="金额单位：">
@@ -215,7 +222,7 @@
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM " value-format="yyyy-MM" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
-                        <el-form-item label="填表日期：">
+                        <el-form-item class="tianbiaoDate" label="填表日期：">
                             <el-date-picker v-model="uploadData.tianbiaoData" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择日期" clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -230,7 +237,7 @@
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM " value-format="yyyy-MM" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
-                        <el-form-item label="填表日期：">
+                        <el-form-item class="tianbiaoDate" label="填表日期：">
                             <el-date-picker v-model="uploadData.tianbiaoData" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择日期" clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -239,7 +246,7 @@
                         <el-form-item label="纳税人名称：">
                             <div class="inlineInput">
                                 <el-input v-model="uploadData.taxerName"></el-input>
-                                <span style="width:0.8rem">（公章）</span>
+                                <span style="width:1.6rem">（公章）</span>
                             </div>
                         </el-form-item>
                     </div>
@@ -248,8 +255,8 @@
         </div>
         <div class="content">
             <!-- <el-button type="primary" icon="el-icon-success" size="small" @click='exportExcel'>一键导出</el-button> -->
-            <div class="tableBox" v-if="statusVaule=='一般纳税人主表'">
-                <table border="1 " width="100% " v-if="thisData.ajynsjcybjseybby">
+            <div class="tableBox" v-show="statusVaule=='一般纳税人主表'">
+                <table border="1 " width="100% " v-if="thisData.ajynsjcybjseybby" id="table1">
                     <tr>
                         <td rowspan="2" colspan="2" class="center">项目</td>
                         <td rowspan="2" class="center" style="width:1.4rem">栏次</td>
@@ -601,8 +608,8 @@
                     </div>
                 </el-form>
             </div>
-            <div v-if="statusVaule=='一般纳税人附表一'">
-                <table border="1 " width="100% " v-if="thisData.bfz13hwjjgxlxplwybjszzsfpxse">
+            <div v-show="statusVaule=='一般纳税人附表一'">
+                <table border="1 " width="100% " v-if="thisData.bfz13hwjjgxlxplwybjszzsfpxse" id="table2">
                     <tr>
                         <td colspan="4" rowspan="3" class="center">项目及栏次</td>
                         <td colspan="2" class="center">开具增值税专用发票 </td>
@@ -646,7 +653,7 @@
                     </tr>
                     <tr>
                         <td rowspan="7" class="center shuli">一、一般计税方法计税</td>
-                        <td rowspan="5" class="center">全部征税项目</td>
+                        <td rowspan="5" class="center shuli" style="width:0.5rem">全部征税项目</td>
                         <td class="center">13%税率的货物及加工修理修配劳务</td>
                         <td class="center">1</td>
                         <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjszzsfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjszzsfpxse.columnValue"></td>
@@ -675,12 +682,12 @@
                         <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjswkjfpxxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsnsjctzxse',$event,'hjxse','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjsnsjctzxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsnsjctzxxse',$event,'hjxse','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjsnsjctzxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjxse',$event,'hjxse','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjxxse',$event,'hjxse','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjjshj',$event,'hjxse','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjskchhsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjjshj',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskchhsxxse',$event,'','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">9%税率的货物及加工修理修配劳务</td>
@@ -711,10 +718,10 @@
                         <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs')" v-text="thisData.bfz9fwbdchwxzcybjswkjfpxxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsnsjctzxse',$event,'hjxse','bfz9fwbdchwxzcybjs')" v-text="thisData.bfz9fwbdchwxzcybjsnsjctzxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsnsjctzxxse',$event,'hjxse','bfz9fwbdchwxzcybjs')" v-text="thisData.bfz9fwbdchwxzcybjsnsjctzxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjxse',$event,'hjxse','bfz9fwbdchwxzcybjs')" v-text="thisData.bfz9fwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjxxse',$event,'hjxse','bfz9fwbdchwxzcybjs')" v-text="thisData.bfz9fwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjjshj',$event,'hjxse','bfz9fwbdchwxzcybjs')" v-text="thisData.bfz9fwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz9fwbdchwxzcybjs')" v-text="thisData.bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjjshj',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjskchhsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskchhsxxse',$event,'','bfz9fwbdchwxzcybjs')" v-text="thisData.bfz9fwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
@@ -729,10 +736,10 @@
                         <td class="center" :contenteditable="thisData.bfz6slybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjswkjfpxxse',$event,'hjxse','bfz6slybjs')" v-text="thisData.bfz6slybjswkjfpxxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz6slybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsnsjctzxse',$event,'hjxse','bfz6slybjs')" v-text="thisData.bfz6slybjsnsjctzxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz6slybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsnsjctzxxse',$event,'hjxse','bfz6slybjs')" v-text="thisData.bfz6slybjsnsjctzxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjxse',$event,'hjxse','bfz6slybjs')" v-text="thisData.bfz6slybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjxxse',$event,'hjxse','bfz6slybjs')" v-text="thisData.bfz6slybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjjshj',$event,'hjxse','bfz6slybjs')" v-text="thisData.bfz6slybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjsfubdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsfubdchwxzckcxmbqsjkcje',$event,'hjxse','bfz6slybjs')" v-text="thisData.bfz6slybjsfubdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjxxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjjshj',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjsfubdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsfubdchwxzckcxmbqsjkcje',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjsfubdchwxzckcxmbqsjkcje.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz6slybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskchhsxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjskchhsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz6slybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskchhsxxse',$event,'','bfz6slybjs')" v-text="thisData.bfz6slybjskchhsxxse.columnValue"></td>
                     </tr>
@@ -766,11 +773,11 @@
                         <td class="center">--</td>
                         <td class="center">--</td>
                         <td class="center">--</td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjxse',$event,'hjxse','jzjtfwbdchwxzcybjs')" v-text="thisData.jzjtfwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjxxse',$event,'hjxse','jzjtfwbdchwxzcybjs')" v-text="thisData.jzjtfwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs')" v-text="thisData.jzjtfwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcybjs')" v-text="thisData.jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjskchhsxse',$event,'','jzjtfwbdchwxzcybjs')" v-text="thisData.jzjtfwbdchwxzcybjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjxse',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjxxse',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjskchhsxse',$event,'','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjskchhsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjskchhsxxse',$event,'','jzjtfwbdchwxzcybjs')" v-text="thisData.jzjtfwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
@@ -822,10 +829,10 @@
                         <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs')" v-text="thisData.bfz5fwbdchwxzcybjswkjfpxxse.columnValue"></td>
                         <td class="center">--</td>
                         <td class="center">--</td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjxse',$event,'hjxse','bfz5fwbdchwxzcybjs')" v-text="thisData.bfz5fwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjxxse',$event,'hjxse','bfz5fwbdchwxzcybjs')" v-text="thisData.bfz5fwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjjshj',$event,'hjxse','bfz5fwbdchwxzcybjs')" v-text="thisData.bfz5fwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz5fwbdchwxzcybjs')" v-text="thisData.bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjjshj',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjskchhsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskchhsxxse',$event,'','bfz5fwbdchwxzcybjs')" v-text="thisData.bfz5fwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
@@ -876,15 +883,15 @@
                         <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs')" v-text="thisData.bfz3fwbdchwxzcybjswkjfpxxse.columnValue"></td>
                         <td class="center">--</td>
                         <td class="center">--</td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjxse',$event,'hjxse','bfz3fwbdchwxzcybjs')" v-text="thisData.bfz3fwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjxxse',$event,'hjxse','bfz3fwbdchwxzcybjs')" v-text="thisData.bfz3fwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjjshj',$event,'hjxse','bfz3fwbdchwxzcybjs')" v-text="thisData.bfz3fwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz3fwbdchwxzcybjs')" v-text="thisData.bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjjshj',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjskchhsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskchhsxxse',$event,'','bfz3fwbdchwxzcybjs')" v-text="thisData.bfz3fwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
-                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13azsljyjssl',$event,'hjxse','yll13azsljyjs',arate)">{{arate}} </span>%</td>
+                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13azsljyjssl',$event,'hjxse','yll13azsljyjs')">{{arate}} </span>%</td>
                         <td class="center">13a</td>
                         <td class="center" :contenteditable="thisData.yll13azsljyjsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsskzzsxse',$event,'hjxse','yll13azsljyjs')" v-text="thisData.yll13azsljyjsskzzsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.yll13azsljyjsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsskzzsxxse',$event,'hjxse','yll13azsljyjs')" v-text="thisData.yll13azsljyjsskzzsxxse.columnValue"></td>
@@ -894,15 +901,15 @@
                         <td class="center" :contenteditable="thisData.yll13azsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjswkjfpxxse',$event,'hjxse','yll13azsljyjs')" v-text="thisData.yll13azsljyjswkjfpxxse.columnValue"></td>
                         <td class="center">--</td>
                         <td class="center">--</td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjxse',$event,'hjxse','yll13azsljyjs')" v-text="thisData.yll13azsljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjxxse',$event,'hjxse','yll13azsljyjs')" v-text="thisData.yll13azsljyjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjjshj',$event,'hjxse','yll13azsljyjs')" v-text="thisData.yll13azsljyjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13azsljyjs')" v-text="thisData.yll13azsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskchhsxse',$event,'hjxse','yll13azsljyjs')" v-text="thisData.yll13azsljyjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskchxxse',$event,'','yll13azsljyjs')" v-text="thisData.yll13azsljyjskchxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjxxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjjshj',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskchhsxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskchxxse',$event,'','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjskchxxse.columnValue"></td>
                     </tr>
                     <tr>
-                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13bzsljyjssl',$event,'hjxse','yll13bzsljyjs',brate)">{{brate}}</span>%</td>
+                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13bzsljyjssl',$event,'hjxse','yll13bzsljyjs')">{{brate}}</span>%</td>
                         <td class="center">13b</td>
                         <td class="center" :contenteditable="thisData.yll13bzsljyjsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsskzzsxse',$event,'hjxse','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjsskzzsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.yll13bzsljyjsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsskzzsxxse',$event,'hjxse','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjsskzzsxxse.columnValue"></td>
@@ -912,15 +919,15 @@
                         <td class="center" :contenteditable="thisData.yll13bzsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjswkjfpxxse',$event,'hjxse','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjswkjfpxxse.columnValue"></td>
                         <td class="center">--</td>
                         <td class="center">--</td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjxse',$event,'hjxse','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjxxse',$event,'hjxse','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjjshj',$event,'hjxse','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskchhsxse',$event,'hjxse','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjxxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjjshj',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskchhsxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjskchhsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.yll13bzsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskchxxse',$event,'','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjskchxxse.columnValue"></td>
                     </tr>
                     <tr>
-                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13czsljyjssl',$event,'hjxse','yll13czsljyjs',crate)">{{crate}}</span>%</td>
+                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13czsljyjssl',$event,'hjxse','yll13czsljyjs')">{{crate}}</span>%</td>
                         <td class="center">13c</td>
                         <td class="center" :contenteditable="thisData.yll13czsljyjsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsskzzsxse',$event,'hjxse','yll13czsljyjs')" v-text="thisData.yll13czsljyjsskzzsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.yll13czsljyjsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsskzzsxxse',$event,'hjxse','yll13czsljyjs')" v-text="thisData.yll13czsljyjsskzzsxxse.columnValue"></td>
@@ -930,11 +937,11 @@
                         <td class="center" :contenteditable="thisData.yll13czsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjswkjfpxxse',$event,'hjxse','yll13czsljyjs')" v-text="thisData.yll13czsljyjswkjfpxxse.columnValue"></td>
                         <td class="center">--</td>
                         <td class="center">--</td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjxse',$event,'hjxse','yll13czsljyjs')" v-text="thisData.yll13czsljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjxxse',$event,'hjxse','yll13czsljyjs')" v-text="thisData.yll13czsljyjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjjshj',$event,'hjxse','yll13czsljyjs')" v-text="thisData.yll13czsljyjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13czsljyjs')" v-text="thisData.yll13czsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskchhsxse',$event,'hjxse','yll13czsljyjs')" v-text="thisData.yll13czsljyjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjxxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjjshj',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskchhsxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjskchhsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.yll13czsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskchxxse',$event,'','yll13czsljyjs')" v-text="thisData.yll13czsljyjskchxxse.columnValue"></td>
                     </tr>
                     <tr>
@@ -967,11 +974,11 @@
                         <td class="center">--</td>
                         <td class="center">--</td>
                         <td class="center">--</td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjxse',$event,'hjxse','jzjtfwbdchwxzcjyjs')" v-text="thisData.jzjtfwbdchwxzcjyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjxxse',$event,'hjxse','jzjtfwbdchwxzcjyjs')" v-text="thisData.jzjtfwbdchwxzcjyjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs')" v-text="thisData.jzjtfwbdchwxzcjyjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcjyjs')" v-text="thisData.jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjskchhsxse',$event,'','jzjtfwbdchwxzcjyjs')" v-text="thisData.jzjtfwbdchwxzcjyjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjxse',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjxxse',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjskchhsxse',$event,'','jzjtfwbdchwxzcjyjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjskchhsxse.columnValue"></td>
                         <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjskchhsxxse',$event,'','jzjtfwbdchwxzcjyjs')" v-text="thisData.jzjtfwbdchwxzcjyjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
@@ -1050,7 +1057,7 @@
                     </tr>
                 </table>
             </div>
-            <div v-if="statusVaule=='一般纳税人附表二'">
+            <div v-show="statusVaule=='一般纳税人附表二'">
                 <table border="1 " width="100% " v-if="thisData.azsfgdbyxdkfs">
                     <tr>
                         <td colspan="5" class="center" style="font-weight: bold;padding: 0.05rem;">一、申报抵扣的进项税额</td>
@@ -1329,7 +1336,7 @@
                     </tr>
                 </table>
             </div>
-            <div v-if="statusVaule=='一般纳税人附表三'">
+            <div v-show="statusVaule=='一般纳税人附表三'">
                 <table border="1 " width="100% " v-if="thisData.bfz13sldxmhje">
                     <tr>
                         <td colspan="2" rowspan="3" class="center">项目及栏次</td>
@@ -1433,7 +1440,7 @@
                     </tr>
                 </table>
             </div>
-            <div v-if="statusVaule=='一般纳税人附表四'">
+            <div v-show="statusVaule=='一般纳税人附表四'">
                 <table border="1 " width="100% " v-if="thisData.zzsskxtzysbfjjswhfqcye">
                     <tr>
                         <td colspan="8" class="center" style="font-weight: bold;padding: 0.05rem;">一、税额抵减情况</td>
@@ -1552,7 +1559,7 @@
                     </tr>
                 </table>
             </div>
-            <div v-if="statusVaule=='小规模纳税人主表'">
+            <div v-show="statusVaule=='小规模纳税人主表'">
                 <table border="1 " width="100% " v-if="thisData.yzzzsbhshwlwbqs">
                     
                     <tr>
@@ -1759,7 +1766,7 @@
 						<td class="center" colspan="3">联系电话：</td>
                     </tr>
 					<tr>
-                        <td class="center" colspan="2">如委托代理人填报，由代理人填写以下各栏：</td>
+                        <td class="center" colspan="5">如委托代理人填报，由代理人填写以下各栏：</td>
                     </tr>
 					<tr>
                         <td class="center" colspan="2">代理人名称（公章）：</td>
@@ -1771,7 +1778,7 @@
                     </tr>
                 </table>
             </div>
-            <div v-if="statusVaule=='小规模纳税人附列资料'">
+            <div v-show="statusVaule=='小规模纳税人附列资料'">
                 <table border="1 " width="100% " v-if="thisData.kce3qcye">
                     <tr>
                         <td colspan="4" class="center" style="font-weight: bold;padding: 0.05rem;">应税行为（3%征收率）扣除额计算</td>
@@ -1859,7 +1866,7 @@
                     </tr>
                 </table>
             </div>
-            <div v-if="statusVaule=='城市维护建设税、教育费附加、地方教育附加申报表'">
+            <div v-show="statusVaule=='城市维护建设税、教育费附加、地方教育附加申报表'">
                 <table border="1 " width="100% " v-if="thisData[0]">
                     
                     <tr>
@@ -1938,9 +1945,9 @@
                     </tr>
 					<tr>
                         <td class="center" colspan="2">经办人:</td>
-                        <td class="center" >肖青</td>
+                        <td class="center" ></td>
 						 <td class="center" colspan="6">经办人身份证号码: </td>
-						<td class="center" colspan="5">320103196607162038</td>
+						<td class="center" colspan="5"></td>
                     </tr>
 					  <tr>
                         <td class="center" colspan="2">代理机构:</td>
@@ -1957,6 +1964,8 @@
 </template>
 
 <script>
+// import FileSaver from 'file-saver'
+// import XLSX from 'xlsx'
 export default {
   name: "showReport",
   data() {
@@ -2007,15 +2016,78 @@ export default {
       total4:'',
       total5:'',
       total6:'',
+      taxationid:'',
+      taxinfoid:''
     };
   },
   watch: {},
   computed: {},
   mounted() {
     this.getNowMonth();
+    // this.getInfoId();
+    this.taxinfoid = '1';
     this.getTableData(this.statusVaule);
+    // this.getTableData("一般纳税人主表")
+    // this.getTableData("一般纳税人附表一")
+    // this.getTableData("一般纳税人附表二")
+    // this.getTableData("一般纳税人附表三")
+    // this.getTableData("一般纳税人附表四")
+    // this.getTableData("小规模纳税人主表")
+    // this.getTableData("城市维护建设税、教育费附加、地方教育附加申报表")
+    // this.getTableData("小规模纳税人附列资料")
   },
   methods: {
+      getInfoId(){
+          let params = {
+          accountPeriod:this.accountPeriod, //账期
+          customerId: this.customerId, //客户Id
+          stepName: "发票录入" //步骤名称
+        };
+        // this.taxationid, tax_info_id;
+        this.axios
+          .post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
+          .then(res => {
+            console.log("获取收账信息Id和税款信息id", res);
+            if (res.data.code == 200) {
+              // 在这里获取收账税款id
+              this.taxationid = res.data.data.taxation_id;
+              this.taxinfoid = res.data.data.tax_info_id;
+              
+            }
+          }).catch((err) => {
+            this.$message({
+              message: '获取收账信息Id和税款信息id数据失败',
+              type: 'error'
+            });
+          });
+      },
+      outputFile(){
+        //   var workbook = XLSX.utils.book_new();
+
+        // /* convert table 'table1' to worksheet named "Sheet1" */
+        // var ws1 = XLSX.utils.table_to_sheet(document.getElementById('table1'));
+        // XLSX.utils.book_append_sheet(workbook, ws1, "主表");
+
+        // /* convert table 'table2' to worksheet named "Sheet2" */
+        // var ws2 = XLSX.utils.table_to_sheet(document.getElementById('table2'));
+        // XLSX.utils.book_append_sheet(workbook, ws2, "附表一");
+
+        // /* get binary string as output */
+        // var wbOut = XLSX.write(workbook, {
+        //   bookType: "xlsx",
+        //   bookSST: true,
+        //   type: "array"
+        // });
+        // try {
+        //   FileSaver.saveAs(
+        //           new Blob([wbOut], { type: "application/octet-stream" }),
+        //           "Demo.xlsx"
+        //   );
+        // } catch (e) {
+        //   if (typeof console !== "undefined") console.log(e, wbOut);
+        // }
+        // return wbout;
+      },
     getNowMonth() {
       var date = new Date();
       var year = date.getFullYear();
@@ -2029,23 +2101,23 @@ export default {
       let params = {};
       let url;
       if (statusVaule == "一般纳税人主表") {
-        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId=1";
+        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId="+this.taxinfoid;
       } else if (statusVaule == "一般纳税人附表一") {
-        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb2?taxInfoId=1";
+        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb2?taxInfoId="+this.taxinfoid;
       } else if (statusVaule == "一般纳税人附表二") {
-        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb3?taxInfoId=1";
+        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb3?taxInfoId="+this.taxinfoid;
       }  else if (statusVaule == "一般纳税人附表三") {
-        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb4?taxInfoId=1";
+        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb4?taxInfoId="+this.taxinfoid;
       } else if (statusVaule == "一般纳税人附表四") {
-        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb5?taxInfoId=1";
+        url = "/api/perTaxToolTwo/e9zReportSb/showReportSb5?taxInfoId="+this.taxinfoid;
       }  else if (statusVaule == "小规模纳税人主表") {
-        url = "/api/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId=1";
+        url = "/api/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId="+this.taxinfoid;
       }  else if (
         statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
       ) {
-        url = "/api/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId=1";
+        url = "/api/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId="+this.taxinfoid;
       } else if (statusVaule == "小规模纳税人附列资料") {
-        url = "/api/perTaxToolTwo/e9zReportSb/showReportXgmSb2?taxInfoId=1";
+        url = "/api/perTaxToolTwo/e9zReportSb/showReportXgmSb2?taxInfoId="+this.taxinfoid;
       }
       this.axios
         .post(url, params)
@@ -2151,6 +2223,14 @@ export default {
       rate,
       index
     ) {
+        var reg = /^(-)?\d{1,10}(\.\d{1,2})?$/;
+      if (!reg.test(Number(e.target.innerText))) {
+        this.$message({
+          message: '请输入数字，小数点后最多两位',
+          type: 'warning'
+        });
+        return;
+      }
       if (tableType == "table1") {
         let keyName, leijiName;
         // 本月
@@ -2376,7 +2456,10 @@ export default {
             value7 = this.thisData[key7]
               ? Number(this.thisData[key7].columnValue)
               : 0;
-            this.thisData[key9].columnValue = value1 + value3 + value5 + value7;
+              if(dataName.indexOf('hjxse')==-1||dataName.indexOf('hjxxse')==-1){
+                  this.thisData[key9].columnValue = value1 + value3 + value5 + value7;
+              }
+            
             console.log("key9", this.thisData[key9].columnValue);
             // 销项(应纳)税额 10=2+4+6+8
             let key2, key4, key6;
@@ -2433,8 +2516,11 @@ export default {
             value8 = this.thisData[key8]
               ? Number(this.thisData[key8].columnValue)
               : 0;
-            this.thisData[key10].columnValue =
-              value2 + value4 + value6 + value8;
+              if(dataName.indexOf('hjxxse')==-1||dataName.indexOf('hjxse')==-1){
+                  this.thisData[key10].columnValue =
+                    value2 + value4 + value6 + value8;
+              }
+            
             console.log("key10", this.thisData[key10].columnValue);
             // 价税合计 11=9+10  扣除后含税(免税)销售额 13=11-12
             let key11 = preName + "hjjshj";
@@ -2478,23 +2564,31 @@ export default {
             value12 = this.thisData[key12]
               ? Number(this.thisData[key12].columnValue)
               : 0;
-            if (this.thisData[key11]) {
-              this.thisData[key11].columnValue = value9 + value10;
+              if(dataName.indexOf('hjjshj')==-1){
+                if (this.thisData[key11]) {
+                this.thisData[key11].columnValue = value9 + value10;
+                }
             }
-            if (this.thisData[key13]) {
-              this.thisData[key13].columnValue = value11 - value12;
+            if(dataName.indexOf('kchhsxse')==-1){
+                console.log(11122)
+                if (this.thisData[key13]) {
+                 this.thisData[key13].columnValue = value11 - value12;
+                }
             }
+            
             if (
-              dataName == "yll13azsljyjssl" ||
-              dataName == "yll13bzsljyjssl" ||
-              dataName == "yll13czsljyjssl"
+              preName == "yll13azsljyjs" ||
+              preName == "yll13bzsljyjs" ||
+              preName == "yll13czsljyjs"
             ) {
-              rate = this.thisData[dataName].columnValue;
+                // console.log("rate1111", rate);
+              rate=parseFloat(rate/100).toFixed(2);
             }
             console.log("rate", rate);
+             console.log("key13", this.thisData[key13].columnValue);
             if (this.thisData[key13]) {
               this.thisData[key14].columnValue =
-                this.thisData[key13].columnValue / (1 + rate) * rate;
+                parseFloat(this.thisData[key13].columnValue / (1 + rate) * rate).toFixed(2);
             }
           }
           this.submitEdit();
@@ -2954,6 +3048,26 @@ export default {
   }
 };
 </script>
+<style>
+.line3 .input1 .el-input{
+    width: 1.5rem;
+}
+.line3 .input1 .el-input__inner{
+    width: 1.5rem;
+}
+.line3 .input2 .el-input{
+    width: 1rem;
+}
+.line3 .input3 .el-input{
+    width: 2rem;
+}
+.line3 .input4 .el-input{
+    width: 2rem;
+}
+.tianbiaoDate .el-date-editor{
+    width:2rem;
+}
+</style>
 
 <style scoped lang="less">
 .showReport {
@@ -3069,7 +3183,7 @@ td {
   width: 16px;
   height: calc(1.4rem - 20px);
   padding: 0 15px;
-  line-height: 24px;
+//   line-height: 24px;
   /* margin: 0 10px; */
   border-left: 1px gray solid;
   border-bottom: 1px gray solid;
@@ -3082,8 +3196,8 @@ td {
   /* margin: 10px; */
   padding: 0px 5px;
   border-bottom: 1px gray solid;
-  height: calc(1.4rem - 15px);
-  padding-top: 15px;
+  height: calc(1.4rem - 0px);
+//   padding-top: 15px;
 }
 .signBox .contentBox div {
   font-size: 0.14rem;
