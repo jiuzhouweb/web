@@ -4,9 +4,9 @@
 			<div class="contain_header">
 				<div class='title'>字典表配置</div>
 				<div>
-					<el-button @click='showDialog(1)' size="small">添加一级条目</el-button>
-					<el-button @click='deleteDic' size="small">删除</el-button>
-					<el-button @click='refresh' size="small">刷新</el-button>
+					<el-button @click='showDialog(1)' size="medium">添加一级条目</el-button>
+					<el-button @click='deleteDic' size="medium">删除</el-button>
+					<el-button @click='refresh' size="medium">刷新</el-button>
 				</div>
 
 			</div>

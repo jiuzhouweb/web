@@ -1345,6 +1345,9 @@
   };
 </script>
 <style>
+  .search_contain .el-select,.search_contain .el-input__inner{
+    height: 36px;
+  }
   .search_contain .el-date-editor.el-input,
   .el-date-editor.el-input__inner {
     width: 1.6rem;
@@ -1482,14 +1485,14 @@
     color: #fff;
     border-radius: 0.05rem;
     cursor: pointer;
-    padding: 0.07rem 0.35rem;
+    padding: 0.1rem 0.35rem;
   }
   .searchButton {
     background: #ffb980;
     color: #fff;
     border-radius: 0.05rem;
     cursor: pointer;
-    padding: 0.07rem 0.35rem;
+    padding: 0.1rem 0.35rem;
     margin-left: 0.2rem
   }
   .deleteButton {
@@ -1497,7 +1500,7 @@
     color: #fff;
     border-radius: 0.05rem;
     cursor: pointer;
-    padding: 0.07rem 0.35rem;
+    padding: 0.1rem 0.35rem;
   }
   .invoice_oListModule {
     /* width: 1180rem; */

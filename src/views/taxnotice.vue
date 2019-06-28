@@ -3,7 +3,7 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>人员角色分配表</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
 					<el-form-item label="员工工号:">
 						<el-input v-model='formInline.userName' clearable></el-input>
 					</el-form-item>
@@ -16,7 +16,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button @click='search' size="mini">查询</el-button>
+						<el-button @click='search' size="medium">查询</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -258,7 +258,7 @@
 			color: #43b3db;
 		}
 
-		/deep/ .el-form-item--mini .el-form-item__label {
+		/deep/ .el-form-item--medium .el-form-item__label {
 			color: #fff;
 		}
 
