@@ -3,12 +3,12 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<span class='title'>税率配置</span>
-				<el-button class='right'>新增税率</el-button>
+				<el-button class='right' @click='addRate'>新增税率</el-button>
 			</div>
 			<div class="contain_body">
 				<el-table :data="rateList" style="width: 100%" stripe border>
-					<el-table-column align="center" label="税率名称" prop="dicName" :resizable="false"></el-table-column>
-					<el-table-column align="center" label="税率" prop="dicValue" :resizable="false"></el-table-column>
+					<el-table-column align="center" label="税率名称" prop="taxesTitle" :resizable="false"></el-table-column>
+					<el-table-column align="center" label="税率" prop="taxesRate" :resizable="false"></el-table-column>
 				</el-table>
 			</div>
 		</div>
@@ -31,6 +31,23 @@
 				</el-table>
 			</div>
 		</div>
+		<el-dialog title="新增税率" :visible.sync="dialogVisible" width="4rem">
+			<el-form :model="form" size="mini" label-width="100px">
+				<el-form-item label="税费名称">
+					<el-input v-model="form.taxesName"></el-input>
+				</el-form-item>
+				<el-form-item label="税费标题">
+					<el-input v-model="form.taxesTitle"></el-input>
+				</el-form-item>
+				<el-form-item label="税率">
+					<el-input v-model="form.taxesRate"></el-input>
+				</el-form-item>
+			</el-form>
+			<div class='btn_contain clearfix'>
+				<span class='commit' @click='commitDialog'>完成</span>
+				<span class='close' @click="hideDialog">关闭</span>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -44,9 +61,79 @@
 					
 					
 				],
+				dialogVisible:false,
+				form:{
+					taxesName:'',
+					taxesTitle:'',
+					taxesRate:''
+				}
 			}
 		},
 		components: {
+		},
+		methods:{
+			queryRate(){
+				let params = {
+				};
+				this.axios.post('/perTaxToolTwo/e9z/configTaxes/selectTaxesWithRate', params)
+					.then(res => {
+						if (res.data.code == 200) {
+							this.rateList = res.data.data;
+							// this.total = 
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+				
+					}).catch(function(err) {
+						this.$message({
+							message: '获取税率列表失败',
+							type: 'error'
+						});
+					})
+			},
+			addRate(){
+				this.dialogVisible = true;
+			},
+			hideDialog(){
+				this.dialogVisible = true;
+				this.form = {
+					taxesName:'',
+					taxesTitle:'',
+					taxesRate:''
+				}
+			},
+			commitDialog(){
+				let params = this.form;
+				this.axios.post('/perTaxToolTwo/e9z/configTaxes/insertOrUpdateTaxesAndRate', params)
+					.then(res => {
+						if (res.data.code == 200) {
+							this.queryRate()
+							this.$message({
+								message: res.data.msg,
+								type: 'success'
+							});
+							// this.total = 
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+				
+					}).catch(function(err) {
+						this.$message({
+							message: '获取税率列表失败',
+							type: 'error'
+						});
+					})
+			}
+		},
+		created() {
+			this.queryRate()
+			
 		}
 	}
 </script>
