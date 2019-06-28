@@ -39,13 +39,13 @@
 			</div>
 			<div class='card' v-for="item in bigTaxTreatment">
 				<div class='card_head'>
-					<p>南京测试客户</p>
-					<p>2018-12</p>
-					<p>大额审核</p>
-					<p>税金：800000元</p>
+					<p>{{item.customerId}}</p>
+					<p>{{item.accountPeriod}}</p>
+					<p>{{item.stepName}}</p>
+					<p>税金：{{item.taxation}}元</p>
 				</div>
 				<div class='card_body'>
-					<p>责任会计：aaa</p>
+					<p>责任会计：{{item.processUserName}}</p>
 					<p>工号：bbb</p>
 					<p>税务类型：ccc</p>
 				</div>
