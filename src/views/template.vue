@@ -5,11 +5,11 @@
 				<div class='title'>发票模板配置</div>
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
 					<el-form-item label="模板名称:">
-						<el-input v-model='formInline.name'></el-input>
+						<el-input v-model='formInline.tmplName'></el-input>
 					</el-form-item>
 					<el-form-item label="纳税人类型:">
-						<el-select v-model='formInline.customId'>
-							<el-option v-for='item in dicNameList' :label="item.customerName" :value="item.customerId"></el-option>
+						<el-select v-model='formInline.tmplType' clearable>
+							<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item>
@@ -18,34 +18,90 @@
 				</el-form>
 			</div>
 			<div class="contain_body">
-				<el-table :data="tableList" style="width: 100%" stripe border>
+				<el-table :data="tableList" style="width: 100%" stripe border @row-click='queryColumnList'>
 					<!-- <el-table-column align="center" type="selection" width="50"></el-table-column> -->
-					<el-table-column align="center" label="模板名称" prop="dicName" :resizable="false"></el-table-column>
-					<el-table-column align="center" label="纳税人类型" prop="dicValue" :resizable="false"></el-table-column>
-					<el-table-column align="center" label="显示名称" prop="dicLevel" :resizable="false"></el-table-column>
-					
+					<el-table-column align="center" label="模板名称" prop="tmplName" :resizable="false"></el-table-column>
+					<el-table-column align="center" label="纳税人类型" :resizable="false">
+						<template slot-scope="scope">
+							<span v-show='scope.row.tmplType == 0'>通用</span>
+							<span v-show='scope.row.tmplType == 233'>一般纳税人</span>
+							<span v-show='scope.row.tmplType == 232'>小规模纳税人</span>
+						</template>
+					</el-table-column>
+					<el-table-column align="center" label="显示名称" prop="tmplName" :resizable="false"></el-table-column>
+
 				</el-table>
-				<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '1')})"
-				 :current-page="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
-				</el-pagination>
 			</div>
 		</div>
 		<div class="right_contain">
-			<el-table :data="tableList" style="width: 100%" stripe border>
+			<el-table :data="columnList" style="width: 100%" stripe border>
 				<!-- <el-table-column align="center" type="selection" width="50"></el-table-column> -->
-				<el-table-column align="center" label="字段名" prop="dicName" :resizable="false"></el-table-column>
-				<el-table-column align="center" label="列类型" prop="dicValue" :resizable="false"></el-table-column>
-				<el-table-column align="center" label="计算优先级" prop="dicLevel" :resizable="false"></el-table-column>
-				<el-table-column align="center" label="是否必填" prop="dicName" :resizable="false"></el-table-column>
-				<el-table-column align="center" label="是否参与计算" prop="dicValue" :resizable="false"></el-table-column>
-				<el-table-column align="center" label="适用税务类型" prop="dicLevel" :resizable="false"></el-table-column>
-				<el-table-column align="center" label="是否显示" prop="dicName" :resizable="false"></el-table-column>
-				<el-table-column align="center" label="是否可编辑" prop="dicValue" :resizable="false"></el-table-column>
-				<el-table-column align="center" label="默认值" prop="dicLevel" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="字段名" :resizable="false">
+					<template slot-scope="scope">
+						<div contenteditable='true' v-text='scope.row.columnTitle' @blur="setLine($event,scope.row,'columnTitle')"></div>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="列类型" prop="columnType" :resizable="false" width="100">
+					<template slot-scope="scope">
+						<el-select v-model='scope.row.columnType' size="mini">
+							<el-option v-for='item in columnTypeList' :label="item.label" :value="item.value"></el-option>
+						</el-select>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="计算优先级" :resizable="false">
+					<template slot-scope="scope">
+						<div contenteditable='true' v-text='scope.row.columnCalcIndex' @blur="setLine($event,scope.row,'columnCalcIndex')"></div>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="是否必填" prop="columnRequire" :resizable="false" width="100">
+					<template slot-scope="scope">
+						<el-select v-model='scope.row.columnRequire' size="mini">
+							<el-option v-for='item in columnRequireList' :label="item.label" :value="item.value"></el-option>
+						</el-select>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="是否参与计算" prop="columnCalc" :resizable="false" width="100">
+					<template slot-scope="scope">
+						<el-select v-model='scope.row.columnCalc' size="mini">
+							<el-option v-for='item in columnCalcList' :label="item.label" :value="item.value"></el-option>
+						</el-select>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="适用税务类型" prop="taxesTaxType" :resizable="false" width="160">
+					<template slot-scope="scope">
+						<el-select v-model='scope.row.taxesTaxType' size="mini">
+							<el-option v-for='item in taxesTaxTypeList' :label="item.label" :value="item.value"></el-option>
+						</el-select>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="是否显示" prop="columnShow" :resizable="false" width="100">
+					<template slot-scope="scope">
+						<el-select v-model='scope.row.columnShow' size="mini">
+							<el-option v-for='item in columnShowList' :label="item.label" :value="item.value"></el-option>
+						</el-select>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="是否可编辑" prop="columnEdit" :resizable="false" width="100">
+					<template slot-scope="scope">
+						<el-select v-model='scope.row.columnEdit' size="mini">
+							<el-option v-for='item in columnEditList' :label="item.label" :value="item.value"></el-option>
+						</el-select>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="默认值" :resizable="false">
+					<template slot-scope="scope">
+						<div contenteditable='true' v-text='scope.row.defaultValue' @blur="setLine($event,scope.row,'defaultValue')"></div>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="操作" :resizable="false">
+					<template slot-scope="scope">
+						<el-button size="mini" type="text" @click="save(scope.row)">保存</el-button>
+					</template>
+				</el-table-column>
 			</el-table>
-			<el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '2')})"
+			<!-- <el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '2')})"
 			 :current-page="currentPage1" :page-size="pageSize1" layout="total, prev, pager, next" :total="total1">
-			</el-pagination>
+			</el-pagination> -->
 		</div>
 	</div>
 </template>
@@ -56,31 +112,83 @@
 		data() {
 			return {
 				formInline: {
-					taxesTaxType: '',
-					taxCalcType: '',
-					tmplShowType: "0",
-					invoiceType: "",
-					invoiceName: '',
-					e9z: "",
-					formula: "",
-
 					tmplName: '',
-					columnTitle: '',
+					tmplType: ''
 				},
 
-				currentPage: 1,
-				pageSize: 10,
-				total: 0,
-				
-				currentPage1: 1,
-				pageSize1: 10,
-				total1: 0,
-				
+				// currentPage1: 1,
+				// pageSize1: 10,
+				// total1: 0,
+				tableList: [],
+				columnList: [],
+				dicNameList: [],
 
+
+				columnRequireList: [{
+						label: '是',
+						value: 1
+					},
+					{
+						label: '否',
+						value: 0
+					}
+				],
+				columnCalcList: [{
+						label: '是',
+						value: 1
+					},
+					{
+						label: '否',
+						value: 0
+					}
+				],
+				columnShowList: [{
+						label: '是',
+						value: 1
+					},
+					{
+						label: '否',
+						value: 0
+					}
+				],
+				columnEditList: [{
+						label: '是',
+						value: 1
+					},
+					{
+						label: '否',
+						value: 0
+					}
+				],
+				columnTypeList: [{
+						label: '整数',
+						value: "int"
+					},
+					{
+						label: '小数',
+						value: "decimal"
+					},
+					{
+						label: '字符',
+						value: "varchar"
+					}
+				],
+				taxesTaxTypeList: [{
+						label: '通用',
+						value: "0"
+					},
+					{
+						label: '小规模纳税人',
+						value: "232"
+					},
+					{
+						label: '一般纳税人',
+						value: "233"
+					}
+				],
 			}
 		},
-		components: {
-		},
+		components: {},
 		methods: {
 			/*
 			 * 获取纳税人类型下拉列表
@@ -98,11 +206,9 @@
 					});
 				})
 			},
-			
-			queryTemplateList(){
-				let params = {
-					// state:1
-				};
+
+			queryTemplateList() {
+				let params = this.formInline;
 				this.axios.post('/perTaxToolTwo/e9z/configTemplate/findTemplateListByTypeAndName', params)
 					.then(res => {
 						if (res.data.code == 200) {
@@ -114,13 +220,76 @@
 								type: 'error'
 							});
 						}
-				
+
 					}).catch(function(err) {
 						this.$message({
-							message: '获取字典列表失败',
+							message: '获取模板列表失败',
 							type: 'error'
 						});
 					})
+			},
+			queryColumnList(row) {
+				let params = {
+					"tmplId": row.tmplId
+				};
+				this.axios.post('/perTaxToolTwo/e9z/configColumn/findColumnList', params)
+					.then(res => {
+						if (res.data.code == 200) {
+							this.columnList = res.data.data;
+							// this.total = 
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+
+					}).catch(function(err) {
+						this.$message({
+							message: '获取模板字段列表失败',
+							type: 'error'
+						});
+					})
+			},
+
+			save(row) {
+				console.log('row', row);
+				let params = [
+					row
+				];
+				this.axios.post('/perTaxToolTwo/e9z/configColumn/insertAndUpdateColumnList', params)
+					.then(res => {
+						if (res.data.code == 200) {
+							this.queryColumnList(row);
+							this.$message({
+								message: res.data.msg,
+								type: 'success'
+							});
+							// this.total = 
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+
+					}).catch(function(err) {
+						this.$message({
+							message: '修改失败',
+							type: 'error'
+						});
+					})
+			},
+
+
+			setLine(event, row, name) {
+				let text = event.target.innerText;
+				row[name] = text;
+			},
+			
+			search(){
+				this.queryTemplateList();
+				this.columnList = []
 			}
 
 		},
@@ -194,18 +363,18 @@
 			background-size: cover;
 			border-top-left-radius: 0.06rem;
 			border-top-right-radius: 0.06rem;
-		
+
 			.title {
 				font-size: 0.24rem;
 				height: 1rem;
 				line-height: 1.24rem;
 				color: #fff;
 			}
-		
+
 			/deep/ .el-form-item--mini .el-form-item__label {
 				color: #fff;
 			}
-		
+
 			/deep/ .el-form {
 				margin-top: 0.1rem
 			}
@@ -215,17 +384,13 @@
 			padding: 0.2rem 0.2rem 0rem;
 			height: calc(100% - 2rem);
 			box-sizing: border-box;
-			overflow-y: scroll;
+			overflow-y: auto;
 		}
 
 		/deep/ .el-form {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			flex-wrap: wrap;
 
 			/deep/ .el-form-item {
-				margin-right: 0rem;
+				margin-right: 0.1rem;
 
 				label {
 					// width: 1rem;
@@ -271,6 +436,23 @@
 
 		/deep/ .el-input__inner {
 			width: 1.2rem;
+			background: transparent;
+			color: #fff;
+			border: 1px solid #fff;
+		}
+
+		/deep/ .el-input__inner:hover {
+			border-color: #fff;
+		}
+
+		/deep/ .el-input.is-active .el-input__inner,
+		/deep/ .el-input__inner:focus {
+			border-color: #fff;
+			outline: 0;
+		}
+
+		/deep/ .el-select__caret {
+			color: #fff;
 		}
 
 		p {
@@ -300,6 +482,8 @@
 		border-radius: 0.06rem;
 		box-sizing: border-box;
 		padding: 20px;
+		overflow: auto;
+
 		.contain_header {
 			height: 2rem;
 			box-sizing: border-box;
@@ -320,7 +504,7 @@
 			/deep/ .el-input__inner {
 				border: 0.01rem solid #fff;
 				line-height: 0.4rem;
-    			height: 0.4rem;
+				height: 0.4rem;
 			}
 
 			/deep/ .el-button {
@@ -334,6 +518,32 @@
 				letter-spacing: 0.05rem;
 				line-height: 2;
 			}
+
+			::-webkit-input-placeholder {
+				/* WebKit browsers */
+				color: #A9A9A9;
+			}
+
+			:-moz-placeholder {
+				/* Mozilla Firefox 4 to 18 */
+				color: #A9A9A9;
+				opacity: 1;
+			}
+
+			::-moz-placeholder {
+				/* Mozilla Firefox 19+ */
+				color: #A9A9A9;
+				opacity: 1;
+			}
+
+			:-ms-input-placeholder {
+				/* Internet Explorer 10+ */
+				color: #A9A9A9;
+			}
+		}
+
+		/deep/ .el-table {
+			height: 100%;
 		}
 
 		/deep/ .el-form-item__label {
@@ -385,70 +595,81 @@
 		}
 
 		/deep/ .el-input__inner {
-			border: 0.01rem solid #fff;
+			border: 0.01rem solid #ddd;
 			background: transparent;
-			color: #fff;
-			width: 1.5rem
+			color: #666;
+			width: 80px;
+		}
+
+		/deep/ input::-webkit-input-placeholder {
+			/* placeholder颜色  */
+			color: #666;
 		}
 	}
 
-	.contain_body {
-		h3 {
-			margin-top: 0.24rem;
-			height: 0.60rem;
-			line-height: 0.60rem;
-			font-size: 0.18rem;
-			color: #333;
-			padding-left: 0.30rem;
 
-			span {
-				font-size: 0.14rem;
-				color: #ccc;
-				margin-left: 0.18rem;
-				font-weight: normal;
-			}
-		}
-
-		li {
-			font-size: 0.14rem;
-			height: 0.28rem;
-			line-height: 0.28rem;
-			color: #454545;
-			padding-left: 0.30rem;
-
-			span.span1 {
-
-				width: 1.60rem;
-			}
-
-			span.span2 {
-
-				width: 1.60rem;
-			}
-
-			span.span3 {
-				max-width: calc(100% - 3.90rem);
-			}
-
-			.formula {
-				float: left;
-				/* max-width: calc(100% - 140rem); */
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-		}
-
-		span.blue {
-			float: left;
-			font-size: 0.14rem;
-			margin-left: 0.10rem;
-		}
-
-		
-	}
 	/deep/ .el-pagination {
 		text-align: right;
 		margin-top: 0.10rem;
+	}
+
+	/deep/ .el-table__header tr,
+	.el-table__header th {
+		padding: 0;
+		height: 40px;
+	}
+
+	/deep/ .el-table__body tr,
+	.el-table__body td {
+		padding: 0;
+		height: 40px;
+	}
+
+	/deep/ .el-table td {
+		padding: 6px 0;
+	}
+
+	/deep/ .el-table th {
+		background-color: #ebf6fb;
+	}
+
+	/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+		background: #ebf6fb;
+	}
+
+	.el-dialog .el-form {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		flex-wrap: wrap
+	}
+
+
+	/deep/ .el-date-editor.el-input {
+		width: 180px;
+	}
+
+	/deep/ .el-table__body tr,
+	.el-table__body td {
+		padding: 0;
+		height: 40px;
+		background-color: #fff7f1;
+	}
+
+	/deep/ .el-table__body tr.el-table__row--striped {
+		background-color: #ebf6fb;
+	}
+
+	/deep/ .el-table thead {
+		color: #343434;
+	}
+
+	/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+		background-color: #efe9e5;
+	}
+
+	/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+		border-bottom-color: #fff;
+		background: #ebf6fb;
 	}
 </style>

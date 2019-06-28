@@ -24,10 +24,49 @@
 				<el-aside width="2.2rem">
 					<el-row class="tac">
 						<el-col>
-							<!-- <el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
-							 @open="handleOpen" @close="handleClose"> -->
-							<el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
-							 @close="handleClose">
+							<el-menu v-if='menu.indexOf("易点个税") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							 @open="handleOpen" @close="handleClose">
+								<!-- <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+							  @close="handleClose"> -->
+								<el-submenu index="1">
+									<template slot="title">
+										<i class="el-icon-location"></i>
+										<span>工资表</span>
+									</template>
+									<el-menu-item-group>
+										<el-menu-item index="/index/incomeTaxCalculate">个税计算</el-menu-item>
+										<el-menu-item index="/index/initialSheet">初始导入</el-menu-item>
+										<el-menu-item index="/index/paySheet">工资表导入</el-menu-item>
+										<el-menu-item index="/index/reportForms">报表查看</el-menu-item>
+										<el-menu-item index="/index/payEdit">工资表变更</el-menu-item>
+									</el-menu-item-group>
+								</el-submenu>
+								<!-- <el-menu-item index="/index/incomeTaxCalculate">
+									<i class="el-icon-menu"></i>
+									<span slot="title">个税计算</span>
+								</el-menu-item>
+								<el-menu-item index="/index/initialSheet">
+									<i class="el-icon-menu"></i>
+									<span slot="title">初始导入</span>
+								</el-menu-item>
+								<el-menu-item index="/index/paySheet">
+									<i class="el-icon-menu"></i>
+									<span slot="title">工资表导入</span>
+								</el-menu-item>
+							
+								<el-menu-item index="/index/reportForms">
+									<i class="el-icon-menu"></i>
+									<span slot="title">报表查看</span>
+								</el-menu-item>
+								<el-menu-item index="/index/payEdit">
+									<i class="el-icon-menu"></i>
+									<span slot="title">工资表变更</span>
+								</el-menu-item> -->
+							</el-menu>
+							<el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							 @open="handleOpen" @close="handleClose">
+							<!-- <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+							 @close="handleClose"> -->
 								<el-submenu index="1">
 									<template slot="title">
 										<i class="el-icon-location"></i>
@@ -96,33 +135,7 @@
 									</el-menu-item-group>
 								</el-submenu>
 							</el-menu>
-							<el-menu v-if='menu.indexOf("易点个税") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
-							 @open="handleOpen" @close="handleClose">
-								<!-- <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
-							  @close="handleClose"> -->
-
-								<el-menu-item index="/index/incomeTaxCalculate">
-									<i class="el-icon-menu"></i>
-									<span slot="title">个税计算</span>
-								</el-menu-item>
-								<el-menu-item index="/index/initialSheet">
-									<i class="el-icon-menu"></i>
-									<span slot="title">初始导入</span>
-								</el-menu-item>
-								<el-menu-item index="/index/paySheet">
-									<i class="el-icon-menu"></i>
-									<span slot="title">工资表导入</span>
-								</el-menu-item>
-
-								<el-menu-item index="/index/reportForms">
-									<i class="el-icon-menu"></i>
-									<span slot="title">报表查看</span>
-								</el-menu-item>
-								<el-menu-item index="/index/payEdit">
-									<i class="el-icon-menu"></i>
-									<span slot="title">工资表变更</span>
-								</el-menu-item>
-							</el-menu>
+							
 						</el-col>
 					</el-row>
 				</el-aside>

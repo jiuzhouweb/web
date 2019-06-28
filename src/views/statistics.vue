@@ -80,6 +80,10 @@
 		components: {},
 		methods: {
 			search() {
+				this.completed = [];
+				this.incomplete = [];
+				this.con = [];
+				this.nameList = [];
 				this.formInline.executeUserId = this.$store.state.user.operatorId;
 				let params = this.formInline;
 				this.axios.post('/perTaxToolTwo/e9z/historyQuery/selectPageList', this.qs.stringify(params), {

@@ -5,18 +5,18 @@
 				<div class='title'>人员角色分配表</div>
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
 					<el-form-item label="员工工号:">
-						<el-input v-model='formInline.userName'></el-input>
+						<el-input v-model='formInline.userName' clearable></el-input>
 					</el-form-item>
 					<el-form-item label="员工姓名:">
-						<el-input v-model='formInline.userNickName'></el-input>
+						<el-input v-model='formInline.userNickName' clearable></el-input>
 					</el-form-item>
 					<el-form-item label="角色:">
-						<el-select v-model='formInline.roleId'>
+						<el-select v-model='formInline.roleId' clearable>
 							<el-option v-for='item in roleList' :label="item.roleName" :value="item.roleId" :key='item.roleId'></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button @click='search'>查询</el-button>
+						<el-button @click='search' size="mini">查询</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -143,24 +143,26 @@
 			handleEdit(index, row) {
 				this.dialogTableVisible = true;
 				this.userId = row.userId;
-				this.$nextTick(function(){
+				this.$nextTick(function() {
 					if (row) {
-						row.roleList.forEach(({roleId}) => {
-							const id = this.roleList.findIndex( item => item.roleId === roleId)
+						row.roleList.forEach(({
+							roleId
+						}) => {
+							const id = this.roleList.findIndex(item => item.roleId === roleId)
 							this.$refs.multipleTable.toggleRowSelection(this.roleList[id], true);
 						});
 					} else {
 						this.$refs.multipleTable.clearSelection();
 					}
 				})
-				
+
 			},
 			hideDialog() {
 				this.dialogTableVisible = false;
 				this.$refs.multipleTable.clearSelection();
 			},
 			modifyRole() {
-				
+
 				this.multipleSelection.forEach((item, index) => {
 					item.userId = this.userId;
 				})
@@ -237,11 +239,23 @@
 		border-top-left-radius: 0.06rem;
 		border-top-right-radius: 0.06rem;
 
+		/deep/ input::-webkit-input-placeholder {
+			/* placeholder颜色  */
+			color: #fff;
+		}
+		/deep/ .el-select__caret{
+			color: #fff
+		}
+
 		.title {
 			font-size: 0.24rem;
 			height: 1rem;
 			line-height: 1.24rem;
 			color: #fff;
+		}
+
+		/deep/ .el-button {
+			color: #43b3db;
 		}
 
 		/deep/ .el-form-item--mini .el-form-item__label {
@@ -254,7 +268,12 @@
 
 		/deep/ .el-input__inner {
 			background: transparent;
-			color: #fff
+			color: #fff;
+			border: 1px solid #fff;
+		}
+
+		/deep/ .el-input__inner:hover {
+			border-color: #fff;
 		}
 
 		/deep/ .el-input.is-active .el-input__inner,
@@ -266,11 +285,75 @@
 
 	.contain_body {
 		padding: 0.2rem 0.2rem;
-		background: #fff
+		background: #fff;
+
 	}
 
 	/deep/ .el-pagination {
 		text-align: right;
 		margin-top: 0.10rem;
+	}
+
+	/deep/ .el-table__header tr,
+	.el-table__header th {
+		padding: 0;
+		height: 40px;
+	}
+
+	/deep/ .el-table__body tr,
+	.el-table__body td {
+		padding: 0;
+		height: 40px;
+	}
+
+	/deep/ .el-table td {
+		padding: 6px 0;
+	}
+
+	/deep/ .el-table th {
+		background-color: #ebf6fb;
+	}
+
+	/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+		background: #ebf6fb;
+	}
+
+	.el-dialog .el-form {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		flex-wrap: wrap
+	}
+
+	/deep/ .el-form-item__content {
+		width: 180px;
+	}
+
+	/deep/ .el-date-editor.el-input {
+		width: 180px;
+	}
+
+	/deep/ .el-table__body tr,
+	.el-table__body td {
+		padding: 0;
+		height: 40px;
+		background-color: #fff7f1;
+	}
+
+	/deep/ .el-table__body tr.el-table__row--striped {
+		background-color: #ebf6fb;
+	}
+
+	/deep/ .el-table thead {
+		color: #343434;
+	}
+
+	/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+		background-color: #efe9e5;
+	}
+
+	/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+		border-bottom-color: #fff;
+		background: #ebf6fb;
 	}
 </style>

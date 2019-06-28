@@ -69,7 +69,7 @@
 					period: ""
 				},
 				bigTaxTreatment:[],
-				TaxTreatment:[]
+				taxTreatment:[]
 			}
 		},
 		methods:{

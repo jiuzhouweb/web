@@ -4,9 +4,9 @@
 			<div class="contain_header">
 				<div class='title'>字典表配置</div>
 				<div>
-					<el-button @click='showDialog(1)'>添加一级条目</el-button>
-					<el-button @click='deleteDic'>删除</el-button>
-					<el-button @click='refresh'>刷新</el-button>
+					<el-button @click='showDialog(1)' size="small">添加一级条目</el-button>
+					<el-button @click='deleteDic' size="small">删除</el-button>
+					<el-button @click='refresh' size="small">刷新</el-button>
 				</div>
 
 			</div>
@@ -19,7 +19,7 @@
 					<el-table-column align="center" label="排序" prop="dicSort" :resizable="false"></el-table-column>
 					<el-table-column align="center" label="状态" prop="state" :resizable="false">
 						<template slot-scope="scope">
-							<span>{{scope.row.state==1?'有效':'无效'}}</span>
+							<span style='color: #F56C6C;'>{{scope.row.state==1?'有效':'无效'}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column align="center" width="260" :resizable="false">
@@ -38,8 +38,8 @@
 				</el-pagination> -->
 			</div>
 		</div>
-		<el-dialog title="新增" :visible.sync="dialogTableVisible" width="8rem">
-			<el-form :inline="true" :model="form" class="demo-form-inline" size="mini">
+		<el-dialog title="新增" :visible.sync="dialogTableVisible" width="4rem">
+			<el-form :model="form" size="mini" label-width="50px">
 				<el-form-item label="名称:">
 					<el-input v-model="form.dicName"></el-input>
 				</el-form-item>
@@ -52,15 +52,15 @@
 				<span class='close' @click="hideDialog">关闭</span>
 			</div>
 		</el-dialog>
-		<el-dialog title="编辑" :visible.sync="dialogVisible" width="8rem">
-			<el-form :inline="true" :model="form" class="demo-form-inline" size="mini">
-				<el-form-item label="名称:">
+		<el-dialog title="编辑" :visible.sync="dialogVisible" width="4rem">
+			<el-form :model="form" size="mini" label-width="50px">
+				<el-form-item label="名称">
 					<el-input v-model="form.editdicName"></el-input>
 				</el-form-item>
-				<el-form-item label="数值:">
+				<el-form-item label="数值">
 					<el-input v-model="form.editdicValue"></el-input>
 				</el-form-item>
-				<el-form-item label="排序:">
+				<el-form-item label="排序">
 					<el-input v-model="form.editsort"></el-input>
 				</el-form-item>
 			</el-form>
@@ -356,6 +356,9 @@
 		/deep/ .el-form {
 			margin-top: 0.1rem
 		}
+		/deep/ .el-button {
+			color: #43b3db;
+		}
 	}
 
 	.contain_body {
@@ -366,5 +369,97 @@
 	/deep/ .el-pagination {
 		text-align: right;
 		margin-top: 0.10rem;
+	}
+	
+	.btn_contain {
+		text-align: center;
+		margin-top: 0.36rem;
+	}
+	
+	.commit {
+		width: 1.2rem;
+		height: 0.4rem;
+		line-height: 0.4rem;
+		background: #43b3db;
+		color: #fff;
+		display: inline-block;
+		text-align: center;
+		margin-right: 0.4rem;
+		border-radius: 4px;
+	}
+	
+	.close {
+		width: 1.2rem;
+		height: 0.4rem;
+		line-height: 0.4rem;
+		background: #ed878e;
+		color: #fff;
+		display: inline-block;
+		text-align: center;
+		border-radius: 4px;
+	}
+	
+	
+	/deep/ .el-table__header tr,
+	.el-table__header th {
+		padding: 0;
+		height: 40px;
+	}
+	
+	/deep/ .el-table__body tr,
+	.el-table__body td {
+		padding: 0;
+		height: 40px;
+	}
+	
+	/deep/ .el-table td {
+		padding: 6px 0;
+	}
+	
+	/deep/ .el-table th {
+		background-color: #ebf6fb;
+	}
+	
+	/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+		background: #ebf6fb;
+	}
+	
+	.el-dialog .el-form {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		flex-wrap: wrap
+	}
+	
+	/deep/ .el-form-item__content {
+		width: 180px;
+	}
+	
+	/deep/ .el-date-editor.el-input {
+		width: 180px;
+	}
+	
+	/deep/ .el-table__body tr,
+	.el-table__body td {
+		padding: 0;
+		height: 40px;
+		background-color: #fff7f1;
+	}
+	
+	/deep/ .el-table__body tr.el-table__row--striped {
+		background-color: #ebf6fb;
+	}
+	
+	/deep/ .el-table thead {
+		color: #343434;
+	}
+	
+	/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+		background-color: #efe9e5;
+	}
+	
+	/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+		border-bottom-color: #fff;
+		background: #ebf6fb;
 	}
 </style>
