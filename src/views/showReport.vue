@@ -5,8 +5,8 @@
             <div class='search_contain'>
                 <div class="row1">
                     <span class="labelTitle">公司：</span>
-                    <el-select v-model="searchList.value" placeholder="请选择" size="small">
-                        <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+                    <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" size="small">
+                        <el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
                         </el-option>
                     </el-select>
                 </div>
@@ -16,24 +16,35 @@
                     </el-date-picker>
                 </div>
                 <div class="row3">
-                    <span class="labelTitle">报表类型：</span>
-                    <el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
-                        <el-option label="一般纳税人主表" value="一般纳税人主表"></el-option>
-                        <el-option label="一般纳税人附表一" value="一般纳税人附表一"></el-option>
-                        <el-option label="一般纳税人附表二" value="一般纳税人附表二"></el-option>
-                        <el-option label="一般纳税人附表三" value="一般纳税人附表三"></el-option>
-                        <el-option label="一般纳税人附表四" value="一般纳税人附表四"></el-option>
-                        <el-option label="小规模纳税人主表" value="小规模纳税人主表"></el-option>
-                        <el-option label="小规模纳税人附列资料" value="小规模纳税人附列资料"></el-option>
-                        <el-option label="城市维护建设税、教育费附加、地方教育附加申报表" value="城市维护建设税、教育费附加、地方教育附加申报表"></el-option>
-                    </el-select>
+                    
+                    <div v-if="userobj.reportTaxType==1">
+                        <span class="labelTitle">报表类型：</span>
+                        <el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
+                            <el-option label="一般纳税人主表" value="一般纳税人主表"></el-option>
+                            <el-option label="一般纳税人附表一" value="一般纳税人附表一"></el-option>
+                            <el-option label="一般纳税人附表二" value="一般纳税人附表二"></el-option>
+                            <el-option label="一般纳税人附表三" value="一般纳税人附表三"></el-option>
+                            <el-option label="一般纳税人附表四" value="一般纳税人附表四"></el-option>
+                            <el-option label="城市维护建设税、教育费附加、地方教育附加申报表" value="城市维护建设税、教育费附加、地方教育附加申报表"></el-option>
+                        </el-select>
+                    </div>
+                    <div v-if="userobj.reportTaxType==2">
+                        <span class="labelTitle">报表类型：</span>
+                        <el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
+                            <el-option label="小规模纳税人主表" value="小规模纳税人主表"></el-option>
+                            <el-option label="小规模纳税人附列资料" value="小规模纳税人附列资料"></el-option>
+                            <el-option label="城市维护建设税、教育费附加、地方教育附加申报表" value="城市维护建设税、教育费附加、地方教育附加申报表"></el-option>
+                        </el-select>
+                    </div>
+                    
+                    
                 </div>
                 <el-button type="primary" @click="search()" style="margin-left:20px" size="small">查看</el-button>
                 <!-- <el-button @click="clear()" size="small">重置</el-button> -->
                 <el-button @click="outputFile" size="small">导出</el-button>
             </div>
         </div>
-        <div class="titleBox" v-if="statusVaule=='一般纳税人主表'">
+        <div class="titleBox" v-if="taxinfoid&&statusVaule=='一般纳税人主表'">
             <div class="title">
                 <p class="line1">增 值 税 纳 税 申 报 表</p>
                 <p class="line2">（一般纳税人适用）</p>
@@ -43,11 +54,11 @@
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="line1">
                         <el-form-item label="税款所属时间：">
-                            <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM " value-format="yyyy-MM" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
+                            <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item class="tianbiaoDate" label="填表日期：">
-                            <el-date-picker v-model="uploadData.tianbiaoData" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择日期" clearable>
+                            <el-date-picker v-model="uploadData.tianbiaoData" type="date" format="yyyy-MM-dd " value-format="yyyy-MM-dd" placeholder="选择日期" clearable>
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item label="金额单位：">
@@ -99,7 +110,7 @@
                 </el-form>
             </div>
         </div>
-        <div class="titleBox">
+        <div class="titleBox" v-if="taxinfoid">
             <div class="title" v-if="statusVaule=='一般纳税人附表一'">
                 <p class="line1">增值税纳税申报表附列资料（一）</p>
                 <p class="line2">（本期销售情况明细）</p>
@@ -253,7 +264,7 @@
                 </el-form>
             </div>
         </div>
-        <div class="content">
+        <div class="content" v-if="taxinfoid">
             <!-- <el-button type="primary" icon="el-icon-success" size="small" @click='exportExcel'>一键导出</el-button> -->
             <div class="tableBox" v-show="statusVaule=='一般纳税人主表'">
                 <table border="1 " width="100% " v-if="thisData.ajynsjcybjseybby" id="table1">
@@ -578,7 +589,7 @@
                         <td class="pad3 center">——</td>
                     </tr>
                 </table>
-                <div class="signBox">
+                <div class="signBox" v-if="thisData.ajynsjcybjseybby">
                     <div class="signtitle">授权声明</div>
                     <div class="contentBox">
                         <div>如果你已委托代理人申报，请填写下列资料：</div>
@@ -597,13 +608,13 @@
                 <el-form :inline="true" class="demo-form-inline" size="small">
                     <div class="bottomline1">
                         <el-form-item label="主管税务机关：">
-                            <el-input v-model="officeName"></el-input>
+                            <!-- <el-input v-model="officeName"></el-input> -->
                         </el-form-item>
                         <el-form-item label="接收人：">
-                            <el-input v-model="receiveName"></el-input>
+                            <!-- <el-input v-model="receiveName"></el-input> -->
                         </el-form-item>
                         <el-form-item label="接受日期：">
-                            <el-input v-model="receiveDate"></el-input>
+                            <!-- <el-input v-model="receiveDate"></el-input> -->
                         </el-form-item>
                     </div>
                 </el-form>
@@ -2017,31 +2028,77 @@ export default {
       total5:'',
       total6:'',
       taxationid:'',
-      taxinfoid:''
+      taxinfoid:'',
+      userobj:{
+          reportTaxType:1
+      }
     };
   },
   watch: {},
   computed: {},
   mounted() {
+    //   this.searchList.options=this.$store.state.cust;
+    this.searchList.options=[{
+        customerId: "jz3779",
+        customerName: "九洲APP测试专用",
+        reportTaxPeriod: null,
+        reportTaxType: 2,
+        taxPayerId: "11111111111111111111",
+    },{
+        customerId: "jz3774",
+        customerName: "44",
+        reportTaxPeriod: null,
+        reportTaxType: 1,
+        taxPayerId: "2222222222",
+    }]
+    //   默认第一个用户
+      this.userobj=this.searchList.options[0];
+      this.searchList.value= this.userobj.customerId;
+      this.customerId=this.userobj.customerId;
+      this.uploadData.taxerNumber=this.userobj.taxPayerId;
+      console.log('this.userobj.reportTaxType',this.userobj.reportTaxType)
+      if(this.userobj.reportTaxType==1){
+          this.searchList.statusVaule='一般纳税人主表'
+            this.statusVaule='一般纳税人主表'
+        }
+        if(this.userobj.reportTaxType==2){
+            this.searchList.statusVaule='小规模纳税人主表'
+            this.statusVaule='小规模纳税人主表'
+        }
+
     this.getNowMonth();
-    // this.getInfoId();
-    this.taxinfoid = '1';
-    this.getTableData(this.statusVaule);
-    // this.getTableData("一般纳税人主表")
-    // this.getTableData("一般纳税人附表一")
-    // this.getTableData("一般纳税人附表二")
-    // this.getTableData("一般纳税人附表三")
-    // this.getTableData("一般纳税人附表四")
-    // this.getTableData("小规模纳税人主表")
-    // this.getTableData("城市维护建设税、教育费附加、地方教育附加申报表")
-    // this.getTableData("小规模纳税人附列资料")
+    this.getInfoId();
+    // this.taxinfoid = '1';
+    // this.getTableData(this.statusVaule);
   },
   methods: {
+      selectGet(vId){
+        this.userobj = {};
+        
+        this.userobj = this.searchList.options.find((item)=>{//这里的selectList就是上面遍历的数据源
+            return item.customerId === vId;//筛选出匹配数据
+        });
+        console.log('this.userobj',this.userobj)
+        this.searchList.value= this.userobj.customerId;
+      this.customerId=this.userobj.customerId;
+      this.uploadData.taxerNumber=this.userobj.taxPayerId;
+        console.log('当前选择的用户信息',this.userobj);//
+        if(this.userobj.reportTaxType==1){
+            this.searchList.statusVaule='一般纳税人主表'
+            this.statusVaule='一般纳税人主表'
+        }
+        if(this.userobj.reportTaxType==2){
+            this.searchList.statusVaule='小规模纳税人主表'
+            this.statusVaule='小规模纳税人主表'
+        }
+        this.getInfoId();
+        // this.getTableData(this.statusVaule);
+    },
       getInfoId(){
-          let params = {
+        let params = {
           accountPeriod:this.accountPeriod, //账期
           customerId: this.customerId, //客户Id
-          stepName: "发票录入" //步骤名称
+          stepName: "做账" //步骤名称
         };
         // this.taxationid, tax_info_id;
         this.axios
@@ -2049,10 +2106,12 @@ export default {
           .then(res => {
             console.log("获取收账信息Id和税款信息id", res);
             if (res.data.code == 200) {
-              // 在这里获取收账税款id
-              this.taxationid = res.data.data.taxation_id;
-              this.taxinfoid = res.data.data.tax_info_id;
-              
+                if(res.data.data){
+                    // 在这里获取收账税款id
+                    this.taxationid = res.data.data.taxation_id;
+                    this.taxinfoid = res.data.data.tax_info_id;
+                    this.getTableData(this.statusVaule);
+                }
             }
           }).catch((err) => {
             this.$message({
@@ -2062,31 +2121,8 @@ export default {
           });
       },
       outputFile(){
-        //   var workbook = XLSX.utils.book_new();
+        // 传字段
 
-        // /* convert table 'table1' to worksheet named "Sheet1" */
-        // var ws1 = XLSX.utils.table_to_sheet(document.getElementById('table1'));
-        // XLSX.utils.book_append_sheet(workbook, ws1, "主表");
-
-        // /* convert table 'table2' to worksheet named "Sheet2" */
-        // var ws2 = XLSX.utils.table_to_sheet(document.getElementById('table2'));
-        // XLSX.utils.book_append_sheet(workbook, ws2, "附表一");
-
-        // /* get binary string as output */
-        // var wbOut = XLSX.write(workbook, {
-        //   bookType: "xlsx",
-        //   bookSST: true,
-        //   type: "array"
-        // });
-        // try {
-        //   FileSaver.saveAs(
-        //           new Blob([wbOut], { type: "application/octet-stream" }),
-        //           "Demo.xlsx"
-        //   );
-        // } catch (e) {
-        //   if (typeof console !== "undefined") console.log(e, wbOut);
-        // }
-        // return wbout;
       },
     getNowMonth() {
       var date = new Date();
@@ -3041,7 +3077,7 @@ export default {
       this.accountPeriod = this.searchList.nowDate;
       this.customerId = this.searchList.value;
       this.statusVaule = this.searchList.statusVaule;
-      this.getTableData(this.statusVaule);
+      this.getInfoId();
     },
     // clear() {
     //   this.searchList.statusVaule = "一般纳税人主表";

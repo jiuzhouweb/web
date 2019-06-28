@@ -20,12 +20,20 @@
 			</div>
 			<div class="contain_body clearfix">
 				<div class="contain_body_div left clearfix" v-for='(item,index) in historyList'>
-					<i></i>
-					<p v-show='index != historyList.length - 1'><span class='circle' v-for='item in 10'></span></p>
-					<div style='position: absolute;top: 0.5rem;'>
-						<h5>{{item.stepName}}</h5>
-						<p>{{item.startTime}}开始</p>
-						<p>{{item.endTime}}结束</p>
+					<div v-show='index ==0' class="date1">{{item.startTime.split(" ")[0]}}</div>
+					<img v-show='index ==1' src="../assets/img/notice.png" alt="">
+					<img v-show='index ==2' src="../assets/img/users.png" alt="">
+					<img v-show='index ==3' src="../assets/img/pay.png" alt="">
+					<img v-show='index ==4' src="../assets/img/money.png" alt="">
+					<p v-show='index != historyList.length - 1' style="margin-left:0.05rem">
+						<span class='circle' v-for='item in 10'></span>
+					</p>
+					<!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
+					<div class="contentBox" :class="{ 'contentBoxBorder1': index==0, 'contentBoxBorder2': index==1, 'contentBoxBorder3': index==2, 'contentBoxBorder4': index==3, 'contentBoxBorder5': index==4}">
+						<div id="triangle-top" :class="{ 'trianglecolor1': index==0, 'trianglecolor2': index==1, 'trianglecolor3': index==2, 'trianglecolor4': index==3, 'trianglecolor5': index==4}"></div>
+						<h5 style="font-size:0.14rem" :class="{ 'step1color': index==0, 'step2color': index==1, 'step3color': index==2, 'step4color': index==3, 'step5color': index==4}">{{item.stepName}}</h5>
+						<p>{{item.startTime.split(" ")[0]}}开始</p>
+						<p>{{item.endTime.split(" ")[0]}}结束</p>
 						<p>执行人:{{item.executeUserName}}</p>
 						<p>备注:{{item.remark}}</p>
 					</div>
@@ -220,22 +228,96 @@
 			display: flex;
 			position: relative;
 
-			i {
-				background: pink;
+			img {
 				display: inline-block;
 				width: 0.4rem;
 				height: 0.4rem;
-				border-radius: 0.2rem;
 			}
 
 			.circle {
 				display: inline-block;
-				width: 0.1rem;
-				height: 0.1rem;
-				border-radius: 0.05rem;
+				width: 0.08rem;
+				height: 0.08rem;
+				border-radius: 50%;
 				background-color: #c9c9c9;
-				margin-right: 0.06rem
+				margin-right: 0.08rem
 			}
+			.date1{
+				height: 0.4rem;
+				line-height: 0.4rem;
+				background: #ed878e;
+				color: #fff;
+				border-radius: 0.05rem;
+				padding: 0 0.1rem;
+				font-size: 0.16rem;
+			}
+			
+		}
+		.contentBox{
+			position: absolute;
+			top: 0.7rem;
+			padding: 0.05rem 0.1rem;
+			border-width:  0.02rem;
+			border-style: solid;
+			border-radius: 0.1rem;
+			width: 1.4rem;
+
+			#triangle-top{
+				width: 0;
+				height: 0;
+				border-right: 0.1rem solid transparent;
+				border-left: 0.1rem solid transparent;
+				position: absolute;
+				top: -0.2rem;
+			}
+			p{
+				color: #666;
+			}
+		}
+		.step1color{
+			color: #ed878e
+		}
+		.contentBoxBorder1{
+			border-color: #ed878e;
+		}
+		.trianglecolor1{
+			border-bottom: 0.2rem solid #ed878e;
+		}
+		.step2color{
+			color: #7dc36d
+		}
+		.contentBoxBorder2{
+			border-color: #7dc36d;
+		}
+		.trianglecolor2{
+			border-bottom: 0.2rem solid #7dc36d;
+		}
+		.step3color{
+			color: #43b3db
+		}
+		.contentBoxBorder3{
+			border-color: #43b3db;
+		}
+		.trianglecolor3{
+			border-bottom: 0.2rem solid #43b3db;
+		}
+		.step4color{
+			color: #ffac69
+		}
+		.contentBoxBorder4{
+			border-color: #ffac69;
+		}
+		.trianglecolor4{
+			border-bottom: 0.2rem solid #ffac69;
+		}
+		.step5color{
+			color: #e6a08a
+		}
+		.contentBoxBorder5{
+			border-color: #e6a08a;
+		}
+		.trianglecolor5{
+			border-bottom: 0.2rem solid #e6a08a;
 		}
 	}
 </style>

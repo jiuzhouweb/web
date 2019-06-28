@@ -7,7 +7,7 @@
               					客户名称：
               				</span>
           <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择">
-            <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+            <el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
             </el-option>
           </el-select>
         </div>
@@ -15,8 +15,9 @@
           <span class="labelTitle">
               					账期：
               				</span>
-          <el-date-picker v-model="searchList.nowDate" type="month" placeholder="选择月">
+          <el-date-picker v-model="searchList.nowDate" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月">
           </el-date-picker>
+          
         </div>
         <div class="searchButton" @click="search()">查询</div>
       </div>
@@ -40,13 +41,15 @@
               <div class="line1">
                 <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
                 <!-- <p v-if="item.invoiceId" class="bigTitle">税金：80000元</p> -->
-                <p class="smallTitle" @click="showDetail(item)">详情</p>
+                <!-- <p v-if="item.invoiceId" class="bigTitle"></p> -->
+                <p v-if="item.tmplId" class="smallTitle" @click="showDetail(item)">详情</p>
                 <!-- <p class="smallTitle">删除</p> -->
               </div>
-              <div v-if="!item.tmplId" class="line2">
+              <div v-if="!item.tmplId" class="line2" style="position:relative">
                 <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
                 <p>{{item.invoiceCategory}}</p>
                 <p style="margin-left:0.15rem;">{{item.invoiceType}}</p>
+                <p class="smallTitle" style="position:absolute;top:0rem;right:0.2rem;font-size:0.12rem" @click="showDetail(item)">详情</p>
               </div>
             </div>
             <div class="dataContent">
@@ -151,11 +154,11 @@
               </div>
               <div class="right">
                 <p class="label">申报纳税种类：</p>
-                <p class="value">一般纳税人</p>
+                <p class="value">{{sbnszl}}</p>
               </div>
             </div>
           </div>
-          <div class="taxRate">
+          <div class="taxRate" v-if="!detailData.tmplId">
             <div class="valueBox" v-for="(item,index) in detailData.taxColumnList" :key="index">
               <p class="label">{{item.columnTitle}}：</p>
               <p class="value" v-if="item.columnTitle=='城建税税率'">{{item.columnValue}}</p>
@@ -187,20 +190,30 @@
     <div class="right_contain">
       <div class="charts">
         <p class="chartsTitle">收入合计</p>
-        <div id="myChart" :style="{width: '100%', height: '2rem'}"></div>
+        <div id="myChart" v-if="tableData" :style="{width: '100%', height: '2rem'}"></div>
+        <div v-if="!tableData">暂无数据</div>
       </div>
-      <div class="chartsTable">
-        <el-table :data="tableData" show-summary border style="width: 90%;margin-left:5%">
+      <div class="chartsTable"  v-if="tableData">
+        <el-table :data="tableData" show-summary :summary-method="getSummariesCharts" border style="width: 90%;margin-left:5%">
           <el-table-column label="税种" width="50" align="center" :resizable="false">
             <template slot-scope="scope">
-              				  <div class="tableSquare" :style="{background:scope.row.color}"></div>
+              <div class="tableSquare" :style="{background:scope.row.color}"></div>
             </template>
 					</el-table-column>
-					<el-table-column prop="invoice_amt" label="票面金额" align="right" header-align="center"  :resizable="false">
+					<el-table-column label="票面金额" align="right" header-align="center"  :resizable="false">
+            <template slot-scope="scope">
+              <span>{{ fomatFloat(scope.row.invoice_amt,2) }}</span>
+            </template>
 					</el-table-column>
-					<el-table-column prop="ex_tax_income" label="收入不含税" align="right" header-align="center" :resizable="false" >
+					<el-table-column label="收入不含税" align="right" header-align="center" :resizable="false" >
+            <template slot-scope="scope">
+              <span>{{ fomatFloat(scope.row.ex_tax_income,2) }}</span>
+            </template>
 					</el-table-column>
-					<el-table-column prop="sale_vat_taxation" label="销项税额" align="right" header-align="center"  :resizable="false">
+					<el-table-column label="销项税额" align="right" header-align="center"  :resizable="false">
+            <template slot-scope="scope">
+              <span>{{ fomatFloat(scope.row.sale_vat_taxation,2) }}</span>
+            </template>
 					</el-table-column>
 				</el-table>
 			</div>
@@ -221,16 +234,28 @@
 				<p class="chartsTitle">应纳税额合计</p>
 			</div>
 			<div class="chartsTable" style="margin-top:0.20rem;margin-bottom: 0.20rem;">
-				<el-table :data="tableTaxData" show-summary border style="width: 90%;margin-left:5%">
+				<el-table :data="tableTaxData" show-summary :summary-method="getSummaries" border style="width: 90%;margin-left:5%">
 					<el-table-column label="税种" prop="name" align="center" header-align="center"  :resizable="false">
 					</el-table-column>
 					<el-table-column label="税率" width="49" prop="rate" align="center" header-align="center" :resizable="false" >
-					</el-table-column>
+            <template slot-scope="scope">
+              <span>{{ fomatFloat(scope.row.rate,2) }}</span>
+            </template>
+          </el-table-column>
 					<el-table-column label="应缴" width="70" prop="payable" align="center" header-align="center" :resizable="false" >
+            <template slot-scope="scope">
+              <span>{{ fomatFloat(scope.row.payable,2) }}</span>
+            </template>
 					</el-table-column>
 					<el-table-column label="已交" width="55" prop="paid" align="center" header-align="center" :resizable="false" >
+            <template slot-scope="scope">
+              <span>{{ fomatFloat(scope.row.paid,2) }}</span>
+            </template>
 					</el-table-column>
 					<el-table-column label="应补交" width="70" prop="taxation" align="center" header-align="center" :resizable="false" >
+            <template slot-scope="scope">
+              <span>{{ fomatFloat(scope.row.taxation,2) }}</span>
+            </template>
 					</el-table-column>
 				</el-table>
 			</div>
@@ -365,6 +390,7 @@
         zengzhiTaxList: [],
         yinhuaTaxList: [],
         userobj:{},
+        sbnszl:'',//申报纳税类型
       };
     },
     components: {
@@ -386,19 +412,32 @@
       }
     },
     mounted() {
-      this.searchList.options = this.$store.state.cust;
-      console.log('this.searchList.options', this.searchList.options)
+      //   this.searchList.options=this.$store.state.cust;
+    this.searchList.options=[{
+        customerId: "jz3779",
+        customerName: "九洲APP测试专用",
+        reportTaxPeriod: null,
+        reportTaxType: 2,
+        taxPayerId: "11111111111111111111",
+    },{
+        customerId: "jz3774",
+        customerName: "44",
+        reportTaxPeriod: null,
+        reportTaxType: 1,
+        taxPayerId: "2222222222",
+    }]
       this.getNowMonth();
       this.getTaxCalcMethod();
+      
     },
     methods: {
       selectGet(vId){
         this.userobj = {};
         
-        this.userobj = this.$store.state.cust.find((item)=>{//这里的selectList就是上面遍历的数据源
+        this.userobj = this.searchList.options.find((item)=>{//这里的selectList就是上面遍历的数据源
             return item.customerId === vId;//筛选出匹配数据
         });
-        console.log('当前选择的用户信息',userobj);//
+        console.log('当前选择的用户信息',this.userobj);//
       
     },
       getNowMonth() {
@@ -414,24 +453,36 @@
         this.customerId = this.searchList.value;
         this.customerName=this.userobj.customerName;
         this.statusVaule = this.searchList.statusVaule;
+        this.statPerTaxation();
         let params = {
           accountPeriod: this.accountPeriod, //账期
           customerId: this.customerId, //客户Id
-          stepName: "发票录入" //步骤名称
+          stepName: "做账" //步骤名称
         };
         axios
-          .post("/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
+          .post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
           .then(res => {
             console.log("获取收账信息Id和税款信息id", res);
             if (res.data.code == 200) {
               // 在这里获取收账税款id
-              this.taxationId = res.data.data.taxation_id;
-              this.taxInfoId = res.data.data.tax_info_id;
-              this.statPerTaxation();
-              this.getInvoiceLeaveShowList();
-              this.getShowSumIncome();
-              this.getShowSumDeduct();
-              this.getShowSumTaxPayable();
+              if(res.data.data){
+                this.taxationId = res.data.data.taxation_id;
+                this.taxInfoId = res.data.data.tax_info_id;
+                // this.taxationId = '1';
+                // this.taxInfoId = '1';
+                
+                this.getInvoiceLeaveShowList();
+                this.getShowSumIncome();
+                this.getShowSumDeduct();
+                this.getShowSumTaxPayable();
+                
+              }else{
+                this.invoicePanelList=[];
+                this.tableData=[];
+                this.tableDeductData=[];
+                this.tableTaxData=[];
+              }
+              
             }
           }).catch((err) => {
             this.$message({
@@ -446,9 +497,13 @@
           customerId: this.customerId,
           accountPeriod: this.accountPeriod,
         }
+        // let params = {
+        //   customerId: "jz17224",
+        //   accountPeriod: "2019-08",
+        // }
         axios
           .post(
-            "/perTaxToolTwo/api/import/statPerTaxation"
+            "/api/perTaxToolTwo/api/import/statPerTaxation",params
           )
           .then(res => {
             console.log("查询个税税款合计", res);
@@ -473,10 +528,20 @@
       //获取列表数据
       getInvoiceLeaveShowList() {
         this.loadingCard = true;
+        console.log('当前客户的申报类型',this.userobj.reportTaxType)
+        // 1：一般纳税人，2：小规模
+        // this.userobj.reportTaxType
+        let tmplType;
+        if(this.userobj.reportTaxType==1){
+          tmplType=233;
+        }else if(this.userobj.reportTaxType==2){
+          tmplType=232;
+        }
+        // tmplType 发票模板适用类型 0 - 公用；233 - 一般纳税人；232 - 小规模
         axios
           .get(
-            "/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
-            this.taxationId + "&tmplType=" + 0
+            "/api/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
+            this.taxationId + "&tmplType=" + tmplType
           )
           .then(res => {
             this.loadingCard = false;
@@ -511,7 +576,7 @@
       //获取右侧统计数据--收入合计
       getShowSumIncome() {
         // axios.get("/test/www").then(res => {
-        axios.get("/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + this.taxationId).then(res => {
+        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + this.taxationId).then(res => {
           console.log("获取收入合计数据", res);
           if (res.data.code == 200) {
             let nameArr = [];
@@ -557,7 +622,7 @@
       getShowSumDeduct() {
         this.tableDeductData = [];
         // axios.get("/test/showSumIncome").then(res => {
-        axios.get("/perTaxToolTwo/e9zCalculate/showSumDeduct?taxationId=" + this.taxationId).then(res => {
+        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumDeduct?taxationId=" + this.taxationId).then(res => {
           // console.log("获取抵扣合计数据", res);
           if (res.data.code == 200) {
             for (var key in res.data.data) {
@@ -600,7 +665,7 @@
       // 获取右侧统计数据--应纳税额合计
       getShowSumTaxPayable() {
         // axios.get("/test/showSumTaxPayable").then(res => {
-        axios.get("/perTaxToolTwo/e9zCalculate/showSumTaxPayable?taxationId=" + this.taxationId).then(res => {
+        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumTaxPayable?taxationId=" + this.taxationId).then(res => {
           // console.log("获取应纳税额合计数据", res);
           if (res.data.code == 200) {
             this.tableTaxData = res.data.data;
@@ -611,6 +676,60 @@
             type: 'error'
           });
         });
+      },
+      getSummaries(param) {
+        const { columns, data } = param;
+        const sums = [];
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = '合计';
+            return;
+          }
+          const values = data.map(item => Number(item[column.property]));
+          if (!values.every(value => isNaN(value))) {
+            
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] = this.fomatFloat(sums[index],2);
+          } else {
+            sums[index] = '--';
+          }
+        });
+
+        return sums;
+      },
+      getSummariesCharts(param) {
+        const { columns, data } = param;
+        const sums = [];
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = '合计';
+            return;
+          }
+          const values = data.map(item => Number(item[column.property]));
+          if (!values.every(value => isNaN(value))) {
+            
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] = this.fomatFloat(sums[index],2);
+          } else {
+            sums[index] = '--';
+          }
+        });
+
+        return sums;
       },
       // 二维数组转一位数组
       flatten(arr) {
@@ -710,7 +829,7 @@
       getTaxCalcMethod() {
         axios
           .post(
-            "/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
+            "/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
           )
           .then(res => {
             console.log("获取计税方法", res);
@@ -735,14 +854,24 @@
         this.getInvoiceTypeAndName();
       },
       // 获取发票类型和发票名称
+      // 获取发票类型和发票名称
       getInvoiceTypeAndName() {
+        console.log('当前客户的申报类型',this.userobj.reportTaxType)
+        // 1：一般纳税人，2：小规模
+        // this.userobj.reportTaxType
+        let taxesTaxType;
+        if(this.userobj.reportTaxType==1){
+          taxesTaxType=233;
+        }else if(this.userobj.reportTaxType==2){
+          taxesTaxType=232;
+        }
         let params = {
           taxCalcType: this.form.taxCalcMethod,
-          taxesTaxType: 233,
+          taxesTaxType: taxesTaxType,
           tmplShowType: 0
         };
         axios
-          .post("/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
+          .post("/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
           .then(res => {
             console.log("获取发票类型和发票名称", res);
             if (res.data.code == 200) {
@@ -822,7 +951,7 @@
             };
             axios
               .post(
-                "/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
+                "/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
                 params
               )
               .then(res => {
@@ -872,21 +1001,23 @@
         var float5reg = /^(-)?\d{1,3}(\.\d{1,5})?$/;
         var float4reg = /^(-)?\d{1,14}(\.\d{1,4})?$/;
         this.detailData.invoiceColumnList.forEach((item, index) => {
-          if (item.columnTitle == "核定征收率") {
-            if (item.columnValue == "") {
-              this.$set(item, "errInfo", "");
-            } else if (!float5reg.test(item.columnValue)) {
-              this.$set(item, "errInfo", "整数位最多3位，小数位最多5位");
+          if (item.columnTitle != "发票项目类型"&&item.columnTitle != "应税类型"&&item.columnTitle != "是否是辅导期") {
+            if (item.columnTitle == "核定征收率") {
+              if (item.columnValue == "") {
+                this.$set(item, "errInfo", "");
+              } else if (!float5reg.test(item.columnValue)) {
+                this.$set(item, "errInfo", "整数位最多3位，小数位最多5位");
+              } else {
+                this.$set(item, "errInfo", "");
+              }
             } else {
-              this.$set(item, "errInfo", "");
-            }
-          } else {
-            if (item.columnValue == "") {
-              this.$set(item, "errInfo", "");
-            } else if (!float4reg.test(item.columnValue)) {
-              this.$set(item, "errInfo", "整数位最多14位，小数位最多4位");
-            } else {
-              this.$set(item, "errInfo", "");
+              if (item.columnValue == "") {
+                this.$set(item, "errInfo", "");
+              } else if (!float4reg.test(item.columnValue)) {
+                this.$set(item, "errInfo", "整数位最多14位，小数位最多4位");
+              } else {
+                this.$set(item, "errInfo", "");
+              }
             }
           }
         });
@@ -908,11 +1039,43 @@
             } else if (item.columnName == "taxation_id") {
               obj.columnValue = this.taxationId;
               invoiceColumns.push(obj);
-            } else {
+            } else if (item.columnTitle == "发票项目类型") {
+              if(item.columnValue=='一般'){
+                obj.columnValue='1'
+              }else if(item.columnValue=='即征即退'){
+                obj.columnValue='2'
+              }
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "应税类型") {
+              if(item.columnValue=='应税货物'){
+                obj.columnValue='1'
+              }else if(item.columnValue=='应税劳务'){
+                obj.columnValue='2'
+              }else if(item.columnValue=='应税服务'){
+                obj.columnValue='3'
+              }
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "是否是辅导期") {
+              if(item.columnValue=='是'){
+                obj.columnValue='1'
+              }else if(item.columnValue=='否'){
+                obj.columnValue='2'
+              }
+              invoiceColumns.push(obj);
+            }else {
               obj.columnValue = item.columnValue ? item.columnValue : item.defaultValue;
             }
             invoiceColumns.push(obj);
           });
+          console.log('当前客户的申报类型',this.userobj.reportTaxType)
+          // // 1：一般纳税人，2：小规模
+          
+          let declarationType;
+          if(this.userobj.reportTaxType==1){
+            declarationType=2;
+          }else if(this.userobj.reportTaxType==2){
+            declarationType=1;
+          }
           let params = {
             invoiceId: this.detailData.invoiceId, //发票Id (如果是发票配置表)
             invoiceTmplId: this.detailData.tmplId, //模板id （如果是模板配置表）
@@ -928,12 +1091,12 @@
             tmplShowType: this.detailData.tmplShowType, //下拉框（0-发票 1-其他模板）
             taxesTaxType: this.detailData.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
             type: this.detailData.type, //对应列/税费下拉框 1-列 2-税费
-            declarationType: 2,
+             declarationType: declarationType, //1：小规模，2一般纳税人
             e9zConfigInvoiceColumnList: invoiceColumns
           };
           console.log("params", params);
           axios
-            .post("/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+            .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
             .then(res => {
               console.log("修改数据", res);
               if (res.data.code == 200) {
@@ -1097,6 +1260,15 @@
               // }
             }
           });
+          console.log('当前客户的申报类型',this.userobj.reportTaxType)
+          // // 1：一般纳税人，2：小规模
+          
+          let declarationType;
+          if(this.userobj.reportTaxType==1){
+            declarationType=2;
+          }else if(this.userobj.reportTaxType==2){
+            declarationType=1;
+          }
           let params = {
             invoiceId: this.nextStepRes.invoiceId, //发票Id (如果是发票配置表)
             invoiceTmplId: this.detailData.tmplId, //模板id （如果是模板配置表）
@@ -1112,12 +1284,12 @@
             tmplShowType: this.nextStepRes.tmplShowType, //下拉框（0-发票 1-其他模板）
             taxesTaxType: this.nextStepRes.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
             type: this.nextStepRes.type, //对应列/税费下拉框 1-列 2-税费
-            declarationType: 2, //申报类型 1：小规模，2一般纳税人
+            declarationType: declarationType, //申报类型 1：小规模，2一般纳税人
             e9zConfigInvoiceColumnList: invoiceColumns
           };
           console.log("params", params);
           axios
-            .post("/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+            .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
             .then(res => {
               console.log("插入数据", res);
               if (res.data.code == 200) {
@@ -1139,6 +1311,14 @@
       },
       // 打开详情弹窗
       showDetail(item) {
+         console.log('当前客户的申报类型',this.userobj.reportTaxType)
+        // // 1：一般纳税人，2：小规模
+        if(this.userobj.reportTaxType==1){
+            this.sbnszl='一般纳税人';
+          }else if(this.userobj.reportTaxType==2){
+            this.sbnszl='小规模纳税人';
+          }
+
         this.detailDialogVisible = true;
         console.log("item,", item);
         item.invoiceColumnList = [];
@@ -1576,6 +1756,7 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: 0.14rem;
   }
   .content .valueBox {
     display: flex;
