@@ -3,7 +3,7 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>发票模板配置</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
 					<el-form-item label="模板名称:">
 						<el-input v-model='formInline.tmplName'></el-input>
 					</el-form-item>
@@ -371,7 +371,7 @@
 				color: #fff;
 			}
 
-			/deep/ .el-form-item--mini .el-form-item__label {
+			/deep/ .el-form-item--medium .el-form-item__label {
 				color: #fff;
 			}
 

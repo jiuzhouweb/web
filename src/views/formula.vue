@@ -2,7 +2,7 @@
 	<div class="main_contain">
 		<div class="left_contain">
 			<div class="contain_header">
-				<el-form :inline="true" :model="formInline" class="demo-form-inline">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
 					<el-form-item label="省份选择:">
 						<el-select v-model="division" @change='getArea'>
 							<el-option v-for='item in divisionList' :label="item.divisionName" :value="item.divisionName"></el-option>
@@ -15,7 +15,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button type="primary" @click='setArea'>确认城市</el-button>
+						<el-button type="primary" size="medium" @click='setArea'>确认城市</el-button>
 					</el-form-item>
 				</el-form>
 				<div class='info clearfix'>
@@ -25,7 +25,7 @@
 				</div>
 			</div>
 			<div class="contain_body">
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-position='left' :rules="rules" ref="ruleForm">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-position='left' :rules="rules" ref="ruleForm" size="medium">
 					<el-form-item label="纳税人类型:" class='short' prop="taxesTaxType">
 						<el-select clearable v-model="formInline.taxesTaxType">
 							<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
@@ -101,7 +101,7 @@
 		</div>
 		<div class="right_contain">
 			<div class="contain_header">
-				<el-form :inline="true" :model="formInline" class="demo-form-inline">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline"  size="medium">
 					<!-- <el-form-item label="省份选择:">
 						<el-select clearable v-model="formInline.province">
 							<el-option label="区域一" value="shanghai"></el-option>
@@ -151,7 +151,7 @@
 					</el-form-item>
 
 				</el-form>
-				<el-button type="primary" @click="filterFormula">立即<br />查询</el-button>
+				<el-button type="primary" @click="filterFormula" size="medium">立即<br />查询</el-button>
 			</div>
 			<div class="contain_body">
 				<h3>税种公式<span>{{areaName}}</span></h3>
@@ -890,8 +890,8 @@
 				background: #fff;
 				color: @button;
 				width: 1.3rem;
-				height: 0.40rem;
-				line-height: 0;
+				// height: 0.40rem;
+				// line-height: 0;
 				border-color: #fff
 			}
 			/deep/ .el-input{
@@ -943,8 +943,8 @@
 				background: transparent;
 				color: #fff;
 				width: 1.8rem;
-				line-height: 0.4rem;
-    			height: 0.4rem;
+				// line-height: 0.4rem;
+    			// height: 0.4rem;
 			}
 		}
 
@@ -1055,8 +1055,8 @@
 
 			/deep/ .el-input__inner {
 				border: 0.01rem solid #fff;
-				line-height: 0.4rem;
-    			height: 0.4rem;
+				// line-height: 0.4rem;
+    			// height: 0.4rem;
 			}
 
 			/deep/ .el-button {

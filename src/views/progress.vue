@@ -3,7 +3,7 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>历史操作记录</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
 					<el-form-item label="客户名称:">
 						<el-select v-model='formInline.customId'>
 							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
@@ -208,7 +208,7 @@
 			color: #fff;
 		}
 
-		/deep/ .el-form-item--mini .el-form-item__label {
+		/deep/ .el-form-item--medium .el-form-item__label {
 			color: #fff;
 		}
 
