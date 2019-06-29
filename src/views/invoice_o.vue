@@ -424,9 +424,9 @@
       insertReport(){
         let url;
         if (this.userobj.reportTaxType == 1) {
-          url='/perTaxToolTwo/e9zReportSb/insertReport'
+          url='/perTaxToolTwo/e9zCalculate/insertReport'
         }else if (this.userobj.reportTaxType == 2) {
-          url='/perTaxToolTwo/e9zReportSb/insertXgmReport'
+          url='/perTaxToolTwo/e9zCalculate/insertXgmReport'
         }
         let params={
           taxationId:this.taxationId,
@@ -1421,6 +1421,10 @@
             .post("/perTaxToolTwo/e9z/taxStep/submit", params)
             .then(res => {
               console.log("流程步骤提交", res);
+              this.$message({
+                  message: '审批成功',
+                  type: 'success'
+                });
             })
             .catch(err => {
               this.$message({
