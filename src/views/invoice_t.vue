@@ -24,7 +24,7 @@
         <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div>
       </div>
       <div class="invoice_oListModule">
-        <div class="cardBox" v-if="invoicePanelList.length>0" v-loading="loadingCard">
+        <div class="cardBox" v-loading="loadingCard">
           <div class="eachCard">
             <div class="topContent tophj hjColor">
               <p class="comName">{{customerName}}</p>
@@ -73,7 +73,7 @@
             <img src="../assets/img/list-add.png" style="width:100%;height:100%" alt="">
           </div>
         </div>
-        <div v-if="invoicePanelList.length==0" class="noData">暂无数据</div>
+        <!-- <div v-if="invoicePanelList.length==0" class="noData">暂无数据</div> -->
         <!-- 新增弹窗 -->
         <el-dialog class="smallDialog" :close-on-click-modal="false" :visible.sync="addDialogVisible">
           <el-form ref="form" :rules="rules" :model="form" label-width="1.1rem">

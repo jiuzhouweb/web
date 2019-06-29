@@ -24,7 +24,7 @@
         <!--  -->
       </div>
       <div class="invoice_oListModule">
-        <div class="cardBox" v-if="invoicePanelList.length>0" v-loading="loadingCard">
+        <div class="cardBox" v-loading="loadingCard">
           <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
             <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
             <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
@@ -61,7 +61,7 @@
             <img src="../assets/img/list-add.png" style="width:100%;height:100%" alt="">
           </div>
         </div>
-        <div v-if="invoicePanelList.length==0" class="noData">暂无数据</div>
+        <!-- <div v-if="invoicePanelList.length==0" class="noData">暂无数据</div> -->
         <!-- 新增弹窗 -->
         <el-dialog class="smallDialog" :close-on-click-modal="false" :visible.sync="addDialogVisible">
           <el-form ref="form" :rules="rules" :model="form" label-width="1.1rem">
