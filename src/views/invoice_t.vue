@@ -439,9 +439,9 @@
       insertReport(){
         let url;
         if (this.userobj.reportTaxType == 1) {
-          url='/api/perTaxToolTwo/e9zReportSb/insertReport'
+          url='/perTaxToolTwo/e9zReportSb/insertReport'
         }else if (this.userobj.reportTaxType == 2) {
-          url='/api/perTaxToolTwo/e9zReportSb/insertXgmReport'
+          url='/perTaxToolTwo/e9zReportSb/insertXgmReport'
         }
         let params={
           taxationId:this.taxationId,
@@ -501,7 +501,7 @@
       // 负数留抵表
       selectBusinessReduceLeaveTableList(params){
         axios
-          .post("/api/perTaxToolTwo/e9z/e9zBusinessReduceLeaveTable/selectBusinessReduceLeaveTableList", params)
+          .post("/perTaxToolTwo/e9z/e9zBusinessReduceLeaveTable/selectBusinessReduceLeaveTableList", params)
           .then(res => {
             if(res.data.code==200){
               this.fscj=res.data.data[0].redLocalLeaveD;
@@ -539,7 +539,7 @@
           crdRate:rate
         }
         axios
-          .post("/api/perTaxToolTwo/e9z/E9zBusinessCreditsLeaveTable/selectBusinessCreditsLeaveTableList", params)
+          .post("/perTaxToolTwo/e9z/E9zBusinessCreditsLeaveTable/selectBusinessCreditsLeaveTableList", params)
           .then(res => {
             if(res.data.code==200){
               this.ysfwdkcb=res.data.data[0].crdLocalLeaveD;
@@ -598,7 +598,7 @@
           stepName: "发票录入" //步骤名称
         };
         axios
-          .post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
+          .post("/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
           .then(res => {
             console.log("获取收账信息Id和税款信息id", res);
             if (res.data.code == 200) {
@@ -641,7 +641,7 @@
         // }
         axios
           .post(
-            "/api/perTaxToolTwo/api/import/statPerTaxation",params
+            "/perTaxToolTwo/api/import/statPerTaxation",params
           )
           .then(res => {
             console.log("查询个税税款合计", res);
@@ -679,7 +679,7 @@
         // tmplType 发票模板适用类型 0 - 公用；233 - 一般纳税人；232 - 小规模
         axios
           .get(
-            "/api/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
+            "/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
             this.taxationId + "&tmplType=" + tmplType
           )
           .then(res => {
@@ -715,7 +715,7 @@
       //获取右侧统计数据--收入合计
       getShowSumIncome() {
         // axios.get("/test/www").then(res => {
-        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + this.taxationId).then(res => {
+        axios.get("/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + this.taxationId).then(res => {
           console.log("获取收入合计数据", res);
           if (res.data.code == 200) {
             let nameArr = [];
@@ -762,7 +762,7 @@
       getShowSumDeduct() {
         this.tableDeductData = [];
         // axios.get("/test/showSumIncome").then(res => {
-        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumDeduct?taxationId=" + this.taxationId).then(res => {
+        axios.get("/perTaxToolTwo/e9zCalculate/showSumDeduct?taxationId=" + this.taxationId).then(res => {
           // console.log("获取抵扣合计数据", res);
           if (res.data.code == 200) {
             for (var key in res.data.data) {
@@ -805,7 +805,7 @@
       // 获取右侧统计数据--应纳税额合计
       getShowSumTaxPayable() {
         // axios.get("/test/showSumTaxPayable").then(res => {
-        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumTaxPayable?taxationId=" + this.taxationId).then(res => {
+        axios.get("/perTaxToolTwo/e9zCalculate/showSumTaxPayable?taxationId=" + this.taxationId).then(res => {
           // console.log("获取应纳税额合计数据", res);
           if (res.data.code == 200) {
             this.tableTaxData = res.data.data;
@@ -972,7 +972,7 @@
       getTaxCalcMethod() {
         axios
           .post(
-            "/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
+            "/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
           )
           .then(res => {
             console.log("获取计税方法", res);
@@ -1014,7 +1014,7 @@
           tmplShowType: 0
         };
         axios
-          .post("/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
+          .post("/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
           .then(res => {
             console.log("获取发票类型和发票名称", res);
             if (res.data.code == 200) {
@@ -1094,7 +1094,7 @@
             };
             axios
               .post(
-                "/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
+                "/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
                 params
               )
               .then(res => {
@@ -1245,7 +1245,7 @@
           };
           console.log("params", params);
           axios
-            .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+            .post("/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
             .then(res => {
               console.log("修改数据", res);
               if (res.data.code == 200) {
@@ -1444,7 +1444,7 @@
           };
           console.log("params", params);
           axios
-            .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+            .post("/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
             .then(res => {
               console.log("插入数据", res);
               if (res.data.code == 200) {
@@ -1485,7 +1485,7 @@
         }
         console.log('params',params)
          axios
-            .post("/api/perTaxToolTwo/e9z/taxStep/submit", params)
+            .post("/perTaxToolTwo/e9z/taxStep/submit", params)
             .then(res => {
               console.log("流程步骤提交", res);
             })
