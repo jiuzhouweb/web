@@ -1244,6 +1244,8 @@
                   message: "添加成功",
                   type: "success"
                 });
+                
+                this.submitStep();
                 this.nextStepDialogVisible = false;
                 this.getInvoiceLeaveShowList()
               }
@@ -1255,6 +1257,26 @@
               });
             });
         }
+      },
+      // 流程步骤提交
+      submitStep(){
+        let params={
+          taxationId:this.taxationId,
+          taxInfoId:this.taxInfoId,
+          stepName:'发票录入',
+          nextStepName:'做账'
+        }
+         axios
+            .post("/api/perTaxToolTwo/e9z/taxStep/submit", params)
+            .then(res => {
+              console.log("流程步骤提交", res);
+            })
+            .catch(err => {
+              this.$message({
+                message: "流程步骤提交失败",
+                type: "error"
+              });
+            });
       },
       // 打开详情弹窗
       showDetail(item) {
