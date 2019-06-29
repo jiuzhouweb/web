@@ -18,7 +18,7 @@
 				</el-form>
 			</div>
 			<div class="contain_body">
-				<el-table :data="tableList" style="width: 100%" stripe border @row-click='queryColumnList'>
+				<el-table :data="tableList" style="width: 100%;overflow:auto" stripe border @row-click='queryColumnList'>
 					<!-- <el-table-column align="center" type="selection" width="50"></el-table-column> -->
 					<el-table-column align="center" label="模板名称" prop="tmplName" :resizable="false"></el-table-column>
 					<el-table-column align="center" label="纳税人类型" :resizable="false">
@@ -604,6 +604,13 @@
 		/deep/ input::-webkit-input-placeholder {
 			/* placeholder颜色  */
 			color: #666;
+		}
+
+		/deep/ .el-table__footer-wrapper, .el-table__header-wrapper{
+			overflow: initial;
+		}
+		/deep/ .el-table--scrollable-x .el-table__body-wrapper{
+			overflow-x: initial;
 		}
 	}
 

@@ -370,6 +370,12 @@
 		height: 100%;
 		float: right;
 
+		/deep/ .el-input{
+            width: 2rem;
+            display: block;
+            top: 1rem;
+        }
+
 		.contain_header {
 			height: 2rem;
 			// line-height: 2rem;
