@@ -20,7 +20,7 @@
 			</div>
 			<div class="contain_body clearfix">
 				<div class="contain_body_div left clearfix" v-for='(item,index) in historyList'>
-					<div v-show='index ==0' class="date1">{{item.startTime.split(" ")[0]}}</div>
+					<div v-show='index ==0' class="date1">{{item.startTime?item.startTime.split(" ")[0]:''}}</div>
 					<img v-show='index ==1' src="../assets/img/notice.png" alt="">
 					<img v-show='index ==2' src="../assets/img/users.png" alt="">
 					<img v-show='index ==3' src="../assets/img/pay.png" alt="">
@@ -32,8 +32,8 @@
 					<div class="contentBox" :class="{ 'contentBoxBorder1': index==0, 'contentBoxBorder2': index==1, 'contentBoxBorder3': index==2, 'contentBoxBorder4': index==3, 'contentBoxBorder5': index==4}">
 						<div id="triangle-top" :class="{ 'trianglecolor1': index==0, 'trianglecolor2': index==1, 'trianglecolor3': index==2, 'trianglecolor4': index==3, 'trianglecolor5': index==4}"></div>
 						<h5 style="font-size:0.14rem" :class="{ 'step1color': index==0, 'step2color': index==1, 'step3color': index==2, 'step4color': index==3, 'step5color': index==4}">{{item.stepName}}</h5>
-						<p>{{item.startTime.split(" ")[0]}}开始</p>
-						<p>{{item.endTime.split(" ")[0]}}结束</p>
+						<p>{{item.startTime?item.startTime.split(" ")[0]:''}}开始</p>
+						<p>{{item.endTime?item.endTime.split(" ")[0]:''}}结束</p>
 						<p>执行人:{{item.executeUserName}}</p>
 						<p>备注:{{item.remark}}</p>
 					</div>
