@@ -2149,7 +2149,7 @@
                     url = '/api/perTaxToolTwo/e9zReportSb/export';
                     window.location.href = url +'?taxInfoId='+ params.taxInfoId + "&taxStartdate=" +
                     params.taxStartdate + "&taxEnddate=" + params.taxEnddate+ "&inputdate=" + params.inputdate
-                    + "&taxPayerId=" + params.taxPayerId+ + "&trade=" + params.trade+ "&taxname=" + params.taxname+"&legalname=" + params.legalname
+                    + "&taxPayerId=" + params.taxPayerId + "&trade=" + params.trade+ "&taxname=" + params.taxname+"&legalname=" + params.legalname
                     +"&registerAddress=" + params.registerAddress+"&runAddress=" + params.runAddress+"&bank=" + params.bank+"&registerType=" + params.registerType
                     +"&phone=" + params.phone+  "&isReduce=" + params.isReduce
                     + "&chengshiRate=" + params.chengshiRate+ "&jiaoyuRate=" + params.jiaoyuRate+ "&difangRate=" + params.difangRate;

@@ -391,6 +391,7 @@
         yinhuaTaxList: [],
         userobj:{},
         sbnszl:'',//申报纳税类型
+        sums:[],
       };
     },
     components: {
@@ -457,7 +458,7 @@
         let params = {
           accountPeriod: this.accountPeriod, //账期
           customerId: this.customerId, //客户Id
-          stepName: "做账" //步骤名称
+          stepName: "发票录入" //步骤名称
         };
         axios
           .post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
@@ -508,9 +509,10 @@
           .then(res => {
             console.log("查询个税税款合计", res);
             if (res.data.code == 200) {
-              if (res.data.data) {
+              console.log('res.data.data',res.data.data)
+              if(res.data.hasOwnProperty('data')){
                 this.gsskhj = res.data.data;
-              } else {
+              }else{
                 this.$message({
                   message: "未上传工资表",
                   type: "warning"
@@ -606,9 +608,9 @@
               this.seriesData.push(obj);
             });
             this.tableData = valueArr;
-            //   console.log("this.nameData", this.nameData);
-            //   console.log("this.seriesData", this.seriesData);
-            //   console.log('this.tableData', this.tableData)
+              console.log("this.nameData", this.nameData);
+              console.log("this.seriesData", this.seriesData);
+              console.log('this.tableData', this.tableData)
             this.drawLine();
           }
         }).catch((err) => {
@@ -701,18 +703,20 @@
             sums[index] = '--';
           }
         });
-
+        this.sums=sums;
         return sums;
       },
       getSummariesCharts(param) {
         const { columns, data } = param;
         const sums = [];
+        console.log('data',data)
         columns.forEach((column, index) => {
           if (index === 0) {
             sums[index] = '合计';
             return;
           }
           const values = data.map(item => Number(item[column.property]));
+          console.log('values',values)
           if (!values.every(value => isNaN(value))) {
             
             sums[index] = values.reduce((prev, curr) => {
@@ -1293,6 +1297,7 @@
             .then(res => {
               console.log("插入数据", res);
               if (res.data.code == 200) {
+                this.submitStep();
                 this.$message({
                   message: "添加成功",
                   type: "success"
@@ -1308,6 +1313,38 @@
               });
             });
         }
+      },
+      // 流程步骤提交
+      submitStep(){
+        let sums,nextStepName;
+        
+        console.log('sums',this.sums)
+       sums= Number(this.sums[4])+Number(this.gsskhj)
+       console.log('111sums',sums)
+        if(sums>200000){
+          nextStepName='大额审核'
+        }else{
+          nextStepName='税款审核'
+        }
+        let params={
+          taxationId:this.taxationId,
+          taxInfoId:this.taxInfoId,
+          stepName:'做账',
+          nextStepName:nextStepName,
+          sumData:this.gsskhj
+        }
+        console.log('params',params)
+         axios
+            .post("/api/perTaxToolTwo/e9z/taxStep/submit", params)
+            .then(res => {
+              console.log("流程步骤提交", res);
+            })
+            .catch(err => {
+              this.$message({
+                message: "流程步骤提交失败",
+                type: "error"
+              });
+            });
       },
       // 打开详情弹窗
       showDetail(item) {
