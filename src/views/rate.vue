@@ -30,7 +30,7 @@
 					<el-table-column align="center" label="计税方式" prop="taxCalcType" :resizable="false"></el-table-column>
 					<el-table-column align="center" label="操作" prop="roleId" :resizable="false">
 						<template slot-scope="scope">
-							<el-button type='text' size="mini" @click='showDialog'>编辑</el-button>
+							<el-button type='text' size="mini" @click='showDialog(scope.row)'>编辑</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -94,7 +94,8 @@
 				total: 0,
 				currentPage: 1,
 				pageSize: 10,
-				url: ''
+				url: '',
+				invoiceId:''
 			}
 		},
 		components: {},
@@ -246,6 +247,7 @@
 			},
 
 			showDialog(row) {
+				this.invoiceId = row.invoiceId;
 				this.dialogTableVisible = true;
 				let params = {
 					"invoiceId": row.invoiceId
@@ -289,7 +291,14 @@
 			modifyRate() {
 
 				let params = this.multipleSelection;
-				this.axios.post('/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates', params).then(res => {
+				
+				// if(this.multipleSelection.length == 0){
+				// 	var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
+				// }else{
+					var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
+				// }
+			
+				this.axios.post(url, params).then(res => {
 					this.$refs.multipleTable.clearSelection();
 					if (res.data.code == 200) {
 						this.dialogTableVisible = false;

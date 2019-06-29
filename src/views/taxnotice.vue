@@ -162,11 +162,17 @@
 				this.$refs.multipleTable.clearSelection();
 			},
 			modifyRole() {
-
-				this.multipleSelection.forEach((item, index) => {
-					item.userId = this.userId;
-				})
-				let params = this.multipleSelection;
+				if(this.multipleSelection.length == 0){
+					var params = [{
+						"userId":this.userId
+					}];
+				}else{
+					this.multipleSelection.forEach((item, index) => {
+						item.userId = this.userId;
+					})
+					var params = this.multipleSelection;
+				}
+				
 				this.axios.post('/perTaxToolTwo/e9z/configUserRole/saveUserRoleList', params).then(res => {
 					this.$refs.multipleTable.clearSelection();
 					if (res.data.code == 200) {

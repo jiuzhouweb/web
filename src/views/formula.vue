@@ -829,7 +829,7 @@
 	/*滚动条样式*/
 	::-webkit-scrollbar {
 		width: 0.04rem;
-		/*height: 4rem;*/
+		height: 0.04rem;
 	}
 
 	::-webkit-scrollbar-thumb {

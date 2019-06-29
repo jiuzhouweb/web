@@ -5,7 +5,7 @@
 				<span class="labelTitle">
 					客户名称：
 				</span>
-				<el-select v-model="searchList.customerId" placeholder="请选择">
+				<el-select v-model="searchList.customerId" placeholder="请选择" @change='selectGet'>
 					<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 					</el-option>
 				</el-select>
@@ -30,12 +30,12 @@
 				<div class='card_body'>
 					<p>责任会计：{{item.processUserName}}</p>
 					<p>工号：{{item.processUserId}}</p>
-					<p>税务类型：ccc</p>
+					<p>税务类型：{{declarationType == 1?'一般纳税人':'小规模纳税人'}}</p>
 				</div>
 				<div class='card_btn'>
-					<el-button v-if='!item.taxationIdList || item.taxationIdList.length == 0'>审核通过</el-button>
+					<span class='pass' @click="submitCard(item,1,'申报')" v-if='!item.taxationIdList || item.taxationIdList.length == 0'>审核通过</span>
 
-					<el-button @click='showDialog(item.taxationIdList[0])' v-if='item.taxationIdList && item.taxationIdList.length > 0'>比较（工资差异{{item.taxationIdList.length}}条）</el-button>
+					<span class='redo' @click='showDialog(item,item.taxationIdList[0])' v-if='item.taxationIdList && item.taxationIdList.length > 0'>比较（工资差异{{item.taxationIdList.length}}条）</span>
 				</div>
 			</div>
 			<div class='card' v-for="item in bigTaxTreatment">
@@ -48,33 +48,52 @@
 				<div class='card_body'>
 					<p>责任会计：{{item.processUserName}}</p>
 					<p>工号：{{item.processUserId}}</p>
-					<p>税务类型：ccc</p>
+					<p>税务类型：{{declarationType == 1?'一般纳税人':'小规模纳税人'}}</p>
 				</div>
 				<div class='card_btn'>
-					<el-button @click="submitCard(item,0,'做账')">发回重做</el-button>
-					<el-button @click="submitCard(item,1,'申报')">审核通过</el-button>
+					<span class='redo' @click="submitCard(item,0,'做账')">发回重做</span>
+					<span class='pass' @click="submitCard(item,1,'申报')">审核通过</span>
 				</div>
 			</div>
 		</div>
-		<el-dialog title="编辑" :visible.sync="dialogVisible" width="4rem">
-			<div>客户名称</div>
-			<div>发票类型</div>
-			<div>发票名称</div>
-			<div>账期</div>
-			<div>申报纳税种类</div>
-			<div>增值税率</div>
+		<el-dialog title="" :visible.sync="dialogVisible" width="9.2rem" class='dialog'>
+			<div class='title'>客户名称：{{info.taxInfoRemark2}}</div>
+			<div class='line'>
+				<div style='color: #43b3db;'>发票类型：{{fplrList.invoiceCategory + " " + fplrList.invoiceType}}</div>
+				<div>发票名称：{{fplrList.invoiceName}}</div>
+				<div>账期：{{info.accountPeriod}}</div>
+				<div>申报纳税种类：{{fplrList.declarationType == 1?'一般纳税人':'小规模纳税人'}}</div>
+			</div>
+
+			<!-- <div>增值税率</div>
 			<div>印花税率</div>
 			<div>城市维护建设税税率</div>
 			<div>教育费附加税率</div>
-			<div>地方教育费附加税率</div>
-			<div class='left' style='width: 50%;'>
-
+			<div>地方教育费附加税率</div> -->
+			<div class='clearfix'>
+				<div class='left' style='width: calc(50% - 10px)'>
+					<h5>发票录入：</h5>
+					<ul>
+						<li v-for='item in fplrList.e9zConfigInvoiceColumnList' :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
+							<span class='left'>{{item.columnTitle}}</span>
+							<span class='right'>{{item.columnValue}}</span>
+						</li>
+					</ul>
+				</div>
+				<div class='right' style='width: calc(50% - 10px)'>
+					<h5>做账：</h5>
+					<ul>
+						<li v-for='(item,index) in zzList.e9zConfigInvoiceColumnList' :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
+							<span class='left'>{{item.columnTitle}}</span>
+							<span class='right' :contenteditable='item.columnRemark1 == "1"' @blur='setLine($event,index,"columnValue")'
+							 v-text='item.columnValue'></span>
+						</li>
+					</ul>
+				</div>
 			</div>
-			<div class='right' style='width: 50%;'>
 
-			</div>
 			<div class='btn_contain clearfix'>
-				<span class='commit' @click='commitDialog'>完成</span>
+				<span class='commit' @click='commitDialog(zzList)'>完成</span>
 				<span class='close' @click="hideDialog">关闭</span>
 			</div>
 		</el-dialog>
@@ -94,12 +113,16 @@
 				bigTaxTreatment: [],
 				taxTreatment: [],
 				dialogVisible: false,
-				fplrList:{},
-				zzList:{}
+				fplrList: {},
+				zzList: {},
+				info: {},
+				userobj: {},
+				declarationType: ''
 			}
 		},
 		methods: {
 			search() {
+				this.declarationType = this.userobj.reportTaxType;
 				this.queryTaxTreatment();
 				this.queryBigTaxTreatment();
 			},
@@ -163,7 +186,10 @@
 					if (res.data.code == 200) {
 						this.queryTaxTreatment();
 						this.queryBigTaxTreatment();
-
+						this.$message({
+							message: res.data.msg,
+							type: 'success'
+						});
 					} else {
 						this.$message({
 							message: res.data.msg,
@@ -178,8 +204,9 @@
 					});
 				})
 			},
-			showDialog(item) {
+			showDialog(obj, item) {
 				this.dialogVisible = true;
+				this.info = obj;
 				let params = {
 					"fplrTaxationId": item.fplr,
 
@@ -205,11 +232,65 @@
 					});
 				})
 			},
-			commitDialog() {
+			commitDialog(detailData) {
+				let params = {
+					invoiceId: detailData.invoiceId, //发票Id (如果是发票配置表)
+					invoiceTmplId: detailData.tmplId, //模板id （如果是模板配置表）
+					invoiceTaxableType: detailData.invoiceTaxableType, //应税类型：1 - 应税货物；2 - 应税劳务；3 - 应税服务
+					invoiceName: detailData.invoiceName, //发票名称 this.detailData.invoiceName
+					invoiceListId: detailData.invoiceListId, //发票信息Id
+					invoiceCategory: detailData.invoiceCategory, //发票分类：防伪税控；税务局代开；有票收入；无票收入
+					invoiceType: detailData.invoiceType, //发票类型：（防伪税控/代开-）专票；（防伪税控/代开-）普票；（有票收入-）形式发票；（有票收入-）通用机打；（无票收入-）无票
+					area: detailData.area, //适用区域代码：All-通用
+					invoiceTaxManageType: detailData.invoiceTaxManageType, //税务管理类型
+					taxCalcType: detailData.taxCalcType, //计税方法：1 - 一般计税；2 - 简易征收计税
+					reducePriority: detailData.reducePriority, //抵扣优先级
+					tmplShowType: detailData.tmplShowType, //下拉框（0-发票 1-其他模板）
+					taxesTaxType: detailData.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
+					type: detailData.type, //对应列/税费下拉框 1-列 2-税费
+					declarationType: this.declarationType, //1：一般纳税人，2：小规模,要修改
+					// declarationType: 1,
+					e9zConfigInvoiceColumnList: detailData.e9zConfigInvoiceColumnList
+				};
+				this.axios.post('/perTaxToolTwo/e9zCalculate/invoiceCalculate', params).then(res => {
+					if (res.data.code == 200) {
+						this.dialogVisible = false;
+						this.queryTaxTreatment();
+						this.queryBigTaxTreatment();
+						this.$message({
+							message: res.data.msg,
+							type: 'success'
+						});
+					} else {
+						this.dialogVisible = false;
+						this.$message({
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
 
+				}).catch(function(err) {
+					this.dialogVisible = false;
+					this.$message({
+						message: '修改失败',
+						type: 'error'
+					});
+				})
 			},
 			hideDialog() {
 				this.dialogVisible = false;
+			},
+
+			selectGet(vId) {
+				this.userobj = {};
+				this.userobj = this.$store.state.cust.find((item) => { //这里的selectList就是上面遍历的数据源
+					return item.customerId === vId; //筛选出匹配数据
+				});
+				console.log('当前选择的用户信息', this.userobj); //
+			},
+
+			setLine(event, index, type) {
+				this.zzList.e9zConfigInvoiceColumnList[index][type] = event.target.innerText;
 			}
 		},
 		components: {},
@@ -308,6 +389,101 @@
 			margin-right: 0rem;
 		}
 	}
+
+	.dialog {
+		.title{
+			height: 0.4rem;
+			line-height: 0.4rem;
+			font-size: 0.16rem;
+			color: #333;
+		}
+		.line {
+			display: flex;
+			flex-wrap: nowrap;
+			flex-direction: row;
+			justify-content: space-between;
+			height: 0.4rem;
+			align-content: center;
+			align-items:center;
+			margin-bottom: 20px;
+		}
+		
+
+		ul {
+			background: #f8f8f8;
+			padding-left: 0.24rem;
+			padding-right: 0.24rem;
+			padding-top: 0.2rem;
+			height: 3.5rem;
+			overflow-y: auto;
+			margin-top: 0.1rem;
+			li {
+				height: 0.24rem;
+				font-size: 0.12rem;
+			}
+		}
+
+		.mark {
+			color: #ed878e;
+		}
+	}
+
+	.btn_contain {
+		text-align: center;
+		margin-top: 0.36rem;
+	}
+
+	.commit {
+		width: 2.4rem;
+		height: 0.4rem;
+		line-height: 0.4rem;
+		background: #43b3db;
+		color: #fff;
+		display: inline-block;
+		text-align: center;
+		margin-right: 0.4rem;
+		border-radius: 4px;
+	}
+
+	.close {
+		width: 2.4rem;
+		height: 0.4rem;
+		line-height: 0.4rem;
+		background: #ed878e;
+		color: #fff;
+		display: inline-block;
+		text-align: center;
+		border-radius: 4px;
+	}
+
+	.card_btn {
+		text-align: center;
+		margin-top: 0.36rem;
+	}
+
+	.pass {
+		width: 2.4rem;
+		height: 0.4rem;
+		line-height: 0.4rem;
+		background: #43b3db;
+		color: #fff;
+		display: inline-block;
+		text-align: center;
+		margin-top: 0.26rem;
+		border-radius: 4px;
+	}
+
+	.redo {
+		width: 2.4rem;
+		height: 0.4rem;
+		line-height: 0.4rem;
+		background: #ed878e;
+		color: #fff;
+		display: inline-block;
+		text-align: center;
+		border-radius: 4px;
+	}
+
 
 	.searchButton {
 		background: #ffb980;

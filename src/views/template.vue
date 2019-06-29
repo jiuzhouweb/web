@@ -34,7 +34,7 @@
 			</div>
 		</div>
 		<div class="right_contain">
-			<el-table :data="columnList" style="width: 100%" stripe border>
+			<el-table :data="columnList"  style="width: 100%;overflow:auto" stripe border>
 				<!-- <el-table-column align="center" type="selection" width="50"></el-table-column> -->
 				<el-table-column align="center" label="字段名" :resizable="false">
 					<template slot-scope="scope">
@@ -313,7 +313,7 @@
 	/*滚动条样式*/
 	::-webkit-scrollbar {
 		width: 0.04rem;
-		/*height: 4rem;*/
+		height: 0.04rem;
 	}
 
 	::-webkit-scrollbar-thumb {
@@ -606,7 +606,8 @@
 			color: #666;
 		}
 
-		/deep/ .el-table__footer-wrapper, .el-table__header-wrapper{
+		/deep/ .el-table__footer-wrapper, 
+		/deep/ .el-table__header-wrapper{
 			overflow: initial;
 		}
 		/deep/ .el-table--scrollable-x .el-table__body-wrapper{
