@@ -37,7 +37,7 @@
 										<el-menu-item index="/index/incomeTaxCalculate">个税计算</el-menu-item>
 										<el-menu-item index="/index/initialSheet">初始导入</el-menu-item>
 										<el-menu-item index="/index/paySheet">工资表导入</el-menu-item>
-										<el-menu-item index="/index/reportForms">报表查看</el-menu-item>
+										<!-- <el-menu-item index="/index/reportForms">报表查看</el-menu-item> -->
 										<el-menu-item index="/index/payEdit">工资表变更</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
@@ -103,7 +103,7 @@
 									</template>
 									<el-submenu index="4-1">
 										<template slot="title">查看报表</template>
-										<el-menu-item index="/index/showReport">工资表报表</el-menu-item>
+										<el-menu-item index="/index/reportForms">工资表报表</el-menu-item>
 										<el-menu-item index="/index/showReport">税务报表</el-menu-item>
 									</el-submenu>
 								</el-submenu>
