@@ -200,17 +200,17 @@
               <div class="tableSquare" :style="{background:scope.row.color}"></div>
             </template>
 					</el-table-column>
-					<el-table-column label="票面金额" align="right" header-align="center"  :resizable="false">
+					<el-table-column label="票面金额" prop="invoice_amt" align="right" header-align="center"  :resizable="false">
             <template slot-scope="scope">
               <span>{{ fomatFloat(scope.row.invoice_amt,2) }}</span>
             </template>
 					</el-table-column>
-					<el-table-column label="收入不含税" align="right" header-align="center" :resizable="false" >
+					<el-table-column label="收入不含税" prop="ex_tax_income" align="right" header-align="center" :resizable="false" >
             <template slot-scope="scope">
               <span>{{ fomatFloat(scope.row.ex_tax_income,2) }}</span>
             </template>
 					</el-table-column>
-					<el-table-column label="销项税额" align="right" header-align="center"  :resizable="false">
+					<el-table-column label="销项税额" prop="sale_vat_taxation" align="right" header-align="center"  :resizable="false">
             <template slot-scope="scope">
               <span>{{ fomatFloat(scope.row.sale_vat_taxation,2) }}</span>
             </template>
@@ -597,14 +597,15 @@
                 nameArr.push(item);
               }
             });
-            nameArr.forEach((item, index) => {
-              this.nameData.push(item.vat_rate);
-            });
+            // nameArr.forEach((item, index) => {
+            //   this.nameData.push(item.vat_rate);
+            // });
             valueArr.forEach((item, index) => {
               item.color = this.color[index];
               var obj = {};
               obj.name = item.vat_rate;
               obj.value = item.invoice_amt;
+              this.nameData.push(item.vat_rate);
               this.seriesData.push(obj);
             });
             this.tableData = valueArr;
@@ -710,6 +711,7 @@
         const { columns, data } = param;
         const sums = [];
         console.log('data',data)
+        console.log('columns',columns)
         columns.forEach((column, index) => {
           if (index === 0) {
             sums[index] = '合计';
