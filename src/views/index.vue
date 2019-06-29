@@ -267,6 +267,10 @@
 							this.menuList = res.data.user.menuList;
 							this.menuList.forEach((item, index) => {
 								this.menu.push(item.productName);
+								if(index==0){
+									localStorage.setItem('index',item.productName);
+								}
+								
 							})
 							this.$store.commit('updateUser', res.data.user);
 							this.axios.get('/perTaxToolTwo/api/user/getCustList.do?userId=' + this.userId)
