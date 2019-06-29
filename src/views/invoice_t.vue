@@ -595,7 +595,7 @@
         let params = {
           accountPeriod: this.accountPeriod, //账期
           customerId: this.customerId, //客户Id
-          stepName: "发票录入" //步骤名称
+          stepName: "做账" //步骤名称
         };
         axios
           .post("/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
