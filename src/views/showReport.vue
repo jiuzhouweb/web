@@ -2042,21 +2042,21 @@
             //     taxPayerId: "2222222222",
             // }]
             //   默认第一个用户
-            this.userobj = this.searchList.options[0];
-            this.searchList.value = this.userobj.customerId;
-            this.customerId = this.userobj.customerId;
-            this.uploadData.taxerNumber = this.userobj.taxPayerId;
-            console.log('this.userobj.reportTaxType', this.userobj.reportTaxType)
-            if (this.userobj.reportTaxType == 1) {
-                this.searchList.statusVaule = '一般纳税人主表'
-                this.statusVaule = '一般纳税人主表'
-            }
-            if (this.userobj.reportTaxType == 2) {
-                this.searchList.statusVaule = '小规模纳税人主表'
-                this.statusVaule = '小规模纳税人主表'
-            }
+            // this.userobj = this.searchList.options[0];
+            // this.searchList.value = this.userobj.customerId;
+            // this.customerId = this.userobj.customerId;
+            // this.uploadData.taxerNumber = this.userobj.taxPayerId;
+            // console.log('this.userobj.reportTaxType', this.userobj.reportTaxType)
+            // if (this.userobj.reportTaxType == 1) {
+            //     this.searchList.statusVaule = '一般纳税人主表'
+            //     this.statusVaule = '一般纳税人主表'
+            // }
+            // if (this.userobj.reportTaxType == 2) {
+            //     this.searchList.statusVaule = '小规模纳税人主表'
+            //     this.statusVaule = '小规模纳税人主表'
+            // }
             this.getNowMonth();
-            this.getInfoId();
+            // this.getInfoId();
             // this.taxinfoid = '1';
             // this.getTableData(this.statusVaule);
         },
