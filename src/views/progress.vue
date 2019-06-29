@@ -3,7 +3,7 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>历史操作记录</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
 					<el-form-item label="客户名称:">
 						<el-select v-model='formInline.customId'>
 							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
@@ -53,103 +53,103 @@
 					customId: '',
 					period: ''
 				},
-				// historyList: [],
-				historyList: [{
-					"stepId": 3,
-					"deloyId": null,
-					"deloyTaskId": null,
-					"taxInfoId": "1",
-					"taxationId": "2",
-					"stepName": "做账",
-					"assignTime": "2019-06-25 11:48:37",
-					"startTime": "2019-06-25 11:48:37",
-					"endTime": "2019-06-25 12:09:01",
-					"executeUserId": "1000000046",
-					"executeUserName": "system",
-					"executeStatus": "2",
-					"remark": null,
-					"taxStatus": null,
-					"completed": 0,
-					"incomplete": 0,
-					"total": 0,
-					"period": null
-				}, {
-					"stepId": 2,
-					"deloyId": null,
-					"deloyTaskId": null,
-					"taxInfoId": "1",
-					"taxationId": "1",
-					"stepName": "发票录入",
-					"assignTime": "2019-06-25 11:48:37",
-					"startTime": "2019-06-25 11:48:37",
-					"endTime": "2019-06-25 11:48:37",
-					"executeUserId": "1000000046",
-					"executeUserName": "system",
-					"executeStatus": "2",
-					"remark": null,
-					"taxStatus": null,
-					"completed": 0,
-					"incomplete": 0,
-					"total": 0,
-					"period": null
-				}, {
-					"stepId": 4,
-					"deloyId": null,
-					"deloyTaskId": null,
-					"taxInfoId": "1",
-					"taxationId": "2",
-					"stepName": "大额审核",
-					"assignTime": "2019-06-25 12:09:08",
-					"startTime": "2019-06-25 12:09:08",
-					"endTime": "2019-06-25 12:10:41",
-					"executeUserId": "1000000046",
-					"executeUserName": "system",
-					"executeStatus": "1",
-					"remark": null,
-					"taxStatus": null,
-					"completed": 0,
-					"incomplete": 0,
-					"total": 0,
-					"period": null
-				}, {
-					"stepId": 6,
-					"deloyId": null,
-					"deloyTaskId": null,
-					"taxInfoId": "1",
-					"taxationId": "3",
-					"stepName": "税款审核",
-					"assignTime": "2019-06-26 03:45:43",
-					"startTime": "2019-06-26 03:45:46",
-					"endTime": "2019-06-26 04:45:49",
-					"executeUserId": "1000000046",
-					"executeUserName": "system",
-					"executeStatus": "1",
-					"remark": null,
-					"taxStatus": null,
-					"completed": 0,
-					"incomplete": 0,
-					"total": 0,
-					"period": null
-				}, {
-					"stepId": 7,
-					"deloyId": null,
-					"deloyTaskId": null,
-					"taxInfoId": "1",
-					"taxationId": "4",
-					"stepName": "申报",
-					"assignTime": "2019-06-26 03:46:13",
-					"startTime": "2019-06-26 03:46:15",
-					"endTime": "2019-06-26 04:46:17",
-					"executeUserId": "1000000046",
-					"executeUserName": "system",
-					"executeStatus": "2",
-					"remark": null,
-					"taxStatus": null,
-					"completed": 0,
-					"incomplete": 0,
-					"total": 0,
-					"period": null
-				}]
+				historyList: [],
+				// historyList: [{
+				// 	"stepId": 3,
+				// 	"deloyId": null,
+				// 	"deloyTaskId": null,
+				// 	"taxInfoId": "1",
+				// 	"taxationId": "2",
+				// 	"stepName": "做账",
+				// 	"assignTime": "2019-06-25 11:48:37",
+				// 	"startTime": "2019-06-25 11:48:37",
+				// 	"endTime": "2019-06-25 12:09:01",
+				// 	"executeUserId": "1000000046",
+				// 	"executeUserName": "system",
+				// 	"executeStatus": "2",
+				// 	"remark": null,
+				// 	"taxStatus": null,
+				// 	"completed": 0,
+				// 	"incomplete": 0,
+				// 	"total": 0,
+				// 	"period": null
+				// }, {
+				// 	"stepId": 2,
+				// 	"deloyId": null,
+				// 	"deloyTaskId": null,
+				// 	"taxInfoId": "1",
+				// 	"taxationId": "1",
+				// 	"stepName": "发票录入",
+				// 	"assignTime": "2019-06-25 11:48:37",
+				// 	"startTime": "2019-06-25 11:48:37",
+				// 	"endTime": "2019-06-25 11:48:37",
+				// 	"executeUserId": "1000000046",
+				// 	"executeUserName": "system",
+				// 	"executeStatus": "2",
+				// 	"remark": null,
+				// 	"taxStatus": null,
+				// 	"completed": 0,
+				// 	"incomplete": 0,
+				// 	"total": 0,
+				// 	"period": null
+				// }, {
+				// 	"stepId": 4,
+				// 	"deloyId": null,
+				// 	"deloyTaskId": null,
+				// 	"taxInfoId": "1",
+				// 	"taxationId": "2",
+				// 	"stepName": "大额审核",
+				// 	"assignTime": "2019-06-25 12:09:08",
+				// 	"startTime": "2019-06-25 12:09:08",
+				// 	"endTime": "2019-06-25 12:10:41",
+				// 	"executeUserId": "1000000046",
+				// 	"executeUserName": "system",
+				// 	"executeStatus": "1",
+				// 	"remark": null,
+				// 	"taxStatus": null,
+				// 	"completed": 0,
+				// 	"incomplete": 0,
+				// 	"total": 0,
+				// 	"period": null
+				// }, {
+				// 	"stepId": 6,
+				// 	"deloyId": null,
+				// 	"deloyTaskId": null,
+				// 	"taxInfoId": "1",
+				// 	"taxationId": "3",
+				// 	"stepName": "税款审核",
+				// 	"assignTime": "2019-06-26 03:45:43",
+				// 	"startTime": "2019-06-26 03:45:46",
+				// 	"endTime": "2019-06-26 04:45:49",
+				// 	"executeUserId": "1000000046",
+				// 	"executeUserName": "system",
+				// 	"executeStatus": "1",
+				// 	"remark": null,
+				// 	"taxStatus": null,
+				// 	"completed": 0,
+				// 	"incomplete": 0,
+				// 	"total": 0,
+				// 	"period": null
+				// }, {
+				// 	"stepId": 7,
+				// 	"deloyId": null,
+				// 	"deloyTaskId": null,
+				// 	"taxInfoId": "1",
+				// 	"taxationId": "4",
+				// 	"stepName": "申报",
+				// 	"assignTime": "2019-06-26 03:46:13",
+				// 	"startTime": "2019-06-26 03:46:15",
+				// 	"endTime": "2019-06-26 04:46:17",
+				// 	"executeUserId": "1000000046",
+				// 	"executeUserName": "system",
+				// 	"executeStatus": "2",
+				// 	"remark": null,
+				// 	"taxStatus": null,
+				// 	"completed": 0,
+				// 	"incomplete": 0,
+				// 	"total": 0,
+				// 	"period": null
+				// }]
 			}
 		},
 		components: {},
@@ -208,7 +208,7 @@
 			color: #fff;
 		}
 
-		/deep/ .el-form-item--medium .el-form-item__label {
+		/deep/ .el-form-item--mini .el-form-item__label {
 			color: #fff;
 		}
 

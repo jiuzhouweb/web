@@ -289,12 +289,17 @@
 			modifyRate() {
 
 				let params = this.multipleSelection;
-				this.axios.post('/perTaxToolTwo/e9z/configUserRole/saveUserRoleList', params).then(res => {
+				this.axios.post('/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates', params).then(res => {
 					this.$refs.multipleTable.clearSelection();
 					if (res.data.code == 200) {
 						this.dialogTableVisible = false;
-						this.findUserRoleList()
+						this.$message({
+							message: res.data.msg,
+							type: 'success'
+						});
 					} else {
+						this.dialogTableVisible = false;
+						this.$refs.multipleTable.clearSelection();
 						this.$message({
 							message: res.data.msg,
 							type: 'error'
@@ -302,9 +307,10 @@
 					}
 
 				}).catch(function(err) {
+					this.dialogTableVisible = false;
 					this.$refs.multipleTable.clearSelection();
 					this.$message({
-						message: '获取用户列表失败',
+						message: '修改失败',
 						type: 'error'
 					});
 				})
