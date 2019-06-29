@@ -403,20 +403,20 @@
       }
     },
     mounted() {
-      //   this.searchList.options=this.$store.state.cust;
-    this.searchList.options=[{
-        customerId: "jz3779",
-        customerName: "九洲APP测试专用",
-        reportTaxPeriod: null,
-        reportTaxType: 2,
-        taxPayerId: "11111111111111111111",
-    },{
-        customerId: "jz3774",
-        customerName: "44",
-        reportTaxPeriod: null,
-        reportTaxType: 1,
-        taxPayerId: "2222222222",
-    }]
+        this.searchList.options=this.$store.state.cust;
+    // this.searchList.options=[{
+    //     customerId: "jz3779",
+    //     customerName: "九洲APP测试专用",
+    //     reportTaxPeriod: null,
+    //     reportTaxType: 2,
+    //     taxPayerId: "11111111111111111111",
+    // },{
+    //     customerId: "jz3774",
+    //     customerName: "44",
+    //     reportTaxPeriod: null,
+    //     reportTaxType: 1,
+    //     taxPayerId: "2222222222",
+    // }]
       this.getNowMonth();
       this.getTaxCalcMethod();
     },
