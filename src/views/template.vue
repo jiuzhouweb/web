@@ -20,7 +20,7 @@
 			<div class="contain_body">
 				<el-table :data="tableList" style="width: 100%;overflow:auto" stripe border @row-click='queryColumnList'>
 					<!-- <el-table-column align="center" type="selection" width="50"></el-table-column> -->
-					<el-table-column align="center" label="模板名称" prop="tmplName" :resizable="false"></el-table-column>
+					<el-table-column align="center" label="显示名称" prop="tmplName" :resizable="false"></el-table-column>
 					<el-table-column align="center" label="纳税人类型" :resizable="false">
 						<template slot-scope="scope">
 							<span v-show='scope.row.tmplType == 0'>通用</span>
@@ -28,7 +28,7 @@
 							<span v-show='scope.row.tmplType == 232'>小规模纳税人</span>
 						</template>
 					</el-table-column>
-					<el-table-column align="center" label="显示名称" prop="tmplName" :resizable="false"></el-table-column>
+					<!-- <el-table-column align="center" label="显示名称" prop="tmplName" :resizable="false"></el-table-column> -->
 
 				</el-table>
 			</div>
@@ -36,7 +36,7 @@
 		<div class="right_contain">
 			<el-table :data="columnList"  style="width: 100%;overflow:auto" stripe border>
 				<!-- <el-table-column align="center" type="selection" width="50"></el-table-column> -->
-				<el-table-column align="center" label="字段名" :resizable="false">
+				<el-table-column align="center" label="字段名" :resizable="false" fixed="left">
 					<template slot-scope="scope">
 						<div contenteditable='true' v-text='scope.row.columnTitle' @blur="setLine($event,scope.row,'columnTitle')"></div>
 					</template>
@@ -93,7 +93,7 @@
 						<div contenteditable='true' v-text='scope.row.defaultValue' @blur="setLine($event,scope.row,'defaultValue')"></div>
 					</template>
 				</el-table-column>
-				<el-table-column align="center" label="操作" :resizable="false">
+				<el-table-column align="center" label="操作" :resizable="false" fixed="right">
 					<template slot-scope="scope">
 						<el-button size="mini" type="text" @click="save(scope.row)">保存</el-button>
 					</template>
@@ -350,7 +350,7 @@
 	}
 
 	.left_contain {
-		width: calc(50% - 0.15rem);
+		width: calc(40% - 0.15rem);
 		background: #fff;
 		border-radius: 0.06rem;
 		float: left;
@@ -475,7 +475,7 @@
 	}
 
 	.right_contain {
-		width: calc(50% - 0.15rem);
+		width: calc(60% - 0.15rem);
 		height: 100%;
 		float: right;
 		background: #fff;
@@ -543,7 +543,7 @@
 		}
 
 		/deep/ .el-table {
-			height: 100%;
+			/* height: 100%; */
 		}
 
 		/deep/ .el-form-item__label {
@@ -608,7 +608,7 @@
 
 		/deep/ .el-table__footer-wrapper, 
 		/deep/ .el-table__header-wrapper{
-			overflow: initial;
+			/* overflow: initial; */
 		}
 		/deep/ .el-table--scrollable-x .el-table__body-wrapper{
 			overflow-x: initial;

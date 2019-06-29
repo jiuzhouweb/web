@@ -162,7 +162,7 @@
 						<span class='formula span2'>{{item.invoice_name}}</span>
 
 						<span class='formula span3' :title='item.formula'>{{item.formula}}</span>
-						<span class='blue' v-if='item.formula'>查看</span>
+						<!-- <span class='blue' v-if='item.formula'>查看</span> -->
 					</li>
 				</ul>
 
@@ -560,7 +560,7 @@
 							this.queryFormulaList();
 						} else {
 							this.$message({
-								message: res.data.msg,
+								message: res.data.data,
 								type: 'error'
 							});
 						}
