@@ -20,6 +20,8 @@
           
         </div>
         <div class="searchButton" @click="search()">查询</div>
+        <div class="deleteButton" style="margin-left:0.1rem" @click="submitStep()">审批</div>
+        <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div>
       </div>
       <div class="invoice_oListModule">
         <div class="cardBox" v-if="invoicePanelList.length>0" v-loading="loadingCard">
@@ -118,7 +120,7 @@
               <span class="error">{{item.errInfo}}</span>
             </el-form-item>
             <el-form-item class="rightSelect" v-if="item.e9zConfigInvoiceTaxesRateList.length>0" :label="item.taxesTitle" v-for="(item,indexs) in nextStepSelectList">
-              <el-select v-model="item.taxesValue" placeholder="请选择">
+              <el-select v-model="item.taxesValue" placeholder="请选择"  @change="((val)=>{changeZengzhi(val, item.taxesTitle)})">
                 <el-option v-for="child in item.e9zConfigInvoiceTaxesRateList" :label="child.taxesRate" :value="child.taxesRate">
                 </el-option>
               </el-select>
@@ -162,7 +164,7 @@
             <div class="valueBox" v-for="(item,index) in detailData.taxColumnList" :key="index">
               <p class="label">{{item.columnTitle}}：</p>
               <p class="value" v-if="item.columnTitle=='城建税税率'">{{item.columnValue}}</p>
-              <el-select v-if="item.columnTitle=='增值税税率'" v-model="item.columnValue" placeholder="请选择">
+              <el-select v-if="item.columnTitle=='增值税税率'" @change="((val)=>{changeZengzhi(val, '')})" v-model="item.columnValue" placeholder="请选择">
                 <el-option v-for="item in zengzhiTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
               </el-select>
               <el-select v-if="item.columnTitle=='印花税税率'" v-model="item.columnValue" placeholder="请选择">
@@ -392,6 +394,8 @@
         userobj:{},
         sbnszl:'',//申报纳税类型
         sums:[],
+        fscj:'',
+        ysfwdkcb:'',
       };
     },
     components: {
@@ -413,25 +417,158 @@
       }
     },
     mounted() {
-      //   this.searchList.options=this.$store.state.cust;
-    this.searchList.options=[{
-        customerId: "jz3779",
-        customerName: "九洲APP测试专用",
-        reportTaxPeriod: null,
-        reportTaxType: 2,
-        taxPayerId: "11111111111111111111",
-    },{
-        customerId: "jz3774",
-        customerName: "44",
-        reportTaxPeriod: null,
-        reportTaxType: 1,
-        taxPayerId: "2222222222",
-    }]
+        this.searchList.options=this.$store.state.cust;
+    // this.searchList.options=[{
+    //     customerId: "jz3779",
+    //     customerName: "九洲APP测试专用",
+    //     reportTaxPeriod: null,
+    //     reportTaxType: 2,
+    //     taxPayerId: "11111111111111111111",
+    // },{
+    //     customerId: "jz3774",
+    //     customerName: "44",
+    //     reportTaxPeriod: null,
+    //     reportTaxType: 1,
+    //     taxPayerId: "2222222222",
+    // }]
       this.getNowMonth();
       this.getTaxCalcMethod();
       
     },
     methods: {
+      insertReport(){
+        let url;
+        if (this.userobj.reportTaxType == 1) {
+          url='/perTaxToolTwo/e9zReportSb/insertReport'
+        }else if (this.userobj.reportTaxType == 2) {
+          url='/perTaxToolTwo/e9zReportSb/insertXgmReport'
+        }
+        let params={
+          taxationId:this.taxationId,
+          taxInfoId:this.taxInfoId
+        }
+        axios
+          .post(url, params)
+          .then(res => {
+            if(res.data.code==200){
+              this.$message({
+                message: '生成报表成功',
+                type: 'success'
+              });
+                
+            }
+          }).catch((err) => {
+            console.log('生成报表失败')
+          });
+      },
+      changeZengzhi(rate,type){
+        console.log('type',type)
+        console.log('rate,,',rate);
+        console.log('zengzhiTaxList',this.zengzhiTaxList);
+        console.log('this.nextStepRes',this.nextStepRes)
+        console.log('this.userobj',this.userobj)
+        console.log('invoiceName',this.invoiceName)
+        if(type=='增值税'||type==''){
+          if(this.nextStepRes.invoiceTaxableType==3){
+          this.selectBusinessCreditsLeaveTableList(rate);
+        }
+        let params={};
+        if (this.userobj.reportTaxType == 1) {
+          let redInvType;
+          if(this.invoiceName=='即征即退'){
+            redInvType=2;
+          }else{
+            redInvType=1;
+          }
+          params={
+            taxInfoId:this.taxInfoId,
+            taxationId:this.taxationId,
+            redInvType:redInvType,
+            redRate:rate
+          } 
+        }
+        if (this.userobj.reportTaxType == 2) {
+          params={
+            taxInfoId:this.taxInfoId,
+            taxationId:this.taxationId,
+            invoiceTaxableType:this.nextStepRes.invoiceTaxableType
+          }  
+        }
+        this.selectBusinessReduceLeaveTableList(params)
+        }
+        
+      },
+      // 负数留抵表
+      selectBusinessReduceLeaveTableList(params){
+        axios
+          .post("/perTaxToolTwo/e9z/e9zBusinessReduceLeaveTable/selectBusinessReduceLeaveTableList", params)
+          .then(res => {
+            if(res.data.code==200){
+              this.fscj=res.data.data[0].redLocalLeaveD;
+              console.log('this.fscj',this.fscj)
+              this.nextStepList.forEach(item=>{
+                 if (item.columnTitle == "负数冲减") {
+                      this.$set(item,'columnValue',this.fscj)
+                      this.$set(item,'defaultValue',this.fscj)
+                  } else if (item.columnTitle == "应税服务抵扣成本") {
+                      this.$set(item,'columnValue',this.ysfwdkcb)
+                      this.$set(item,'defaultValue',this.ysfwdkcb)
+                  }
+              })
+              if(this.detailData){
+                  if(this.detailData.invoiceColumnList){
+                      this.detailData.invoiceColumnList.forEach(item=>{
+                        if (item.columnTitle == "负数冲减") {
+                              this.$set(item,'columnValue',this.fscj)
+                          } else if (item.columnTitle == "应税服务抵扣成本") {
+                              this.$set(item,'columnValue',this.ysfwdkcb)
+                          }
+                      })
+                  }
+              }
+            }
+          }).catch((err) => {
+            console.log('负数留抵表接口失败')
+          });
+      },
+      // 应税服务可抵扣
+      selectBusinessCreditsLeaveTableList(rate){
+        let params={
+          taxInfoId:this.taxInfoId,
+          taxationId:this.taxationId,
+          crdRate:rate
+        }
+        axios
+          .post("/perTaxToolTwo/e9z/E9zBusinessCreditsLeaveTable/selectBusinessCreditsLeaveTableList", params)
+          .then(res => {
+            if(res.data.code==200){
+              this.ysfwdkcb=res.data.data[0].crdLocalLeaveD;
+              console.log('this.ysfwdkcb',this.ysfwdkcb)
+              this.nextStepList.forEach(item=>{
+                 if (item.columnTitle == "负数冲减") {
+                      this.$set(item,'columnValue',this.fscj)
+                      this.$set(item,'defaultValue',this.fscj)
+                  } else if (item.columnTitle == "应税服务抵扣成本") {
+                      this.$set(item,'columnValue',this.ysfwdkcb)
+                      this.$set(item,'defaultValue',this.ysfwdkcb)
+                  }
+              })
+              if(this.detailData){
+                  if(this.detailData.invoiceColumnList){
+                      this.detailData.invoiceColumnList.forEach(item=>{
+                        if (item.columnTitle == "负数冲减") {
+                              this.$set(item,'columnValue',this.fscj)
+                          } else if (item.columnTitle == "应税服务抵扣成本") {
+                              this.$set(item,'columnValue',this.ysfwdkcb)
+                          }
+                      })
+                  }
+              }
+            }
+          }).catch((err) => {
+            console.log('应税服务可抵扣接口失败')
+          });
+      },
       selectGet(vId){
         this.userobj = {};
         
@@ -461,7 +598,7 @@
           stepName: "发票录入" //步骤名称
         };
         axios
-          .post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
+          .post("/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
           .then(res => {
             console.log("获取收账信息Id和税款信息id", res);
             if (res.data.code == 200) {
@@ -504,7 +641,7 @@
         // }
         axios
           .post(
-            "/api/perTaxToolTwo/api/import/statPerTaxation",params
+            "/perTaxToolTwo/api/import/statPerTaxation",params
           )
           .then(res => {
             console.log("查询个税税款合计", res);
@@ -542,7 +679,7 @@
         // tmplType 发票模板适用类型 0 - 公用；233 - 一般纳税人；232 - 小规模
         axios
           .get(
-            "/api/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
+            "/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
             this.taxationId + "&tmplType=" + tmplType
           )
           .then(res => {
@@ -578,7 +715,7 @@
       //获取右侧统计数据--收入合计
       getShowSumIncome() {
         // axios.get("/test/www").then(res => {
-        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + this.taxationId).then(res => {
+        axios.get("/perTaxToolTwo/e9zCalculate/showSumIncome?taxationId=" + this.taxationId).then(res => {
           console.log("获取收入合计数据", res);
           if (res.data.code == 200) {
             let nameArr = [];
@@ -625,7 +762,7 @@
       getShowSumDeduct() {
         this.tableDeductData = [];
         // axios.get("/test/showSumIncome").then(res => {
-        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumDeduct?taxationId=" + this.taxationId).then(res => {
+        axios.get("/perTaxToolTwo/e9zCalculate/showSumDeduct?taxationId=" + this.taxationId).then(res => {
           // console.log("获取抵扣合计数据", res);
           if (res.data.code == 200) {
             for (var key in res.data.data) {
@@ -668,7 +805,7 @@
       // 获取右侧统计数据--应纳税额合计
       getShowSumTaxPayable() {
         // axios.get("/test/showSumTaxPayable").then(res => {
-        axios.get("/api/perTaxToolTwo/e9zCalculate/showSumTaxPayable?taxationId=" + this.taxationId).then(res => {
+        axios.get("/perTaxToolTwo/e9zCalculate/showSumTaxPayable?taxationId=" + this.taxationId).then(res => {
           // console.log("获取应纳税额合计数据", res);
           if (res.data.code == 200) {
             this.tableTaxData = res.data.data;
@@ -835,7 +972,7 @@
       getTaxCalcMethod() {
         axios
           .post(
-            "/api/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
+            "/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法"
           )
           .then(res => {
             console.log("获取计税方法", res);
@@ -877,7 +1014,7 @@
           tmplShowType: 0
         };
         axios
-          .post("/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
+          .post("/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula", params)
           .then(res => {
             console.log("获取发票类型和发票名称", res);
             if (res.data.code == 200) {
@@ -957,7 +1094,7 @@
             };
             axios
               .post(
-                "/api/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
+                "/perTaxToolTwo/e9z/invoiceInfo/findInvoiceProperty",
                 params
               )
               .then(res => {
@@ -1068,6 +1205,12 @@
                 obj.columnValue='2'
               }
               invoiceColumns.push(obj);
+            } else if (item.columnTitle == "负数冲减") {
+                obj.columnValue=this.fscj;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "应税服务抵扣成本") {
+                obj.columnValue=this.ysfwdkcb;
+              invoiceColumns.push(obj);
             }else {
               obj.columnValue = item.columnValue ? item.columnValue : item.defaultValue;
             }
@@ -1102,7 +1245,7 @@
           };
           console.log("params", params);
           axios
-            .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+            .post("/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
             .then(res => {
               console.log("修改数据", res);
               if (res.data.code == 200) {
@@ -1259,6 +1402,12 @@
             } else if (item.columnTitle == "印花税税率") {
               obj.columnValue = yinhuaValue;
               invoiceColumns.push(obj);
+            }  else if (item.columnTitle == "负数冲减") {
+                obj.columnValue=this.fscj;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "应税服务抵扣成本") {
+                obj.columnValue=this.ysfwdkcb;
+              invoiceColumns.push(obj);
             } else {
               obj.columnValue = item.defaultValue;
               // if (item.columnShow == 1 && item.columnEdit == 1) {
@@ -1295,11 +1444,10 @@
           };
           console.log("params", params);
           axios
-            .post("/api/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
+            .post("/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
             .then(res => {
               console.log("插入数据", res);
               if (res.data.code == 200) {
-                this.submitStep();
                 this.$message({
                   message: "添加成功",
                   type: "success"
@@ -1337,7 +1485,7 @@
         }
         console.log('params',params)
          axios
-            .post("/api/perTaxToolTwo/e9z/taxStep/submit", params)
+            .post("/perTaxToolTwo/e9z/taxStep/submit", params)
             .then(res => {
               console.log("流程步骤提交", res);
             })
@@ -1576,7 +1724,7 @@
     color: #999;
     font-size: 0.14rem;
   }
-  .importButton {
+ .importButton2 {
     background: #43b3db;
     color: #fff;
     border-radius: 0.05rem;
@@ -1867,7 +2015,7 @@
     color: #fff;
     border-radius: 0.05rem;
     cursor: pointer;
-    padding: 0.07rem 0.35rem;
+    padding: 0.1rem 0.35rem;
   }
   .tophj .comName {
     font-size: 0.14rem;

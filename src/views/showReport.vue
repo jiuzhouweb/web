@@ -2027,20 +2027,20 @@
         watch: {},
         computed: {},
         mounted() {
-            //   this.searchList.options=this.$store.state.cust;
-            this.searchList.options = [{
-                customerId: "jz3779",
-                customerName: "九洲APP测试专用",
-                reportTaxPeriod: null,
-                reportTaxType: 2,
-                taxPayerId: "11111111111111111111",
-            }, {
-                customerId: "jz3774",
-                customerName: "44",
-                reportTaxPeriod: null,
-                reportTaxType: 1,
-                taxPayerId: "2222222222",
-            }]
+              this.searchList.options=this.$store.state.cust;
+            // this.searchList.options = [{
+            //     customerId: "jz3779",
+            //     customerName: "九洲APP测试专用",
+            //     reportTaxPeriod: null,
+            //     reportTaxType: 2,
+            //     taxPayerId: "11111111111111111111",
+            // }, {
+            //     customerId: "jz3774",
+            //     customerName: "44",
+            //     reportTaxPeriod: null,
+            //     reportTaxType: 1,
+            //     taxPayerId: "2222222222",
+            // }]
             //   默认第一个用户
             this.userobj = this.searchList.options[0];
             this.searchList.value = this.userobj.customerId;
@@ -2102,7 +2102,7 @@
                 };
                 // this.taxationid, tax_info_id;
                 this.axios
-                    .post("/api/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
+                    .post("/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
                     .then(res => {
                         console.log("获取收账信息Id和税款信息id", res);
                         if (res.data.code == 200) {
@@ -2146,7 +2146,7 @@
                         jiaoyuRate:this.uploadData.jiaoyuRate,
                         difangRate: this.uploadData.difangRate,
                     }
-                    url = '/api/perTaxToolTwo/e9zReportSb/export';
+                    url = '/perTaxToolTwo/e9zReportSb/export';
                     window.location.href = url +'?taxInfoId='+ params.taxInfoId + "&taxStartdate=" +
                     params.taxStartdate + "&taxEnddate=" + params.taxEnddate+ "&inputdate=" + params.inputdate
                     + "&taxPayerId=" + params.taxPayerId + "&trade=" + params.trade+ "&taxname=" + params.taxname+"&legalname=" + params.legalname
@@ -2166,7 +2166,7 @@
                         jiaoyuRate:this.uploadData.jiaoyuRate,
                         difangRate: this.uploadData.difangRate,
                     }
-                    url = '/api/perTaxToolTwo/e9zReportSb/xgmexport';
+                    url = '/perTaxToolTwo/e9zReportSb/xgmexport';
                     console.log('params',params)
                     window.location.href = url +'?taxInfoId='+ params.taxInfoId + "&taxStartdate=" +
                     params.taxStartdate + "&taxEnddate=" + params.taxEnddate+ "&inputdate=" + params.inputdate
@@ -2187,23 +2187,23 @@
                         let params = {};
                         let url;
                         if (statusVaule == "一般纳税人主表") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId=" + this.taxinfoid;
+                            url = "/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId=" + this.taxinfoid;
                         } else if (statusVaule == "一般纳税人附表一") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/showReportSb2?taxInfoId=" + this.taxinfoid;
+                            url = "/perTaxToolTwo/e9zReportSb/showReportSb2?taxInfoId=" + this.taxinfoid;
                         } else if (statusVaule == "一般纳税人附表二") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/showReportSb3?taxInfoId=" + this.taxinfoid;
+                            url = "/perTaxToolTwo/e9zReportSb/showReportSb3?taxInfoId=" + this.taxinfoid;
                         } else if (statusVaule == "一般纳税人附表三") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/showReportSb4?taxInfoId=" + this.taxinfoid;
+                            url = "/perTaxToolTwo/e9zReportSb/showReportSb4?taxInfoId=" + this.taxinfoid;
                         } else if (statusVaule == "一般纳税人附表四") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/showReportSb5?taxInfoId=" + this.taxinfoid;
+                            url = "/perTaxToolTwo/e9zReportSb/showReportSb5?taxInfoId=" + this.taxinfoid;
                         } else if (statusVaule == "小规模纳税人主表") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId=" + this.taxinfoid;
+                            url = "/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId=" + this.taxinfoid;
                         } else if (
                             statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
                         ) {
-                            url = "/api/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId=" + this.taxinfoid;
+                            url = "/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId=" + this.taxinfoid;
                         } else if (statusVaule == "小规模纳税人附列资料") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/showReportXgmSb2?taxInfoId=" + this.taxinfoid;
+                            url = "/perTaxToolTwo/e9zReportSb/showReportXgmSb2?taxInfoId=" + this.taxinfoid;
                         }
                         this.axios
                             .post(url, params)
@@ -3054,25 +3054,25 @@
                         console.log("www", param);
                         let url;
                         if (this.statusVaule == "一般纳税人主表") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/updateReportSb1";
+                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb1";
                         } else if (this.statusVaule == "一般纳税人附表一") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/updateReportSb2";
+                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb2";
                         } else if (this.statusVaule == "一般纳税人附表二") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/updateReportSb3";
+                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb3";
                         } else if (this.statusVaule == "一般纳税人附表三") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/updateReportSb4";
+                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb4";
                         } else if (this.statusVaule == "一般纳税人附表四") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/updateReportSb5";
+                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb5";
                         } else if (this.statusVaule == "小规模纳税人主表") {
-                            url = "/api/perTaxToolTwo/e9zReportSb/updateReportXgmSb1";
+                            url = "/perTaxToolTwo/e9zReportSb/updateReportXgmSb1";
                         } else if (
                             this.statusVaule == "小规模纳税人附列资料"
                         ) {
-                            url = "/api/perTaxToolTwo/e9zReportSb/updateReportXgmSb2";
+                            url = "/perTaxToolTwo/e9zReportSb/updateReportXgmSb2";
                         } else if (
                             this.statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
                         ) {
-                            url = "/api/perTaxToolTwo/e9zReportSb/updateReport50002";
+                            url = "/perTaxToolTwo/e9zReportSb/updateReport50002";
                         }
                         this.axios
                             .post(url, param)
