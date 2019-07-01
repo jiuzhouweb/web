@@ -440,6 +440,20 @@
     },
     methods: {
       insertReport(){
+        if(this.searchList.value==''||this.searchList.nowDate==''){
+          this.$message({
+            message: "请先选择客户和账期后再生成报表",
+            type: "warning"
+          });
+          return;
+        }
+        if(this.taxationId!=''||this.taxInfoId!=''){
+          this.$message({
+            message: "无数据时不支持生成报表操作",
+            type: "warning"
+          });
+          return;
+        }
         let url;
         if (this.userobj.reportTaxType == 233) {
           url='/perTaxToolTwo/e9zCalculate/insertReport'
@@ -1456,6 +1470,20 @@
       },
       // 流程步骤提交
       submitStep(){
+        if(this.searchList.value==''||this.searchList.nowDate==''){
+          this.$message({
+            message: "请先选择客户和账期后再进行审批",
+            type: "warning"
+          });
+          return;
+        }
+        if(this.taxationId!=''||this.taxInfoId!=''){
+          this.$message({
+            message: "无数据时不支持审批",
+            type: "warning"
+          });
+          return;
+        }
         let sums,nextStepName;
         
         console.log('sums',this.sums)

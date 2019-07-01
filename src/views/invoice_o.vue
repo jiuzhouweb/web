@@ -1411,6 +1411,20 @@
       },
       // 流程步骤提交
       submitStep(){
+        if(this.searchList.value==''||this.searchList.nowDate==''){
+          this.$message({
+            message: "请先选择客户和账期后再进行审批",
+            type: "warning"
+          });
+          return;
+        }
+        if(this.taxationId!=''||this.taxInfoId!=''){
+          this.$message({
+            message: "无数据时不支持审批",
+            type: "warning"
+          });
+          return;
+        }
         let params={
           taxationId:this.taxationId,
           taxInfoId:this.taxInfoId,
