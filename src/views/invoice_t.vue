@@ -62,7 +62,7 @@
                 <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='1'||child.columnValue=='应税货物')">应税货物</p>
                 <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='2'||child.columnValue=='应税劳务')">应税劳务</p>
                 <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='3'||child.columnValue=='应税服务')">应税服务</p>
-                <p v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'" @dblclick="editPanel(item,child)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
+                <p v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'" @dblclick="showDetail(item)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
               </div>
             </div>
             <div class="footerContent" @click="showDetail(item)">
@@ -175,8 +175,10 @@
           <div class="content">
             <div class="valueBox" v-for="(item,index) in detailData.invoiceColumnList" :key="index">
               <p class="label">{{item.columnTitle}}</p>
-              <p class="value" v-show="!item.isEdit" @dblclick="changeValue(item)">{{item.columnValue}}</p>
-              <el-input v-show="item.isEdit" v-model="item.columnValue" @blur="unfocused(item)"></el-input>
+              <p class="value" v-show="item.columnEdit==0">{{item.columnValue}}</p>
+              <el-input v-show="item.columnEdit==1" v-model="item.columnValue"></el-input>
+              <!-- <p class="value" v-show="!item.isEdit" @dblclick="changeValue(item)">{{item.columnValue}}</p>
+              <el-input v-show="item.isEdit" v-model="item.columnValue" @blur="unfocused(item)"></el-input> -->
               <span class="error">{{item.errInfo}}</span>
             </div>
           </div>
@@ -874,6 +876,8 @@
           } else {
             sums[index] = '--';
           }
+          // 税率没有合计
+          sums[1] = '--';
         });
 
         return sums;
