@@ -747,10 +747,10 @@
             // });
             valueArr.forEach((item, index) => {
               item.color = this.color[index];
-              var obj = {};
-              obj.name = item.vat_rate;
-              obj.value = item.invoice_amt;
               item.ratename=Number(item.vat_rate)*100+'%增值税';
+              var obj = {};
+              obj.name = item.ratename;
+              obj.value = item.invoice_amt;
               this.nameData.push(item.ratename);
               this.seriesData.push(obj);
             });
@@ -849,6 +849,8 @@
           } else {
             sums[index] = '--';
           }
+          // 税率没有合计
+          sums[1] = '--';
         });
         this.sums=sums;
         return sums;
@@ -876,8 +878,6 @@
           } else {
             sums[index] = '--';
           }
-          // 税率没有合计
-          sums[1] = '--';
         });
 
         return sums;
