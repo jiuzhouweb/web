@@ -39,34 +39,34 @@
 			</div>
 		</div>
 		<el-dialog title="新增" :visible.sync="dialogTableVisible" width="4rem">
-			<el-form :model="form" size="mini" label-width="50px">
-				<el-form-item label="名称:">
+			<el-form :model="form" size="mini" label-width="50px" :rules="rules" ref="ruleForm">
+				<el-form-item label="名称:" prop="dicName">
 					<el-input v-model="form.dicName"></el-input>
 				</el-form-item>
-				<el-form-item label="数值:">
+				<el-form-item label="数值:" prop="dicValue">
 					<el-input v-model="form.dicValue"></el-input>
 				</el-form-item>
 			</el-form>
 			<div class='btn_contain clearfix'>
-				<span class='commit' @click='commitDialog'>完成</span>
-				<span class='close' @click="hideDialog">关闭</span>
+				<span class='commit' @click='commitDialog("ruleForm")'>完成</span>
+				<span class='close' @click='hideDialog("ruleForm")'>关闭</span>
 			</div>
 		</el-dialog>
 		<el-dialog title="编辑" :visible.sync="dialogVisible" width="4rem">
-			<el-form :model="form" size="mini" label-width="50px">
-				<el-form-item label="名称">
+			<el-form :model="form" size="mini" label-width="50px" :rules="rules" ref="ruleForm1">
+				<el-form-item label="名称" prop="editdicName">
 					<el-input v-model="form.editdicName"></el-input>
 				</el-form-item>
-				<el-form-item label="数值">
+				<el-form-item label="数值" prop="editdicValue">
 					<el-input v-model="form.editdicValue"></el-input>
 				</el-form-item>
-				<el-form-item label="排序">
+				<el-form-item label="排序" prop="editsort">
 					<el-input v-model="form.editsort"></el-input>
 				</el-form-item>
 			</el-form>
 			<div class='btn_contain clearfix'>
-				<span class='commit' @click='commitEditDialog'>完成</span>
-				<span class='close' @click="hideEditDialog">关闭</span>
+				<span class='commit' @click='commitEditDialog("ruleForm1")'>完成</span>
+				<span class='close' @click='hideEditDialog("ruleForm1")'>关闭</span>
 			</div>
 		</el-dialog>
 	</div>
@@ -83,19 +83,47 @@
 					incomeAmount: "zhangsan",
 					yearAwards: "zhangsan"
 				}, ],
-				dialogTableVisible:false,
-				dialogVisible:false,
-				form:{
-					dicName:"",
-					dicValue:'',
-					editdicName:'',
-					editdicValue:'',
-					editsort:"",
+				dialogTableVisible: false,
+				dialogVisible: false,
+				form: {
+					dicName: "",
+					dicValue: '',
+					editdicName: '',
+					editdicValue: '',
+					editsort: "",
 				},
-				tag:0,
-				row:{},
-				editRow:{},
-				multipleSelection:[]
+				tag: 0,
+				row: {},
+				editRow: {},
+				multipleSelection: [],
+
+				rules: {
+					dicName: [{
+						required: true,
+						message: '请输入名称',
+						trigger: 'blur'
+					}, ],
+					dicValue: [{
+						required: true,
+						message: '请输入数值',
+						trigger: 'blur'
+					}],
+					editdicName: [{
+						required: true,
+						message: '请输入名称',
+						trigger: 'blur'
+					}],
+					editdicValue: [{
+						required: true,
+						message: '请输入数值',
+						trigger: 'blur'
+					}],
+					editsort: [{
+						required: true,
+						message: '请输入排序',
+						trigger: 'blur'
+					}],
+				}
 			}
 		},
 		components: {},
@@ -103,7 +131,7 @@
 			/*获取字典列表*/
 			getList() {
 				let params = {
-					state:1
+					state: 1
 				};
 				this.axios.post('/perTaxToolTwo/e9z/configDictionary/queryTree', params)
 					.then(res => {
@@ -158,7 +186,7 @@
 						});
 					})
 			},
-			
+
 			/*
 			* 新增子条目
 			* params
@@ -179,7 +207,7 @@
 					"dicParentId": this.row.dicId,
 					"dicName": this.form.dicName,
 					"dicValue": this.form.dicValue,
-					"dicLevel": this.row.dicLevel+1,
+					"dicLevel": this.row.dicLevel + 1,
 					"state": 1,
 					"parentLevel": this.row.dicLevel
 				};
@@ -199,7 +227,7 @@
 								type: 'error'
 							});
 						}
-			
+
 					}).catch(function(err) {
 						this.$message({
 							message: '新增失败',
@@ -207,79 +235,105 @@
 						});
 					})
 			},
-			
-			hideDialog(){
+
+			hideDialog(formName) {
+				this.$refs[formName].resetFields();
 				this.dialogTableVisible = false
 			},
-			hideEditDialog(){
+			hideEditDialog(formName) {
+				this.$refs[formName].resetFields();
 				this.dialogVisible = false
 			},
-			showDialog(tag,row){
+			showDialog(tag, row) {
 				this.dialogTableVisible = true;
 				this.tag = tag;
-				if(row){
+				if (row) {
 					this.row = row;
 				}
 			},
-			commitDialog(){
-				if(this.tag == 1){
-					this.addFirstMenu()
-				}else if(this.tag == 2){
-					this.addChildMenu()
+			commitDialog(formName) {
+				if (this.tag == 1) {
+					this.$refs[formName].validate((valid) => {
+						if (valid) {
+							this.addFirstMenu()
+						} else {
+							console.log('error submit!!');
+							return false;
+						}
+					});
+					
+				} else if (this.tag == 2) {
+					this.$refs[formName].validate((valid) => {
+						if (valid) {
+							this.addChildMenu()
+						} else {
+							console.log('error submit!!');
+							return false;
+						}
+					});
+					
 				}
 			},
-			commitEditDialog(){
-				let params = {
-					"dicId": this.editRow.dicId,
-					"dicParentId": this.editRow.dicParentId,
-					"dicName": this.form.editdicName,
-					"dicValue": this.form.editdicValue,
-					"dicSort": this.form.editsort,
-					"dicLevel": this.editRow.dicLevel,
-					"state": 1,
-					"parentLevel": this.editRow.parentLevel
-				};
-				this.axios.post('/perTaxToolTwo/e9z/configDictionary/saveOne', params)
-					.then(res => {
-						if (res.data.code == 200) {
-							this.getList();
-							this.dialogVisible = false;
-							this.$message({
-								message: res.data.msg,
-								type: 'success'
-							});
-							// this.total = 
-						} else {
-							this.$message({
-								message: res.data.msg,
-								type: 'error'
-							});
-						}
-							
-					}).catch(function(err) {
-						this.$message({
-							message: '编辑失败',
-							type: 'error'
-						});
-					})
+			commitEditDialog(formName) {
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						let params = {
+							"dicId": this.editRow.dicId,
+							"dicParentId": this.editRow.dicParentId,
+							"dicName": this.form.editdicName,
+							"dicValue": this.form.editdicValue,
+							"dicSort": this.form.editsort,
+							"dicLevel": this.editRow.dicLevel,
+							"state": 1,
+							"parentLevel": this.editRow.parentLevel
+						};
+						this.axios.post('/perTaxToolTwo/e9z/configDictionary/saveOne', params)
+							.then(res => {
+								if (res.data.code == 200) {
+									this.getList();
+									this.dialogVisible = false;
+									this.$message({
+										message: res.data.msg,
+										type: 'success'
+									});
+									// this.total = 
+								} else {
+									this.$message({
+										message: res.data.msg,
+										type: 'error'
+									});
+								}
+						
+							}).catch(function(err) {
+								this.$message({
+									message: '编辑失败',
+									type: 'error'
+								});
+							})
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
+				
 			},
-			handleEdit(row){
+			handleEdit(row) {
 				this.dialogVisible = true;
 				this.editRow = row;
 				this.form.editdicName = row.dicName;
 				this.form.editdicValue = row.dicValue;
 				this.form.editsort = row.dicSort;
 			},
-			commitEdit(){
+			commitEdit() {
 				this.dialogVisible = true
 			},
-			
-			handleSelectionChange(val){
+
+			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
-			
-			deleteDic(){
-				if(this.multipleSelection.length > 0){
+
+			deleteDic() {
+				if (this.multipleSelection.length > 0) {
 					let params = this.multipleSelection;
 					this.axios.post('/perTaxToolTwo/e9z/configDictionary/delBatch', params)
 						.then(res => {
@@ -296,22 +350,22 @@
 									type: 'error'
 								});
 							}
-								
+
 						}).catch(function(err) {
 							this.$message({
 								message: '删除失败',
 								type: 'error'
 							});
 						})
-				}else{
+				} else {
 					this.$message({
 						message: '请至少选择一条数据',
 						type: 'error'
 					});
 				}
-				
+
 			},
-			refresh(){
+			refresh() {
 				this.getList()
 			}
 		},
@@ -356,6 +410,7 @@
 		/deep/ .el-form {
 			margin-top: 0.1rem
 		}
+
 		/deep/ .el-button {
 			color: #43b3db;
 		}
@@ -370,12 +425,12 @@
 		text-align: right;
 		margin-top: 0.10rem;
 	}
-	
+
 	.btn_contain {
 		text-align: center;
 		margin-top: 0.36rem;
 	}
-	
+
 	.commit {
 		width: 1.2rem;
 		height: 0.4rem;
@@ -387,7 +442,7 @@
 		margin-right: 0.4rem;
 		border-radius: 4px;
 	}
-	
+
 	.close {
 		width: 1.2rem;
 		height: 0.4rem;
@@ -398,66 +453,66 @@
 		text-align: center;
 		border-radius: 4px;
 	}
-	
-	
+
+
 	/deep/ .el-table__header tr,
 	.el-table__header th {
 		padding: 0;
 		height: 40px;
 	}
-	
+
 	/deep/ .el-table__body tr,
 	.el-table__body td {
 		padding: 0;
 		height: 40px;
 	}
-	
+
 	/deep/ .el-table td {
 		padding: 6px 0;
 	}
-	
+
 	/deep/ .el-table th {
 		background-color: #ebf6fb;
 	}
-	
+
 	/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
 		background: #ebf6fb;
 	}
-	
+
 	.el-dialog .el-form {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		flex-wrap: wrap
 	}
-	
+
 	/deep/ .el-form-item__content {
 		width: 180px;
 	}
-	
+
 	/deep/ .el-date-editor.el-input {
 		width: 180px;
 	}
-	
+
 	/deep/ .el-table__body tr,
 	.el-table__body td {
 		padding: 0;
 		height: 40px;
 		background-color: #fff7f1;
 	}
-	
+
 	/deep/ .el-table__body tr.el-table__row--striped {
 		background-color: #ebf6fb;
 	}
-	
+
 	/deep/ .el-table thead {
 		color: #343434;
 	}
-	
+
 	/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
 		background-color: #efe9e5;
 	}
-	
+
 	/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
 		border-bottom-color: #fff;
 		background: #ebf6fb;

@@ -27,7 +27,11 @@
 					<el-table-column align="center" label="发票分类" prop="invoiceCategory" :resizable="false"></el-table-column>
 					<el-table-column align="center" label="发票类型" prop="invoiceType" :resizable="false"></el-table-column>
 					<el-table-column align="center" label="区域代码" prop="area" :resizable="false"></el-table-column>
-					<el-table-column align="center" label="计税方式" prop="taxCalcType" :resizable="false"></el-table-column>
+					<el-table-column align="center" label="计税方式" :resizable="false">
+						<template slot-scope="scope">
+							<span>{{scope.row.taxCalcType == 1?'一般计税':'简易征收计税'}}</span>
+						</template>
+					</el-table-column>
 					<el-table-column align="center" label="操作" prop="roleId" :resizable="false">
 						<template slot-scope="scope">
 							<el-button type='text' size="mini" @click='showDialog(scope.row)'>编辑</el-button>
@@ -40,20 +44,20 @@
 			</div>
 		</div>
 		<el-dialog title="新增税率" :visible.sync="dialogVisible" width="4rem">
-			<el-form :model="form" size="mini" label-width="100px">
-				<el-form-item label="税费标题">
+			<el-form :model="form" size="mini" label-width="100px" :rules='rules' ref="ruleForm">
+				<el-form-item label="税费标题" prop="taxesTitle">
 					<el-input v-model="form.taxesTitle"></el-input>
 				</el-form-item>
-				<el-form-item label="税费名称">
+				<el-form-item label="税费名称" prop="taxesName">
 					<el-input v-model="form.taxesName"></el-input>
 				</el-form-item>
-				<el-form-item label="税率">
+				<el-form-item label="税率" prop="taxesRate">
 					<el-input v-model="form.taxesRate"></el-input>
 				</el-form-item>
 			</el-form>
 			<div class='btn_contain clearfix'>
-				<span class='commit' @click='commitDialog'>完成</span>
-				<span class='close' @click="hideDialog">关闭</span>
+				<span class='commit' @click="commitDialog('ruleForm')">完成</span>
+				<span class='close' @click="hideDialog('ruleForm')">关闭</span>
 			</div>
 		</el-dialog>
 		<el-dialog title="" :visible.sync="dialogTableVisible" width="8rem">
@@ -95,7 +99,26 @@
 				currentPage: 1,
 				pageSize: 10,
 				url: '',
-				invoiceId:''
+				invoiceId: '',
+
+				rules: {
+					taxesTitle: [{
+							required: true,
+							message: '请输入税费标题',
+							trigger: 'blur'
+						},
+					],
+					taxesName: [{
+						required: true,
+						message: '请输入税费名称',
+						trigger: 'blur'
+					}],
+					taxesRate: [{
+						required: true,
+						message: '请输入税率',
+						trigger: 'blur'
+					}],
+				}
 			}
 		},
 		components: {},
@@ -124,7 +147,8 @@
 			addRate() {
 				this.dialogVisible = true;
 			},
-			hideDialog() {
+			hideDialog(formName) {
+				this.$refs[formName].resetFields();
 				this.dialogVisible = false;
 				this.form = {
 					taxesName: '',
@@ -132,42 +156,50 @@
 					taxesRate: ''
 				}
 			},
-			commitDialog() {
-				let params = this.form;
-				this.axios.post('/perTaxToolTwo/e9z/configTaxes/insertOrUpdateTaxesAndRate', params)
-					.then(res => {
-						this.dialogVisible = false;
-						this.form = {
-							taxesName: '',
-							taxesTitle: '',
-							taxesRate: ''
-						}
-						if (res.data.code == 200) {
-							this.queryRate();
-							this.$message({
-								message: res.data.msg,
-								type: 'success'
-							});
-							// this.total = 
-						} else {
-							this.$message({
-								message: res.data.data,
-								type: 'error'
-							});
-						}
+			commitDialog(formName) {
 
-					}).catch(function(err) {
-						this.dialogVisible = false;
-						this.form = {
-							taxesName: '',
-							taxesTitle: '',
-							taxesRate: ''
-						}
-						this.$message({
-							message: '获取税率列表失败',
-							type: 'error'
-						});
-					})
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						let params = this.form;
+						this.axios.post('/perTaxToolTwo/e9z/configTaxes/insertOrUpdateTaxesAndRate', params)
+							.then(res => {
+								this.dialogVisible = false;
+								this.form = {
+									taxesName: '',
+									taxesTitle: '',
+									taxesRate: ''
+								}
+								if (res.data.code == 200) {
+									this.queryRate();
+									this.$message({
+										message: res.data.msg,
+										type: 'success'
+									});
+									// this.total = 
+								} else {
+									this.$message({
+										message: res.data.data,
+										type: 'error'
+									});
+								}
+
+							}).catch(function(err) {
+								this.dialogVisible = false;
+								this.form = {
+									taxesName: '',
+									taxesTitle: '',
+									taxesRate: ''
+								}
+								this.$message({
+									message: '获取税率列表失败',
+									type: 'error'
+								});
+							})
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
 			},
 
 			setLine(event, row, name) {
@@ -189,7 +221,7 @@
 							} else {
 								this.queryRate();
 								this.$message({
-									message: res.data.msg,
+									message: res.data.data,
 									type: 'error'
 								});
 							}
@@ -282,22 +314,23 @@
 			},
 
 			hideDialog1() {
-				this.dialogTableVisible = false;
 				this.$refs.multipleTable.clearSelection();
+				this.dialogTableVisible = false;
+
 			},
-			handleSelectionChange(val){
+			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
 			modifyRate() {
 
 				let params = this.multipleSelection;
-				
+
 				// if(this.multipleSelection.length == 0){
-				// 	var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
+				var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
 				// }else{
-					var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
+				var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
 				// }
-			
+
 				this.axios.post(url, params).then(res => {
 					this.$refs.multipleTable.clearSelection();
 					if (res.data.code == 200) {
@@ -379,11 +412,11 @@
 		height: 100%;
 		float: right;
 
-		/deep/ .el-input{
-            width: 2rem;
-            display: block;
-            top: 1rem;
-        }
+		/deep/ .el-input {
+			width: 2rem;
+			display: block;
+			top: 1rem;
+		}
 
 		.contain_header {
 			height: 2rem;

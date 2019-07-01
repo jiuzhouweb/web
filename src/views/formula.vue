@@ -157,7 +157,7 @@
 				<h3>税种公式<span>{{areaName}}</span></h3>
 				<ul>
 					<li v-for="item in formulaList">
-						<span class='formula span1'>{{item.invoice_category}} {{item.invoice_type}}</span>
+						<span class='formula span1'>{{item.invoice_category}} {{item.column_title}}</span>
 						<span class='formula span1' :title="item.tmpl_name">{{item.tmpl_name}}</span>
 						<span class='formula span2'>{{item.invoice_name}}</span>
 
@@ -483,7 +483,7 @@
 					tmplShowType: this.searchTmplShowType,
 					invoiceType: this.searchInvoiceType,
 					invoiceName: this.searchInvoiceName,
-					tmplName: this.searchTmplName,
+					invoiceTmplId: this.searchTmplName.tmplId,
 					columnTitle: this.searchColumnTitle,
 					area:this.area
 				};
