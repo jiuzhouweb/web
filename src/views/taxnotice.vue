@@ -23,14 +23,14 @@
 			<div class="contain_body">
 				<el-table :data="detail" style="width: 100%" stripe border>
 					<!-- <el-table-column type="selection" width="50"></el-table-column> -->
-					<el-table-column align="center" label="工号" prop="userName" :resizable="false"></el-table-column>
-					<el-table-column align="center" label="员工姓名" prop="userNickName" :resizable="false"></el-table-column>
+					<el-table-column align="center" label="工号" prop="userName" :resizable="false" width="200"></el-table-column>
+					<el-table-column align="center" label="员工姓名" prop="userNickName" :resizable="false" width="200"></el-table-column>
 					<el-table-column align="center" label="角色" prop="roleId" :resizable="false">
 						<template slot-scope="scope">
 							<span v-for='(item,index) in scope.row.roleList'>{{item.roleName}}<i v-show='index != scope.row.roleList.length - 1'>,</i></span>
 						</template>
 					</el-table-column>
-					<el-table-column align="center" width="260" :resizable="false">
+					<el-table-column align="center" width="260" :resizable="false" width="200">
 						<template slot="header" slot-scope="scope">
 							<span>角色分配（支持统一分配）</span>
 						</template>
