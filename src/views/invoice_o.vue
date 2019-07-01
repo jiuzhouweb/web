@@ -20,7 +20,7 @@
         </div>
         <div class="searchButton" @click="search()">查询</div>
         <div class="deleteButton" style="margin-left:0.1rem" @click="submitStep()">审批</div>
-        <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div>
+        <!-- <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div> -->
         <!--  -->
       </div>
       <div class="invoice_oListModule">
@@ -687,9 +687,9 @@
                 nameArr.push(item);
               }
             });
-            nameArr.forEach((item, index) => {
-              this.nameData.push(item.vat_rate);
-            });
+            // nameArr.forEach((item, index) => {
+            //   this.nameData.push(item.vat_rate);
+            // });
             valueArr.forEach((item, index) => {
               this.nameData.push(item.vat_rate);
               item.color = this.color[index];
@@ -699,9 +699,9 @@
               this.seriesData.push(obj);
             });
             this.tableData = valueArr;
-            //   console.log("this.nameData", this.nameData);
-            //   console.log("this.seriesData", this.seriesData);
-            //   console.log('this.tableData', this.tableData)
+              console.log("this.nameData", this.nameData);
+              console.log("this.seriesData", this.seriesData);
+              console.log('this.tableData', this.tableData)
             this.drawLine();
           }
         }).catch((err) => {
