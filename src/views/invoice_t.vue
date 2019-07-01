@@ -674,20 +674,11 @@
       //获取列表数据
       getInvoiceLeaveShowList() {
         this.loadingCard = true;
-        console.log('当前客户的申报类型',this.userobj.reportTaxType)
-        // 1：一般纳税人，2：小规模
-        // this.userobj.reportTaxType
-        let tmplType;
-        if(this.userobj.reportTaxType==233){
-          tmplType=233;
-        }else if(this.userobj.reportTaxType==232){
-          tmplType=232;
-        }
         // tmplType 发票模板适用类型 0 - 公用；233 - 一般纳税人；232 - 小规模
         axios
           .get(
             "/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
-            this.taxationId + "&tmplType=" + tmplType
+            this.taxationId + "&tmplType=" + this.userobj.reportTaxType
           )
           .then(res => {
             this.loadingCard = false;
@@ -1007,18 +998,9 @@
       // 获取发票类型和发票名称
       // 获取发票类型和发票名称
       getInvoiceTypeAndName() {
-        console.log('当前客户的申报类型',this.userobj.reportTaxType)
-        // 1：一般纳税人，2：小规模
-        // this.userobj.reportTaxType
-        let taxesTaxType;
-        if(this.userobj.reportTaxType==233){
-          taxesTaxType=233;
-        }else if(this.userobj.reportTaxType==232){
-          taxesTaxType=232;
-        }
         let params = {
           taxCalcType: this.form.taxCalcMethod,
-          taxesTaxType: taxesTaxType,
+          taxesTaxType: this.userobj.reportTaxType,
           tmplShowType: 0
         };
         axios
