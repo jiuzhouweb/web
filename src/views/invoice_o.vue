@@ -595,6 +595,7 @@
                 this.taxInfoId = res.data.data.tax_info_id;
                 // this.taxationId = '1';
                 // this.taxInfoId = '1';
+                this.addbtnflag=true;
                 this.getInvoiceLeaveShowList();
                 this.getShowSumIncome();
                 this.getShowSumDeduct();
@@ -604,6 +605,7 @@
                   message: '暂无发票数据，请重新选择搜索条件！',
                   type: 'warning'
                 });
+                this.addbtnflag=false;
                 this.invoicePanelList=[];
                 this.tableData=[];
                 this.tableDeductData=[];
@@ -631,7 +633,7 @@
             this.loadingCard = false;
             console.log("获取列表数据", res);
             if (res.data.code == 200) {
-              this.addbtnflag=true;
+              
               let obj = res.data.data[0];
               let arr = [];
               for (var i in obj) {
