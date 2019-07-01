@@ -20,7 +20,7 @@
         </div>
         <div class="searchButton" @click="search()">查询</div>
         <div class="deleteButton" style="margin-left:0.1rem" @click="submitStep()">审批</div>
-        <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div>
+        <!-- <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div> -->
         <!--  -->
       </div>
       <div class="invoice_oListModule">
@@ -50,14 +50,14 @@
                 <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='1'||child.columnValue=='应税货物')">应税货物</p>
                 <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='2'||child.columnValue=='应税劳务')">应税劳务</p>
                 <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='3'||child.columnValue=='应税服务')">应税服务</p>
-                <p v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'" @dblclick="editPanel(item,child)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
+                <p v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'" @dblclick="showDetail(item)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
               </div>
             </div>
             <div class="footerContent" @click="showDetail(item)">
               <img src="../assets/img/btn-detail.png" alt="">
             </div>
           </div>
-          <div class="eachCard addBtn" @click="addDialog()">
+          <div v-if="addbtnflag" class="eachCard addBtn" @click="addDialog()">
             <img src="../assets/img/list-add.png" style="width:100%;height:100%" alt="">
           </div>
         </div>
@@ -163,8 +163,10 @@
           <div class="content">
             <div class="valueBox" v-for="(item,index) in detailData.invoiceColumnList" :key="index">
               <p class="label">{{item.columnTitle}}</p>
-              <p class="value" v-show="!item.isEdit" @dblclick="changeValue(item)">{{item.columnValue}}</p>
-              <el-input v-show="item.isEdit" v-model="item.columnValue" @blur="unfocused(item)"></el-input>
+              <p class="value" v-show="item.columnEdit==0">{{item.columnValue}}</p>
+              <el-input v-show="item.columnEdit==1" v-model="item.columnValue"></el-input>
+              <!-- <p class="value" v-show="!item.isEdit" @dblclick="changeValue(item)">{{item.columnValue}}</p>
+              <el-input v-show="item.isEdit" v-model="item.columnValue" @blur="unfocused(item)"></el-input> -->
               <span class="error">{{item.errInfo}}</span>
             </div>
           </div>
@@ -383,6 +385,7 @@
         sbnszl:'',//申报纳税类型
         fscj:'',
         ysfwdkcb:'',
+        addbtnflag:false,
       };
     },
     components: {
@@ -587,7 +590,7 @@
             console.log("获取收账信息Id和税款信息id", res);
             if (res.data.code == 200) {
               // 在这里获取收账税款id
-              if(res.data.data){
+              if(res.data.hasOwnProperty('data')){
                 this.taxationId = res.data.data.taxation_id;
                 this.taxInfoId = res.data.data.tax_info_id;
                 // this.taxationId = '1';
@@ -597,6 +600,10 @@
                 this.getShowSumDeduct();
                 this.getShowSumTaxPayable();
               }else{
+                this.$message({
+                  message: '暂无发票数据，请重新选择搜索条件！',
+                  type: 'warning'
+                });
                 this.invoicePanelList=[];
                 this.tableData=[];
                 this.tableDeductData=[];
@@ -633,6 +640,7 @@
             this.loadingCard = false;
             console.log("获取列表数据", res);
             if (res.data.code == 200) {
+              this.addbtnflag=true;
               let obj = res.data.data[0];
               let arr = [];
               for (var i in obj) {
@@ -681,21 +689,22 @@
                 nameArr.push(item);
               }
             });
-            nameArr.forEach((item, index) => {
-              this.nameData.push(item.vat_rate);
-            });
+            // nameArr.forEach((item, index) => {
+            //   this.nameData.push(item.vat_rate);
+            // });
             valueArr.forEach((item, index) => {
-              this.nameData.push(item.vat_rate);
               item.color = this.color[index];
               var obj = {};
               obj.name = item.vat_rate;
               obj.value = item.invoice_amt;
+              item.ratename=Number(item.vat_rate)*100+'%增值税';
+              this.nameData.push(item.ratename);
               this.seriesData.push(obj);
             });
             this.tableData = valueArr;
-            //   console.log("this.nameData", this.nameData);
-            //   console.log("this.seriesData", this.seriesData);
-            //   console.log('this.tableData', this.tableData)
+              console.log("this.nameData", this.nameData);
+              console.log("this.seriesData", this.seriesData);
+              console.log('this.tableData', this.tableData)
             this.drawLine();
           }
         }).catch((err) => {
@@ -814,6 +823,8 @@
           } else {
             sums[index] = '--';
           }
+          // 税率没有合计
+          sums[1] = '--';
         });
 
         return sums;
