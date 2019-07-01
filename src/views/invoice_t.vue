@@ -25,7 +25,7 @@
       </div>
       <div class="invoice_oListModule">
         <div class="cardBox" v-loading="loadingCard">
-          <div class="eachCard">
+          <div class="eachCard" v-if="addbtnflag">
             <div class="topContent tophj hjColor">
               <p class="comName">{{customerName}}</p>
               <p class="dateName">{{accountPeriod}}</p>
@@ -69,7 +69,7 @@
               <img src="../assets/img/btn-detail.png" alt="">
             </div>
           </div>
-          <div class="eachCard addBtn" @click="addDialog()">
+          <div v-if="addbtnflag" class="eachCard addBtn" @click="addDialog()">
             <img src="../assets/img/list-add.png" style="width:100%;height:100%" alt="">
           </div>
         </div>
@@ -396,6 +396,7 @@
         sums:[],
         fscj:'',
         ysfwdkcb:'',
+        addbtnflag:false,
       };
     },
     components: {
@@ -603,7 +604,7 @@
             console.log("获取收账信息Id和税款信息id", res);
             if (res.data.code == 200) {
               // 在这里获取收账税款id
-              if(res.data.data){
+              if(res.data.hasOwnProperty('data')){
                 this.taxationId = res.data.data.taxation_id;
                 this.taxInfoId = res.data.data.tax_info_id;
                 // this.taxationId = '1';
@@ -615,6 +616,10 @@
                 this.getShowSumTaxPayable();
                 
               }else{
+                this.$message({
+                  message: '暂无发票数据，请重新选择搜索条件！',
+                  type: 'warning'
+                });
                 this.invoicePanelList=[];
                 this.tableData=[];
                 this.tableDeductData=[];
@@ -686,6 +691,7 @@
             this.loadingCard = false;
             console.log("获取列表数据", res);
             if (res.data.code == 200) {
+              this.addbtnflag=true;
               let obj = res.data.data[0];
               let arr = [];
               for (var i in obj) {
