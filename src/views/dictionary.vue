@@ -40,10 +40,10 @@
 		</div>
 		<el-dialog title="新增" :visible.sync="dialogTableVisible" width="4rem">
 			<el-form :model="form" size="mini" label-width="50px" :rules="rules" ref="ruleForm">
-				<el-form-item label="名称:" prop="dicName">
+				<el-form-item label="名称" prop="dicName">
 					<el-input v-model="form.dicName"></el-input>
 				</el-form-item>
-				<el-form-item label="数值:" prop="dicValue">
+				<el-form-item label="数值" prop="dicValue">
 					<el-input v-model="form.dicValue"></el-input>
 				</el-form-item>
 			</el-form>
@@ -118,11 +118,11 @@
 						message: '请输入数值',
 						trigger: 'blur'
 					}],
-					editsort: [{
-						required: true,
-						message: '请输入排序',
-						trigger: 'blur'
-					}],
+					// editsort: [{
+					// 	required: true,
+					// 	message: '请输入排序',
+					// 	trigger: 'blur'
+					// }],
 				}
 			}
 		},
