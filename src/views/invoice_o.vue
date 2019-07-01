@@ -691,11 +691,12 @@
             //   this.nameData.push(item.vat_rate);
             // });
             valueArr.forEach((item, index) => {
-              this.nameData.push(item.vat_rate);
               item.color = this.color[index];
               var obj = {};
               obj.name = item.vat_rate;
               obj.value = item.invoice_amt;
+              item.ratename=Number(item.vat_rate)*100+'%税率';
+              this.nameData.push(item.ratename);
               this.seriesData.push(obj);
             });
             this.tableData = valueArr;
