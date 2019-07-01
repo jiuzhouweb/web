@@ -695,7 +695,7 @@
               var obj = {};
               obj.name = item.vat_rate;
               obj.value = item.invoice_amt;
-              item.ratename=Number(item.vat_rate)*100+'%税率';
+              item.ratename=Number(item.vat_rate)*100+'%增值税';
               this.nameData.push(item.ratename);
               this.seriesData.push(obj);
             });

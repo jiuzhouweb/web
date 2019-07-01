@@ -748,7 +748,7 @@
               var obj = {};
               obj.name = item.vat_rate;
               obj.value = item.invoice_amt;
-              item.ratename=Number(item.vat_rate)*100+'%税率';
+              item.ratename=Number(item.vat_rate)*100+'%增值税';
               this.nameData.push(item.ratename);
               this.seriesData.push(obj);
             });
@@ -854,15 +854,12 @@
       getSummariesCharts(param) {
         const { columns, data } = param;
         const sums = [];
-        console.log('data',data)
-        console.log('columns',columns)
         columns.forEach((column, index) => {
           if (index === 0) {
             sums[index] = '合计';
             return;
           }
           const values = data.map(item => Number(item[column.property]));
-          console.log('values',values)
           if (!values.every(value => isNaN(value))) {
             
             sums[index] = values.reduce((prev, curr) => {
