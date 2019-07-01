@@ -74,7 +74,7 @@
 				<div class='left' style='width: calc(50% - 10px)'>
 					<h5>发票录入：</h5>
 					<ul>
-						<li v-for='item in fplrList.e9zConfigInvoiceColumnList' :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
+						<li v-for='item in fplrList.e9zConfigInvoiceColumnList' v-if="item.columnShow==1" :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
 							<span class='left'>{{item.columnTitle}}</span>
 							<span class='right'>{{item.columnValue}}</span>
 						</li>
@@ -83,7 +83,7 @@
 				<div class='right' style='width: calc(50% - 10px)'>
 					<h5>做账：</h5>
 					<ul>
-						<li v-for='(item,index) in zzList.e9zConfigInvoiceColumnList' :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
+						<li v-for='(item,index) in zzList.e9zConfigInvoiceColumnList' v-if="item.columnShow==1" :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
 							<span class='left'>{{item.columnTitle}}</span>
 							<span class='right' :contenteditable='item.columnRemark1 == "1"' @blur='setLine($event,index,"columnValue")'
 							 v-text='item.columnValue'></span>

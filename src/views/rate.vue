@@ -7,7 +7,7 @@
 			</div>
 			<div class="contain_body">
 				<el-table :data="rateList" style="width: 100%" stripe border>
-					<el-table-column align="center" label="税率名称" prop="taxesTitle" :resizable="false"></el-table-column>
+					<el-table-column align="center" label="税率标题" prop="taxesTitle" :resizable="false"></el-table-column>
 					<el-table-column align="center" label="税率" :resizable="false">
 						<template slot-scope="scope">
 							<div contenteditable='true' v-text='scope.row.taxesRate' @blur="setLine($event,scope.row,'taxesRate')"></div>

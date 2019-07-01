@@ -7,7 +7,7 @@
               					客户名称：
               				</span>
           <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择">
-            <el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+            <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
             </el-option>
           </el-select>
         </div>
@@ -438,9 +438,9 @@
     methods: {
       insertReport(){
         let url;
-        if (this.userobj.reportTaxType == 1) {
+        if (this.userobj.reportTaxType == 233) {
           url='/perTaxToolTwo/e9zCalculate/insertReport'
-        }else if (this.userobj.reportTaxType == 2) {
+        }else if (this.userobj.reportTaxType == 232) {
           url='/perTaxToolTwo/e9zCalculate/insertXgmReport'
         }
         let params={
@@ -473,7 +473,7 @@
           this.selectBusinessCreditsLeaveTableList(rate);
         }
         let params={};
-        if (this.userobj.reportTaxType == 1) {
+        if (this.userobj.reportTaxType == 233) {
           let redInvType;
           if(this.invoiceName=='即征即退'){
             redInvType=2;
@@ -487,7 +487,7 @@
             redRate:rate
           } 
         }
-        if (this.userobj.reportTaxType == 2) {
+        if (this.userobj.reportTaxType == 232) {
           params={
             taxInfoId:this.taxInfoId,
             taxationId:this.taxationId,
@@ -572,7 +572,7 @@
       selectGet(vId){
         this.userobj = {};
         
-        this.userobj = this.searchList.options.find((item)=>{//这里的selectList就是上面遍历的数据源
+        this.userobj = this.$store.state.cust.find((item)=>{//这里的selectList就是上面遍历的数据源
             return item.customerId === vId;//筛选出匹配数据
         });
         console.log('当前选择的用户信息',this.userobj);//
@@ -671,9 +671,9 @@
         // 1：一般纳税人，2：小规模
         // this.userobj.reportTaxType
         let tmplType;
-        if(this.userobj.reportTaxType==1){
+        if(this.userobj.reportTaxType==233){
           tmplType=233;
-        }else if(this.userobj.reportTaxType==2){
+        }else if(this.userobj.reportTaxType==232){
           tmplType=232;
         }
         // tmplType 发票模板适用类型 0 - 公用；233 - 一般纳税人；232 - 小规模
@@ -728,7 +728,7 @@
               } else if (item.vat_rate == "immeduate") {
                 item.vat_rate = "即佂即退";
               }
-              if (item.ex_tax_income) {
+              if (item.hasOwnProperty("ex_tax_income")) {
                 valueArr.push(item);
               } else {
                 nameArr.push(item);
@@ -1003,9 +1003,9 @@
         // 1：一般纳税人，2：小规模
         // this.userobj.reportTaxType
         let taxesTaxType;
-        if(this.userobj.reportTaxType==1){
+        if(this.userobj.reportTaxType==233){
           taxesTaxType=233;
-        }else if(this.userobj.reportTaxType==2){
+        }else if(this.userobj.reportTaxType==232){
           taxesTaxType=232;
         }
         let params = {
@@ -1220,9 +1220,9 @@
           // // 1：一般纳税人，2：小规模
           
           let declarationType;
-          if(this.userobj.reportTaxType==1){
+          if(this.userobj.reportTaxType==233){
             declarationType=2;
-          }else if(this.userobj.reportTaxType==2){
+          }else if(this.userobj.reportTaxType==232){
             declarationType=1;
           }
           let params = {
@@ -1419,9 +1419,9 @@
           // // 1：一般纳税人，2：小规模
           
           let declarationType;
-          if(this.userobj.reportTaxType==1){
+          if(this.userobj.reportTaxType==233){
             declarationType=2;
-          }else if(this.userobj.reportTaxType==2){
+          }else if(this.userobj.reportTaxType==232){
             declarationType=1;
           }
           let params = {
@@ -1506,9 +1506,9 @@
       showDetail(item) {
          console.log('当前客户的申报类型',this.userobj.reportTaxType)
         // // 1：一般纳税人，2：小规模
-        if(this.userobj.reportTaxType==1){
+        if(this.userobj.reportTaxType==233){
             this.sbnszl='一般纳税人';
-          }else if(this.userobj.reportTaxType==2){
+          }else if(this.userobj.reportTaxType==232){
             this.sbnszl='小规模纳税人';
           }
 
