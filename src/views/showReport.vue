@@ -2083,6 +2083,8 @@ export default {
     },
     handleSelect(item) {
       console.log(item);
+      this.userobj=item;
+      console.log('this.userobj',this.userobj)
       if (item.reportTaxType == 233) {
         this.searchList.statusVaule = "一般纳税人主表";
         this.statusVaule = "一般纳税人主表";
