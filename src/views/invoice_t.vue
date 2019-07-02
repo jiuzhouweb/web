@@ -1280,6 +1280,9 @@
                 });
                 this.detailDialogVisible = false;
                 this.getInvoiceLeaveShowList();
+                this.getShowSumIncome();
+								this.getShowSumDeduct();
+								this.getShowSumTaxPayable();
               }
             })
             .catch(err => {
@@ -1479,6 +1482,9 @@
                 });
                 this.nextStepDialogVisible = false;
                 this.getInvoiceLeaveShowList()
+                this.getShowSumIncome();
+								this.getShowSumDeduct();
+								this.getShowSumTaxPayable();
               }
             })
             .catch(err => {
