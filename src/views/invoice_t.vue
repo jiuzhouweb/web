@@ -441,7 +441,7 @@
     methods: {
       insertReport(){
         console.log('this.searchList',this.searchList)
-        if(this.searchList.value||this.searchList.nowDate){
+        if(!this.searchList.value||!this.searchList.nowDate){
           this.$message({
             message: "请先选择客户和账期后再生成报表",
             type: "warning"
@@ -612,7 +612,7 @@
         this.taxationId='';
         this.taxInfoId='';
         console.log('this.searchList',this.searchList)
-        if(this.searchList.value||this.searchList.nowDate){
+        if(!this.searchList.value||!this.searchList.nowDate){
           this.$message({
             message: "请先选择客户和账期后再查询",
             type: "warning"
@@ -1492,7 +1492,7 @@
       // 流程步骤提交
       submitStep(){
         console.log('this.searchList',this.searchList)
-        if(this.searchList.value||this.searchList.nowDate){
+        if(!this.searchList.value||!this.searchList.nowDate){
           this.$message({
             message: "请先选择客户和账期后再进行审批",
             type: "warning"

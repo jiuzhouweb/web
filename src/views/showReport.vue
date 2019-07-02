@@ -2130,7 +2130,7 @@
             },
             outputFile() {
                 console.log('this.searchList',this.searchList)
-                if(this.searchList.value||this.searchList.nowDate){
+                if(!this.searchList.value||!this.searchList.nowDate){
                     this.$message({
                         message: "请先选择客户和账期后再导出数据",
                         type: "warning"
@@ -3139,7 +3139,7 @@
                         this.statusVaule = this.searchList.statusVaule;
                         this.taxationId='';
                         this.taxInfoId='';
-                        if(this.searchList.value||this.searchList.nowDate){
+                        if(!this.searchList.value||!this.searchList.nowDate){
                             this.$message({
                                 message: "请先选择客户和账期后再查询",
                                 type: "warning"
