@@ -6,10 +6,12 @@
           <span class="labelTitle">
               					客户名称：
               				</span>
-          <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择">
+          <!-- <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择">
             <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
             </el-option>
-          </el-select>
+          </el-select> -->
+          <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
         </div>
         <div class="row2" style="margin-left:0.2rem">
           <span class="labelTitle">
@@ -170,7 +172,7 @@
               <el-select v-if="item.columnTitle=='印花税税率'" v-model="item.columnValue" placeholder="请选择">
                 <el-option v-for="item in yinhuaTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
               </el-select>
-              <el-select v-if="item.columnTitle=='城市维护建设税税率'" v-model="item.columnValue" placeholder="请选择">
+              <el-select v-if="item.columnTitle=='城建税税率'" v-model="item.columnValue" placeholder="请选择">
                 <el-option v-for="item in chengjianTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
               </el-select>
             </div>
@@ -445,6 +447,20 @@
       
     },
     methods: {
+      querySearch(queryString, cb) {
+				var cust = this.$store.state.cust;
+				cust.forEach((item, index) => {
+					item.value = item.customerName;
+				})
+				var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
+				// 调用 callback 返回建议列表的数据
+				cb(results);
+			},
+			createFilter(queryString) {
+				return (cust) => {
+					return (cust.customerName.indexOf(queryString) === 0);
+				};
+			},
       insertReport(){
         console.log('this.searchList',this.searchList)
         if(!this.searchList.value||!this.searchList.nowDate){
@@ -611,8 +627,20 @@
         this.accountPeriod = year.toString() + "-" + month.toString();
       },
       search() {
+        console.log('this.searchList.value',this.searchList.value)
+        this.customerId = '';
+				if (this.searchList.value) {
+					this.userobj = this.$store.state.cust.find(item =>
+						item.value === this.formInline.customerName
+					);
+					if(this.userobj){
+						this.customerId = this.userobj.customerId;
+					}else{
+						this.customerId = '';
+					}
+        }
+        console.log('this.userobj',this.userobj)
         this.accountPeriod = this.searchList.nowDate;
-        this.customerId = this.searchList.value;
         this.customerName=this.userobj.customerName;
         this.statusVaule = this.searchList.statusVaule;
         this.taxationId='';
