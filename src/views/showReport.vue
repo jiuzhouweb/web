@@ -3138,7 +3138,7 @@
                         this.customerId = this.searchList.value;
                         this.statusVaule = this.searchList.statusVaule;
                         this.taxationId='';
-                        this.taxInfoId='';
+                        this.taxinfoid='';
                         if(!this.searchList.value||!this.searchList.nowDate){
                             this.$message({
                                 message: "请先选择客户和账期后再查询",
