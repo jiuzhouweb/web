@@ -5,8 +5,8 @@
 				<span class="labelTitle">
 					客户名称：
 				</span>
-				<el-autocomplete class="inline-input" v-model="searchList.customId" :fetch-suggestions="querySearch" placeholder="请输入内容"
-				 @select="handleSelect"></el-autocomplete>
+				<el-autocomplete class="inline-input" v-model="searchList.customerName" :fetch-suggestions="querySearch"
+				 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
 				<!-- <el-select v-model="searchList.customerId" placeholder="请选择" @change='selectGet'>
 					<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 					</el-option>
@@ -110,7 +110,8 @@
 				message: "12334456",
 				searchList: {
 					customerId: "",
-					period: ""
+					period: "",
+					customerName:''
 				},
 				bigTaxTreatment: [],
 				taxTreatment: [],
@@ -125,7 +126,7 @@
 		methods: {
 			querySearch(queryString, cb) {
 				var cust = this.$store.state.cust;
-				cust.forEach((item,index) => {
+				cust.forEach((item, index) => {
 					item.value = item.customerName;
 				})
 				var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
@@ -143,6 +144,20 @@
 				this.queryBigTaxTreatment();
 			},
 			queryTaxTreatment() {
+				this.searchList.customerId = '';
+				if (this.searchList.customerName) {
+					var customer = this.$store.state.cust.find(item =>
+						item.value === this.searchList.customerName
+					);
+					if(customer){
+						this.searchList.customerId = customer.customerId;
+					}else{
+						this.searchList.customerId = '';
+					}
+					// this.formInline.customId = this.$store.state.cust.find(item =>
+					// 	item.value === this.formInline.customerName
+					// ).customerId
+				}
 				let params = this.searchList;
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectTaxTreatment', this.qs.stringify(params), {
 					headers: {
@@ -167,6 +182,20 @@
 				})
 			},
 			queryBigTaxTreatment() {
+				this.searchList.customerId = '';
+				if (this.searchList.customerName) {
+					var customer = this.$store.state.cust.find(item =>
+						item.value === this.searchList.customerName
+					);
+					if(customer){
+						this.searchList.customerId = customer.customerId;
+					}else{
+						this.searchList.customerId = '';
+					}
+					// this.formInline.customId = this.$store.state.cust.find(item =>
+					// 	item.value === this.formInline.customerName
+					// ).customerId
+				}
 				let params = this.searchList;
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectBigTaxTreatment', this.qs.stringify(params), {
 					headers: {
@@ -407,12 +436,13 @@
 	}
 
 	.dialog {
-		.title{
+		.title {
 			height: 0.4rem;
 			line-height: 0.4rem;
 			font-size: 0.16rem;
 			color: #333;
 		}
+
 		.line {
 			display: flex;
 			flex-wrap: nowrap;
@@ -420,10 +450,10 @@
 			justify-content: space-between;
 			height: 0.4rem;
 			align-content: center;
-			align-items:center;
+			align-items: center;
 			margin-bottom: 20px;
 		}
-		
+
 
 		ul {
 			background: #f8f8f8;
@@ -433,6 +463,7 @@
 			height: 3.5rem;
 			overflow-y: auto;
 			margin-top: 0.1rem;
+
 			li {
 				height: 0.24rem;
 				font-size: 0.12rem;

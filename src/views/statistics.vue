@@ -9,7 +9,7 @@
 							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
 						</el-select> -->
 						<el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入内容" @select="handleSelect"></el-autocomplete>
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
 					</el-form-item>
 					<el-form-item label="账期:">
 						<el-date-picker v-model="formInline.period" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
