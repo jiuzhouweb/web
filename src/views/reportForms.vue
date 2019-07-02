@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div class="content">
-			<el-button type="primary" icon="el-icon-success" size="small" @click='exportExcel'>一键导出</el-button>
+			<el-button type="primary" icon="el-icon-success" size="small" @click='exportExcel' :disabled="!customerId || !accountPeriod || !statusVaule">一键导出</el-button>
 			<div class="tableBox">
 				<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 					<el-tab-pane :label="item.title" :name="item.name" v-for="(item,index) in tableTabs" :key="index">

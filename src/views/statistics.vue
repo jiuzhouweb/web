@@ -4,10 +4,12 @@
 			<div class="contain_header">
 				<div class='title'>完成情况统计</div>
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
-					<el-form-item label="员工姓名:">
-						<el-select v-model='formInline.customId'>
+					<el-form-item label="客户名称:">
+						<!-- <el-select v-model='formInline.customId'>
 							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
-						</el-select>
+						</el-select> -->
+						<el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
+						 placeholder="请输入内容" @select="handleSelect"></el-autocomplete>
 					</el-form-item>
 					<el-form-item label="账期:">
 						<el-date-picker v-model="formInline.period" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
@@ -58,11 +60,12 @@
 		name: "router1",
 		data() {
 			return {
-				message: "12334456",
+				cust: '',
 				formInline: {
 					customId: '',
 					period: '',
-					stepName: ''
+					stepName: '',
+					customerName: ''
 				},
 				stepList: [
 					"发票录入", "做账", "大额审核", "税款审核", "申报"
@@ -72,14 +75,52 @@
 				pageSize: 10,
 				total: 0,
 				completed: [],
-				con:[],
-				incomplete:[],
-				nameList:[]
+				con: [],
+				incomplete: [],
+				nameList: []
 			}
 		},
 		components: {},
 		methods: {
+			querySearch(queryString, cb) {
+				var cust = this.$store.state.cust;
+				cust.forEach((item, index) => {
+					item.value = item.customerName;
+				})
+				var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
+				// 调用 callback 返回建议列表的数据
+				cb(results);
+			},
+			createFilter(queryString) {
+				return (cust) => {
+					return (cust.customerName.indexOf(queryString) === 0);
+				};
+			},
+
+			handleSelect(custom) {
+				// this.formInline.customId = this.$store.state.cust.find(item =>
+				// 	item.value === custom.value
+				// ).customerId;
+				// console.log(this.$store.state.cust.find(item =>
+				// 	item.value === custom.value
+				// ).customerId)
+			},
+
 			search() {
+				this.formInline.customId = '';
+				if (this.formInline.customerName) {
+					var customer = this.$store.state.cust.find(item =>
+						item.value === this.formInline.customerName
+					);
+					if(customer){
+						this.formInline.customId = customer.customerId;
+					}else{
+						this.formInline.customId = '';
+					}
+					// this.formInline.customId = this.$store.state.cust.find(item =>
+					// 	item.value === this.formInline.customerName
+					// ).customerId
+				}
 				this.completed = [];
 				this.incomplete = [];
 				this.con = [];
@@ -118,7 +159,7 @@
 				// 基于准备好的dom，初始化echarts实例
 				let myChart = this.$echarts.init(document.getElementById("myChart"));
 				this.echarts1_option = {
-					color:["#ed878e","#ffb980","#43b3db"],
+					color: ["#ed878e", "#ffb980", "#43b3db"],
 					title: {
 						// text: '世界人口总量',
 						// subtext: '数据来自网络'
@@ -133,33 +174,33 @@
 						data: ['合计', '已完成', '未完成']
 					},
 					grid: {
-						top:'40',
+						top: '40',
 						right: '80',
-						bottom:'40',
-						left:'80'
+						bottom: '40',
+						left: '80'
 					},
 					xAxis: {
-						name:'完成情况',
+						name: '完成情况',
 						type: 'value',
 						boundaryGap: [0, 0.01],
-						axisLine:{
-							lineStyle:{
-								color:"#b3b3b3"
+						axisLine: {
+							lineStyle: {
+								color: "#b3b3b3"
 							}
 						},
-						splitLine:{
-							lineStyle:{
-								color:"#eaeaea"
+						splitLine: {
+							lineStyle: {
+								color: "#eaeaea"
 							}
 						}
 					},
 					yAxis: {
-						name:'员工姓名',
+						name: '员工姓名',
 						type: 'category',
 						data: this.nameList,
-						axisLine:{
-							lineStyle:{
-								color:"#b3b3b3"
+						axisLine: {
+							lineStyle: {
+								color: "#b3b3b3"
 							}
 						}
 					},
@@ -167,29 +208,29 @@
 							name: '合计',
 							type: 'bar',
 							data: this.con,
-							barWidth:20
+							barWidth: 20
 						},
 						{
 							name: '已完成',
 							type: 'bar',
 							data: this.completed,
-							barWidth:20
+							barWidth: 20
 						},
 						{
 							name: '未完成',
 							type: 'bar',
 							data: this.incomplete,
-							barWidth:20
+							barWidth: 20
 						}
 					],
-					
+
 				};;
 				// 绘制图表
 				myChart.setOption(this.echarts1_option);
 			}
 		},
 		mounted() {
-			// this.drawLine()
+			// this.cust = this.$store.state.cust
 		}
 	}
 </script>
@@ -258,44 +299,45 @@
 				margin-right: 0.06rem
 			}
 		}
+
 		/deep/ .el-table__header tr,
 		.el-table__header th {
 			padding: 0;
 			height: 40px;
 		}
-		
+
 		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
 			background: #ebf6fb;
 		}
-		
+
 		/deep/ .el-table th {
 			background-color: #ebf6fb;
 		}
-		
+
 		/deep/ .el-table td {
 			padding: 6px 0;
 		}
-		
+
 		/deep/ .el-table__body tr,
 		.el-table__body td {
 			padding: 0;
 			height: 40px;
-		
+
 			background-color: #fff7f1;
 		}
-		
+
 		/deep/ .el-table__body tr.el-table__row--striped {
 			background-color: #ebf6fb;
 		}
-		
+
 		/deep/ .el-table thead {
 			color: #343434;
 		}
-		
+
 		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
 			background-color: #efe9e5;
 		}
-		
+
 		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
 			border-bottom-color: #fff;
 			background: #ebf6fb;

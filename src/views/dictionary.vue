@@ -165,6 +165,8 @@
 				this.axios.post('/perTaxToolTwo/e9z/configDictionary/saveOne', params)
 					.then(res => {
 						if (res.data.code == 200) {
+							this.form.dicName = '';
+							this.form.dicValue = '';
 							this.dialogTableVisible = false;
 							this.$message({
 								message: res.data.msg,
@@ -215,6 +217,8 @@
 					.then(res => {
 						if (res.data.code == 200) {
 							this.getList();
+							this.form.dicName = '';
+							this.form.dicValue = '';
 							this.dialogTableVisible = false;
 							this.$message({
 								message: res.data.msg,
@@ -238,6 +242,8 @@
 
 			hideDialog(formName) {
 				this.$refs[formName].resetFields();
+				this.form.dicName = '';
+				this.form.dicValue = '';
 				this.dialogTableVisible = false
 			},
 			hideEditDialog(formName) {
