@@ -5,10 +5,12 @@
             <div class='search_contain'>
                 <div class="row1">
                     <span class="labelTitle">公司：</span>
-                    <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" size="small">
+                    <!-- <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" size="small">
                         <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
                         </el-option>
-                    </el-select>
+                    </el-select> -->
+                    <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
                 </div>
                 <div class="row2">
                     <span class="labelTitle">账期：</span>
@@ -1962,1370 +1964,1541 @@
 </template>
 
 <script>
-    // import FileSaver from 'file-saver'
-    // import XLSX from 'xlsx'
-    export default {
-        name: "showReport",
-        data() {
-            return {
-                searchList: {
-                    options: [{
-                            value: "选项1",
-                            label: "黄金糕"
-                        },
-                        {
-                            value: "选项2",
-                            label: "双皮奶"
-                        }
-                    ],
-                    value: "",
-                    nowDate: "",
-                    statusVaule: "一般纳税人主表"
-                },
-                accountPeriod: "",
-                customerId: "",
-                statusVaule: "一般纳税人主表",
-                uploadData: {
-                    shuikuanDate: "",
-                    tianbiaoDate: "",
-                    taxerNumber: "",
-                    trade: "",
-                    taxerName: "",
-                    legalName: "",
-                    registerAddress: "",
-                    runAddress: "",
-                    bank: "",
-                    registerType: "",
-                    phone: "",
-                    isReduce: '否',
-                    chengshiRate: '0',
-                    jiaoyuRate: '0',
-                    difangRate: '0'
-                },
-                lastData: {},
-                thisData: {},
-                officeName: "",
-                receiveName: "",
-                receiveDate: "",
-                arate: "",
-                brate: "",
-                crate: "",
-                DataObj: {},
-                total1: '',
-                total2: '',
-                total3: '',
-                total4: '',
-                total5: '',
-                total6: '',
-                taxationid: '',
-                taxinfoid: '',
-                userobj: {
-                    reportTaxType: 233
-                },
-                showFlag:false,
-            };
-        },
-        watch: {},
-        computed: {},
-        mounted() {
-              this.searchList.options=this.$store.state.cust;
-            // this.searchList.options = [{
-            //     customerId: "jz3779",
-            //     customerName: "九洲APP测试专用",
-            //     reportTaxPeriod: null,
-            //     reportTaxType: 2,
-            //     taxPayerId: "11111111111111111111",
-            // }, {
-            //     customerId: "jz3774",
-            //     customerName: "44",
-            //     reportTaxPeriod: null,
-            //     reportTaxType: 1,
-            //     taxPayerId: "2222222222",
-            // }]
-            //   默认第一个用户
-            // this.userobj = this.searchList.options[0];
-            // this.searchList.value = this.userobj.customerId;
-            // this.customerId = this.userobj.customerId;
-            // this.uploadData.taxerNumber = this.userobj.taxPayerId;
-            // console.log('this.userobj.reportTaxType', this.userobj.reportTaxType)
-            // if (this.userobj.reportTaxType == 1) {
-            //     this.searchList.statusVaule = '一般纳税人主表'
-            //     this.statusVaule = '一般纳税人主表'
-            // }
-            // if (this.userobj.reportTaxType == 2) {
-            //     this.searchList.statusVaule = '小规模纳税人主表'
-            //     this.statusVaule = '小规模纳税人主表'
-            // }
-            this.getNowMonth();
-            // this.getInfoId();
-            // this.taxinfoid = '1';
-            // this.getTableData(this.statusVaule);
-        },
-        methods: {
-            blurTop(name, e) {
-                if (name == 'isReduce') {
-                    this.uploadData.isReduce = e.target.innerText
-                } else if (name == 'chengshiRate') {
-                    this.uploadData.chengshiRate = e.target.innerText
-                } else if (name == 'jiaoyuRate') {
-                    this.uploadData.jiaoyuRate = e.target.innerText
-                } else if (name == 'difangRate') {
-                    this.uploadData.difangRate = e.target.innerText
-                }
-                console.log('this.uploadData', this.uploadData)
-            },
-            selectGet(vId) {
-                this.userobj = {};
-                this.userobj = this.$store.state.cust.find((item) => { //这里的selectList就是上面遍历的数据源
-                    return item.customerId === vId; //筛选出匹配数据
-                });
-                console.log('this.userobj', this.userobj)
-                this.searchList.value = this.userobj.customerId;
-                this.customerId = this.userobj.customerId;
-                this.uploadData.taxerNumber = this.userobj.taxPayerId;
-                console.log('当前选择的用户信息', this.userobj); //
-                if (this.userobj.reportTaxType == 233) {
-                    this.searchList.statusVaule = '一般纳税人主表'
-                    this.statusVaule = '一般纳税人主表'
-                }
-                if (this.userobj.reportTaxType == 232) {
-                    this.searchList.statusVaule = '小规模纳税人主表'
-                    this.statusVaule = '小规模纳税人主表'
-                }
-                this.getInfoId();
-                // this.getTableData(this.statusVaule);
-            },
-            getInfoId() {
-                let params = {
-                    accountPeriod: this.accountPeriod, //账期
-                    customerId: this.customerId, //客户Id
-                    stepName: "做账" //步骤名称
-                };
-                // this.taxationid, tax_info_id;
-                this.axios
-                    .post("/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
-                    .then(res => {
-                        console.log("获取收账信息Id和税款信息id", res);
-                        if (res.data.code == 200) {
-                            if (res.data.hasOwnProperty('data')) {
-                                // 在这里获取收账税款id
-                                this.taxationid = res.data.data.taxation_id;
-                                this.taxinfoid = res.data.data.tax_info_id;
-                                this.showFlag=true;
-                                this.getTableData(this.statusVaule);
-                            }else{
-                                this.$message({
-                                    message: '暂无报表数据，请重新选择搜索条件！',
-                                    type: 'warning'
-                                });
-                                this.showFlag=false;
-                            }
-                        }
-                    }).catch((err) => {
-                        this.$message({
-                            message: '获取收账信息Id和税款信息id数据失败',
-                            type: 'error'
-                        });
-                    });
-            },
-            outputFile() {
-                console.log('this.searchList',this.searchList)
-                if(!this.searchList.value||!this.searchList.nowDate){
-                    this.$message({
-                        message: "请先选择客户和账期后再导出数据",
-                        type: "warning"
-                    });
-                    return;
-                }
-                if(this.taxinfoid==''){
-                    this.$message({
-                        message: "无数据时不支持导出报表操作",
-                        type: "warning"
-                    });
-                    return;
-                }
-                console.log('uploadData', this.uploadData)
-                let params = {}
-                let url = '';
-                console.log('this.taxinfoid',this.taxinfoid)
-                if (this.userobj.reportTaxType == 233) {
-                    //   一般纳税人
-                    params = {
-                        taxInfoId: this.taxinfoid,
-                        taxStartdate: this.uploadData.shuikuanDate?this.uploadData.shuikuanDate[0]:'',
-                        taxEnddate:  this.uploadData.shuikuanDate?this.uploadData.shuikuanDate[1]:'',
-                        inputdate:  this.uploadData.tianbiaoDate,
-                        taxPayerId: this.userobj.taxPayerId,
-                        trade: this.uploadData.trade,
-                        taxname: this.uploadData.taxerName,
-                        legalname: this.uploadData.legalName,
-                        registerAddress: this.uploadData.registerAddress,
-                        runAddress: this.uploadData.runAddress,
-                        bank: this.uploadData.bank,
-                        registerType: this.uploadData.registerType,
-                        phone:this.uploadData.phone,
-                        isReduce: this.uploadData.isReduce,
-                        chengshiRate: this.uploadData.chengshiRate,
-                        jiaoyuRate:this.uploadData.jiaoyuRate,
-                        difangRate: this.uploadData.difangRate,
-                    }
-                    url = '/perTaxToolTwo/e9zReportSb/export';
-                    window.location.href = url +'?taxInfoId='+ params.taxInfoId + "&taxStartdate=" +
-                    params.taxStartdate + "&taxEnddate=" + params.taxEnddate+ "&inputdate=" + params.inputdate
-                    + "&taxPayerId=" + params.taxPayerId + "&trade=" + params.trade+ "&taxname=" + params.taxname+"&legalname=" + params.legalname
-                    +"&registerAddress=" + params.registerAddress+"&runAddress=" + params.runAddress+"&bank=" + params.bank+"&registerType=" + params.registerType
-                    +"&phone=" + params.phone+  "&isReduce=" + params.isReduce
-                    + "&chengshiRate=" + params.chengshiRate+ "&jiaoyuRate=" + params.jiaoyuRate+ "&difangRate=" + params.difangRate;
-                } else if (this.userobj.reportTaxType == 232) {
-                    params = {
-                        taxInfoId: this.taxinfoid,
-                        taxStartdate: this.uploadData.shuikuanDate?this.uploadData.shuikuanDate[0]:'',
-                        taxEnddate:  this.uploadData.shuikuanDate?this.uploadData.shuikuanDate[1]:'',
-                        inputdate:  this.uploadData.tianbiaoDate,
-                        taxPayerId: this.userobj.taxPayerId,
-                        taxname:  this.uploadData.taxerName,
-                        isReduce: this.uploadData.isReduce,
-                        chengshiRate: this.uploadData.chengshiRate,
-                        jiaoyuRate:this.uploadData.jiaoyuRate,
-                        difangRate: this.uploadData.difangRate,
-                    }
-                    url = '/perTaxToolTwo/e9zReportSb/xgmexport';
-                    console.log('params',params)
-                    window.location.href = url +'?taxInfoId='+ params.taxInfoId + "&taxStartdate=" +
-                    params.taxStartdate + "&taxEnddate=" + params.taxEnddate+ "&inputdate=" + params.inputdate
-                    + "&taxPayerId=" + params.taxPayerId+ "&taxname=" + params.taxname+ "&isReduce=" + params.isReduce
-                    + "&chengshiRate=" + params.chengshiRate+ "&jiaoyuRate=" + params.jiaoyuRate+ "&difangRate=" + params.difangRate;
-                }
-                    },
-                    getNowMonth() {
-                        var date = new Date();
-                        var year = date.getFullYear();
-                        var month = date.getMonth() + 1;
-                        month = month < 10 ? "0" + month : month;
-                        this.searchList.nowDate = year.toString() + "-" + month.toString();
-                        this.accountPeriod = year.toString() + "-" + month.toString();
-                    },
-                    // 获取表格数据
-                    getTableData(statusVaule) {
-                        let params = {};
-                        let url;
-                        if (statusVaule == "一般纳税人主表") {
-                            url = "/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId=" + this.taxinfoid;
-                        } else if (statusVaule == "一般纳税人附表一") {
-                            url = "/perTaxToolTwo/e9zReportSb/showReportSb2?taxInfoId=" + this.taxinfoid;
-                        } else if (statusVaule == "一般纳税人附表二") {
-                            url = "/perTaxToolTwo/e9zReportSb/showReportSb3?taxInfoId=" + this.taxinfoid;
-                        } else if (statusVaule == "一般纳税人附表三") {
-                            url = "/perTaxToolTwo/e9zReportSb/showReportSb4?taxInfoId=" + this.taxinfoid;
-                        } else if (statusVaule == "一般纳税人附表四") {
-                            url = "/perTaxToolTwo/e9zReportSb/showReportSb5?taxInfoId=" + this.taxinfoid;
-                        } else if (statusVaule == "小规模纳税人主表") {
-                            url = "/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId=" + this.taxinfoid;
-                        } else if (
-                            statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
-                        ) {
-                            url = "/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId=" + this.taxinfoid;
-                        } else if (statusVaule == "小规模纳税人附列资料") {
-                            url = "/perTaxToolTwo/e9zReportSb/showReportXgmSb2?taxInfoId=" + this.taxinfoid;
-                        }
-                        this.axios
-                            .post(url, params)
-                            .then(res => {
-                                console.log("获取表格数据", res);
-                                this.loading = false;
-                                if (res.data.code == 200) {
-                                    if (statusVaule == "一般纳税人主表" || statusVaule == '小规模纳税人主表') {
-                                        this.lastData = res.data.data.lastData;
-                                        this.thisData = res.data.data.thisData;
-                                    } else if (statusVaule == "一般纳税人附表一") {
-                                        this.thisData = res.data.data;
-                                        this.arate =
-                                            this.thisData.yll13azsljyjssl.columnValue == 0 ?
-                                            "" :
-                                            Math.round(this.thisData.yll13azsljyjssl.columnValue * 100);
-                                        this.brate =
-                                            this.thisData.yll13bzsljyjssl.columnValue == 0 ?
-                                            "" :
-                                            Math.round(this.thisData.yll13bzsljyjssl.columnValue * 100);
-                                        this.crate =
-                                            this.thisData.yll13czsljyjssl.columnValue == 0 ?
-                                            "" :
-                                            Math.round(this.thisData.yll13czsljyjssl.columnValue * 100);
-                                        console.log("this.arate", this.arate);
-                                        console.log("this.thisData", this.thisData);
-                                    } else if (
-                                        statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
-                                    ) {
-                                        let data = res.data.data;
-                                        this.DataObj = data;
-                                        let arr = [];
-                                        for (let key in data) {
-                                            var obj = {};
-                                            obj.xm = key.split(" ")[0];
-                                            obj.pm = key.split(" ")[1];
-                                            obj.rate = Number(key.split(" ")[2]).toFixed(2);
-                                            obj.id = data[key].id;
-                                            obj.projName = data[key];
-                                            obj.typeName = data[key];
-                                            obj.sl = data[key].sl;
-                                            obj.jsybzzeje = data[key].jsybzzeje;
-                                            obj.jsmdseje = data[key].jsmdseje;
-                                            obj.jsxfsje = data[key].jsxfsje;
-                                            obj.jsyysje = data[key].jsyysje;
-                                            obj.jshjje = data[key].jshjje;
-                                            obj.ynseje = data[key].ynseje;
-                                            obj.ynseje.columnValue = Number(obj.ynseje.columnValue).toFixed(
-                                                2
-                                            );
-                                            obj.jmxzdm = data[key].jmxzdm;
-                                            obj.jmseje = data[key].jmseje;
-                                            obj.xgmjze = data[key].xgmjze;
-                                            obj.yjseje = data[key].yjseje;
-                                            obj.ybtseje = data[key].ybtseje;
-                                            arr.push(obj);
-                                        }
-                                        console.log("arr", arr);
-                                        this.thisData = [];
-                                        arr.forEach(item => {
-                                            if (item.xm == "地方教育附加") {
-                                                this.thisData[0] = item;
-                                            } else if (item.xm == "教育费附加") {
-                                                this.thisData[1] = item;
-                                            } else if (item.xm == "城市维护建设税") {
-                                                this.thisData[2] = item;
-                                            } else if (item.xm == "合计") {
-                                                this.thisData[3] = item;
-                                            }
-                                        });
-                                    } else if (statusVaule == "一般纳税人附表四") {
-                                        this.thisData = res.data.data;
-                                        this.total1 = Number(this.thisData['ybxmjjdjejsqcye'].columnValue) + Number(this.thisData['jzjtxmjjdjejsqcye'].columnValue)
-                                        console.log("this.arate", this.thisData['ybxmjjdjejsqcye'].columnValue, this.thisData['jzjtxmjjdjejsqcye'].columnValue, this.total1);
-                                        this.total2 = Number(this.thisData['ybxmjjdjejsbqfse'].columnValue) + Number(this.thisData['jzjtxmjjdjejsbqfse'].columnValue)
-                                        this.total3 = Number(this.thisData['ybxmjjdjejsbqtje'].columnValue) + Number(this.thisData['jzjtxmjjdjejsbqtje'].columnValue)
-                                        this.total4 = Number(this.thisData['ybxmjjdjejsbqkdje'].columnValue) + Number(this.thisData['jzjtxmjjdjejsbqkdje'].columnValue)
-                                        this.total5 = Number(this.thisData['ybxmjjdjejsbqsjdje'].columnValue) + Number(this.thisData['jzjtxmjjdjejsbqsjdje'].columnValue)
-                                        this.total6 = Number(this.thisData['ybxmjjdjejsqmye'].columnValue) + Number(this.thisData['jzjtxmjjdjejsqmye'].columnValue)
-                                    } else {
-                                        this.thisData = res.data.data;
-                                    }
-                                }
-                            })
-                            .catch(err => {
-                                this.$message({
-                                    message: "获取表格数据失败",
-                                    type: "error"
-                                });
-                            });
-                    },
-                    // (表格一，一般/即征即收，本月/累计，当前字段名，event,参与计算)
-                    // (表格二，合计对应名称，当前字段名，event,参与计算)
-                    unfocus(
-                        tableType,
-                        projectType,
-                        type,
-                        dataName,
-                        e,
-                        calc,
-                        preName,
-                        rate,
-                        index
-                    ) {
-                        var reg = /^(-)?\d{1,10}(\.\d{1,2})?$/;
-                        if (!reg.test(Number(e.target.innerText))) {
-                            this.$message({
-                                message: '请输入数字，小数点后最多两位',
-                                type: 'warning'
-                            });
-                            return;
-                        }
-                        if (tableType == "table1") {
-                            let keyName, leijiName;
-                            // 本月
-                            if (type == "by") {
-                                if (projectType == "yb") {
-                                    // 一般项目
-                                    keyName = dataName + "ybby";
-                                    leijiName = dataName + "ybbnlj";
-                                } else if (projectType == "jz") {
-                                    // 即征即收项目
-                                    keyName = dataName + "jzby";
-                                    leijiName = dataName + "jzbnlj";
-                                }
-                                if (
-                                    Number(e.target.innerText) != this.thisData[keyName].columnValue
-                                ) {
-                                    this.thisData[keyName].columnValue = Number(e.target.innerText);
-                                    if (this.thisData[leijiName]) {
-                                        this.thisData[leijiName].columnValue =
-                                            Number(e.target.innerText) + Number(this.lastData[leijiName]);
-                                    }
-                                    // 参与计算的行
-                                    if (calc == "ydksehj") {
-                                        // 应抵扣税额合计 本月一般项目，本月即征即收项目 17=12+13-14-15+16
-                                        this.thisData.ydksehjybby.columnValue =
-                                            Number(this.thisData.jxseybby.columnValue) +
-                                            Number(this.thisData.sqldseybby.columnValue) -
-                                            Number(this.thisData.jxsezcybby.columnValue) -
-                                            Number(this.thisData.mdtytseybby.columnValue) +
-                                            Number(this.thisData.asysljsnsjcybjseybby.columnValue);
-                                        this.thisData.ydksehjjzby.columnValue =
-                                            Number(this.thisData.jxsejzby.columnValue) +
-                                            Number(this.thisData.sqldsejzby.columnValue) -
-                                            Number(this.thisData.jxsezcjzby.columnValue);
-                                        // 期末未缴查补税额 本月一般项目 38=16+22+36-37
-                                        this.thisData.qmmjcbseybby.columnValue =
-                                            Number(this.thisData.asysljsnsjcybjseybby.columnValue) +
-                                            Number(this.thisData.ajynsjcybjseybby.columnValue) +
-                                            Number(this.thisData.qcmjcbseybby.columnValue) -
-                                            Number(this.thisData.bqrkcbseybby.columnValue);
-                                    } else if (calc == "sjdkse") {
-                                        // 实际抵扣税额 本月一般项目，本月即征即收项目 18=（如17<11，则为17，否则为11）
-                                        this.thisData.sjdkseybby.columnValue =
-                                            this.thisData.ydksehjybby.columnValue <
-                                            this.thisData.xxseybby.columnValue ?
-                                            Number(this.thisData.ydksehjybby.columnValue) :
-                                            Number(this.thisData.xxseybby.columnValue);
-                                        this.thisData.sjdksejzby.columnValue =
-                                            this.thisData.ydksehjjzby.columnValue <
-                                            this.thisData.xxsejzby.columnValue ?
-                                            Number(this.thisData.ydksehjjzby.columnValue) :
-                                            Number(this.thisData.xxsejzby.columnValue);
-                                        // 应纳税额 本月一般项目，本月即征即收项目 19=if(（11-18）>0,(11-18-附表4G16),(11-18))
-                                        this.thisData.ynseybby.columnValue =
-                                            this.thisData.xxseybby.columnValue >
-                                            this.thisData.sjdkseybby.columnValue ?
-                                            Number(this.thisData.xxseybby.columnValue) -
-                                            Number(this.thisData.sjdkseybby.columnValue) -
-                                            Number(this.thisData.ybxmjjdjejsbqsjdje.columnValue) :
-                                            Number(this.thisData.xxseybby.columnValue) -
-                                            Number(this.thisData.sjdkseybby.columnValue);
-                                        this.thisData.ynsejzby.columnValue =
-                                            this.thisData.xxsejzby.columnValue >
-                                            this.thisData.sjdksejzby.columnValue ?
-                                            Number(this.thisData.xxsejzby.columnValue) -
-                                            Number(this.thisData.sjdksejzby.columnValue) -
-                                            Number(this.thisData.jzjtxmjjdjejsbqsjdje.columnValue) :
-                                            Number(this.thisData.xxsejzby.columnValue) -
-                                            Number(this.thisData.sjdksejzby.columnValue);
-                                        // 期末留抵税额 本月一般项目，本月即征即收项目 10=17-18
-                                        this.thisData.qmldseybby.columnValue =
-                                            Number(this.thisData.ydksehjybby.columnValue) -
-                                            Number(this.thisData.sjdkseybby.columnValue);
-                                        this.thisData.qmldsejzby.columnValue =
-                                            Number(this.thisData.ydksehjjzby.columnValue) -
-                                            Number(this.thisData.sjdksejzby.columnValue);
-                                    } else if (calc == "ynsehj") {
-                                        // 应纳税额合计 本月一般项目，本月即征即收项目 24=19+21-23
-                                        this.thisData.ynsehjybby.columnValue =
-                                            Number(this.thisData.ynseybby.columnValue) +
-                                            Number(this.thisData.jyjsynseybby.columnValue) -
-                                            Number(this.thisData.ynsejzeybby.columnValue);
-                                        this.thisData.ynsehjjzby.columnValue =
-                                            Number(this.thisData.ynsejzby.columnValue) +
-                                            Number(this.thisData.jyjsynsejzby.columnValue) -
-                                            Number(this.thisData.ynsejzejzby.columnValue);
-                                    } else if (calc == "bqyjse") {
-                                        // 本期已缴税额 本月一般项目，本月即征即收项目 27=28+29+30+31
-                                        this.thisData.bqyjseybby.columnValue =
-                                            Number(this.thisData.cyjseybby.columnValue) +
-                                            Number(this.thisData.ckkjzyjksyjseybby.columnValue) +
-                                            Number(this.thisData.jqjnsqynseybby.columnValue) +
-                                            Number(this.thisData.bqjnqjseybby.columnValue);
-                                        this.thisData.bqyjsejzby.columnValue =
-                                            Number(this.thisData.cyjsejzby.columnValue) +
-                                            Number(this.thisData.jqjnsqynsejzby.columnValue) +
-                                            Number(this.thisData.bqjnqjsejzby.columnValue);
-                                        // 本期应补(退)税额 本月一般项目，本月即征即收项目 34＝24-28-29
-                                        this.thisData.bqybtseybby.columnValue =
-                                            Number(this.thisData.ynsehjybby.columnValue) -
-                                            Number(this.thisData.cyjseybby.columnValue) -
-                                            Number(this.thisData.ckkjzyjksyjseybby.columnValue);
-                                        this.thisData.bqybtsejzby.columnValue =
-                                            Number(this.thisData.ynsehjjzby.columnValue) -
-                                            Number(this.thisData.cyjsejzby.columnValue);
-                                    } else if (calc == "qmwjse") {
-                                        // 期末未缴税额（多缴为负数）本月一般项目，本月即征即收项目 32=24+25+26-27
-                                        this.thisData.qmwjseybby.columnValue =
-                                            Number(this.thisData.ynsehjybby.columnValue) +
-                                            Number(this.thisData.qcmjseybby.columnValue) +
-                                            Number(this.thisData.ssckkjzyjkstkeybby.columnValue) -
-                                            Number(this.thisData.bqyjseybby.columnValue);
-                                        this.thisData.qmwjsejzby.columnValue =
-                                            Number(this.thisData.ynsehjjzby.columnValue) +
-                                            Number(this.thisData.qcmjsejzby.columnValue) -
-                                            Number(this.thisData.bqyjsejzby.columnValue);
-                                        // 其中：欠缴税额（≥0）本月一般项目，本月即征即收项目 33=25+26-27
-                                        this.thisData.qzqjseybby.columnValue =
-                                            Number(this.thisData.qcmjseybby.columnValue) +
-                                            Number(this.thisData.ssckkjzyjkstkeybby.columnValue) -
-                                            Number(this.thisData.bqyjseybby.columnValue);
-                                        this.thisData.qzqjsejzby.columnValue =
-                                            Number(this.thisData.qcmjsejzby.columnValue) -
-                                            Number(this.thisData.bqyjsejzby.columnValue);
-                                    } else if (calc == "qmmjcbse") {
-                                        // 期末未缴查补税额 本月一般项目 38=16+22+36-37
-                                        this.thisData.qmmjcbseybby.columnValue =
-                                            Number(this.thisData.asysljsnsjcybjseybby.columnValue) +
-                                            Number(this.thisData.ajynsjcybjseybby.columnValue) +
-                                            Number(this.thisData.qcmjcbseybby.columnValue) -
-                                            Number(this.thisData.bqrkcbseybby.columnValue);
-                                    }
-                                    console.log(111333, this.thisData);
-                                    this.submitEdit();
-                                }
-                            } else if (type == "lj") {
-                                // 累计
-                                if (projectType == "yb") {
-                                    // 一般项目
-                                    keyName = dataName + "ybbnlj";
-                                } else if (projectType == "jz") {
-                                    // 即征即收项目
-                                    keyName = dataName + "jzbnlj";
-                                }
-                                if (
-                                    Number(e.target.innerText) != this.thisData[keyName].columnValue
-                                ) {
-                                    this.thisData[keyName].columnValue = Number(e.target.innerText);
-                                    console.log(111, this.thisData);
-                                    this.submitEdit();
-                                }
-                            }
-                        } else if (tableType == "table2") {
-                            console.log("dataName", dataName);
-                            if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
-                                if (
-                                    dataName == "yll13azsljyjssl" ||
-                                    dataName == "yll13bzsljyjssl" ||
-                                    dataName == "yll13czsljyjssl"
-                                ) {
-                                    this.thisData[dataName].columnValue =
-                                        Number(e.target.innerText) / 100;
-                                } else {
-                                    this.thisData[dataName].columnValue = Number(e.target.innerText);
-                                }
-                                // 参与计算
-                                if (calc == "hjxse") {
-                                    //合计销售额 9=1+3+5+7
-                                    let key1, key3, key5;
-                                    if (
-                                        preName == "yll13azsljyjs" ||
-                                        preName == "yll13bzsljyjs" ||
-                                        preName == "yll13czsljyjs"
-                                    ) {
-                                        key1 = preName + "skzzsxse";
-                                    } else if (
-                                        preName == "bfz13hwjjgxlxplwybjs" ||
-                                        preName == "bfz13fwbdchwxzcybjs" ||
-                                        preName == "bfz9hwjjgxlxplwybjs" ||
-                                        preName == "bfz9fwbdchwxzcybjs" ||
-                                        preName == "bfz5fwbdchwxzcybjs" ||
-                                        preName == "bfz3fwbdchwxzcybjs"
-                                    ) {
-                                        key1 = preName + "zzsfpxse";
-                                    } else if (preName == "bfz6zsljyjjs") {
-                                        key1 = "bfz6zsljyjszzsxse";
-                                    } else {
-                                        key1 = preName + "zzsxse";
-                                    }
-                                    console.log("key1", key1);
-									if(this.thisData[key1]){
-										console.log("123", Number(this.thisData[key1].columnValue));
-									}
-										
-                                    
-                                    if (preName == "bfz6zsljyjs" || preName == "bfz6zsljyjjs") {
-                                        key3 = "bfz6zsljyjjskqtfpxse";
-                                    } else {
-                                        key3 = preName + "kjqtfpxse";
-                                    }
-                                    if (preName == "fwbdchwxzcmdts") {
-                                        key5 = preName + "wkjqtfpxxse";
-                                    } else if (preName == "bfz6zsljyjjs") {
-                                        key5 = "bfz6zsljyjswkjfpxse";
-                                    } else {
-                                        key5 = preName + "wkjfpxse";
-                                    }
-                                    let key7 = preName + "nsjctzxse";
-                                    if (preName == "bfz6zsljyjjs") {
-                                        key7 = "bfz6zsljyjsnsjctzxse";
-                                    }
-                                    let key9 = preName + "hjxse";
-                                    if (preName == "bfz6zsljyjjs") {
-                                        key9 = "bfz6zsljyjshjxse";
-                                    }
-                                    console.log(111, this.thisData.bfz6zsljyjjskqtfpxse.columnValue);
-                                    console.log("key3", key3);
-									if(this.thisData[key3]){
-										console.log("121", this.thisData[key3].columnValue);
-									}
-                                    
-                                    let value1, value3, value5, value7;
-                                    value1 = this.thisData[key1] ?
-                                        Number(this.thisData[key1].columnValue) :
-                                        0;
-                                    value3 = this.thisData[key3] ?
-                                        Number(this.thisData[key3].columnValue) :
-                                        0;
-                                    value5 = this.thisData[key5] ?
-                                        Number(this.thisData[key5].columnValue) :
-                                        0;
-                                    value7 = this.thisData[key7] ?
-                                        Number(this.thisData[key7].columnValue) :
-                                        0;
-                                    if (dataName.indexOf('hjxse') == -1 || dataName.indexOf('hjxxse') == -1) {
-                                        this.thisData[key9].columnValue = value1 + value3 + value5 + value7;
-                                    }
-                                    console.log("key9", this.thisData[key9].columnValue);
-                                    // 销项(应纳)税额 10=2+4+6+8
-                                    let key2, key4, key6;
-                                    if (
-                                        preName == "yll13azsljyjs" ||
-                                        preName == "yll13bzsljyjs" ||
-                                        preName == "yll13czsljyjs"
-                                    ) {
-                                        key2 = preName + "skzzsxxse";
-                                    } else if (
-                                        preName == "bfz13hwjjgxlxplwybjs" ||
-                                        preName == "bfz13fwbdchwxzcybjs" ||
-                                        preName == "bfz9hwjjgxlxplwybjs" ||
-                                        preName == "bfz9fwbdchwxzcybjs" ||
-                                        preName == "bfz5fwbdchwxzcybjs" ||
-                                        preName == "bfz3fwbdchwxzcybjs"
-                                    ) {
-                                        key2 = preName + "zzsfpxxse";
-                                    } else if (preName == "bfz6zsljyjjs") {
-                                        key2 = "bfz6zsljyjszzsxxse";
-                                    } else {
-                                        key2 = preName + "zzsxxse";
-                                    }
-                                    if (preName == "bfz6zsljyjs" || preName == "bfz6zsljyjjs") {
-                                        key4 = "bfz6zsljyjjskqtfpxxse";
-                                    } else {
-                                        key4 = preName + "kjqtfpxxse";
-                                    }
-                                    if (preName == "bfz3hwjjgxljyjs") {
-                                        key6 = preName + "wjjfpxxse";
-                                    } else if (preName == "bfz6zsljyjjs") {
-                                        key6 = "bfz6zsljyjswkjfpxxse";
-                                    } else {
-                                        key6 = preName + "wkjfpxxse";
-                                    }
-                                    let key8 = preName + "nsjctzxxse";
-                                    if (preName == "bfz6zsljyjjs") {
-                                        key8 = "bfz6zsljyjsnsjctzxxse";
-                                    }
-                                    let key10 = preName + "hjxxse";
-                                    if (preName == "bfz6zsljyjjs") {
-                                        key10 = "bfz6zsljyjshjxxse";
-                                    }
-                                    let value2, value4, value6, value8;
-                                    value2 = this.thisData[key2] ?
-                                        Number(this.thisData[key2].columnValue) :
-                                        0;
-                                    value4 = this.thisData[key4] ?
-                                        Number(this.thisData[key4].columnValue) :
-                                        0;
-                                    value6 = this.thisData[key6] ?
-                                        Number(this.thisData[key6].columnValue) :
-                                        0;
-                                    value8 = this.thisData[key8] ?
-                                        Number(this.thisData[key8].columnValue) :
-                                        0;
-                                    if (dataName.indexOf('hjxxse') == -1 || dataName.indexOf('hjxse') == -1) {
-										if(this.thisData[key10]){
-											this.thisData[key10].columnValue =
-											    value2 + value4 + value6 + value8;
-										}
-                                    }
-									if(this.thisData[key10]){
-										console.log("key10", this.thisData[key10].columnValue);
-									}
-                                    
-                                    // 价税合计 11=9+10  扣除后含税(免税)销售额 13=11-12
-                                    let key11 = preName + "hjjshj";
-                                    if (preName == "bfz6zsljyjjs") {
-                                        key11 = "bfz6zsljyjshjjshj";
-                                    }
-                                    let key12;
-                                    if (preName == "bfz6slybjs") {
-                                        key12 = preName + "fubdchwxzckcxmbqsjkcje";
-                                    } else if (preName == "bfz6zsljyjjs") {
-                                        key12 = "bfz6zsljyjsfwbdchwxzckcxmbqsjkcje";
-                                    } else {
-                                        key12 = preName + "fwbdchwxzckcxmbqsjkcje";
-                                    }
-                                    let key13 = preName + "kchhsxse";
-                                    if (preName == "bfz6zsljyjjs") {
-                                        key13 = "bfz6zsljyjskchhsxse";
-                                    }
-                                    let key14;
-                                    if (
-                                        preName == "yll13azsljyjs" ||
-                                        preName == "yll13bzsljyjs" ||
-                                        preName == "yll13czsljyjs"
-                                    ) {
-                                        key14 = preName + "kchxxse";
-                                    } else if (preName == "bfz6zsljyjjs") {
-                                        key12 = "bfz6zsljyjskchhsxxse";
-                                    } else {
-                                        key14 = preName + "kchhsxxse";
-                                    }
-                                    let value9, value10, value11, value12, value13;
-                                    value9 = this.thisData[key9] ?
-                                        Number(this.thisData[key9].columnValue) :
-                                        0;
-                                    value10 = this.thisData[key10] ?
-                                        Number(this.thisData[key10].columnValue) :
-                                        0;
-                                    
-									console.log('dataName',dataName)
-                                    if (dataName.indexOf('hjjshj') == -1) {
-                                        if (this.thisData[key11]) {
-                                            this.thisData[key11].columnValue = value9 + value10;
-                                        }
-                                    }
-									value11 = this.thisData[key11] ?
-									    Number(this.thisData[key11].columnValue) :
-									    0;
-									value12 = this.thisData[key12] ?
-									    Number(this.thisData[key12].columnValue) :
-									    0;
-									console.log('value11',value11)
-									console.log('value12',value12)
-                                    if (dataName.indexOf('kchhsxse') == -1) {
-                                        console.log(11122)
-                                        if (this.thisData[key13]) {
-                                            this.thisData[key13].columnValue = value11 - value12;
-                                        }
-                                    }
-                                    if (
-                                        preName == "yll13azsljyjs" ||
-                                        preName == "yll13bzsljyjs" ||
-                                        preName == "yll13czsljyjs"
-                                    ) {
-                                        // console.log("rate1111", rate);
-                                        rate = parseFloat(rate / 100).toFixed(2);
-                                    }
-                                    console.log("rate", rate);
-									if (this.thisData[key13]){
-										console.log("key13", this.thisData[key13].columnValue);
-									}
-                                    
-                                    if (this.thisData[key13]) {
-										if(this.thisData[key14]){
-											this.thisData[key14].columnValue =
-											    parseFloat(this.thisData[key13].columnValue / (1 + rate) * rate).toFixed(2);
-										}
-                                    }
-                                }
-                                this.submitEdit();
-                            }
-                        } else if (tableType == "table3") {
-                            if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
-                                this.thisData[dataName].columnValue = Number(e.target.innerText);
-                                console.log("当前值", this.thisData[dataName].columnValue);
-                                // 参与计算
-                                // 1=2+3
-                                if (calc == "rzxfzzszyfpsbdk") {
-                                    let key1, key2, key3;
-                                    key1 = "rzxfzzszyfpsbdk" + projectType;
-                                    key2 = "bqrzxfqbqsbdk" + projectType;
-                                    key3 = "qqrzxfqbqsbdk" + projectType;
-                                    this.thisData[key1].columnValue =
-                                        Number(this.thisData[key2].columnValue) +
-                                        Number(this.thisData[key3].columnValue);
-                                    console.log("key", key1);
-                                    console.log("valu1", this.thisData[key1].columnValue);
-                                } else if (calc == "qtkspz") {
-                                    // 4=5+6+7+8a+8b
-                                    let key4, key5, key6, key7, key8a, key8b;
-                                    key4 = "qtkspz" + projectType;
-                                    key5 = "hgjkzzszyjks" + projectType;
-                                    key6 = "ncpsgfphzxsfp" + projectType;
-                                    if (projectType == "se") {
-                                        key6 = "ncpsgfphzxsfpsbdkse";
-                                    }
-                                    key7 = "dkdjssjkpz" + projectType;
-                                    key8a = "jjkcncpjxse" + projectType;
-                                    key8b = "sbdkdjxseqtkspzqt" + projectType;
-                                    let value7 = 0,
-                                        value8a = 0;
-                                    console.log("key5", key5);
-                                    if (this.thisData[key7]) {
-                                        value7 = Number(this.thisData[key7].columnValue);
-                                    }
-                                    if (this.thisData[key8a]) {
-                                        value8a = this.thisData[key8a].columnValue;
-                                    }
-                                    this.thisData[key4].columnValue =
-                                        Number(this.thisData[key5].columnValue) +
-                                        Number(this.thisData[key6].columnValue) +
-                                        value7 +
-                                        value8a +
-                                        Number(this.thisData[key8b].columnValue);
-                                } else if (calc == "dqsbdkjxsehj") {
-                                    // 12=1+4+11
-                                    let key1, key4, key11, key12;
-                                    key1 = "rzxfzzszyfpsbdk" + projectType;
-                                    key4 = "qtkspz" + projectType;
-                                    key11 = "wmqyjxsdkzm" + projectType;
-                                    key12 = "dqsbdkjxsehj" + projectType;
-                                    let value11 = 0;
-                                    if (this.thisData[key11]) {
-                                        value11 = Number(this.thisData[key11].columnValue);
-                                    }
-                                    this.thisData[key12].columnValue =
-                                        Number(this.thisData[key1].columnValue) +
-                                        Number(this.thisData[key4].columnValue) +
-                                        value11;
-                                } else if (calc == "bqjxszce") {
-                                    // 13=14+15+16+17+18+19+20+21+22+23
-                                    let key13,
-                                        key14,
-                                        key15,
-                                        key16,
-                                        key17,
-                                        key18,
-                                        key19,
-                                        key20,
-                                        key21,
-                                        key22,
-                                        key23;
-                                    key13 = "bqjxszce" + projectType;
-                                    key14 = "msxmy" + projectType;
-                                    key15 = "jtflgrxf" + projectType;
-                                    key16 = "fzcss" + projectType;
-                                    key17 = "jyjsbfzsxmy" + projectType;
-                                    key18 = "mdtsbfbddkdjxse" + projectType;
-                                    key19 = "nsjctjjxse" + projectType;
-                                    key20 = "hzzyfptzdzmdjxse" + projectType;
-                                    key21 = "sqldsedjqs" + projectType;
-                                    key22 = "sqldsets" + projectType;
-                                    key23 = "qtyzjxsezcdqx" + projectType;
-                                    this.thisData[key13].columnValue =
-                                        Number(this.thisData[key14].columnValue) +
-                                        Number(this.thisData[key15].columnValue) +
-                                        Number(this.thisData[key16].columnValue) +
-                                        Number(this.thisData[key17].columnValue) +
-                                        Number(this.thisData[key18].columnValue) +
-                                        Number(this.thisData[key19].columnValue) +
-                                        Number(this.thisData[key20].columnValue) +
-                                        Number(this.thisData[key21].columnValue) +
-                                        Number(this.thisData[key22].columnValue) +
-                                        Number(this.thisData[key23].columnValue);
-                                } else if (calc == "qtkspzddkjxse") {
-                                    // 29=30+31+32+33
-                                    let key29, key30, key31, key32, key33;
-                                    key29 = "qtkspzddkjxse" + projectType;
-                                    key30 = "hgjkzzszyxsfp" + projectType;
-                                    key31 = "ncpsgfphzxsfpddk" + projectType;
-                                    if (projectType == "se") {
-                                        key31 = "ncpsgfphzxsfpse";
-                                    }
-                                    key32 = "ddkdkdjskpz" + projectType;
-                                    key33 = "ddkjxseqtkkpzqt" + projectType;
-                                    let value32 = 0;
-                                    if (this.thisData[key32]) {
-                                        value32 = Number(this.thisData[key32].columnValue);
-                                    }
-                                    console.log("key", key29);
-                                    console.log("key", key30);
-                                    console.log("key", key31);
-                                    console.log("key", key32);
-                                    console.log("key", key33);
-                                    this.thisData[key29].columnValue =
-                                        Number(this.thisData[key30].columnValue) +
-                                        Number(this.thisData[key31].columnValue) +
-                                        value32 +
-                                        Number(this.thisData[key33].columnValue);
-                                }
-                                this.submitEdit();
-                            }
-                        } else if (tableType == "table4") {
-                            // 'table4','','',item.jsybzzeje,$event,'jshjje','',index
-                            if (
-                                Number(e.target.innerText) !=
-                                this.thisData[index][dataName].columnValue
-                            ) {
-                                console.log("dataName", dataName);
-                                console.log("this.thisData[index]", index);
-                                console.log("当前值", this.thisData[index][dataName].columnValue);
-                                console.log("e.target.innerText", e.target.innerText);
-                                this.thisData[index][dataName].columnValue = Number(
-                                    e.target.innerText
-                                );
-                                // 参与计算
-                                // 5=1+2+3+4
-                                if (calc == "jshjje") {
-                                    console.log(
-                                        "this.thisData[index]['jshjje'].columnValue",
-                                        this.thisData[index]["jshjje"].columnValue
-                                    );
-                                    console.log(
-                                        "1",
-                                        Number(this.thisData[index]["jsybzzeje"].columnValue),
-                                        Number(this.thisData[index]["jsmdseje"].columnValue),
-                                        Number(this.thisData[index]["xgmjze"].columnValue),
-                                        Number(this.thisData[index]["yjseje"].columnValue)
-                                    );
-                                    this.thisData[index]["jshjje"].columnValue = (
-                                        Number(this.thisData[index]["jsybzzeje"].columnValue) +
-                                        Number(this.thisData[index]["jsmdseje"].columnValue) +
-                                        Number(this.thisData[index]["jsxfsje"].columnValue) +
-                                        Number(this.thisData[index]["jsyysje"].columnValue)
-                                    ).toFixed(2);
-                                    let rate;
-                                    if (index == 3) {
-                                        rate = 0;
-                                    } else {
-                                        rate = this.thisData[index]["rate"];
-                                    }
-                                    this.thisData[index]["ynseje"].columnValue = parseFloat(
-                                        (
-                                            Number(this.thisData[index]["jshjje"].columnValue) * rate
-                                        ).toFixed(2)
-                                    );
-                                    this.thisData[index]["ybtseje"].columnValue = (
-                                        Number(this.thisData[index]["ynseje"].columnValue) -
-                                        Number(this.thisData[index]["jmseje"].columnValue) -
-                                        Number(this.thisData[index]["xgmjze"].columnValue) -
-                                        Number(this.thisData[index]["yjseje"].columnValue)
-                                    ).toFixed(2);
-                                }
-                                console.log("111113333");
-                                this.thisData[3]["ynseje"].columnValue = (
-                                    Number(this.thisData[0]["ynseje"].columnValue) +
-                                    Number(this.thisData[1]["ynseje"].columnValue) +
-                                    Number(this.thisData[2]["ynseje"].columnValue)
-                                ).toFixed(2);
-                                this.thisData[3]["jmseje"].columnValue = (
-                                    Number(this.thisData[0]["jmseje"].columnValue) +
-                                    Number(this.thisData[1]["jmseje"].columnValue) +
-                                    Number(this.thisData[2]["jmseje"].columnValue)
-                                ).toFixed(2);
-                                this.thisData[3]["xgmjze"].columnValue = (
-                                    Number(this.thisData[0]["xgmjze"].columnValue) +
-                                    Number(this.thisData[1]["xgmjze"].columnValue) +
-                                    Number(this.thisData[2]["xgmjze"].columnValue)
-                                ).toFixed(2);
-                                this.thisData[3]["yjseje"].columnValue = (
-                                    Number(this.thisData[0]["yjseje"].columnValue) +
-                                    Number(this.thisData[1]["yjseje"].columnValue) +
-                                    Number(this.thisData[2]["yjseje"].columnValue)
-                                ).toFixed(2);
-                                this.thisData[3]["ybtseje"].columnValue = (
-                                    Number(this.thisData[0]["ybtseje"].columnValue) +
-                                    Number(this.thisData[1]["ybtseje"].columnValue) +
-                                    Number(this.thisData[2]["ybtseje"].columnValue)
-                                ).toFixed(2);
-                                this.submitEdit();
-                            }
-                        } else if (tableType == "table5") {
-                            // 'table5','','hwlwbqs','yzzzsbhsh',$event,'',''
-                            // if(type=='bqs'){
-                            let keyName = dataName + type;
-                            let leijiName = dataName + "bnlj";
-                            if (Number(e.target.innerText) != this.thisData[keyName].columnValue) {
-                                this.thisData[keyName].columnValue = Number(e.target.innerText);
-                                if (type == "bqs") {
-                                    console.log('this.thisData[leijiName]', leijiName)
-                                    if (this.thisData[leijiName]) {
-                                        this.thisData[leijiName].columnValue =
-                                            Number(e.target.innerText) + Number(this.lastData[leijiName]);
-                                    }
-                                }
-                                // 参与计算的行
-                                if (calc == "msxse") {
-                                    // 免税销售额  9=10+11+12
-                                    this.thisData.msxsehwlwbqs.columnValue =
-                                        Number(this.thisData.xwqymsxsehwlwbqs.columnValue) +
-                                        Number(this.thisData.wdqzdxsehwlwbqs.columnValue) +
-                                        Number(this.thisData.qtmsxsehwlwbqs.columnValue);
-                                    this.thisData.msxsefwbdcbqs.columnValue =
-                                        Number(this.thisData.xwqymsxsefwbdcbqs.columnValue) +
-                                        Number(this.thisData.wdqzdxsefwbdcbqs.columnValue) +
-                                        Number(this.thisData.qtmsxsefwbdcbqs.columnValue);
-                                    this.thisData.msxsehwlwbnlj.columnValue = Number(this.thisData.msxsehwlwbqs.columnValue) + Number(this.lastData.msxsehwlwbnlj);
-                                    this.thisData.msxsefwbdcbnlj.columnValue = Number(this.thisData.msxsefwbdcbqs.columnValue) + Number(this.lastData.msxsefwbdcbnlj);
-                                } else if (calc == "ynse") {
-                                    //   应纳税额合计  20=15-16
-                                    //    本期应补（退）税额 22=20-21
-                                    if (dataName != 'ynsehjhwlw' && dataName != 'ynsehjfwbdc') {
-                                        this.thisData.ynsehjhwlwbqs.columnValue =
-                                            Number(this.thisData.bqynsehwlwbqs.columnValue) -
-                                            Number(this.thisData.bqynsejzehwlwbqs.columnValue);
-                                        this.thisData.ynsehjfwbdcbqs.columnValue =
-                                            Number(this.thisData.bqynsefwbdcbqs.columnValue) -
-                                            Number(this.thisData.bqynsejzefwbdcbqs.columnValue);
-                                        this.thisData.ynsehjhwlwbnlj.columnValue = Number(this.thisData.ynsehjhwlwbqs.columnValue) + Number(this.lastData.ynsehjhwlwbnlj);
-                                        this.thisData.ynsehjfwbdcbnlj.columnValue = Number(this.thisData.ynsehjfwbdcbqs.columnValue) + Number(this.lastData.ynsehjfwbdcbnlj);
-                                    }
-                                    this.thisData.bqybtsehwlwbqs.columnValue =
-                                        Number(this.thisData.ynsehjhwlwbqs.columnValue) -
-                                        Number(this.thisData.bqyjsehwlwbqs.columnValue);
-                                    this.thisData.bqybtsefwbdcbqs.columnValue
-                                    Number(this.thisData.ynsehjfwbdcbqs.columnValue) -
-                                        Number(this.thisData.bqyjsefwbdcbqs.columnValue);
-                                }
-                                this.submitEdit();
-                            }
-                            // }
-                        } else if (tableType == "table6") {
-                            //   'table6','','','xse3bqkce',$event,'',''
-                            if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
-                                this.thisData[dataName].columnValue = Number(e.target.innerText);
-                                // 4=1+2+3  6=3  7=5-6  8=7/1.03
-                                if (calc == "calchj") {
-                                    this.thisData.kce3qmye.columnValue =
-                                        Number(this.thisData.kce3qcye.columnValue) +
-                                        Number(this.thisData.kce3bqfse.columnValue) +
-                                        Number(this.thisData.kce3bqkce.columnValue);
-                                    if (dataName != 'xse3bqkce') {
-                                        this.thisData.xse3bqkce.columnValue = Number(
-                                            this.thisData.kce3bqkce.columnValue
-                                        );
-                                    }
-                                    if (dataName != 'xse3hsxse') {
-                                        this.thisData.xse3hsxse.columnValue =
-                                            Number(this.thisData.xse3qbhssr.columnValue) -
-                                            Number(this.thisData.xse3bqkce.columnValue);
-                                    }
-                                    this.thisData.xse3bhsxse.columnValue = parseFloat(
-                                        (Number(this.thisData.xse3hsxse.columnValue) / 1.03).toFixed(2)
-                                    );
-                                } else if (calc == 'calchj5') {
-                                    this.thisData.kce5qmye.columnValue =
-                                        Number(this.thisData.kce5qcye.columnValue) +
-                                        Number(this.thisData.kce5bqfse.columnValue) +
-                                        Number(this.thisData.kce5bqkce.columnValue);
-                                    if (dataName != 'xse5bqkce') {
-                                        this.thisData.xse5bqkce.columnValue = Number(
-                                            this.thisData.kce5bqkce.columnValue
-                                        );
-                                    }
-                                    if (dataName != 'xse5hsxse') {
-                                        this.thisData.xse5hsxse.columnValue =
-                                            Number(this.thisData.xse5qbhssr.columnValue) -
-                                            Number(this.thisData.xse5bqkce.columnValue);
-                                    }
-                                    this.thisData.xse5bhsxse.columnValue = parseFloat(
-                                        (Number(this.thisData.xse5hsxse.columnValue) / 1.05).toFixed(2)
-                                    );
-                                }
-                                this.submitEdit();
-                            }
-                        } else if (tableType == 'table7') {
-                            //   'table7','','','bfz13sldxmhje',$event,'calchj','bfz13sldxm'
-                            if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
-                                this.thisData[dataName].columnValue = Number(e.target.innerText);
-                                //  参与计算 4=2+3 	6=4-5
-                                if (calc == 'calchj') {
-                                    let key2 = preName + 'qcye';
-                                    let key3 = preName + 'bqfse';
-                                    let key4 = preName + 'bqykcje';
-                                    let key5 = preName + 'bqsjkcje';
-                                    let key6 = preName + 'qmye';
-                                    if (dataName != key4) {
-                                        this.thisData[key4].columnValue = Number(this.thisData[key2].columnValue) + Number(this.thisData[key3].columnValue);
-                                    }
-                                    this.thisData[key6].columnValue = Number(this.thisData[key4].columnValue) - Number(this.thisData[key5].columnValue);
-                                }
-                                this.submitEdit();
-                            }
-                        } else if (tableType == 'table8') {
-                            //   'table8','','','zzsskxtzysbfjjswhfqcye',$event,'calchj','zzsskxtzysbfjjswhf'
-                            if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
-                                this.thisData[dataName].columnValue = Number(e.target.innerText);
-                                if (type == '1') {
-                                    //  参与计算 3=1+2 	5=3-4
-                                    if (calc == 'calchj') {
-                                        let key1 = preName + 'qcye';
-                                        let key2 = preName + 'bqfse';
-                                        let key3 = preName + 'bqydjse';
-                                        let key4 = preName + 'bqsjdjse';
-                                        let key5 = preName + 'qmye';
-                                        if (dataName != key3) {
-                                            this.thisData[key3].columnValue = Number(this.thisData[key1].columnValue) + Number(this.thisData[key2].columnValue);
-                                        }
-                                        this.thisData[key5].columnValue = Number(this.thisData[key3].columnValue) - Number(this.thisData[key4].columnValue);
-                                    }
-                                } else if (type == '2') {
-                                    //  参与计算 4=1+2-3 	6=4-5
-                                    if (calc == 'calchj') {
-                                        let key1 = preName + 'qcye';
-                                        let key2 = preName + 'bqfse';
-                                        let key3 = preName + 'bqtje';
-                                        let key4 = preName + 'bqkdje';
-                                        let key5 = preName + 'bqsjdje';
-                                        let key6 = preName + 'qmye';
-                                        if (dataName != key4) {
-                                            this.thisData[key4].columnValue = Number(this.thisData[key1].columnValue) + Number(this.thisData[key2].columnValue) - Number(this.thisData[key3].columnValue);
-                                        }
-                                        this.thisData[key6].columnValue = Number(this.thisData[key4].columnValue) - Number(this.thisData[key5].columnValue);
-                                    }
-                                }
-                                this.total1 = Number(this.thisData['ybxmjjdjejsqcye'].columnValue) + Number(this.thisData['jzjtxmjjdjejsqcye'].columnValue)
-                                this.total2 = Number(this.thisData['ybxmjjdjejsbqfse'].columnValue) + Number(this.thisData['jzjtxmjjdjejsbqfse'].columnValue)
-                                this.total3 = Number(this.thisData['ybxmjjdjejsbqtje'].columnValue) + Number(this.thisData['jzjtxmjjdjejsbqtje'].columnValue)
-                                this.total4 = Number(this.thisData['ybxmjjdjejsbqkdje'].columnValue) + Number(this.thisData['jzjtxmjjdjejsbqkdje'].columnValue)
-                                this.total5 = Number(this.thisData['ybxmjjdjejsbqsjdje'].columnValue) + Number(this.thisData['jzjtxmjjdjejsbqsjdje'].columnValue)
-                                this.total6 = Number(this.thisData['ybxmjjdjejsqmye'].columnValue) + Number(this.thisData['jzjtxmjjdjejsqmye'].columnValue)
-                                this.submitEdit();
-                            }
-                        }
-                    },
-                    // 提交修改
-                    submitEdit() {
-                        let param;
-                        if (
-                            this.statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
-                        ) {
-                            param = [];
-                            this.thisData.forEach(item => {
-                                var obj1 = {};
-                                for (let key in item) {
-                                    obj1[key] = item[key].columnValue;
-                                }
-                                param.push(obj1);
-                            });
-                        } else {
-                            param = {};
-                            for (let key in this.thisData) {
-                                param[key] = this.thisData[key].columnValue;
-                            }
-                        }
-                        console.log("www", param);
-                        let url;
-                        if (this.statusVaule == "一般纳税人主表") {
-                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb1";
-                        } else if (this.statusVaule == "一般纳税人附表一") {
-                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb2";
-                        } else if (this.statusVaule == "一般纳税人附表二") {
-                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb3";
-                        } else if (this.statusVaule == "一般纳税人附表三") {
-                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb4";
-                        } else if (this.statusVaule == "一般纳税人附表四") {
-                            url = "/perTaxToolTwo/e9zReportSb/updateReportSb5";
-                        } else if (this.statusVaule == "小规模纳税人主表") {
-                            url = "/perTaxToolTwo/e9zReportSb/updateReportXgmSb1";
-                        } else if (
-                            this.statusVaule == "小规模纳税人附列资料"
-                        ) {
-                            url = "/perTaxToolTwo/e9zReportSb/updateReportXgmSb2";
-                        } else if (
-                            this.statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
-                        ) {
-                            url = "/perTaxToolTwo/e9zReportSb/updateReport50002";
-                        }
-                        this.axios
-                            .post(url, param)
-                            .then(res => {
-                                console.log("修改数据", res);
-                                if (res.data.code == 200) {
-                                    this.getTableData(this.statusVaule);
-                                }
-                            })
-                            .catch(err => {
-                                this.$message({
-                                    message: "修改数据失败",
-                                    type: "error"
-                                });
-                            });
-                    },
-                    search() {
-                        this.accountPeriod = this.searchList.nowDate;
-                        this.customerId = this.searchList.value;
-                        this.statusVaule = this.searchList.statusVaule;
-                        this.taxationId='';
-                        this.taxinfoid='';
-                        if(!this.searchList.value||!this.searchList.nowDate){
-                            this.$message({
-                                message: "请先选择客户和账期后再查询",
-                                type: "warning"
-                            });
-                            return;
-                        }
-                        this.getInfoId();
-                    },
-                    // clear() {
-                    //   this.searchList.statusVaule = "一般纳税人主表";
-                    //   this.searchList.nowDate = "";
-                    // }
+// import FileSaver from 'file-saver'
+// import XLSX from 'xlsx'
+export default {
+  name: "showReport",
+  data() {
+    return {
+      searchList: {
+        options: [
+          {
+            value: "选项1",
+            label: "黄金糕"
+          },
+          {
+            value: "选项2",
+            label: "双皮奶"
+          }
+        ],
+        value: "",
+        nowDate: "",
+        statusVaule: "一般纳税人主表"
+      },
+      accountPeriod: "",
+      customerId: "",
+      statusVaule: "一般纳税人主表",
+      uploadData: {
+        shuikuanDate: "",
+        tianbiaoDate: "",
+        taxerNumber: "",
+        trade: "",
+        taxerName: "",
+        legalName: "",
+        registerAddress: "",
+        runAddress: "",
+        bank: "",
+        registerType: "",
+        phone: "",
+        isReduce: "否",
+        chengshiRate: "0",
+        jiaoyuRate: "0",
+        difangRate: "0"
+      },
+      lastData: {},
+      thisData: {},
+      officeName: "",
+      receiveName: "",
+      receiveDate: "",
+      arate: "",
+      brate: "",
+      crate: "",
+      DataObj: {},
+      total1: "",
+      total2: "",
+      total3: "",
+      total4: "",
+      total5: "",
+      total6: "",
+      taxationid: "",
+      taxinfoid: "",
+      userobj: {
+        reportTaxType: 233
+      },
+      showFlag: false
+    };
+  },
+  watch: {},
+  computed: {},
+  mounted() {
+    this.searchList.options = this.$store.state.cust;
+    // this.searchList.options = [{
+    //     customerId: "jz3779",
+    //     customerName: "九洲APP测试专用",
+    //     reportTaxPeriod: null,
+    //     reportTaxType: 2,
+    //     taxPayerId: "11111111111111111111",
+    // }, {
+    //     customerId: "jz3774",
+    //     customerName: "44",
+    //     reportTaxPeriod: null,
+    //     reportTaxType: 1,
+    //     taxPayerId: "2222222222",
+    // }]
+    //   默认第一个用户
+    // this.userobj = this.searchList.options[0];
+    // this.searchList.value = this.userobj.customerId;
+    // this.customerId = this.userobj.customerId;
+    // this.uploadData.taxerNumber = this.userobj.taxPayerId;
+    // console.log('this.userobj.reportTaxType', this.userobj.reportTaxType)
+    // if (this.userobj.reportTaxType == 1) {
+    //     this.searchList.statusVaule = '一般纳税人主表'
+    //     this.statusVaule = '一般纳税人主表'
+    // }
+    // if (this.userobj.reportTaxType == 2) {
+    //     this.searchList.statusVaule = '小规模纳税人主表'
+    //     this.statusVaule = '小规模纳税人主表'
+    // }
+    this.getNowMonth();
+    // this.getInfoId();
+    // this.taxinfoid = '1';
+    // this.getTableData(this.statusVaule);
+  },
+  methods: {
+    querySearch(queryString, cb) {
+      var cust = this.$store.state.cust;
+      cust.forEach((item, index) => {
+        item.value = item.customerName;
+      });
+      var results = queryString
+        ? cust.filter(this.createFilter(queryString))
+        : cust;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return cust => {
+        return cust.customerName.indexOf(queryString) === 0;
+      };
+    },
+    handleSelect(item) {
+      console.log(item);
+      if (item.reportTaxType == 233) {
+        this.searchList.statusVaule = "一般纳税人主表";
+        this.statusVaule = "一般纳税人主表";
+      }
+      if (item.reportTaxType == 232) {
+        this.searchList.statusVaule = "小规模纳税人主表";
+        this.statusVaule = "小规模纳税人主表";
+      }
+    },
+    blurTop(name, e) {
+      if (name == "isReduce") {
+        this.uploadData.isReduce = e.target.innerText;
+      } else if (name == "chengshiRate") {
+        this.uploadData.chengshiRate = e.target.innerText;
+      } else if (name == "jiaoyuRate") {
+        this.uploadData.jiaoyuRate = e.target.innerText;
+      } else if (name == "difangRate") {
+        this.uploadData.difangRate = e.target.innerText;
+      }
+      console.log("this.uploadData", this.uploadData);
+    },
+    selectGet(vId) {
+      this.userobj = {};
+      this.userobj = this.$store.state.cust.find(item => {
+        //这里的selectList就是上面遍历的数据源
+        return item.customerId === vId; //筛选出匹配数据
+      });
+      console.log("this.userobj", this.userobj);
+      this.searchList.value = this.userobj.customerId;
+      this.customerId = this.userobj.customerId;
+      this.uploadData.taxerNumber = this.userobj.taxPayerId;
+      console.log("当前选择的用户信息", this.userobj); //
+      if (this.userobj.reportTaxType == 233) {
+        this.searchList.statusVaule = "一般纳税人主表";
+        this.statusVaule = "一般纳税人主表";
+      }
+      if (this.userobj.reportTaxType == 232) {
+        this.searchList.statusVaule = "小规模纳税人主表";
+        this.statusVaule = "小规模纳税人主表";
+      }
+      // this.getInfoId();
+      // this.getTableData(this.statusVaule);
+    },
+    getInfoId() {
+      let params = {
+        accountPeriod: this.accountPeriod, //账期
+        customerId: this.customerId, //客户Id
+        stepName: "做账" //步骤名称
+      };
+      // this.taxationid, tax_info_id;
+      this.axios
+        .post("/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
+        .then(res => {
+          console.log("获取收账信息Id和税款信息id", res);
+          if (res.data.code == 200) {
+            if (res.data.hasOwnProperty("data")) {
+              // 在这里获取收账税款id
+              this.taxationid = res.data.data.taxation_id;
+              this.taxinfoid = res.data.data.tax_info_id;
+              this.showFlag = true;
+              this.getTableData(this.statusVaule);
+            } else {
+              this.$message({
+                message: "暂无报表数据，请重新选择搜索条件！",
+                type: "warning"
+              });
+              this.showFlag = false;
             }
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: "获取收账信息Id和税款信息id数据失败",
+            type: "error"
+          });
+        });
+    },
+    outputFile() {
+      console.log("this.searchList", this.searchList);
+      if (!this.searchList.value || !this.searchList.nowDate) {
+        this.$message({
+          message: "请先选择客户和账期后再导出数据",
+          type: "warning"
+        });
+        return;
+      }
+      if (this.taxinfoid == "") {
+        this.$message({
+          message: "无数据时不支持导出报表操作",
+          type: "warning"
+        });
+        return;
+      }
+      console.log("uploadData", this.uploadData);
+      let params = {};
+      let url = "";
+      console.log("this.taxinfoid", this.taxinfoid);
+      if (this.userobj.reportTaxType == 233) {
+        //   一般纳税人
+        params = {
+          taxInfoId: this.taxinfoid,
+          taxStartdate: this.uploadData.shuikuanDate
+            ? this.uploadData.shuikuanDate[0]
+            : "",
+          taxEnddate: this.uploadData.shuikuanDate
+            ? this.uploadData.shuikuanDate[1]
+            : "",
+          inputdate: this.uploadData.tianbiaoDate,
+          taxPayerId: this.userobj.taxPayerId,
+          trade: this.uploadData.trade,
+          taxname: this.uploadData.taxerName,
+          legalname: this.uploadData.legalName,
+          registerAddress: this.uploadData.registerAddress,
+          runAddress: this.uploadData.runAddress,
+          bank: this.uploadData.bank,
+          registerType: this.uploadData.registerType,
+          phone: this.uploadData.phone,
+          isReduce: this.uploadData.isReduce,
+          chengshiRate: this.uploadData.chengshiRate,
+          jiaoyuRate: this.uploadData.jiaoyuRate,
+          difangRate: this.uploadData.difangRate
         };
+        url = "/perTaxToolTwo/e9zReportSb/export";
+        window.location.href =
+          url +
+          "?taxInfoId=" +
+          params.taxInfoId +
+          "&taxStartdate=" +
+          params.taxStartdate +
+          "&taxEnddate=" +
+          params.taxEnddate +
+          "&inputdate=" +
+          params.inputdate +
+          "&taxPayerId=" +
+          params.taxPayerId +
+          "&trade=" +
+          params.trade +
+          "&taxname=" +
+          params.taxname +
+          "&legalname=" +
+          params.legalname +
+          "&registerAddress=" +
+          params.registerAddress +
+          "&runAddress=" +
+          params.runAddress +
+          "&bank=" +
+          params.bank +
+          "&registerType=" +
+          params.registerType +
+          "&phone=" +
+          params.phone +
+          "&isReduce=" +
+          params.isReduce +
+          "&chengshiRate=" +
+          params.chengshiRate +
+          "&jiaoyuRate=" +
+          params.jiaoyuRate +
+          "&difangRate=" +
+          params.difangRate;
+      } else if (this.userobj.reportTaxType == 232) {
+        params = {
+          taxInfoId: this.taxinfoid,
+          taxStartdate: this.uploadData.shuikuanDate
+            ? this.uploadData.shuikuanDate[0]
+            : "",
+          taxEnddate: this.uploadData.shuikuanDate
+            ? this.uploadData.shuikuanDate[1]
+            : "",
+          inputdate: this.uploadData.tianbiaoDate,
+          taxPayerId: this.userobj.taxPayerId,
+          taxname: this.uploadData.taxerName,
+          isReduce: this.uploadData.isReduce,
+          chengshiRate: this.uploadData.chengshiRate,
+          jiaoyuRate: this.uploadData.jiaoyuRate,
+          difangRate: this.uploadData.difangRate
+        };
+        url = "/perTaxToolTwo/e9zReportSb/xgmexport";
+        console.log("params", params);
+        window.location.href =
+          url +
+          "?taxInfoId=" +
+          params.taxInfoId +
+          "&taxStartdate=" +
+          params.taxStartdate +
+          "&taxEnddate=" +
+          params.taxEnddate +
+          "&inputdate=" +
+          params.inputdate +
+          "&taxPayerId=" +
+          params.taxPayerId +
+          "&taxname=" +
+          params.taxname +
+          "&isReduce=" +
+          params.isReduce +
+          "&chengshiRate=" +
+          params.chengshiRate +
+          "&jiaoyuRate=" +
+          params.jiaoyuRate +
+          "&difangRate=" +
+          params.difangRate;
+      }
+    },
+    getNowMonth() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      month = month < 10 ? "0" + month : month;
+      this.searchList.nowDate = year.toString() + "-" + month.toString();
+      this.accountPeriod = year.toString() + "-" + month.toString();
+    },
+    // 获取表格数据
+    getTableData(statusVaule) {
+      let params = {};
+      let url;
+      if (statusVaule == "一般纳税人主表") {
+        url =
+          "/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId=" +
+          this.taxinfoid;
+      } else if (statusVaule == "一般纳税人附表一") {
+        url =
+          "/perTaxToolTwo/e9zReportSb/showReportSb2?taxInfoId=" +
+          this.taxinfoid;
+      } else if (statusVaule == "一般纳税人附表二") {
+        url =
+          "/perTaxToolTwo/e9zReportSb/showReportSb3?taxInfoId=" +
+          this.taxinfoid;
+      } else if (statusVaule == "一般纳税人附表三") {
+        url =
+          "/perTaxToolTwo/e9zReportSb/showReportSb4?taxInfoId=" +
+          this.taxinfoid;
+      } else if (statusVaule == "一般纳税人附表四") {
+        url =
+          "/perTaxToolTwo/e9zReportSb/showReportSb5?taxInfoId=" +
+          this.taxinfoid;
+      } else if (statusVaule == "小规模纳税人主表") {
+        url =
+          "/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId=" +
+          this.taxinfoid;
+      } else if (
+        statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
+      ) {
+        url =
+          "/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId=" +
+          this.taxinfoid;
+      } else if (statusVaule == "小规模纳税人附列资料") {
+        url =
+          "/perTaxToolTwo/e9zReportSb/showReportXgmSb2?taxInfoId=" +
+          this.taxinfoid;
+      }
+      this.axios
+        .post(url, params)
+        .then(res => {
+          console.log("获取表格数据", res);
+          this.loading = false;
+          if (res.data.code == 200) {
+            if (
+              statusVaule == "一般纳税人主表" ||
+              statusVaule == "小规模纳税人主表"
+            ) {
+              this.lastData = res.data.data.lastData;
+              this.thisData = res.data.data.thisData;
+            } else if (statusVaule == "一般纳税人附表一") {
+              this.thisData = res.data.data;
+              this.arate =
+                this.thisData.yll13azsljyjssl.columnValue == 0
+                  ? ""
+                  : Math.round(this.thisData.yll13azsljyjssl.columnValue * 100);
+              this.brate =
+                this.thisData.yll13bzsljyjssl.columnValue == 0
+                  ? ""
+                  : Math.round(this.thisData.yll13bzsljyjssl.columnValue * 100);
+              this.crate =
+                this.thisData.yll13czsljyjssl.columnValue == 0
+                  ? ""
+                  : Math.round(this.thisData.yll13czsljyjssl.columnValue * 100);
+              console.log("this.arate", this.arate);
+              console.log("this.thisData", this.thisData);
+            } else if (
+              statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
+            ) {
+              let data = res.data.data;
+              this.DataObj = data;
+              let arr = [];
+              for (let key in data) {
+                var obj = {};
+                obj.xm = key.split(" ")[0];
+                obj.pm = key.split(" ")[1];
+                obj.rate = Number(key.split(" ")[2]).toFixed(2);
+                obj.id = data[key].id;
+                obj.projName = data[key];
+                obj.typeName = data[key];
+                obj.sl = data[key].sl;
+                obj.jsybzzeje = data[key].jsybzzeje;
+                obj.jsmdseje = data[key].jsmdseje;
+                obj.jsxfsje = data[key].jsxfsje;
+                obj.jsyysje = data[key].jsyysje;
+                obj.jshjje = data[key].jshjje;
+                obj.ynseje = data[key].ynseje;
+                obj.ynseje.columnValue = Number(obj.ynseje.columnValue).toFixed(
+                  2
+                );
+                obj.jmxzdm = data[key].jmxzdm;
+                obj.jmseje = data[key].jmseje;
+                obj.xgmjze = data[key].xgmjze;
+                obj.yjseje = data[key].yjseje;
+                obj.ybtseje = data[key].ybtseje;
+                arr.push(obj);
+              }
+              console.log("arr", arr);
+              this.thisData = [];
+              arr.forEach(item => {
+                if (item.xm == "地方教育附加") {
+                  this.thisData[0] = item;
+                } else if (item.xm == "教育费附加") {
+                  this.thisData[1] = item;
+                } else if (item.xm == "城市维护建设税") {
+                  this.thisData[2] = item;
+                } else if (item.xm == "合计") {
+                  this.thisData[3] = item;
+                }
+              });
+            } else if (statusVaule == "一般纳税人附表四") {
+              this.thisData = res.data.data;
+              this.total1 =
+                Number(this.thisData["ybxmjjdjejsqcye"].columnValue) +
+                Number(this.thisData["jzjtxmjjdjejsqcye"].columnValue);
+              console.log(
+                "this.arate",
+                this.thisData["ybxmjjdjejsqcye"].columnValue,
+                this.thisData["jzjtxmjjdjejsqcye"].columnValue,
+                this.total1
+              );
+              this.total2 =
+                Number(this.thisData["ybxmjjdjejsbqfse"].columnValue) +
+                Number(this.thisData["jzjtxmjjdjejsbqfse"].columnValue);
+              this.total3 =
+                Number(this.thisData["ybxmjjdjejsbqtje"].columnValue) +
+                Number(this.thisData["jzjtxmjjdjejsbqtje"].columnValue);
+              this.total4 =
+                Number(this.thisData["ybxmjjdjejsbqkdje"].columnValue) +
+                Number(this.thisData["jzjtxmjjdjejsbqkdje"].columnValue);
+              this.total5 =
+                Number(this.thisData["ybxmjjdjejsbqsjdje"].columnValue) +
+                Number(this.thisData["jzjtxmjjdjejsbqsjdje"].columnValue);
+              this.total6 =
+                Number(this.thisData["ybxmjjdjejsqmye"].columnValue) +
+                Number(this.thisData["jzjtxmjjdjejsqmye"].columnValue);
+            } else {
+              this.thisData = res.data.data;
+            }
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: "获取表格数据失败",
+            type: "error"
+          });
+        });
+    },
+    // (表格一，一般/即征即收，本月/累计，当前字段名，event,参与计算)
+    // (表格二，合计对应名称，当前字段名，event,参与计算)
+    unfocus(
+      tableType,
+      projectType,
+      type,
+      dataName,
+      e,
+      calc,
+      preName,
+      rate,
+      index
+    ) {
+      var reg = /^(-)?\d{1,10}(\.\d{1,2})?$/;
+      if (!reg.test(Number(e.target.innerText))) {
+        this.$message({
+          message: "请输入数字，小数点后最多两位",
+          type: "warning"
+        });
+        return;
+      }
+      if (tableType == "table1") {
+        let keyName, leijiName;
+        // 本月
+        if (type == "by") {
+          if (projectType == "yb") {
+            // 一般项目
+            keyName = dataName + "ybby";
+            leijiName = dataName + "ybbnlj";
+          } else if (projectType == "jz") {
+            // 即征即收项目
+            keyName = dataName + "jzby";
+            leijiName = dataName + "jzbnlj";
+          }
+          if (
+            Number(e.target.innerText) != this.thisData[keyName].columnValue
+          ) {
+            this.thisData[keyName].columnValue = Number(e.target.innerText);
+            if (this.thisData[leijiName]) {
+              this.thisData[leijiName].columnValue =
+                Number(e.target.innerText) + Number(this.lastData[leijiName]);
+            }
+            // 参与计算的行
+            if (calc == "ydksehj") {
+              // 应抵扣税额合计 本月一般项目，本月即征即收项目 17=12+13-14-15+16
+              this.thisData.ydksehjybby.columnValue =
+                Number(this.thisData.jxseybby.columnValue) +
+                Number(this.thisData.sqldseybby.columnValue) -
+                Number(this.thisData.jxsezcybby.columnValue) -
+                Number(this.thisData.mdtytseybby.columnValue) +
+                Number(this.thisData.asysljsnsjcybjseybby.columnValue);
+              this.thisData.ydksehjjzby.columnValue =
+                Number(this.thisData.jxsejzby.columnValue) +
+                Number(this.thisData.sqldsejzby.columnValue) -
+                Number(this.thisData.jxsezcjzby.columnValue);
+              // 期末未缴查补税额 本月一般项目 38=16+22+36-37
+              this.thisData.qmmjcbseybby.columnValue =
+                Number(this.thisData.asysljsnsjcybjseybby.columnValue) +
+                Number(this.thisData.ajynsjcybjseybby.columnValue) +
+                Number(this.thisData.qcmjcbseybby.columnValue) -
+                Number(this.thisData.bqrkcbseybby.columnValue);
+            } else if (calc == "sjdkse") {
+              // 实际抵扣税额 本月一般项目，本月即征即收项目 18=（如17<11，则为17，否则为11）
+              this.thisData.sjdkseybby.columnValue =
+                this.thisData.ydksehjybby.columnValue <
+                this.thisData.xxseybby.columnValue
+                  ? Number(this.thisData.ydksehjybby.columnValue)
+                  : Number(this.thisData.xxseybby.columnValue);
+              this.thisData.sjdksejzby.columnValue =
+                this.thisData.ydksehjjzby.columnValue <
+                this.thisData.xxsejzby.columnValue
+                  ? Number(this.thisData.ydksehjjzby.columnValue)
+                  : Number(this.thisData.xxsejzby.columnValue);
+              // 应纳税额 本月一般项目，本月即征即收项目 19=if(（11-18）>0,(11-18-附表4G16),(11-18))
+              this.thisData.ynseybby.columnValue =
+                this.thisData.xxseybby.columnValue >
+                this.thisData.sjdkseybby.columnValue
+                  ? Number(this.thisData.xxseybby.columnValue) -
+                    Number(this.thisData.sjdkseybby.columnValue) -
+                    Number(this.thisData.ybxmjjdjejsbqsjdje.columnValue)
+                  : Number(this.thisData.xxseybby.columnValue) -
+                    Number(this.thisData.sjdkseybby.columnValue);
+              this.thisData.ynsejzby.columnValue =
+                this.thisData.xxsejzby.columnValue >
+                this.thisData.sjdksejzby.columnValue
+                  ? Number(this.thisData.xxsejzby.columnValue) -
+                    Number(this.thisData.sjdksejzby.columnValue) -
+                    Number(this.thisData.jzjtxmjjdjejsbqsjdje.columnValue)
+                  : Number(this.thisData.xxsejzby.columnValue) -
+                    Number(this.thisData.sjdksejzby.columnValue);
+              // 期末留抵税额 本月一般项目，本月即征即收项目 10=17-18
+              this.thisData.qmldseybby.columnValue =
+                Number(this.thisData.ydksehjybby.columnValue) -
+                Number(this.thisData.sjdkseybby.columnValue);
+              this.thisData.qmldsejzby.columnValue =
+                Number(this.thisData.ydksehjjzby.columnValue) -
+                Number(this.thisData.sjdksejzby.columnValue);
+            } else if (calc == "ynsehj") {
+              // 应纳税额合计 本月一般项目，本月即征即收项目 24=19+21-23
+              this.thisData.ynsehjybby.columnValue =
+                Number(this.thisData.ynseybby.columnValue) +
+                Number(this.thisData.jyjsynseybby.columnValue) -
+                Number(this.thisData.ynsejzeybby.columnValue);
+              this.thisData.ynsehjjzby.columnValue =
+                Number(this.thisData.ynsejzby.columnValue) +
+                Number(this.thisData.jyjsynsejzby.columnValue) -
+                Number(this.thisData.ynsejzejzby.columnValue);
+            } else if (calc == "bqyjse") {
+              // 本期已缴税额 本月一般项目，本月即征即收项目 27=28+29+30+31
+              this.thisData.bqyjseybby.columnValue =
+                Number(this.thisData.cyjseybby.columnValue) +
+                Number(this.thisData.ckkjzyjksyjseybby.columnValue) +
+                Number(this.thisData.jqjnsqynseybby.columnValue) +
+                Number(this.thisData.bqjnqjseybby.columnValue);
+              this.thisData.bqyjsejzby.columnValue =
+                Number(this.thisData.cyjsejzby.columnValue) +
+                Number(this.thisData.jqjnsqynsejzby.columnValue) +
+                Number(this.thisData.bqjnqjsejzby.columnValue);
+              // 本期应补(退)税额 本月一般项目，本月即征即收项目 34＝24-28-29
+              this.thisData.bqybtseybby.columnValue =
+                Number(this.thisData.ynsehjybby.columnValue) -
+                Number(this.thisData.cyjseybby.columnValue) -
+                Number(this.thisData.ckkjzyjksyjseybby.columnValue);
+              this.thisData.bqybtsejzby.columnValue =
+                Number(this.thisData.ynsehjjzby.columnValue) -
+                Number(this.thisData.cyjsejzby.columnValue);
+            } else if (calc == "qmwjse") {
+              // 期末未缴税额（多缴为负数）本月一般项目，本月即征即收项目 32=24+25+26-27
+              this.thisData.qmwjseybby.columnValue =
+                Number(this.thisData.ynsehjybby.columnValue) +
+                Number(this.thisData.qcmjseybby.columnValue) +
+                Number(this.thisData.ssckkjzyjkstkeybby.columnValue) -
+                Number(this.thisData.bqyjseybby.columnValue);
+              this.thisData.qmwjsejzby.columnValue =
+                Number(this.thisData.ynsehjjzby.columnValue) +
+                Number(this.thisData.qcmjsejzby.columnValue) -
+                Number(this.thisData.bqyjsejzby.columnValue);
+              // 其中：欠缴税额（≥0）本月一般项目，本月即征即收项目 33=25+26-27
+              this.thisData.qzqjseybby.columnValue =
+                Number(this.thisData.qcmjseybby.columnValue) +
+                Number(this.thisData.ssckkjzyjkstkeybby.columnValue) -
+                Number(this.thisData.bqyjseybby.columnValue);
+              this.thisData.qzqjsejzby.columnValue =
+                Number(this.thisData.qcmjsejzby.columnValue) -
+                Number(this.thisData.bqyjsejzby.columnValue);
+            } else if (calc == "qmmjcbse") {
+              // 期末未缴查补税额 本月一般项目 38=16+22+36-37
+              this.thisData.qmmjcbseybby.columnValue =
+                Number(this.thisData.asysljsnsjcybjseybby.columnValue) +
+                Number(this.thisData.ajynsjcybjseybby.columnValue) +
+                Number(this.thisData.qcmjcbseybby.columnValue) -
+                Number(this.thisData.bqrkcbseybby.columnValue);
+            }
+            console.log(111333, this.thisData);
+            this.submitEdit();
+          }
+        } else if (type == "lj") {
+          // 累计
+          if (projectType == "yb") {
+            // 一般项目
+            keyName = dataName + "ybbnlj";
+          } else if (projectType == "jz") {
+            // 即征即收项目
+            keyName = dataName + "jzbnlj";
+          }
+          if (
+            Number(e.target.innerText) != this.thisData[keyName].columnValue
+          ) {
+            this.thisData[keyName].columnValue = Number(e.target.innerText);
+            console.log(111, this.thisData);
+            this.submitEdit();
+          }
+        }
+      } else if (tableType == "table2") {
+        console.log("dataName", dataName);
+        if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
+          if (
+            dataName == "yll13azsljyjssl" ||
+            dataName == "yll13bzsljyjssl" ||
+            dataName == "yll13czsljyjssl"
+          ) {
+            this.thisData[dataName].columnValue =
+              Number(e.target.innerText) / 100;
+          } else {
+            this.thisData[dataName].columnValue = Number(e.target.innerText);
+          }
+          // 参与计算
+          if (calc == "hjxse") {
+            //合计销售额 9=1+3+5+7
+            let key1, key3, key5;
+            if (
+              preName == "yll13azsljyjs" ||
+              preName == "yll13bzsljyjs" ||
+              preName == "yll13czsljyjs"
+            ) {
+              key1 = preName + "skzzsxse";
+            } else if (
+              preName == "bfz13hwjjgxlxplwybjs" ||
+              preName == "bfz13fwbdchwxzcybjs" ||
+              preName == "bfz9hwjjgxlxplwybjs" ||
+              preName == "bfz9fwbdchwxzcybjs" ||
+              preName == "bfz5fwbdchwxzcybjs" ||
+              preName == "bfz3fwbdchwxzcybjs"
+            ) {
+              key1 = preName + "zzsfpxse";
+            } else if (preName == "bfz6zsljyjjs") {
+              key1 = "bfz6zsljyjszzsxse";
+            } else {
+              key1 = preName + "zzsxse";
+            }
+            console.log("key1", key1);
+            if (this.thisData[key1]) {
+              console.log("123", Number(this.thisData[key1].columnValue));
+            }
+
+            if (preName == "bfz6zsljyjs" || preName == "bfz6zsljyjjs") {
+              key3 = "bfz6zsljyjjskqtfpxse";
+            } else {
+              key3 = preName + "kjqtfpxse";
+            }
+            if (preName == "fwbdchwxzcmdts") {
+              key5 = preName + "wkjqtfpxxse";
+            } else if (preName == "bfz6zsljyjjs") {
+              key5 = "bfz6zsljyjswkjfpxse";
+            } else {
+              key5 = preName + "wkjfpxse";
+            }
+            let key7 = preName + "nsjctzxse";
+            if (preName == "bfz6zsljyjjs") {
+              key7 = "bfz6zsljyjsnsjctzxse";
+            }
+            let key9 = preName + "hjxse";
+            if (preName == "bfz6zsljyjjs") {
+              key9 = "bfz6zsljyjshjxse";
+            }
+            console.log(111, this.thisData.bfz6zsljyjjskqtfpxse.columnValue);
+            console.log("key3", key3);
+            if (this.thisData[key3]) {
+              console.log("121", this.thisData[key3].columnValue);
+            }
+
+            let value1, value3, value5, value7;
+            value1 = this.thisData[key1]
+              ? Number(this.thisData[key1].columnValue)
+              : 0;
+            value3 = this.thisData[key3]
+              ? Number(this.thisData[key3].columnValue)
+              : 0;
+            value5 = this.thisData[key5]
+              ? Number(this.thisData[key5].columnValue)
+              : 0;
+            value7 = this.thisData[key7]
+              ? Number(this.thisData[key7].columnValue)
+              : 0;
+            if (
+              dataName.indexOf("hjxse") == -1 ||
+              dataName.indexOf("hjxxse") == -1
+            ) {
+              this.thisData[key9].columnValue =
+                value1 + value3 + value5 + value7;
+            }
+            console.log("key9", this.thisData[key9].columnValue);
+            // 销项(应纳)税额 10=2+4+6+8
+            let key2, key4, key6;
+            if (
+              preName == "yll13azsljyjs" ||
+              preName == "yll13bzsljyjs" ||
+              preName == "yll13czsljyjs"
+            ) {
+              key2 = preName + "skzzsxxse";
+            } else if (
+              preName == "bfz13hwjjgxlxplwybjs" ||
+              preName == "bfz13fwbdchwxzcybjs" ||
+              preName == "bfz9hwjjgxlxplwybjs" ||
+              preName == "bfz9fwbdchwxzcybjs" ||
+              preName == "bfz5fwbdchwxzcybjs" ||
+              preName == "bfz3fwbdchwxzcybjs"
+            ) {
+              key2 = preName + "zzsfpxxse";
+            } else if (preName == "bfz6zsljyjjs") {
+              key2 = "bfz6zsljyjszzsxxse";
+            } else {
+              key2 = preName + "zzsxxse";
+            }
+            if (preName == "bfz6zsljyjs" || preName == "bfz6zsljyjjs") {
+              key4 = "bfz6zsljyjjskqtfpxxse";
+            } else {
+              key4 = preName + "kjqtfpxxse";
+            }
+            if (preName == "bfz3hwjjgxljyjs") {
+              key6 = preName + "wjjfpxxse";
+            } else if (preName == "bfz6zsljyjjs") {
+              key6 = "bfz6zsljyjswkjfpxxse";
+            } else {
+              key6 = preName + "wkjfpxxse";
+            }
+            let key8 = preName + "nsjctzxxse";
+            if (preName == "bfz6zsljyjjs") {
+              key8 = "bfz6zsljyjsnsjctzxxse";
+            }
+            let key10 = preName + "hjxxse";
+            if (preName == "bfz6zsljyjjs") {
+              key10 = "bfz6zsljyjshjxxse";
+            }
+            let value2, value4, value6, value8;
+            value2 = this.thisData[key2]
+              ? Number(this.thisData[key2].columnValue)
+              : 0;
+            value4 = this.thisData[key4]
+              ? Number(this.thisData[key4].columnValue)
+              : 0;
+            value6 = this.thisData[key6]
+              ? Number(this.thisData[key6].columnValue)
+              : 0;
+            value8 = this.thisData[key8]
+              ? Number(this.thisData[key8].columnValue)
+              : 0;
+            if (
+              dataName.indexOf("hjxxse") == -1 ||
+              dataName.indexOf("hjxse") == -1
+            ) {
+              if (this.thisData[key10]) {
+                this.thisData[key10].columnValue =
+                  value2 + value4 + value6 + value8;
+              }
+            }
+            if (this.thisData[key10]) {
+              console.log("key10", this.thisData[key10].columnValue);
+            }
+
+            // 价税合计 11=9+10  扣除后含税(免税)销售额 13=11-12
+            let key11 = preName + "hjjshj";
+            if (preName == "bfz6zsljyjjs") {
+              key11 = "bfz6zsljyjshjjshj";
+            }
+            let key12;
+            if (preName == "bfz6slybjs") {
+              key12 = preName + "fubdchwxzckcxmbqsjkcje";
+            } else if (preName == "bfz6zsljyjjs") {
+              key12 = "bfz6zsljyjsfwbdchwxzckcxmbqsjkcje";
+            } else {
+              key12 = preName + "fwbdchwxzckcxmbqsjkcje";
+            }
+            let key13 = preName + "kchhsxse";
+            if (preName == "bfz6zsljyjjs") {
+              key13 = "bfz6zsljyjskchhsxse";
+            }
+            let key14;
+            if (
+              preName == "yll13azsljyjs" ||
+              preName == "yll13bzsljyjs" ||
+              preName == "yll13czsljyjs"
+            ) {
+              key14 = preName + "kchxxse";
+            } else if (preName == "bfz6zsljyjjs") {
+              key12 = "bfz6zsljyjskchhsxxse";
+            } else {
+              key14 = preName + "kchhsxxse";
+            }
+            let value9, value10, value11, value12, value13;
+            value9 = this.thisData[key9]
+              ? Number(this.thisData[key9].columnValue)
+              : 0;
+            value10 = this.thisData[key10]
+              ? Number(this.thisData[key10].columnValue)
+              : 0;
+
+            console.log("dataName", dataName);
+            if (dataName.indexOf("hjjshj") == -1) {
+              if (this.thisData[key11]) {
+                this.thisData[key11].columnValue = value9 + value10;
+              }
+            }
+            value11 = this.thisData[key11]
+              ? Number(this.thisData[key11].columnValue)
+              : 0;
+            value12 = this.thisData[key12]
+              ? Number(this.thisData[key12].columnValue)
+              : 0;
+            console.log("value11", value11);
+            console.log("value12", value12);
+            if (dataName.indexOf("kchhsxse") == -1) {
+              console.log(11122);
+              if (this.thisData[key13]) {
+                this.thisData[key13].columnValue = value11 - value12;
+              }
+            }
+            if (
+              preName == "yll13azsljyjs" ||
+              preName == "yll13bzsljyjs" ||
+              preName == "yll13czsljyjs"
+            ) {
+              // console.log("rate1111", rate);
+              rate = parseFloat(rate / 100).toFixed(2);
+            }
+            console.log("rate", rate);
+            if (this.thisData[key13]) {
+              console.log("key13", this.thisData[key13].columnValue);
+            }
+
+            if (this.thisData[key13]) {
+              if (this.thisData[key14]) {
+                this.thisData[key14].columnValue = parseFloat(
+                  this.thisData[key13].columnValue / (1 + rate) * rate
+                ).toFixed(2);
+              }
+            }
+          }
+          this.submitEdit();
+        }
+      } else if (tableType == "table3") {
+        if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
+          this.thisData[dataName].columnValue = Number(e.target.innerText);
+          console.log("当前值", this.thisData[dataName].columnValue);
+          // 参与计算
+          // 1=2+3
+          if (calc == "rzxfzzszyfpsbdk") {
+            let key1, key2, key3;
+            key1 = "rzxfzzszyfpsbdk" + projectType;
+            key2 = "bqrzxfqbqsbdk" + projectType;
+            key3 = "qqrzxfqbqsbdk" + projectType;
+            this.thisData[key1].columnValue =
+              Number(this.thisData[key2].columnValue) +
+              Number(this.thisData[key3].columnValue);
+            console.log("key", key1);
+            console.log("valu1", this.thisData[key1].columnValue);
+          } else if (calc == "qtkspz") {
+            // 4=5+6+7+8a+8b
+            let key4, key5, key6, key7, key8a, key8b;
+            key4 = "qtkspz" + projectType;
+            key5 = "hgjkzzszyjks" + projectType;
+            key6 = "ncpsgfphzxsfp" + projectType;
+            if (projectType == "se") {
+              key6 = "ncpsgfphzxsfpsbdkse";
+            }
+            key7 = "dkdjssjkpz" + projectType;
+            key8a = "jjkcncpjxse" + projectType;
+            key8b = "sbdkdjxseqtkspzqt" + projectType;
+            let value7 = 0,
+              value8a = 0;
+            console.log("key5", key5);
+            if (this.thisData[key7]) {
+              value7 = Number(this.thisData[key7].columnValue);
+            }
+            if (this.thisData[key8a]) {
+              value8a = this.thisData[key8a].columnValue;
+            }
+            this.thisData[key4].columnValue =
+              Number(this.thisData[key5].columnValue) +
+              Number(this.thisData[key6].columnValue) +
+              value7 +
+              value8a +
+              Number(this.thisData[key8b].columnValue);
+          } else if (calc == "dqsbdkjxsehj") {
+            // 12=1+4+11
+            let key1, key4, key11, key12;
+            key1 = "rzxfzzszyfpsbdk" + projectType;
+            key4 = "qtkspz" + projectType;
+            key11 = "wmqyjxsdkzm" + projectType;
+            key12 = "dqsbdkjxsehj" + projectType;
+            let value11 = 0;
+            if (this.thisData[key11]) {
+              value11 = Number(this.thisData[key11].columnValue);
+            }
+            this.thisData[key12].columnValue =
+              Number(this.thisData[key1].columnValue) +
+              Number(this.thisData[key4].columnValue) +
+              value11;
+          } else if (calc == "bqjxszce") {
+            // 13=14+15+16+17+18+19+20+21+22+23
+            let key13,
+              key14,
+              key15,
+              key16,
+              key17,
+              key18,
+              key19,
+              key20,
+              key21,
+              key22,
+              key23;
+            key13 = "bqjxszce" + projectType;
+            key14 = "msxmy" + projectType;
+            key15 = "jtflgrxf" + projectType;
+            key16 = "fzcss" + projectType;
+            key17 = "jyjsbfzsxmy" + projectType;
+            key18 = "mdtsbfbddkdjxse" + projectType;
+            key19 = "nsjctjjxse" + projectType;
+            key20 = "hzzyfptzdzmdjxse" + projectType;
+            key21 = "sqldsedjqs" + projectType;
+            key22 = "sqldsets" + projectType;
+            key23 = "qtyzjxsezcdqx" + projectType;
+            this.thisData[key13].columnValue =
+              Number(this.thisData[key14].columnValue) +
+              Number(this.thisData[key15].columnValue) +
+              Number(this.thisData[key16].columnValue) +
+              Number(this.thisData[key17].columnValue) +
+              Number(this.thisData[key18].columnValue) +
+              Number(this.thisData[key19].columnValue) +
+              Number(this.thisData[key20].columnValue) +
+              Number(this.thisData[key21].columnValue) +
+              Number(this.thisData[key22].columnValue) +
+              Number(this.thisData[key23].columnValue);
+          } else if (calc == "qtkspzddkjxse") {
+            // 29=30+31+32+33
+            let key29, key30, key31, key32, key33;
+            key29 = "qtkspzddkjxse" + projectType;
+            key30 = "hgjkzzszyxsfp" + projectType;
+            key31 = "ncpsgfphzxsfpddk" + projectType;
+            if (projectType == "se") {
+              key31 = "ncpsgfphzxsfpse";
+            }
+            key32 = "ddkdkdjskpz" + projectType;
+            key33 = "ddkjxseqtkkpzqt" + projectType;
+            let value32 = 0;
+            if (this.thisData[key32]) {
+              value32 = Number(this.thisData[key32].columnValue);
+            }
+            console.log("key", key29);
+            console.log("key", key30);
+            console.log("key", key31);
+            console.log("key", key32);
+            console.log("key", key33);
+            this.thisData[key29].columnValue =
+              Number(this.thisData[key30].columnValue) +
+              Number(this.thisData[key31].columnValue) +
+              value32 +
+              Number(this.thisData[key33].columnValue);
+          }
+          this.submitEdit();
+        }
+      } else if (tableType == "table4") {
+        // 'table4','','',item.jsybzzeje,$event,'jshjje','',index
+        if (
+          Number(e.target.innerText) !=
+          this.thisData[index][dataName].columnValue
+        ) {
+          console.log("dataName", dataName);
+          console.log("this.thisData[index]", index);
+          console.log("当前值", this.thisData[index][dataName].columnValue);
+          console.log("e.target.innerText", e.target.innerText);
+          this.thisData[index][dataName].columnValue = Number(
+            e.target.innerText
+          );
+          // 参与计算
+          // 5=1+2+3+4
+          if (calc == "jshjje") {
+            console.log(
+              "this.thisData[index]['jshjje'].columnValue",
+              this.thisData[index]["jshjje"].columnValue
+            );
+            console.log(
+              "1",
+              Number(this.thisData[index]["jsybzzeje"].columnValue),
+              Number(this.thisData[index]["jsmdseje"].columnValue),
+              Number(this.thisData[index]["xgmjze"].columnValue),
+              Number(this.thisData[index]["yjseje"].columnValue)
+            );
+            this.thisData[index]["jshjje"].columnValue = (
+              Number(this.thisData[index]["jsybzzeje"].columnValue) +
+              Number(this.thisData[index]["jsmdseje"].columnValue) +
+              Number(this.thisData[index]["jsxfsje"].columnValue) +
+              Number(this.thisData[index]["jsyysje"].columnValue)
+            ).toFixed(2);
+            let rate;
+            if (index == 3) {
+              rate = 0;
+            } else {
+              rate = this.thisData[index]["rate"];
+            }
+            this.thisData[index]["ynseje"].columnValue = parseFloat(
+              (
+                Number(this.thisData[index]["jshjje"].columnValue) * rate
+              ).toFixed(2)
+            );
+            this.thisData[index]["ybtseje"].columnValue = (
+              Number(this.thisData[index]["ynseje"].columnValue) -
+              Number(this.thisData[index]["jmseje"].columnValue) -
+              Number(this.thisData[index]["xgmjze"].columnValue) -
+              Number(this.thisData[index]["yjseje"].columnValue)
+            ).toFixed(2);
+          }
+          console.log("111113333");
+          this.thisData[3]["ynseje"].columnValue = (
+            Number(this.thisData[0]["ynseje"].columnValue) +
+            Number(this.thisData[1]["ynseje"].columnValue) +
+            Number(this.thisData[2]["ynseje"].columnValue)
+          ).toFixed(2);
+          this.thisData[3]["jmseje"].columnValue = (
+            Number(this.thisData[0]["jmseje"].columnValue) +
+            Number(this.thisData[1]["jmseje"].columnValue) +
+            Number(this.thisData[2]["jmseje"].columnValue)
+          ).toFixed(2);
+          this.thisData[3]["xgmjze"].columnValue = (
+            Number(this.thisData[0]["xgmjze"].columnValue) +
+            Number(this.thisData[1]["xgmjze"].columnValue) +
+            Number(this.thisData[2]["xgmjze"].columnValue)
+          ).toFixed(2);
+          this.thisData[3]["yjseje"].columnValue = (
+            Number(this.thisData[0]["yjseje"].columnValue) +
+            Number(this.thisData[1]["yjseje"].columnValue) +
+            Number(this.thisData[2]["yjseje"].columnValue)
+          ).toFixed(2);
+          this.thisData[3]["ybtseje"].columnValue = (
+            Number(this.thisData[0]["ybtseje"].columnValue) +
+            Number(this.thisData[1]["ybtseje"].columnValue) +
+            Number(this.thisData[2]["ybtseje"].columnValue)
+          ).toFixed(2);
+          this.submitEdit();
+        }
+      } else if (tableType == "table5") {
+        // 'table5','','hwlwbqs','yzzzsbhsh',$event,'',''
+        // if(type=='bqs'){
+        let keyName = dataName + type;
+        let leijiName = dataName + "bnlj";
+        if (Number(e.target.innerText) != this.thisData[keyName].columnValue) {
+          this.thisData[keyName].columnValue = Number(e.target.innerText);
+          if (type == "bqs") {
+            console.log("this.thisData[leijiName]", leijiName);
+            if (this.thisData[leijiName]) {
+              this.thisData[leijiName].columnValue =
+                Number(e.target.innerText) + Number(this.lastData[leijiName]);
+            }
+          }
+          // 参与计算的行
+          if (calc == "msxse") {
+            // 免税销售额  9=10+11+12
+            this.thisData.msxsehwlwbqs.columnValue =
+              Number(this.thisData.xwqymsxsehwlwbqs.columnValue) +
+              Number(this.thisData.wdqzdxsehwlwbqs.columnValue) +
+              Number(this.thisData.qtmsxsehwlwbqs.columnValue);
+            this.thisData.msxsefwbdcbqs.columnValue =
+              Number(this.thisData.xwqymsxsefwbdcbqs.columnValue) +
+              Number(this.thisData.wdqzdxsefwbdcbqs.columnValue) +
+              Number(this.thisData.qtmsxsefwbdcbqs.columnValue);
+            this.thisData.msxsehwlwbnlj.columnValue =
+              Number(this.thisData.msxsehwlwbqs.columnValue) +
+              Number(this.lastData.msxsehwlwbnlj);
+            this.thisData.msxsefwbdcbnlj.columnValue =
+              Number(this.thisData.msxsefwbdcbqs.columnValue) +
+              Number(this.lastData.msxsefwbdcbnlj);
+          } else if (calc == "ynse") {
+            //   应纳税额合计  20=15-16
+            //    本期应补（退）税额 22=20-21
+            if (dataName != "ynsehjhwlw" && dataName != "ynsehjfwbdc") {
+              this.thisData.ynsehjhwlwbqs.columnValue =
+                Number(this.thisData.bqynsehwlwbqs.columnValue) -
+                Number(this.thisData.bqynsejzehwlwbqs.columnValue);
+              this.thisData.ynsehjfwbdcbqs.columnValue =
+                Number(this.thisData.bqynsefwbdcbqs.columnValue) -
+                Number(this.thisData.bqynsejzefwbdcbqs.columnValue);
+              this.thisData.ynsehjhwlwbnlj.columnValue =
+                Number(this.thisData.ynsehjhwlwbqs.columnValue) +
+                Number(this.lastData.ynsehjhwlwbnlj);
+              this.thisData.ynsehjfwbdcbnlj.columnValue =
+                Number(this.thisData.ynsehjfwbdcbqs.columnValue) +
+                Number(this.lastData.ynsehjfwbdcbnlj);
+            }
+            this.thisData.bqybtsehwlwbqs.columnValue =
+              Number(this.thisData.ynsehjhwlwbqs.columnValue) -
+              Number(this.thisData.bqyjsehwlwbqs.columnValue);
+            this.thisData.bqybtsefwbdcbqs.columnValue;
+            Number(this.thisData.ynsehjfwbdcbqs.columnValue) -
+              Number(this.thisData.bqyjsefwbdcbqs.columnValue);
+          }
+          this.submitEdit();
+        }
+        // }
+      } else if (tableType == "table6") {
+        //   'table6','','','xse3bqkce',$event,'',''
+        if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
+          this.thisData[dataName].columnValue = Number(e.target.innerText);
+          // 4=1+2+3  6=3  7=5-6  8=7/1.03
+          if (calc == "calchj") {
+            this.thisData.kce3qmye.columnValue =
+              Number(this.thisData.kce3qcye.columnValue) +
+              Number(this.thisData.kce3bqfse.columnValue) +
+              Number(this.thisData.kce3bqkce.columnValue);
+            if (dataName != "xse3bqkce") {
+              this.thisData.xse3bqkce.columnValue = Number(
+                this.thisData.kce3bqkce.columnValue
+              );
+            }
+            if (dataName != "xse3hsxse") {
+              this.thisData.xse3hsxse.columnValue =
+                Number(this.thisData.xse3qbhssr.columnValue) -
+                Number(this.thisData.xse3bqkce.columnValue);
+            }
+            this.thisData.xse3bhsxse.columnValue = parseFloat(
+              (Number(this.thisData.xse3hsxse.columnValue) / 1.03).toFixed(2)
+            );
+          } else if (calc == "calchj5") {
+            this.thisData.kce5qmye.columnValue =
+              Number(this.thisData.kce5qcye.columnValue) +
+              Number(this.thisData.kce5bqfse.columnValue) +
+              Number(this.thisData.kce5bqkce.columnValue);
+            if (dataName != "xse5bqkce") {
+              this.thisData.xse5bqkce.columnValue = Number(
+                this.thisData.kce5bqkce.columnValue
+              );
+            }
+            if (dataName != "xse5hsxse") {
+              this.thisData.xse5hsxse.columnValue =
+                Number(this.thisData.xse5qbhssr.columnValue) -
+                Number(this.thisData.xse5bqkce.columnValue);
+            }
+            this.thisData.xse5bhsxse.columnValue = parseFloat(
+              (Number(this.thisData.xse5hsxse.columnValue) / 1.05).toFixed(2)
+            );
+          }
+          this.submitEdit();
+        }
+      } else if (tableType == "table7") {
+        //   'table7','','','bfz13sldxmhje',$event,'calchj','bfz13sldxm'
+        if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
+          this.thisData[dataName].columnValue = Number(e.target.innerText);
+          //  参与计算 4=2+3 	6=4-5
+          if (calc == "calchj") {
+            let key2 = preName + "qcye";
+            let key3 = preName + "bqfse";
+            let key4 = preName + "bqykcje";
+            let key5 = preName + "bqsjkcje";
+            let key6 = preName + "qmye";
+            if (dataName != key4) {
+              this.thisData[key4].columnValue =
+                Number(this.thisData[key2].columnValue) +
+                Number(this.thisData[key3].columnValue);
+            }
+            this.thisData[key6].columnValue =
+              Number(this.thisData[key4].columnValue) -
+              Number(this.thisData[key5].columnValue);
+          }
+          this.submitEdit();
+        }
+      } else if (tableType == "table8") {
+        //   'table8','','','zzsskxtzysbfjjswhfqcye',$event,'calchj','zzsskxtzysbfjjswhf'
+        if (Number(e.target.innerText) != this.thisData[dataName].columnValue) {
+          this.thisData[dataName].columnValue = Number(e.target.innerText);
+          if (type == "1") {
+            //  参与计算 3=1+2 	5=3-4
+            if (calc == "calchj") {
+              let key1 = preName + "qcye";
+              let key2 = preName + "bqfse";
+              let key3 = preName + "bqydjse";
+              let key4 = preName + "bqsjdjse";
+              let key5 = preName + "qmye";
+              if (dataName != key3) {
+                this.thisData[key3].columnValue =
+                  Number(this.thisData[key1].columnValue) +
+                  Number(this.thisData[key2].columnValue);
+              }
+              this.thisData[key5].columnValue =
+                Number(this.thisData[key3].columnValue) -
+                Number(this.thisData[key4].columnValue);
+            }
+          } else if (type == "2") {
+            //  参与计算 4=1+2-3 	6=4-5
+            if (calc == "calchj") {
+              let key1 = preName + "qcye";
+              let key2 = preName + "bqfse";
+              let key3 = preName + "bqtje";
+              let key4 = preName + "bqkdje";
+              let key5 = preName + "bqsjdje";
+              let key6 = preName + "qmye";
+              if (dataName != key4) {
+                this.thisData[key4].columnValue =
+                  Number(this.thisData[key1].columnValue) +
+                  Number(this.thisData[key2].columnValue) -
+                  Number(this.thisData[key3].columnValue);
+              }
+              this.thisData[key6].columnValue =
+                Number(this.thisData[key4].columnValue) -
+                Number(this.thisData[key5].columnValue);
+            }
+          }
+          this.total1 =
+            Number(this.thisData["ybxmjjdjejsqcye"].columnValue) +
+            Number(this.thisData["jzjtxmjjdjejsqcye"].columnValue);
+          this.total2 =
+            Number(this.thisData["ybxmjjdjejsbqfse"].columnValue) +
+            Number(this.thisData["jzjtxmjjdjejsbqfse"].columnValue);
+          this.total3 =
+            Number(this.thisData["ybxmjjdjejsbqtje"].columnValue) +
+            Number(this.thisData["jzjtxmjjdjejsbqtje"].columnValue);
+          this.total4 =
+            Number(this.thisData["ybxmjjdjejsbqkdje"].columnValue) +
+            Number(this.thisData["jzjtxmjjdjejsbqkdje"].columnValue);
+          this.total5 =
+            Number(this.thisData["ybxmjjdjejsbqsjdje"].columnValue) +
+            Number(this.thisData["jzjtxmjjdjejsbqsjdje"].columnValue);
+          this.total6 =
+            Number(this.thisData["ybxmjjdjejsqmye"].columnValue) +
+            Number(this.thisData["jzjtxmjjdjejsqmye"].columnValue);
+          this.submitEdit();
+        }
+      }
+    },
+    // 提交修改
+    submitEdit() {
+      let param;
+      if (
+        this.statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
+      ) {
+        param = [];
+        this.thisData.forEach(item => {
+          var obj1 = {};
+          for (let key in item) {
+            obj1[key] = item[key].columnValue;
+          }
+          param.push(obj1);
+        });
+      } else {
+        param = {};
+        for (let key in this.thisData) {
+          param[key] = this.thisData[key].columnValue;
+        }
+      }
+      console.log("www", param);
+      let url;
+      if (this.statusVaule == "一般纳税人主表") {
+        url = "/perTaxToolTwo/e9zReportSb/updateReportSb1";
+      } else if (this.statusVaule == "一般纳税人附表一") {
+        url = "/perTaxToolTwo/e9zReportSb/updateReportSb2";
+      } else if (this.statusVaule == "一般纳税人附表二") {
+        url = "/perTaxToolTwo/e9zReportSb/updateReportSb3";
+      } else if (this.statusVaule == "一般纳税人附表三") {
+        url = "/perTaxToolTwo/e9zReportSb/updateReportSb4";
+      } else if (this.statusVaule == "一般纳税人附表四") {
+        url = "/perTaxToolTwo/e9zReportSb/updateReportSb5";
+      } else if (this.statusVaule == "小规模纳税人主表") {
+        url = "/perTaxToolTwo/e9zReportSb/updateReportXgmSb1";
+      } else if (this.statusVaule == "小规模纳税人附列资料") {
+        url = "/perTaxToolTwo/e9zReportSb/updateReportXgmSb2";
+      } else if (
+        this.statusVaule == "城市维护建设税、教育费附加、地方教育附加申报表"
+      ) {
+        url = "/perTaxToolTwo/e9zReportSb/updateReport50002";
+      }
+      this.axios
+        .post(url, param)
+        .then(res => {
+          console.log("修改数据", res);
+          if (res.data.code == 200) {
+            this.getTableData(this.statusVaule);
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: "修改数据失败",
+            type: "error"
+          });
+        });
+    },
+    search() {
+      console.log("this.searchList.value", this.searchList.value);
+      this.customerId = "";
+      if (this.searchList.value) {
+        this.userobj = this.$store.state.cust.find(
+          item => item.value === this.formInline.customerName
+        );
+        if (this.userobj) {
+          this.customerId = this.userobj.customerId;
+        } else {
+          this.customerId = "";
+        }
+      }
+      this.accountPeriod = this.searchList.nowDate;
+      this.statusVaule = this.searchList.statusVaule;
+      this.taxationId = "";
+      this.taxinfoid = "";
+      if (!this.searchList.value || !this.searchList.nowDate) {
+        this.$message({
+          message: "请先选择客户和账期后再查询",
+          type: "warning"
+        });
+        return;
+      }
+      this.getInfoId();
+    }
+    // clear() {
+    //   this.searchList.statusVaule = "一般纳税人主表";
+    //   this.searchList.nowDate = "";
+    // }
+  }
+};
 </script>
 <style>
-    .line3 .input1 .el-input {
-        width: 1.5rem;
-    }
-    .line3 .input1 .el-input__inner {
-        width: 1.5rem;
-    }
-    .line3 .input2 .el-input {
-        width: 1rem;
-    }
-    .line3 .input3 .el-input {
-        width: 2rem;
-    }
-    .line3 .input4 .el-input {
-        width: 2rem;
-    }
-    .tianbiaoDate .el-date-editor {
-        width: 2rem;
-    }
+.line3 .input1 .el-input {
+  width: 1.5rem;
+}
+.line3 .input1 .el-input__inner {
+  width: 1.5rem;
+}
+.line3 .input2 .el-input {
+  width: 1rem;
+}
+.line3 .input3 .el-input {
+  width: 2rem;
+}
+.line3 .input4 .el-input {
+  width: 2rem;
+}
+.tianbiaoDate .el-date-editor {
+  width: 2rem;
+}
 </style>
 
 <style scoped lang="less">
-    .showReport {
-        padding: 20px;
-    }
-    .search {
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        background: #fff;
-        padding: 20px 20px;
-    }
-    .title {
-        font-size: 16px;
-        margin-bottom: 15px;
-    }
-    div.search_contain {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-    .labelTitle {
-        color: #999;
-        font-size: 14px;
-    }
-    .importButton {
-        background: #43b3db;
-        color: #fff;
-        border-radius: 5px;
-        cursor: pointer;
-        padding: 7px 35px;
-    }
-    .searchButton {
-        background: #ffb980;
-        color: #fff;
-        border-radius: 5px;
-        cursor: pointer;
-        padding: 7px 35px;
-    }
-    .row2,
-    .row3,
-    .searchButton,
-    .importButton {
-        margin-left: 20px;
-    }
-    .content {
-        background: #fff;
-        padding: 10px 20px; // margin-top: 20px;
-    }
-    .titleBox {
-        background: #fff;
-        margin-top: 10px;
-    }
-    .title .line1 {
-        text-align: center;
-        padding: 10px 0;
-        font-weight: bold;
-    }
-    .title .line2 {
-        text-align: center;
-        font-weight: bold;
-    }
-    .title .line3 {
-        text-align: center;
-        padding: 5px 0;
-        font-size: 0.12rem;
-    }
-    .Infobox .line1,
-    .Infobox .line2,
-    .Infobox .line3,
-    .Infobox .line4 {
-        height: 40px;
-        padding: 0 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .Infobox4line1,
-    .Infobox4line2 {
-        height: 40px;
-        padding: 0 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .inlineInput {
-        display: flex;
-        align-items: center;
-    }
-    td {
-        //
-        font-size: 0.14rem;
-    }
-    .center {
-        text-align: center;
-    }
-    .pad3 {
-        padding: 0.03rem 0;
-    }
-    .padL {
-        padding-left: 0.4rem;
-    }
-    .shuli {
-        margin: 0 auto;
-        width: 16px;
-        padding: 0 5px;
-        line-height: 24px;
-    }
-    .signBox {
-        display: flex;
-        height: 1.4rem; // align-items: center;
-    }
-    .signBox .signtitle {
-        width: 16px;
-        height: calc(1.4rem - 20px);
-        padding: 0 15px;
-        //   line-height: 24px;
-        /* margin: 0 10px; */
-        border-left: 1px gray solid;
-        border-bottom: 1px gray solid;
-        border-right: 1px gray solid;
-        font-size: 0.14rem;
-        padding-top: 20px;
-    }
-    .signBox .contentBox {
-        width: calc(50% - 16px);
-        /* margin: 10px; */
-        padding: 0px 5px;
-        border-bottom: 1px gray solid;
-        height: calc(1.4rem - 0px);
-        //   padding-top: 15px;
-    }
-    .signBox .contentBox div {
-        font-size: 0.14rem;
-        margin-left: 20px;
-    }
-    .bottomline1 {
-        margin-top: 10px;
-        display: flex;
-        justify-content: space-between;
-    }
-    .line4 .leftBox,
-    .line4 .rightBox {
-        display: flex;
-        align-items: center;
-    }
-    .line4 .left {
-        text-align: right;
-        font-size: 0.14rem;
-    }
-    .line4 .right {
-        font-size: 0.14rem;
-        margin-left: 0.3rem;
-    }
+.showReport {
+  padding: 20px;
+}
+.search {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background: #fff;
+  padding: 20px 20px;
+}
+.title {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+div.search_contain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.labelTitle {
+  color: #999;
+  font-size: 14px;
+}
+.importButton {
+  background: #43b3db;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px 35px;
+}
+.searchButton {
+  background: #ffb980;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px 35px;
+}
+.row2,
+.row3,
+.searchButton,
+.importButton {
+  margin-left: 20px;
+}
+.content {
+  background: #fff;
+  padding: 10px 20px; // margin-top: 20px;
+}
+.titleBox {
+  background: #fff;
+  margin-top: 10px;
+}
+.title .line1 {
+  text-align: center;
+  padding: 10px 0;
+  font-weight: bold;
+}
+.title .line2 {
+  text-align: center;
+  font-weight: bold;
+}
+.title .line3 {
+  text-align: center;
+  padding: 5px 0;
+  font-size: 0.12rem;
+}
+.Infobox .line1,
+.Infobox .line2,
+.Infobox .line3,
+.Infobox .line4 {
+  height: 40px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.Infobox4line1,
+.Infobox4line2 {
+  height: 40px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.inlineInput {
+  display: flex;
+  align-items: center;
+}
+td {
+  //
+  font-size: 0.14rem;
+}
+.center {
+  text-align: center;
+}
+.pad3 {
+  padding: 0.03rem 0;
+}
+.padL {
+  padding-left: 0.4rem;
+}
+.shuli {
+  margin: 0 auto;
+  width: 16px;
+  padding: 0 5px;
+  line-height: 24px;
+}
+.signBox {
+  display: flex;
+  height: 1.4rem; // align-items: center;
+}
+.signBox .signtitle {
+  width: 16px;
+  height: calc(1.4rem - 20px);
+  padding: 0 15px;
+  //   line-height: 24px;
+  /* margin: 0 10px; */
+  border-left: 1px gray solid;
+  border-bottom: 1px gray solid;
+  border-right: 1px gray solid;
+  font-size: 0.14rem;
+  padding-top: 20px;
+}
+.signBox .contentBox {
+  width: calc(50% - 16px);
+  /* margin: 10px; */
+  padding: 0px 5px;
+  border-bottom: 1px gray solid;
+  height: calc(1.4rem - 0px);
+  //   padding-top: 15px;
+}
+.signBox .contentBox div {
+  font-size: 0.14rem;
+  margin-left: 20px;
+}
+.bottomline1 {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.line4 .leftBox,
+.line4 .rightBox {
+  display: flex;
+  align-items: center;
+}
+.line4 .left {
+  text-align: right;
+  font-size: 0.14rem;
+}
+.line4 .right {
+  font-size: 0.14rem;
+  margin-left: 0.3rem;
+}
 </style>
