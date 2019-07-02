@@ -27,7 +27,7 @@
 					<img v-show='item.stepName =="大额审核"' src="../assets/img/users.png" alt="">
 					<img v-show='item.stepName =="税款审核"' src="../assets/img/pay.png" alt="">
 					<img v-show='item.stepName =="申报"' src="../assets/img/money.png" alt="">
-					<p v-show='index != historyList.length - 1' style="margin-left:0.05rem">
+					<p v-show='index != historyList.length - 1' style="margin-left:0.05rem;line-height: 0.4rem;margin-left: 0.05rem;">
 						<span class='circle' v-for='item in 10'></span>
 					</p>
 					<!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
@@ -247,7 +247,8 @@
 		padding: 0.2rem 0.2rem;
 		background: #fff;
 		.contain_body_div {
-			align-items: center;
+			height: 2rem;
+			// align-items: center;
 			display: flex;
 			position: relative;
 			img {
