@@ -2121,6 +2121,20 @@
                     });
             },
             outputFile() {
+                if(this.searchList.value==''||this.searchList.nowDate==''){
+                    this.$message({
+                        message: "请先选择客户和账期后再导出数据",
+                        type: "warning"
+                    });
+                    return;
+                }
+                if(this.taxinfoid!=''){
+                    this.$message({
+                        message: "无数据时不支持导出报表操作",
+                        type: "warning"
+                    });
+                    return;
+                }
                 console.log('uploadData', this.uploadData)
                 let params = {}
                 let url = '';

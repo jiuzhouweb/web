@@ -440,6 +440,20 @@
     },
     methods: {
       insertReport(){
+        if(this.searchList.value==''||this.searchList.nowDate==''){
+          this.$message({
+            message: "请先选择客户和账期后再生成报表",
+            type: "warning"
+          });
+          return;
+        }
+        if(this.taxationId!=''||this.taxInfoId!=''){
+          this.$message({
+            message: "无数据时不支持生成报表操作",
+            type: "warning"
+          });
+          return;
+        }
         let url;
         if (this.userobj.reportTaxType == 233) {
           url='/perTaxToolTwo/e9zCalculate/insertReport'
@@ -611,7 +625,7 @@
                 this.taxInfoId = res.data.data.tax_info_id;
                 // this.taxationId = '1';
                 // this.taxInfoId = '1';
-                
+                this.addbtnflag=true;
                 this.getInvoiceLeaveShowList();
                 this.getShowSumIncome();
                 this.getShowSumDeduct();
@@ -622,6 +636,7 @@
                   message: '暂无发票数据，请重新选择搜索条件！',
                   type: 'warning'
                 });
+                this.addbtnflag=false;
                 this.invoicePanelList=[];
                 this.tableData=[];
                 this.tableDeductData=[];
@@ -674,26 +689,16 @@
       //获取列表数据
       getInvoiceLeaveShowList() {
         this.loadingCard = true;
-        console.log('当前客户的申报类型',this.userobj.reportTaxType)
-        // 1：一般纳税人，2：小规模
-        // this.userobj.reportTaxType
-        let tmplType;
-        if(this.userobj.reportTaxType==233){
-          tmplType=233;
-        }else if(this.userobj.reportTaxType==232){
-          tmplType=232;
-        }
         // tmplType 发票模板适用类型 0 - 公用；233 - 一般纳税人；232 - 小规模
         axios
           .get(
             "/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
-            this.taxationId + "&tmplType=" + tmplType
+            this.taxationId + "&tmplType=" + this.userobj.reportTaxType
           )
           .then(res => {
             this.loadingCard = false;
             console.log("获取列表数据", res);
             if (res.data.code == 200) {
-              this.addbtnflag=true;
               let obj = res.data.data[0];
               let arr = [];
               for (var i in obj) {
@@ -747,7 +752,7 @@
             // });
             valueArr.forEach((item, index) => {
               item.color = this.color[index];
-              item.ratename=Number(item.vat_rate)*100+'%增值税';
+              item.ratename=this.accMul(item.vat_rate,100)+'%增值税';
               var obj = {};
               obj.name = item.ratename;
               obj.value = item.invoice_amt;
@@ -767,6 +772,14 @@
           });
         });
       },
+      // js精确小数乘法
+      accMul(arg1,arg2){
+         var m=0,s1=arg1.toString(),s2=arg2.toString();
+         try{m+=s1.split(".")[1].length}catch(e){}
+         try{m+=s2.split(".")[1].length}catch(e){}
+         
+         return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m));
+    },
       // 获取右侧统计数据--抵扣合计
       getShowSumDeduct() {
         this.tableDeductData = [];
@@ -1007,18 +1020,9 @@
       // 获取发票类型和发票名称
       // 获取发票类型和发票名称
       getInvoiceTypeAndName() {
-        console.log('当前客户的申报类型',this.userobj.reportTaxType)
-        // 1：一般纳税人，2：小规模
-        // this.userobj.reportTaxType
-        let taxesTaxType;
-        if(this.userobj.reportTaxType==233){
-          taxesTaxType=233;
-        }else if(this.userobj.reportTaxType==232){
-          taxesTaxType=232;
-        }
         let params = {
           taxCalcType: this.form.taxCalcMethod,
-          taxesTaxType: taxesTaxType,
+          taxesTaxType: this.userobj.reportTaxType,
           tmplShowType: 0
         };
         axios
@@ -1474,6 +1478,20 @@
       },
       // 流程步骤提交
       submitStep(){
+        if(this.searchList.value==''||this.searchList.nowDate==''){
+          this.$message({
+            message: "请先选择客户和账期后再进行审批",
+            type: "warning"
+          });
+          return;
+        }
+        if(this.taxationId!=''||this.taxInfoId!=''){
+          this.$message({
+            message: "无数据时不支持审批",
+            type: "warning"
+          });
+          return;
+        }
         let sums,nextStepName;
         
         console.log('sums',this.sums)
