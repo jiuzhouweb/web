@@ -1082,6 +1082,20 @@
 		},
 		components: {},
 		methods: {
+			querySearch(queryString, cb) {
+				var cust = this.$store.state.cust;
+				cust.forEach((item, index) => {
+					item.value = item.customerName;
+				})
+				var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
+				// 调用 callback 返回建议列表的数据
+				cb(results);
+			},
+			createFilter(queryString) {
+				return (cust) => {
+					return (cust.customerName.indexOf(queryString) === 0);
+				};
+			},
 			// 1.8 操作表id接口
 			getOperatorId() {
 				let params = {
@@ -1280,6 +1294,20 @@
 				this.getMonthDetail(row.cardNum);
 			},
 			search() {
+				this.customerId = '';
+				if (this.customerName) {
+					var customer = this.$store.state.cust.find(item =>
+						item.value === this.customerName
+					);
+					if(customer){
+						this.customerId = customer.customerId;
+					}else{
+						this.customerId = '';
+					}
+					// this.formInline.customId = this.$store.state.cust.find(item =>
+					// 	item.value === this.formInline.customerName
+					// ).customerId
+				}
 				// 获取操作表id
 				this.getOperatorId();
 				this.pageNum1 = '1';
@@ -1295,6 +1323,20 @@
 				}
 			},
 			selectExcel() {
+				this.uploadData.customerId = '';
+				if (this.uploadData.customerName) {
+					var customer = this.$store.state.cust.find(item =>
+						item.value === this.uploadData.customerName
+					);
+					if(customer){
+						this.uploadData.customerId = customer.customerId;
+					}else{
+						this.uploadData.customerId = '';
+					}
+					// this.formInline.customId = this.$store.state.cust.find(item =>
+					// 	item.value === this.formInline.customerName
+					// ).customerId
+				}
 				this.dialogVisible = true;
 			},
 			// 沿用上月
@@ -1342,6 +1384,7 @@
 					this.dialogVisible = false;
 					this.accountPeriod = this.uploadData.accountPeriod;
 					this.customerId = this.uploadData.customerId;
+					this.customerName = this.uploadData.customerName;
 					this.statusVaule = "0";
 					this.calcFlag = true;
 					this.addFlag = true;
