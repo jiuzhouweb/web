@@ -9,10 +9,12 @@
 			<div class='search_contain'>
 				<div class="row1">
 					<span class="labelTitle">公司：</span>
-					<el-select v-model="searchList.value" placeholder="请选择" size="small">
+					<!-- <el-select v-model="searchList.value" placeholder="请选择" size="small">
 						<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 						</el-option>
-					</el-select>
+					</el-select> -->
+					<el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
 				</div>
 				<div class="row2">
 					<span class="labelTitle">账期：</span>
@@ -266,310 +268,345 @@
 </template>
 
 <script>
-	import axios from "axios";
-	export default {
-		name: "searchModule",
-		data() {
-			return {
-				searchList: {
-					options: [{
-							value: "选项1",
-							label: "黄金糕"
-						},
-						{
-							value: "选项2",
-							label: "双皮奶"
-						}
-					],
-					value: "",
-					nowDate: "",
-					status: [{
-							value: "1",
-							label: "已提交"
-						},
-						{
-							value: "0",
-							label: "未提交"
-						}
-					],
-					statusVaule: "1"
-				},
-				accountPeriod: '',
-				customerId: '',
-				statusVaule: '1',
-				activeName: "1",
-				tableTabs: [{
-						title: "人员信息",
-						name: "1",
-						tableData: []
-					},
-					{
-						title: "正常工资薪资所得",
-						name: "2",
-						tableData: []
-					},
-					{
-						title: "全年一次性奖金",
-						name: "3",
-						tableData: []
-					},
-					{
-						title: "稿酬所得",
-						name: "4",
-						tableData: []
-					},
-					{
-						title: "劳务报酬所得",
-						name: "5",
-						tableData: []
-					},
-					{
-						title: "偶然所得",
-						name: "6",
-						tableData: []
-					},
-					{
-						title: "非居民正常工资薪资所得",
-						name: "7",
-						tableData: []
-					}
-				],
-				currentPage: 1,
-				pageNum: 1,
-				pageSize: 10,
-				total: 10,
-				loading: false,
-			};
-		},
-		created() {
-			// this.searchList.options = this.$store.state.cust;
-			// this.searchList.value=this.searchList.options[0].value;
-			// console.log('this.searchList.options', this.searchList.options)
-			this.getNowMonth();
-			this.getTableData("1");
-		},
-		methods: {
-			getNowMonth() {
-				var date = new Date();
-				var year = date.getFullYear();
-				var month = date.getMonth() + 1;
-				month = month < 10 ? "0" + month : month;
-				this.searchList.nowDate = year.toString() + "-" + month.toString();
-				this.accountPeriod = year.toString() + "-" + month.toString();
-			},
-			// 获取表格数据
-			getTableData(name) {
-				console.log("tab.name", name);
-				let type;
-				if (name == "1") {
-					type = 6;
-				} else if (name == "2") {
-					type = 5;
-				} else if (name == "3") {
-					type = 4;
-				} else if (name == "4") {
-					type = 1;
-				} else if (name == "5") {
-					type = 2;
-				} else if (name == "6") {
-					type = 3;
-				} else if (name == "7") {
-					type = 0;
-				}
-				this.loading = true;
-				let params = {
-					data: {
-						customerId: this.customerId,
-						accountPeriod: this.accountPeriod,
-						submitStatus: this.statusVaule,
-						type: type
-					},
-					page: this.pageNum,
-					row: this.pageSize
-				};
-				let url;
-				url = "/perTaxToolTwo/api/excel/queryPage.do";
-				axios
-					.post(url, params)
-					.then(res => {
-						console.log("获取表格数据", res);
-						this.loading = false;
-						if (res.data.code == 200) {
-							this.tableTabs.forEach(item => {
-								if (name == item.name) {
-									item.tableData = res.data.data;
-									this.total = res.data.count;
-								}
-							});
-						}
-					})
-					.catch(err => {
-						this.$message({
-							message: "获取表格数据失败",
-							type: "error"
-						});
-					});
-			},
-			handleClick(tab, event) {
-				console.log("tab.name", this.accountPeriod);
-				this.getTableData(tab.name);
-			},
-			handleSizeChange(val) {
-				this.pageSize = val;
-				this.getTableData(this.activeName)
-			},
-			handleCurrentChange(val) {
-				this.pageNum = val;
-				this.getTableData(this.activeName)
-			},
-			search() {
-				this.accountPeriod = this.searchList.nowDate;
-				this.customerId = this.searchList.value;
-				this.statusVaule = this.searchList.statusVaule;
-				this.getTableData(this.activeName)
-			},
-			clear() {
-				this.searchList.statusVaule = '1';
-				this.searchList.nowDate = ''
-			},
-			exportExcel() {
-				window.location.href = "/perTaxToolTwo/api/excel/exportExcel.do?customerId=" + this.customerId + "&accountPeriod=" +
-					this.accountPeriod + "&submitStatus=" + this.statusVaule;
-			}
-		}
-	};
+import axios from "axios";
+export default {
+  name: "searchModule",
+  data() {
+    return {
+      searchList: {
+        options: [
+          {
+            value: "选项1",
+            label: "黄金糕"
+          },
+          {
+            value: "选项2",
+            label: "双皮奶"
+          }
+        ],
+        value: "",
+        nowDate: "",
+        status: [
+          {
+            value: "1",
+            label: "已提交"
+          },
+          {
+            value: "0",
+            label: "未提交"
+          }
+        ],
+        statusVaule: "1"
+      },
+      accountPeriod: "",
+      customerId: "",
+      statusVaule: "1",
+      activeName: "1",
+      tableTabs: [
+        {
+          title: "人员信息",
+          name: "1",
+          tableData: []
+        },
+        {
+          title: "正常工资薪资所得",
+          name: "2",
+          tableData: []
+        },
+        {
+          title: "全年一次性奖金",
+          name: "3",
+          tableData: []
+        },
+        {
+          title: "稿酬所得",
+          name: "4",
+          tableData: []
+        },
+        {
+          title: "劳务报酬所得",
+          name: "5",
+          tableData: []
+        },
+        {
+          title: "偶然所得",
+          name: "6",
+          tableData: []
+        },
+        {
+          title: "非居民正常工资薪资所得",
+          name: "7",
+          tableData: []
+        }
+      ],
+      currentPage: 1,
+      pageNum: 1,
+      pageSize: 10,
+      total: 10,
+      loading: false
+    };
+  },
+  created() {
+    // this.searchList.options = this.$store.state.cust;
+    // this.searchList.value=this.searchList.options[0].value;
+    // console.log('this.searchList.options', this.searchList.options)
+    this.getNowMonth();
+    // this.getTableData("1");
+  },
+  methods: {
+    querySearch(queryString, cb) {
+      var cust = this.$store.state.cust;
+      cust.forEach((item, index) => {
+        item.value = item.customerName;
+      });
+      var results = queryString
+        ? cust.filter(this.createFilter(queryString))
+        : cust;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return cust => {
+        return cust.customerName.indexOf(queryString) === 0;
+      };
+    },
+    getNowMonth() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      month = month < 10 ? "0" + month : month;
+      this.searchList.nowDate = year.toString() + "-" + month.toString();
+      this.accountPeriod = year.toString() + "-" + month.toString();
+    },
+    // 获取表格数据
+    getTableData(name) {
+      console.log("tab.name", name);
+      let type;
+      if (name == "1") {
+        type = 6;
+      } else if (name == "2") {
+        type = 5;
+      } else if (name == "3") {
+        type = 4;
+      } else if (name == "4") {
+        type = 1;
+      } else if (name == "5") {
+        type = 2;
+      } else if (name == "6") {
+        type = 3;
+      } else if (name == "7") {
+        type = 0;
+      }
+      this.loading = true;
+      let params = {
+        data: {
+          customerId: this.customerId,
+          accountPeriod: this.accountPeriod,
+          submitStatus: this.statusVaule,
+          type: type
+        },
+        page: this.pageNum,
+        row: this.pageSize
+      };
+      let url;
+      url = "/perTaxToolTwo/api/excel/queryPage.do";
+      axios
+        .post(url, params)
+        .then(res => {
+          console.log("获取表格数据", res);
+          this.loading = false;
+          if (res.data.code == 200) {
+            this.tableTabs.forEach(item => {
+              if (name == item.name) {
+                item.tableData = res.data.data;
+                this.total = res.data.count;
+              }
+            });
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: "获取表格数据失败",
+            type: "error"
+          });
+        });
+    },
+    handleClick(tab, event) {
+      console.log("tab.name", this.accountPeriod);
+      this.getTableData(tab.name);
+    },
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.getTableData(this.activeName);
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val;
+      this.getTableData(this.activeName);
+    },
+    search() {
+      console.log("this.searchList.value", this.searchList.value);
+      this.customerId = "";
+      if (this.searchList.value) {
+        var customer = this.$store.state.cust.find(
+          item => item.value === this.searchList.value
+        );
+        if (customer) {
+          this.customerId = customer.customerId;
+        } else {
+          this.customerId = "";
+        }
+      }
+      this.accountPeriod = this.searchList.nowDate;
+      this.statusVaule = this.searchList.statusVaule;
+      this.getTableData(this.activeName);
+    },
+    clear() {
+      this.searchList.statusVaule = "1";
+      this.searchList.nowDate = "";
+    },
+    exportExcel() {
+      window.location.href =
+        "/perTaxToolTwo/api/excel/exportExcel.do?customerId=" +
+        this.customerId +
+        "&accountPeriod=" +
+        this.accountPeriod +
+        "&submitStatus=" +
+        this.statusVaule;
+    }
+  }
+};
 </script>
 
 <style scoped lang="less">
-	.reportForms {
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
+.reportForms {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 
-		.el-breadcrumb {
-			height: 30px;
-			line-height: 29px;
-			padding-left: 20px;
-			background-color: #fff;
-			border-top: 1px solid #f2f6fc;
-			box-sizing: border-box;
-		}
+  .el-breadcrumb {
+    height: 30px;
+    line-height: 29px;
+    padding-left: 20px;
+    background-color: #fff;
+    border-top: 1px solid #f2f6fc;
+    box-sizing: border-box;
+  }
 
-		/deep/ .el-pagination {
-			text-align: right;
-			margin-top: 10px;
-		}
+  /deep/ .el-pagination {
+    text-align: right;
+    margin-top: 10px;
+  }
 
-		/deep/ .el-table th {
-			background-color: #ebf6fb;
-			height: 40px;
-		}
+  /deep/ .el-table th {
+    background-color: #ebf6fb;
+    height: 40px;
+  }
 
-		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
-			background: #ebf6fb;
-		}
+  /deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+    background: #ebf6fb;
+  }
 
-		/deep/ .demo-table-expand {
-			font-size: 0;
-		}
+  /deep/ .demo-table-expand {
+    font-size: 0;
+  }
 
-		/deep/ .demo-table-expand label {
-			color: #99a9bf;
-			// padding-left: 120px;
-		}
+  /deep/ .demo-table-expand label {
+    color: #99a9bf;
+    // padding-left: 120px;
+  }
 
-		/deep/ .demo-table-expand .el-form-item {
-			margin-right: 0;
-			margin-bottom: 0;
-			width: 50%;
-		}
-	}
+  /deep/ .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+}
 
-	/deep/ .el-table__body tr,
-	.el-table__body td {
-		padding: 0;
-		height: 40px;
+/deep/ .el-table__body tr,
+.el-table__body td {
+  padding: 0;
+  height: 40px;
 
-		background-color: #fff7f1;
-	}
+  background-color: #fff7f1;
+}
 
-	/deep/ .el-table__body tr.el-table__row--striped {
-		background-color: #ebf6fb;
-	}
+/deep/ .el-table__body tr.el-table__row--striped {
+  background-color: #ebf6fb;
+}
 
-	/deep/ .el-table thead {
-		color: #343434;
-		// font-size: 16px;
-	}
+/deep/ .el-table thead {
+  color: #343434;
+  // font-size: 16px;
+}
 
-	/deep/ .el-tabs__header {
-		margin: 0px;
-	}
+/deep/ .el-tabs__header {
+  margin: 0px;
+}
 
-	// /deep/ .el-table__body tr:hover{
-	// 	background-color: #efe9e5;
-	// }
-	/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
-		background-color: #efe9e5;
-	}
+// /deep/ .el-table__body tr:hover{
+// 	background-color: #efe9e5;
+// }
+/deep/ .el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: #efe9e5;
+}
 
-	/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
-		border-bottom-color: #fff;
-		background: #ebf6fb;
-	}
+/deep/ .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+  border-bottom-color: #fff;
+  background: #ebf6fb;
+}
 
-	.search {
-		background: #fff;
-		padding: 20px 20px;
-		margin: 20px;
-	}
+.search {
+  background: #fff;
+  padding: 20px 20px;
+  margin: 20px;
+}
 
-	.title {
-		font-size: 16px;
-		margin-bottom: 15px;
-	}
+.title {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
 
-	div.search_contain {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-	}
+div.search_contain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
 
-	.labelTitle {
-		color: #999;
-		font-size: 14px;
-	}
+.labelTitle {
+  color: #999;
+  font-size: 14px;
+}
 
-	.importButton {
-		background: #43b3db;
-		color: #fff;
-		border-radius: 5px;
-		cursor: pointer;
-		padding: 7px 35px;
-	}
+.importButton {
+  background: #43b3db;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px 35px;
+}
 
-	.searchButton {
-		background: #ffb980;
-		color: #fff;
-		border-radius: 5px;
-		cursor: pointer;
-		padding: 7px 35px;
-	}
+.searchButton {
+  background: #ffb980;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px 35px;
+}
 
-	.row2,
-	.row3,
-	.searchButton,
-	.importButton {
-		margin-left: 20px;
-	}
+.row2,
+.row3,
+.searchButton,
+.importButton {
+  margin-left: 20px;
+}
 
-	.content {
-		background: #fff;
-		padding: 20px 20px;
-		margin: 20px;
-	}
+.content {
+  background: #fff;
+  padding: 20px 20px;
+  margin: 20px;
+}
 
-	.tableBox {
-		margin-top: 15px;
-	}
+.tableBox {
+  margin-top: 15px;
+}
 </style>
