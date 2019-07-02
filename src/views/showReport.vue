@@ -2121,6 +2121,7 @@
                     });
             },
             outputFile() {
+                console.log('this.searchList',this.searchList)
                 if(this.searchList.value==''||this.searchList.nowDate==''){
                     this.$message({
                         message: "请先选择客户和账期后再导出数据",
@@ -2128,7 +2129,7 @@
                     });
                     return;
                 }
-                if(this.taxinfoid!=''){
+                if(this.taxinfoid==''){
                     this.$message({
                         message: "无数据时不支持导出报表操作",
                         type: "warning"
@@ -3128,6 +3129,13 @@
                         this.accountPeriod = this.searchList.nowDate;
                         this.customerId = this.searchList.value;
                         this.statusVaule = this.searchList.statusVaule;
+                        if(this.searchList.value==''||this.searchList.nowDate==''){
+                            this.$message({
+                                message: "请先选择客户和账期后再查询",
+                                type: "warning"
+                            });
+                            return;
+                        }
                         this.getInfoId();
                     },
                     // clear() {

@@ -440,6 +440,7 @@
     },
     methods: {
       insertReport(){
+        console.log('this.searchList',this.searchList)
         if(this.searchList.value==''||this.searchList.nowDate==''){
           this.$message({
             message: "请先选择客户和账期后再生成报表",
@@ -447,7 +448,7 @@
           });
           return;
         }
-        if(this.taxationId!=''||this.taxInfoId!=''){
+        if(this.taxationId==''||this.taxInfoId==''){
           this.$message({
             message: "无数据时不支持生成报表操作",
             type: "warning"
@@ -608,6 +609,14 @@
         this.customerId = this.searchList.value;
         this.customerName=this.userobj.customerName;
         this.statusVaule = this.searchList.statusVaule;
+        console.log('this.searchList',this.searchList)
+        if(this.searchList.value==''||this.searchList.nowDate==''){
+          this.$message({
+            message: "请先选择客户和账期后再查询",
+            type: "warning"
+          });
+          return;
+        }
         this.statPerTaxation();
         let params = {
           accountPeriod: this.accountPeriod, //账期
@@ -1478,6 +1487,7 @@
       },
       // 流程步骤提交
       submitStep(){
+        console.log('this.searchList',this.searchList)
         if(this.searchList.value==''||this.searchList.nowDate==''){
           this.$message({
             message: "请先选择客户和账期后再进行审批",
@@ -1485,7 +1495,7 @@
           });
           return;
         }
-        if(this.taxationId!=''||this.taxInfoId!=''){
+        if(this.taxationId==''||this.taxInfoId==''){
           this.$message({
             message: "无数据时不支持审批",
             type: "warning"
