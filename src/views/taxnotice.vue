@@ -30,7 +30,7 @@
 							<span v-for='(item,index) in scope.row.roleList'>{{item.roleName}}<i v-show='index != scope.row.roleList.length - 1'>,</i></span>
 						</template>
 					</el-table-column>
-					<el-table-column align="center" width="260" :resizable="false" width="200">
+					<el-table-column align="center" width="260" :resizable="false">
 						<template slot="header" slot-scope="scope">
 							<span>角色分配（支持统一分配）</span>
 						</template>
