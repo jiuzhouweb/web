@@ -1658,6 +1658,7 @@
   .el-date-editor.el-input,
   .el-date-editor.el-input__inner {
     width: 1.2rem;
+    min-width: 115px;
   }
   .rightSelect .el-select {
     float: right;
