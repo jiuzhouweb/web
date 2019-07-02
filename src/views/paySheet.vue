@@ -17,9 +17,11 @@
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司">
-						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable>
+						<el-autocomplete class="inline-input" v-model="uploadData.customerName" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
+						<!-- <el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable>
 							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
-						</el-select>
+						</el-select> -->
 					</el-form-item>
 					<el-form-item label="证件号导入">
 						<el-switch v-model="switchvalue"></el-switch>
@@ -40,9 +42,11 @@
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司">
-						<el-select v-model="customerId" placeholder="请选择公司名称" clearable>
+						<el-autocomplete class="inline-input" v-model="customerName" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
+						<!-- <el-select v-model="customerId" placeholder="请选择公司名称" clearable>
 							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
-						</el-select>
+						</el-select> -->
 					</el-form-item>
 
 					<el-form-item label="状态">
@@ -657,11 +661,13 @@
 				uploadData: {
 					accountPeriod: "",
 					customerId: "",
-					inputType: ""
+					inputType: "",
+					customerName:"",
 				},
 				switchvalue: false,
 				accountPeriod: "",
 				customerId: "",
+				customerName:"",
 				statusVaule: "0",
 				fileList: [],
 				tableData1: [],
