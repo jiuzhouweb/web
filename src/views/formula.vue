@@ -20,12 +20,13 @@
 				</el-form>
 				<div class='info clearfix'>
 					<span class='large'>公式配备</span>
-					<span class='mini'>查看已配备公式>></span>
+					<!-- <span class='mini'>查看已配备公式>></span> -->
 					<el-button type="primary" @click='downLoad'>下载资料</el-button>
 				</div>
 			</div>
 			<div class="contain_body">
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-position='left' :rules="rules" ref="ruleForm" size="medium">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-position='left' :rules="rules" ref="ruleForm"
+				 size="medium">
 					<el-form-item label="纳税人类型:" class='short' prop="taxesTaxType">
 						<el-select clearable v-model="formInline.taxesTaxType">
 							<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
@@ -101,7 +102,7 @@
 		</div>
 		<div class="right_contain">
 			<div class="contain_header">
-				<el-form :inline="true" :model="formInline" class="demo-form-inline"  size="medium">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
 					<!-- <el-form-item label="省份选择:">
 						<el-select clearable v-model="formInline.province">
 							<el-option label="区域一" value="shanghai"></el-option>
@@ -145,11 +146,14 @@
 							<el-option v-for='item in templateListSearchList' :label="item.tmplName" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="税种类型:">
+					<el-form-item label="税种类型:" v-if="searchTmplShowType == '0'">
 						<el-input v-model="searchColumnTitle">
 						</el-input>
 					</el-form-item>
-
+					<el-form-item label="相关列类型:" v-if="searchTmplShowType == '1'">
+						<el-input v-model="searchColumnTitle">
+						</el-input>
+					</el-form-item>
 				</el-form>
 				<el-button type="primary" @click="filterFormula" size="medium">立即<br />查询</el-button>
 			</div>
@@ -157,7 +161,7 @@
 				<h3>税种公式<span>{{areaName}}</span></h3>
 				<ul>
 					<li v-for="item in formulaList">
-						<span class='formula span1'>{{item.invoice_category}} {{item.column_title}}</span>
+						<span class='formula span1' :title="item.invoice_category + item.column_title">{{item.invoice_category}} {{item.column_title}}</span>
 						<span class='formula span1' :title="item.tmpl_name">{{item.tmpl_name}}</span>
 						<span class='formula span2'>{{item.invoice_name}}</span>
 
@@ -352,7 +356,7 @@
 						});
 					})
 			},
-			getAreaDefault(){
+			getAreaDefault() {
 				let params = {
 					"parentName": this.division
 				};
@@ -366,7 +370,7 @@
 								type: 'error'
 							});
 						}
-				
+
 					}).catch(function(err) {
 						this.$message({
 							message: '获取省份失败',
@@ -378,7 +382,7 @@
 				console.log(this.temArea);
 				this.area = this.temArea.divisionCode;
 				this.areaName = this.temArea.divisionName;
-				
+
 				this.queryFormulaList();
 				this.queryInvoiceType();
 				this.queryInvoiceName();
@@ -485,7 +489,7 @@
 					invoiceName: this.searchInvoiceName,
 					invoiceTmplId: this.searchTmplName.tmplId,
 					columnTitle: this.searchColumnTitle,
-					area:this.area
+					area: this.area
 				};
 				this.axios.post('/perTaxToolTwo/e9z/configInvoiceFormula/selectFormulaList?currentPage=' + this.currentPage +
 						'&pageCount=' + this.pageSize, params)
@@ -610,7 +614,7 @@
 			 * */
 			queryInvoiceType() {
 				let params = {
-					"area":this.area
+					"area": this.area
 				};
 				this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState', params).then(res => {
 					this.invoiceTypeSearchList = res.data.data;
@@ -628,7 +632,7 @@
 			 * */
 			queryInvoiceName() {
 				let params = {
-					"area":this.area
+					"area": this.area
 				};
 				this.axios.post('/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName', params).then(res => {
 					this.invoiceNameSearchList = res.data.data;
@@ -646,7 +650,7 @@
 			 * */
 			queryTemplateList() {
 				let params = {
-					"area":this.area
+					"area": this.area
 				};
 				this.axios.post('/perTaxToolTwo/e9z/configTemplate/findTemplateList', params).then(res => {
 					this.templateListSearchList = res.data.data;
@@ -733,7 +737,7 @@
 					let params = {
 						"taxesTaxType": val,
 						"tmplShowType": this.formInline.tmplShowType,
-						"area":this.area
+						"area": this.area
 					};
 					this.axios.post('/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
 						this.formulaTitleList = res.data.data;
@@ -753,7 +757,7 @@
 						"taxCalcType": this.formInline.taxCalcType,
 						"taxesTaxType": this.formInline.taxesTaxType,
 						"tmplShowType": this.formInline.tmplShowType,
-						"area":this.area
+						"area": this.area
 					};
 					this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
 						this.invoiceTypeList = res.data.data;
@@ -774,7 +778,7 @@
 					let params = {
 						"taxesTaxType": this.formInline.taxesTaxType,
 						"tmplShowType": this.formInline.tmplShowType,
-						"area":this.area
+						"area": this.area
 					};
 					this.axios.post('/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
 						this.formulaTitleList = res.data.data;
@@ -788,7 +792,7 @@
 						let params = {
 							"taxesTaxType": this.formInline.taxesTaxType,
 							"tmplShowType": this.formInline.tmplShowType,
-							"area":this.area
+							"area": this.area
 						};
 						this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
 							this.templateTypeList = res.data.data;
@@ -879,7 +883,7 @@
 			background: url(../assets/img/list-bg1.png) no-repeat;
 			background-size: cover;
 			border-top-left-radius: 0.06rem;
-			border-top-right-radius:0.06rem;
+			border-top-right-radius: 0.06rem;
 
 			/deep/ .el-select__caret {
 				color: #fff;
@@ -894,7 +898,8 @@
 				// line-height: 0;
 				border-color: #fff
 			}
-			/deep/ .el-input{
+
+			/deep/ .el-input {
 				font-size: 0.14rem
 			}
 
@@ -944,7 +949,7 @@
 				color: #fff;
 				width: 1.8rem;
 				// line-height: 0.4rem;
-    			// height: 0.4rem;
+				// height: 0.4rem;
 			}
 		}
 
@@ -1056,7 +1061,7 @@
 			/deep/ .el-input__inner {
 				border: 0.01rem solid #fff;
 				// line-height: 0.4rem;
-    			// height: 0.4rem;
+				// height: 0.4rem;
 			}
 
 			/deep/ .el-button {
