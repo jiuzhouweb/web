@@ -41,7 +41,7 @@
                 <el-button @click="outputFile" size="medium">一键导出</el-button>
             </div>
         </div>
-        <div class="titleBox" v-if="taxinfoid&&statusVaule=='一般纳税人主表'">
+        <div class="titleBox" v-if="showFlag&&statusVaule=='一般纳税人主表'">
             <div class="title">
                 <p class="line1">增 值 税 纳 税 申 报 表</p>
                 <p class="line2">（一般纳税人适用）</p>
@@ -107,7 +107,7 @@
                 </el-form>
             </div>
         </div>
-        <div class="titleBox" v-if="taxinfoid">
+        <div class="titleBox" v-if="showFlag">
             <div class="title" v-if="statusVaule=='一般纳税人附表一'">
                 <p class="line1">增值税纳税申报表附列资料（一）</p>
                 <p class="line2">（本期销售情况明细）</p>
@@ -258,7 +258,7 @@
                 </el-form>
             </div>
         </div>
-        <div class="content" v-if="taxinfoid">
+        <div class="content" v-if="showFlag">
             <!-- <el-button type="primary" icon="el-icon-success" size="small" @click='exportExcel'>一键导出</el-button> -->
             <div class="tableBox" v-show="statusVaule=='一般纳税人主表'">
                 <table border="1 " width="100% " v-if="thisData.ajynsjcybjseybby" id="table1">
@@ -2021,7 +2021,8 @@
                 taxinfoid: '',
                 userobj: {
                     reportTaxType: 233
-                }
+                },
+                showFlag:false,
             };
         },
         watch: {},
@@ -2106,11 +2107,18 @@
                     .then(res => {
                         console.log("获取收账信息Id和税款信息id", res);
                         if (res.data.code == 200) {
-                            if (res.data.data) {
+                            if (res.data.hasOwnProperty('data')) {
                                 // 在这里获取收账税款id
                                 this.taxationid = res.data.data.taxation_id;
                                 this.taxinfoid = res.data.data.tax_info_id;
+                                this.showFlag=true;
                                 this.getTableData(this.statusVaule);
+                            }else{
+                                this.$message({
+                                    message: '暂无报表数据，请重新选择搜索条件！',
+                                    type: 'warning'
+                                });
+                                this.showFlag=false;
                             }
                         }
                     }).catch((err) => {
@@ -2122,7 +2130,7 @@
             },
             outputFile() {
                 console.log('this.searchList',this.searchList)
-                if(this.searchList.value==''||this.searchList.nowDate==''){
+                if(this.searchList.value||this.searchList.nowDate){
                     this.$message({
                         message: "请先选择客户和账期后再导出数据",
                         type: "warning"
@@ -3129,7 +3137,9 @@
                         this.accountPeriod = this.searchList.nowDate;
                         this.customerId = this.searchList.value;
                         this.statusVaule = this.searchList.statusVaule;
-                        if(this.searchList.value==''||this.searchList.nowDate==''){
+                        this.taxationId='';
+                        this.taxInfoId='';
+                        if(this.searchList.value||this.searchList.nowDate){
                             this.$message({
                                 message: "请先选择客户和账期后再查询",
                                 type: "warning"
