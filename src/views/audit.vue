@@ -375,9 +375,10 @@
 		.card {
 			width: calc((100% - 0.8rem) / 5);
 			margin-right: .2rem;
+			margin-bottom: .2rem;
 			background: #fff;
 			height: 4.85rem;
-
+			border-top-right-radius: 4px;
 			.card_head {
 				height: 2rem;
 				box-sizing: border-box;
