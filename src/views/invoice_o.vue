@@ -687,7 +687,7 @@
             // });
             valueArr.forEach((item, index) => {
               item.color = this.color[index];
-              item.ratename=Number(item.vat_rate)*100+'%增值税';
+              item.ratename=this.accMul(item.vat_rate,100)+'%增值税';
               var obj = {};
               obj.name = item.ratename;
               obj.value = item.invoice_amt;
@@ -707,6 +707,15 @@
           });
         });
       },
+      
+      // js精确小数乘法
+      accMul(arg1,arg2){
+         var m=0,s1=arg1.toString(),s2=arg2.toString();
+         try{m+=s1.split(".")[1].length}catch(e){}
+         try{m+=s2.split(".")[1].length}catch(e){}
+         
+         return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(2);
+    },
       // 获取右侧统计数据--抵扣合计
       getShowSumDeduct() {
         this.tableDeductData = [];
