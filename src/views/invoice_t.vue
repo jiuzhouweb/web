@@ -1677,10 +1677,12 @@
   .search_contain .el-date-editor.el-input,
   .el-date-editor.el-input__inner {
     width: 1.6rem;
+    min-width: 115px;
   }
   .search_contain .el-date-editor.el-input,
   .el-date-editor.el-input__inner {
     width: 1.6rem;
+    min-width: 115px;
   }
   .chartsTable .el-table th>.cell {
     font-size: 0.14rem;
