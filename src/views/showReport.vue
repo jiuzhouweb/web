@@ -3302,7 +3302,7 @@ export default {
       this.customerId = "";
       if (this.searchList.value) {
         this.userobj = this.$store.state.cust.find(
-          item => item.value === this.formInline.customerName
+          item => item.value === this.searchList.value
         );
         if (this.userobj) {
           this.customerId = this.userobj.customerId;
