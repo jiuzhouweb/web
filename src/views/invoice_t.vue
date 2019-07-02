@@ -163,12 +163,15 @@
           <div class="taxRate" v-if="!detailData.tmplId">
             <div class="valueBox" v-for="(item,index) in detailData.taxColumnList" :key="index">
               <p class="label">{{item.columnTitle}}：</p>
-              <p class="value" v-if="item.columnTitle=='城建税税率'">{{item.columnValue}}</p>
+              <!-- <p class="value" v-if="item.columnTitle=='城建税税率'">{{item.columnValue}}</p> -->
               <el-select v-if="item.columnTitle=='增值税税率'" @change="((val)=>{changeZengzhi(val, '')})" v-model="item.columnValue" placeholder="请选择">
                 <el-option v-for="item in zengzhiTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
               </el-select>
               <el-select v-if="item.columnTitle=='印花税税率'" v-model="item.columnValue" placeholder="请选择">
                 <el-option v-for="item in yinhuaTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
+              </el-select>
+              <el-select v-if="item.columnTitle=='城市维护建设税税率'" v-model="item.columnValue" placeholder="请选择">
+                <el-option v-for="item in chengjianTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
               </el-select>
             </div>
           </div>
@@ -393,6 +396,7 @@
         detailData: {},
         zengzhiTaxList: [],
         yinhuaTaxList: [],
+        chengjianTaxList:[],
         userobj:{},
         sbnszl:'',//申报纳税类型
         sums:[],
@@ -414,6 +418,8 @@
             this.zengzhiTaxList = item.taxes;
           } else if (item.taxesName == '印花税') {
             this.yinhuaTaxList = item.taxes;
+          } else if (item.taxesName == '城市维护建设税') {
+            this.chengjianTaxList = item.taxes;
           }
         })
         console.log('this.zengzhiTaxList0', this.zengzhiTaxList)
