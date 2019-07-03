@@ -188,10 +188,10 @@
     <div class="right_contain">
       <div class="charts">
         <p class="chartsTitle">收入合计</p>
-        <div id="myChart" v-if="tableData" :style="{width: '100%', height: '2rem'}"></div>
-        <div v-if="!tableData">暂无数据</div>
+        <div id="myChart" v-if="tableData.length>0" :style="{width: '100%', height: '2rem'}"></div>
+        <div v-if="tableData.length<=0" style="width:100%;height:2rem;text-align:center;line-height:1.6rem">暂无图表</div>
       </div>
-      <div class="chartsTable"  v-if="tableData">
+      <div class="chartsTable">
         <el-table :data="tableData" show-summary :summary-method="getSummariesCharts" border style="width: 90%;margin-left:5%">
           <el-table-column label="税种" width="50" align="center" :resizable="false">
             <template slot-scope="scope">
@@ -446,13 +446,12 @@
               if(res.data.hasOwnProperty('data')){
                 this.taxationId = res.data.data.taxation_id;
                 this.taxInfoId = res.data.data.tax_info_id;
-                this.addDialogVisible=true;
+                this.addDialog();
               }else{
                 this.$message({
                   message: '当前条件下无法新增，请重新选择客户或账期！',
                   type: 'warning'
                 });
-                this.addDialogVisible=false;
               }
               
             }
@@ -1000,7 +999,7 @@
             return x;
           }
         } else {
-          return 0;
+          return '';
         }
       },
       //获取计税方法
@@ -1564,29 +1563,29 @@
             item.pages = parseInt(v.columnValue);
           }
           if (v.columnTitle == "发票项目类型") {
-            if (v.columnValue == '1') {
+            if (v.columnValue == '1'||v.columnValue == '一般') {
               v.columnValue = '一般'
-            } else if (v.columnValue == '2') {
+            } else if (v.columnValue == '2'||v.columnValue == '即征即退') {
               v.columnValue = '即征即退'
             } else{
               v.columnValue = ''
             }
           }
           if (v.columnTitle == "应税类型") {
-            if (v.columnValue == '1') {
+            if (v.columnValue == '1'||v.columnValue == '应税货物') {
               v.columnValue = '应税货物'
-            } else if (v.columnValue == '2') {
+            } else if (v.columnValue == '2'||v.columnValue == '应税劳务') {
               v.columnValue = ' 应税劳务'
-            } else if (v.columnValue == '3') {
+            } else if (v.columnValue == '3'||v.columnValue == '应税服务') {
               v.columnValue = ' 应税服务'
             } else{
               v.columnValue = ''
             }
           }
           if (v.columnTitle == "是否是辅导期") {
-            if (v.columnValue == '1') {
+            if (v.columnValue == '1'||v.columnValue == '是') {
               v.columnValue = '是'
-            } else if (v.columnValue == '2') {
+            } else if (v.columnValue == '2'||v.columnValue == '否') {
               v.columnValue = '否'
             } else{
               v.columnValue = ''
