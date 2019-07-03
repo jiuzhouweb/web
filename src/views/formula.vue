@@ -162,10 +162,9 @@
 				<ul>
 					<li v-for="item in formulaList">
 						<span class='formula span1' :title="item.tmpl_name">{{item.tmpl_name}}</span>
-						<span class='formula span1' :title="item.invoice_category + item.column_title">{{item.invoice_category}} {{item.column_title}}</span>
+						<span class='formula span1' :title="item.invoice_name + item.invoice_category + item.invoice_type">{{item.invoice_name}} {{item.invoice_category}} {{item.invoice_type}}</span>
 						
-						<span class='formula span2'>{{item.invoice_name}}</span>
-
+						<span class='formula span2' :title='item.column_title'>{{item.column_title}}</span>
 						<span class='formula span3' :title='item.formula'>{{item.formula}}</span>
 						<!-- <span class='blue' v-if='item.formula'>查看</span> -->
 					</li>
