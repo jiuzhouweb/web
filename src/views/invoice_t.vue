@@ -22,7 +22,7 @@
           
         </div>
         <div class="searchButton" @click="search()">查询</div>
-        <div class="addInvioceButton" style="margin-left:0.1rem" @click="addInvoice()">新增</div>
+        <div class="addInvioceButton" v-if="!issubmit" style="margin-left:0.1rem" @click="addInvoice()">新增</div>
         <div class="deleteButton" style="margin-left:0.1rem" @click="submitStep()">审批</div>
         <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div>
       </div>
@@ -164,7 +164,7 @@
             </div>
           </div>
           <div class="taxRate" v-if="!detailData.tmplId">
-            <div class="valueBox" v-for="(item,index) in detailData.taxColumnList" :key="index">
+            <div class="valueBox" v-if="!issubmit" v-for="(item,index) in detailData.taxColumnList" :key="index">
               <p class="label">{{item.columnTitle}}：</p>
               <!-- <p class="value" v-if="item.columnTitle=='城建税税率'">{{item.columnValue}}</p> -->
               <el-select v-if="item.columnTitle=='增值税税率'" @change="((val)=>{changeZengzhi(val, '')})" v-model="item.columnValue" placeholder="请选择">
@@ -176,6 +176,11 @@
               <el-select v-if="item.columnTitle=='城建税税率'" v-model="item.columnValue" placeholder="请选择">
                 <el-option v-for="item in chengjianTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
               </el-select>
+            </div>
+            <div class="valueBox" v-if="issubmit" v-for="(item,index) in detailData.taxColumnList" :key="index">
+              <p class="label">{{item.columnTitle}}：</p>
+              <p class="value">{{item.columnValue}}</p>
+              
             </div>
           </div>
           <div class="content">
@@ -406,6 +411,7 @@
         fscj:'',
         ysfwdkcb:'',
         addbtnflag:false,
+        issubmit:false,//是否提交审批
       };
     },
     components: {
@@ -784,7 +790,7 @@
         axios
           .get(
             "/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
-            this.taxationId + "&tmplType=" + this.userobj.reportTaxType
+            this.taxationId + "&tmplType=" + this.userobj.reportTaxType +"&taxInfoId="+this.taxInfoId
           )
           .then(res => {
             this.loadingCard = false;
@@ -1077,7 +1083,7 @@
             return x;
           }
         } else {
-          return '';
+          return x;
         }
       },
       //获取计税方法
@@ -1625,6 +1631,10 @@
                   message: '审批成功',
                   type: 'success'
                 });
+                this.getInvoiceLeaveShowList();
+                // 隐藏新增按钮,数据不可修改
+                this.issubmit=true;
+                this.addbtnflag=false;
               }
             })
             .catch(err => {
