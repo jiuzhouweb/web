@@ -449,6 +449,10 @@
     },
     methods: {
       addInvoice(){
+        this.accountPeriod = this.searchList.nowDate;
+        this.customerId=this.searchList.value;
+        this.taxationId='';
+        this.taxInfoId='';
         if(!this.searchList.value||!this.searchList.nowDate){
           this.$message({
             message: "请先选择客户和账期后再新增",
@@ -1287,6 +1291,8 @@
                 obj.columnValue='1'
               }else if(item.columnValue=='即征即退'){
                 obj.columnValue='2'
+              }else{
+                obj.columnValue=''
               }
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "应税类型") {
@@ -1296,6 +1302,8 @@
                 obj.columnValue='2'
               }else if(item.columnValue=='应税服务'){
                 obj.columnValue='3'
+              }else{
+                obj.columnValue=''
               }
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "是否是辅导期") {
@@ -1303,15 +1311,18 @@
                 obj.columnValue='1'
               }else if(item.columnValue=='否'){
                 obj.columnValue='2'
+              }else{
+                obj.columnValue=''
               }
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "负数冲减") {
-                obj.columnValue=this.fscj;
+                obj.columnValue=this.fscj?this.fscj:0;
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "应税服务抵扣成本") {
-                obj.columnValue=this.ysfwdkcb;
+                obj.columnValue=this.ysfwdkcb?this.ysfwdkcb:0;
               invoiceColumns.push(obj);
-            }else {
+            }
+            else {
               obj.columnValue = item.columnValue ? item.columnValue : item.defaultValue;
             }
             invoiceColumns.push(obj);
@@ -1340,7 +1351,7 @@
             tmplShowType: this.detailData.tmplShowType, //下拉框（0-发票 1-其他模板）
             taxesTaxType: this.detailData.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
             type: this.detailData.type, //对应列/税费下拉框 1-列 2-税费
-             declarationType: declarationType, //1：小规模，2一般纳税人
+            declarationType: declarationType, //1：小规模，2一般纳税人
             e9zConfigInvoiceColumnList: invoiceColumns
           };
           console.log("params", params);
@@ -1355,7 +1366,7 @@
                 });
                 this.detailDialogVisible = false;
                 this.getInvoiceLeaveShowList();
-                this.getShowSumIncome();
+								this.getShowSumIncome();
 								this.getShowSumDeduct();
 								this.getShowSumTaxPayable();
               }
@@ -1505,7 +1516,7 @@
             } else if (item.columnTitle == "印花税税率") {
               obj.columnValue = yinhuaValue;
               invoiceColumns.push(obj);
-            }  else if (item.columnTitle == "负数冲减") {
+            } else if (item.columnTitle == "负数冲减") {
                 obj.columnValue=this.fscj;
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "应税服务抵扣成本") {
@@ -1555,9 +1566,10 @@
                   message: "添加成功",
                   type: "success"
                 });
+                
                 this.nextStepDialogVisible = false;
                 this.getInvoiceLeaveShowList()
-                this.getShowSumIncome();
+								this.getShowSumIncome();
 								this.getShowSumDeduct();
 								this.getShowSumTaxPayable();
               }
@@ -1625,7 +1637,7 @@
       },
       // 打开详情弹窗
       showDetail(item) {
-         console.log('当前客户的申报类型',this.userobj.reportTaxType)
+        console.log('当前客户的申报类型',this.userobj.reportTaxType)
         // // 1：一般纳税人，2：小规模
         if(this.userobj.reportTaxType==233){
             this.sbnszl='一般纳税人';
@@ -1648,6 +1660,8 @@
               v.columnValue = '一般'
             } else if (v.columnValue == '2') {
               v.columnValue = '即征即退'
+            } else{
+              v.columnValue = ''
             }
           }
           if (v.columnTitle == "应税类型") {
@@ -1657,6 +1671,8 @@
               v.columnValue = ' 应税劳务'
             } else if (v.columnValue == '3') {
               v.columnValue = ' 应税服务'
+            } else{
+              v.columnValue = ''
             }
           }
           if (v.columnTitle == "是否是辅导期") {
@@ -1664,6 +1680,8 @@
               v.columnValue = '是'
             } else if (v.columnValue == '2') {
               v.columnValue = '否'
+            } else{
+              v.columnValue = ''
             }
           }
           if (v.columnShow == 1) {
