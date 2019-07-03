@@ -411,7 +411,7 @@
         fscj:'',
         ysfwdkcb:'',
         addbtnflag:false,
-        issubmit:false,//是否提交审批
+        issubmit:true,//是否提交审批
       };
     },
     components: {
