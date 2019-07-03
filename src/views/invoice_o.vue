@@ -2,48 +2,71 @@
   <div class="main_contain">
     <div class="left_contain">
       <div class='search_contain'>
-        <div class="row1">
+        <div class="row1" style="margin-bottom:0.1rem;margin-right:0.2rem">
           <span class="labelTitle">
               					客户名称：
               				</span>
           <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
             <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
             </el-option>
+            <!-- <el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+            </el-option> -->
           </el-select>
           <!-- <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
 						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
         </div>
-        <div class="row2" style="margin-left:0.2rem">
+        <div class="row2" style="margin-right:0.2rem;margin-bottom:0.1rem">
           <span class="labelTitle">
               					账期：
               				</span>
           <el-date-picker v-model="searchList.nowDate" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月">
           </el-date-picker>
         </div>
-        <div class="searchButton" @click="search()">查询</div>
-        <!-- <div class="addInvioceButton" v-if="!issubmit" style="margin-left:0.1rem" @click="addInvoice()">新增</div> -->
-        <div class="deleteButton" v-if="!issubmit" style="margin-left:0.1rem" @click="submitStep()">审批</div>
+        <br>
+        <div class="row3" style="margin-right:0.2rem;margin-bottom:0.1rem">
+          <span class="labelTitle">
+              					发票类型：
+              				</span>
+          <el-select v-model="searchList.invoiceType" placeholder="请选择" clearable>
+                <el-option v-for="item in invoiceTypeSelect" :key="item.invoiceType" :label="item.invoiceType" :value="item.invoiceType">
+                </el-option>
+              </el-select>
+        </div>
+        <div class="row4" style="margin-right:0.2rem;margin-bottom:0.1rem">
+          <span class="labelTitle">
+              					发票名称：
+              				</span>
+          <el-select v-model="searchList.invoiceName" placeholder="请选择" clearable>
+                <el-option v-for="item in invoiceNameSelect" :key="item.invoiceListId" :label="item.invoiceName" :value="item.invoiceListId">
+                </el-option>
+              </el-select>
+        </div>
+        <div class="searchButton" @click="search()" style="margin-bottom:0.1rem;margin-right:0.1rem">查询</div>
+        <div class="addInvioceButton" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="deleteMoreInvoice()">批量删除</div>
+        <div class="deleteButton" v-if="!issubmit" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="submitStep()">审批</div>
         <!-- <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div> -->
         <!--  -->
       </div>
       <div class="invoice_oListModule">
         <div class="cardBox" v-loading="loadingCard">
           <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
+            <div v-if="!item.isdelete" @click="selectDelete(item)" class="circle"></div>
+            <i v-if="item.isdelete" @click="selectDelete(item)" class="el-icon-success" style="cursor:pointer;position: absolute;right: -0.1rem;top:-0.1rem;font-size: 0.26rem;color: #409EFF;"></i>
             <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
             <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
               <div class="line1">
                 <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
-                <!-- <p v-if="item.invoiceId" class="bigTitle">税金：80000元</p> -->
-                <!-- <p v-if="item.invoiceId" class="bigTitle"></p> -->
-                <p v-if="item.tmplId" class="smallTitle" @click="showDetail(item)">详情</p>
-                <!-- <p class="smallTitle">删除</p> -->
+                <p v-if="item.invoiceId" class="bigTitle">{{item.invoiceCategory}} {{item.invoiceType}}</p>
+                <!-- <p v-if="item.invoiceId" class="bigTitle" style="margin-left:0.15rem;">{{item.invoiceType}}</p> -->
+                <p class="smallTitle" @click="showDetail(item)">详情</p>
+                <p class="smallTitle" @click="deleteInvoice(item)">删除</p>
               </div>
-              <div v-if="!item.tmplId" class="line2" style="position:relative">
+              <!-- <div v-if="!item.tmplId" class="line2" style="position:relative"> -->
                 <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
-                <p>{{item.invoiceCategory}}</p>
+                <!-- <p>{{item.invoiceCategory}}</p>
                 <p style="margin-left:0.15rem;">{{item.invoiceType}}</p>
-                <p class="smallTitle" style="position:absolute;top:0rem;right:0.2rem;font-size:0.12rem" @click="showDetail(item)">详情</p>
-              </div>
+                <p class="smallTitle" style="position:absolute;top:0rem;right:0.2rem;font-size:0.12rem" @click="showDetail(item)">详情</p> -->
+              <!-- </div> -->
             </div>
             <div class="dataContent">
               <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList" :key="ind">
@@ -53,7 +76,11 @@
                 <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='1'||child.columnValue=='应税货物')">应税货物</p>
                 <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='2'||child.columnValue=='应税劳务')">应税劳务</p>
                 <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='3'||child.columnValue=='应税服务')">应税服务</p>
-                <p v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'" @dblclick="showDetail(item)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
+                <p v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'" v-show="!child.isEdit" @dblclick="editPanel(item,child)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
+                <!-- <el-input v-show="item.columnEdit==1" v-model="item.columnValue"></el-input> -->
+                <el-input v-show="child.isEdit" v-model="child.columnValue" @blur="unfocusedPanel(item,child)"></el-input>
+                <span class="error">{{child.errInfo}}</span>
+                <!-- <p :contenteditable='child.columnEdit==1'  @blur="setData($event,child,item)" v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p> -->
               </div>
             </div>
             <div class="footerContent" @click="showDetail(item)">
@@ -193,8 +220,8 @@
     <div class="right_contain">
       <div class="charts">
         <p class="chartsTitle">收入合计</p>
-        <div id="myChart" v-if="tableData.length>0" :style="{width: '100%', height: '2rem'}"></div>
-        <div v-if="tableData.length<=0" style="width:100%;height:2rem;text-align:center;line-height:1.6rem">暂无图表</div>
+        <div id="myChart" :style="{width: '100%', height: '2rem'}"></div>
+        <!-- <div v-if="tableData.length<=0" style="width:100%;height:2rem;text-align:center;line-height:1.6rem">暂无图表</div> -->
       </div>
       <div class="chartsTable">
         <el-table :data="tableData" show-summary :summary-method="getSummariesCharts" border style="width: 90%;margin-left:5%">
@@ -329,11 +356,17 @@
             }
           ],
           value: "",
-          nowDate: ""
+          nowDate: "",
+          invoiceName:'',
+          invoiceType:'',
         },
         customerId: '',
         accountPeriod: '',
         customerName:'',
+        searchinvoiceName:'',
+        searchinvoiceType:'',
+        invoiceTypeSelect:[],
+        invoiceNameSelect:[],
         form: {
           name: "",
           pages: "",
@@ -422,10 +455,90 @@
     },
     mounted() {
         this.searchList.options=this.$store.state.cust;
+    // this.searchList.options=[{
+    //     customerId: "jz3779",
+    //     customerName: "九洲APP测试专用",
+    //     reportTaxPeriod: null,
+    //     reportTaxType: 233,
+    //     taxPayerId: "11111111111111111111",
+    // },{
+    //     customerId: "jz3774",
+    //     customerName: "44",
+    //     reportTaxPeriod: null,
+    //     reportTaxType: 232,
+    //     taxPayerId: "2222222222",
+    // }]
       this.getNowMonth();
       this.getTaxCalcMethod();
+      this.findInvoiceType();
+      this.findInvoiceName();
     },
     methods: {
+      // 查询发票类型
+      findInvoiceType(){
+        axios
+          .post("/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState")
+          .then(res => {
+            console.log("发票类型接口", res);
+            if (res.data.code == 200) {
+              this.invoiceTypeSelect=res.data.data;
+            }
+          }).catch((err) => {
+            
+          });
+      },
+      // 查询发票名称
+      findInvoiceName(){
+        axios
+          .post("/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName")
+          .then(res => {
+            console.log("发票名称接口", res);
+            if (res.data.code == 200) {
+              this.invoiceNameSelect=res.data.data;
+            }
+          }).catch((err) => {
+            
+          });
+      },
+      selectDelete(item){
+        this.$set(item, "isdelete", !item.isdelete);
+        // this.invoicePanelList.forEach(v=>{
+        //   if(item)
+        // })
+      },
+      setData(event,child,item){
+        console.log('item,,,',child)
+        if(event.target.innerText!=child.columnValue||event.target.innerText!=child.defaultValue){
+          var reg = /^(-)?\d{1,10}(\.\d{1,2})?$/;
+          if (!reg.test(Number(event.target.innerText))) {
+            this.$message({
+              message: "请输入数字，小数点后最多两位",
+              type: "warning"
+            });
+            return;
+          }
+          // 修改
+        //   item.invoiceColumnList = [];
+        // item.taxColumnList = [];
+        // item.e9zConfigInvoiceColumnList.forEach(v => {
+        //   this.$set(v, "errInfo", "");
+        //   if (v.columnTitle == "发票张数") {
+        //     item.pages = parseInt(v.columnValue);
+        //   }
+        //   if (v.columnShow == 1) {
+        //     v.columnValue = v.columnValue ? this.fomatFloat(v.columnValue, 2) : this.fomatFloat(v.defaultValue, 2);
+        //     item.invoiceColumnList.push(v);
+        //   }
+        //   if (v.columnTitle.indexOf("税率") > -1) {
+        //     v.columnValue = parseFloat(v.columnValue)
+        //     item.taxColumnList.push(v);
+        //   }
+        // });
+          this.detailData=item;
+          console.log(this.detailData)
+          this.edit();
+        }
+      },
       addInvoice(){
         this.accountPeriod = this.searchList.nowDate;
         this.customerId=this.searchList.value;
@@ -621,6 +734,9 @@
         this.userobj = this.$store.state.cust.find((item)=>{//这里的selectList就是上面遍历的数据源
             return item.customerId === vId;//筛选出匹配数据
         });
+        // this.userobj = this.searchList.options.find((item)=>{//这里的selectList就是上面遍历的数据源
+        //     return item.customerId === vId;//筛选出匹配数据
+        // });
         console.log('当前选择的用户信息',this.userobj);//
       
     },
@@ -645,10 +761,14 @@
 				// 		this.customerId = '';
 				// 	}
         // }
+        console.log('searchList.invoiceName',this.searchList.invoiceName,this.searchList.invoiceType)
+
         console.log('this.userobj',this.userobj)
         this.accountPeriod = this.searchList.nowDate;
         this.customerId = this.searchList.value;
         this.customerName=this.userobj.customerName;
+        this.searchinvoiceName=this.searchList.invoiceName;
+        this.searchinvoiceType=this.searchList.invoiceType;
         this.statusVaule = this.searchList.statusVaule;
         this.taxationId='';
         this.taxInfoId='';
@@ -687,6 +807,7 @@
                   message: '暂无发票数据，请重新选择搜索条件！',
                   type: 'warning'
                 });
+                this.addbtnflag=false;
                 this.invoicePanelList=[];
                 this.tableData=[];
                 this.tableDeductData=[];
@@ -732,11 +853,22 @@
       //获取列表数据
       getInvoiceLeaveShowList() {
         this.loadingCard = true;
-        // tmplType 发票模板适用类型 0 - 公用；233 - 一般纳税人；232 - 小规模
+        let invoiceType='',invoiceCategory='';
+        if(this.searchinvoiceType){
+          invoiceCategory=this.searchinvoiceType.split(" ")[0];
+          invoiceType=this.searchinvoiceType.split(" ")[1];
+        }
+        let params={
+          taxationId:this.taxationId,
+          taxInfoId:this.taxInfoId,
+          taxesTaxType:this.userobj.reportTaxType,
+          invoiceListId:this.searchinvoiceName,
+          invoiceCategory:invoiceCategory,
+          invoiceType:invoiceType
+        }
         axios
-          .get(
-            "/perTaxToolTwo/e9zCalculate/invoiceLeaveShow?taxationId=" +
-            this.taxationId + "&tmplType=" + this.userobj.reportTaxType +"&taxInfoId="+this.taxInfoId
+          .post(
+            "/perTaxToolTwo/e9zCalculate/invoiceLeaveShow",params
           )
           .then(res => {
             this.loadingCard = false;
@@ -755,14 +887,20 @@
                 }
               }
               this.invoicePanelList = this.flatten(arr);
-              console.log(
-                "res.data.data[i]",
-                this.invoicePanelList,
-                this.taxationId,
-                this.taxInfoId
-              );
+
+              this.invoicePanelList.forEach(item=>{
+                this.$set(item, "isdelete", false);
+                item.e9zConfigInvoiceColumnList.forEach(v=>{
+                  this.$set(v, "isEdit", false);
+                  this.$set(item, "errInfo", "");
+                })
+              })
+
+              console.log('this.invoicePanelList',this.invoicePanelList)
+              
             }
           }).catch((err) => {
+            console.log('获取列表数据失败',err)
             this.$message({
               message: '获取列表数据失败',
               type: 'error'
@@ -807,7 +945,10 @@
               console.log("this.nameData", this.nameData);
               console.log("this.seriesData", this.seriesData);
               console.log('this.tableData', this.tableData)
-            this.drawLine();
+              if(this.nameData.length>0){
+                this.drawLine();
+              }
+            
           }
         }).catch((err) => {
           console.log('获取收入合计数据 err',err)
@@ -1641,17 +1782,80 @@
       },
       editPanel(item, child) {
         console.log("item,,,", item);
-        item.e9zConfigInvoiceColumnList.forEach(v => {
-          if (child.columnId == v.columnId) {
-            if (v.columnEdit == 1) {
-              console.log('可编辑')
-              this.showDetail(item);
-              this.$set(v, "isEdit", true);
+        console.log("child,,,", child);
+        if(child.columnTitle.indexOf('税率')>-1){
+          this.showDetail(item);
+        }else{
+          child.columnValue=child.columnValue? this.fomatFloat(child.columnValue,2): this.fomatFloat(child.defaultValue,2);
+          item.e9zConfigInvoiceColumnList.forEach(v => {
+            if (child.columnId == v.columnId) {
+              if (v.columnEdit == 1) {
+                console.log('可编辑')
+                this.$set(v, "isEdit", true);
+              }
+            } else {
+              this.$set(v, "isEdit", false);
             }
-          } else {
+          });
+        }
+        
+      },
+      unfocusedPanel(item,child) {
+         console.log("item,,,", item);
+         item.e9zConfigInvoiceColumnList.forEach(v => {
+          if (child.columnId == v.columnId) {
             this.$set(v, "isEdit", false);
           }
         });
+        item.invoiceColumnList = [];
+        item.taxColumnList = [];
+        item.e9zConfigInvoiceColumnList.forEach(v => {
+          this.$set(v, "isEdit", false);
+          this.$set(v, "errInfo", "");
+          if (v.columnTitle == "发票张数") {
+            item.pages = parseInt(v.columnValue);
+          }
+          if (v.columnTitle == "发票项目类型") {
+            if (v.columnValue == '1'||v.columnValue == '一般') {
+              v.columnValue = '一般'
+            } else if (v.columnValue == '2'||v.columnValue == '即征即退') {
+              v.columnValue = '即征即退'
+            } else{
+              v.columnValue = ''
+            }
+          }
+          if (v.columnTitle == "应税类型") {
+            if (v.columnValue == '1'||v.columnValue == '应税货物') {
+              v.columnValue = '应税货物'
+            } else if (v.columnValue == '2'||v.columnValue == '应税劳务') {
+              v.columnValue = ' 应税劳务'
+            } else if (v.columnValue == '3'||v.columnValue == '应税服务') {
+              v.columnValue = ' 应税服务'
+            } else{
+              v.columnValue = ''
+            }
+          }
+          if (v.columnTitle == "是否是辅导期") {
+            if (v.columnValue == '1'||v.columnValue == '是') {
+              v.columnValue = '是'
+            } else if (v.columnValue == '2'||v.columnValue == '否') {
+              v.columnValue = '否'
+            } else{
+              v.columnValue = ''
+            }
+          }
+          if (v.columnShow == 1) {
+            v.columnValue = v.columnValue ? this.fomatFloat(v.columnValue, 2) : this.fomatFloat(v.defaultValue, 2);
+            item.invoiceColumnList.push(v);
+          }
+          if (v.columnTitle.indexOf("税率") > -1) {
+            v.columnValue = parseFloat(v.columnValue)
+            item.taxColumnList.push(v);
+          }
+        });
+        this.detailData = item;
+        this.edit();
+
       },
       changeValue(item) {
         this.detailData.e9zConfigInvoiceColumnList.forEach(v => {
@@ -1669,7 +1873,8 @@
             this.$set(v, "isEdit", false);
           }
         });
-      }
+      },
+      
     }
   };
 </script>
@@ -1730,7 +1935,7 @@
   .smallNextDialog .el-dialog__body {
     padding: 0.50rem 0.15rem;
   }
-  .smallNextDialog .el-input {
+  .smallNextDialog .el-input,.dataContent .el-input{
     width: 0.80rem;
     float: right;
     font-size: 0.12rem;
@@ -1743,7 +1948,7 @@
     padding: 0 0.05rem 0 0;
     line-height: 0.30rem;
   }
-  .smallNextDialog .el-input__inner {
+  .smallNextDialog .el-input__inner,.dataContent  .el-input__inner {
     padding: 0 0.05rem;
     height: 0.25rem;
     line-height: 0.25rem;
@@ -1823,7 +2028,7 @@
     border-radius: 0.05rem;
     cursor: pointer;
     padding: 0.1rem 0.35rem;
-    margin-left: 0.2rem
+    // margin-left: 0.2rem
   }
   .deleteButton {
     background: #ed878e;
@@ -1857,7 +2062,7 @@
     background: #fff;
     margin-right: 1%;
     position: relative;
-    overflow-y: hidden;
+    // overflow-y: hidden;
   }
   .eachCard:nth-child(4n) {
     margin-right: 0;
@@ -1935,6 +2140,7 @@
     padding: 0.05rem 0;
     color: #666;
     font-size: 0.12rem;
+    position: relative;
   }
   .footerContent {
     position: absolute;
@@ -2136,5 +2342,15 @@
     font-size: 0.18rem;
     text-align: center;
     color: #43b3db;
+  }
+  .circle{
+        position: absolute;
+    width: 0.22rem;
+    height: 0.22rem;
+    right: -0.1rem;
+    top: -0.1rem;
+    border-radius: 50%;
+    cursor: pointer;
+    background: #fff;
   }
 </style>
