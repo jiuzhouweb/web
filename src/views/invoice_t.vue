@@ -449,6 +449,10 @@
     },
     methods: {
       addInvoice(){
+        this.accountPeriod = this.searchList.nowDate;
+        this.customerId=this.searchList.value;
+        this.taxationId='';
+        this.taxInfoId='';
         if(!this.searchList.value||!this.searchList.nowDate){
           this.$message({
             message: "请先选择客户和账期后再新增",
