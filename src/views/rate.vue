@@ -52,7 +52,7 @@
 					<el-input v-model="form.taxesName"></el-input>
 				</el-form-item>
 				<el-form-item label="税率" prop="taxesRate">
-					<el-input v-model="form.taxesRate"></el-input>
+					<el-input v-model.number="form.taxesRate"></el-input>
 				</el-form-item>
 			</el-form>
 			<div class='btn_contain clearfix'>
@@ -103,11 +103,10 @@
 
 				rules: {
 					taxesTitle: [{
-							required: true,
-							message: '请输入税费标题',
-							trigger: 'blur'
-						},
-					],
+						required: true,
+						message: '请输入税费标题',
+						trigger: 'blur'
+					}, ],
 					taxesName: [{
 						required: true,
 						message: '请输入税费名称',
@@ -117,6 +116,9 @@
 						required: true,
 						message: '请输入税率',
 						trigger: 'blur'
+					}, {
+						type: 'number',
+						message: '必须是数字'
 					}],
 				}
 			}
