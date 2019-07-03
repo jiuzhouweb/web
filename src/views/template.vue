@@ -34,7 +34,7 @@
 			</div>
 		</div>
 		<div class="right_contain">
-			<el-table :data="columnList"  style="width: 100%;overflow:auto" stripe border>
+			<el-table :data="columnList"  style="width: 100%;overflow:auto" stripe border v-loading="loading">
 				<!-- <el-table-column align="center" type="selection" width="50"></el-table-column> -->
 				<el-table-column align="center" label="字段名" :resizable="false" fixed="left">
 					<template slot-scope="scope">
@@ -122,7 +122,8 @@
 				tableList: [],
 				columnList: [],
 				dicNameList: [],
-
+				
+				loading:false,
 
 				columnRequireList: [{
 						label: '是',
@@ -229,15 +230,18 @@
 					})
 			},
 			queryColumnList(row) {
+				this.loading = true;
 				let params = {
 					"tmplId": row.tmplId
 				};
 				this.axios.post('/perTaxToolTwo/e9z/configColumn/findColumnList', params)
 					.then(res => {
 						if (res.data.code == 200) {
+							this.loading = false;
 							this.columnList = res.data.data;
 							// this.total = 
 						} else {
+							this.loading = false;
 							this.$message({
 								message: res.data.msg,
 								type: 'error'
@@ -245,6 +249,7 @@
 						}
 
 					}).catch(function(err) {
+						this.loading = false;
 						this.$message({
 							message: '获取模板字段列表失败',
 							type: 'error'
