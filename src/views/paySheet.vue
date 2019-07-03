@@ -17,11 +17,11 @@
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司">
-						<el-autocomplete class="inline-input" v-model="uploadData.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
-						<!-- <el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable>
+						<!-- <el-autocomplete class="inline-input" v-model="uploadData.customerName" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable filterable>
 							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
-						</el-select> -->
+						</el-select>
 					</el-form-item>
 					<el-form-item label="证件号导入">
 						<el-switch v-model="switchvalue"></el-switch>
@@ -42,11 +42,11 @@
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司">
-						<el-autocomplete class="inline-input" v-model="customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
-						<!-- <el-select v-model="customerId" placeholder="请选择公司名称" clearable>
+						<!-- <el-autocomplete class="inline-input" v-model="customerName" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+						<el-select v-model="customerId" placeholder="请选择公司名称" clearable filterable>
 							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
-						</el-select> -->
+						</el-select>
 					</el-form-item>
 
 					<el-form-item label="状态">
@@ -1082,20 +1082,20 @@
 		},
 		components: {},
 		methods: {
-			querySearch(queryString, cb) {
-				var cust = this.$store.state.cust;
-				cust.forEach((item, index) => {
-					item.value = item.customerName;
-				})
-				var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
-				// 调用 callback 返回建议列表的数据
-				cb(results);
-			},
-			createFilter(queryString) {
-				return (cust) => {
-					return (cust.customerName.indexOf(queryString) === 0);
-				};
-			},
+			// querySearch(queryString, cb) {
+			// 	var cust = this.$store.state.cust;
+			// 	cust.forEach((item, index) => {
+			// 		item.value = item.customerName;
+			// 	})
+			// 	var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
+			// 	// 调用 callback 返回建议列表的数据
+			// 	cb(results);
+			// },
+			// createFilter(queryString) {
+			// 	return (cust) => {
+			// 		return (cust.customerName.indexOf(queryString) === 0);
+			// 	};
+			// },
 			// 1.8 操作表id接口
 			getOperatorId() {
 				let params = {
@@ -1294,20 +1294,20 @@
 				this.getMonthDetail(row.cardNum);
 			},
 			search() {
-				this.customerId = '';
-				if (this.customerName) {
-					var customer = this.$store.state.cust.find(item =>
-						item.value === this.customerName
-					);
-					if(customer){
-						this.customerId = customer.customerId;
-					}else{
-						this.customerId = '';
-					}
-					// this.formInline.customId = this.$store.state.cust.find(item =>
-					// 	item.value === this.formInline.customerName
-					// ).customerId
-				}
+				// this.customerId = '';
+				// if (this.customerName) {
+				// 	var customer = this.$store.state.cust.find(item =>
+				// 		item.value === this.customerName
+				// 	);
+				// 	if(customer){
+				// 		this.customerId = customer.customerId;
+				// 	}else{
+				// 		this.customerId = '';
+				// 	}
+				// 	// this.formInline.customId = this.$store.state.cust.find(item =>
+				// 	// 	item.value === this.formInline.customerName
+				// 	// ).customerId
+				// }
 				// 获取操作表id
 				this.getOperatorId();
 				this.pageNum1 = '1';
@@ -1323,20 +1323,20 @@
 				}
 			},
 			selectExcel() {
-				this.uploadData.customerId = '';
-				if (this.uploadData.customerName) {
-					var customer = this.$store.state.cust.find(item =>
-						item.value === this.uploadData.customerName
-					);
-					if(customer){
-						this.uploadData.customerId = customer.customerId;
-					}else{
-						this.uploadData.customerId = '';
-					}
-					// this.formInline.customId = this.$store.state.cust.find(item =>
-					// 	item.value === this.formInline.customerName
-					// ).customerId
-				}
+				// this.uploadData.customerId = '';
+				// if (this.uploadData.customerName) {
+				// 	var customer = this.$store.state.cust.find(item =>
+				// 		item.value === this.uploadData.customerName
+				// 	);
+				// 	if(customer){
+				// 		this.uploadData.customerId = customer.customerId;
+				// 	}else{
+				// 		this.uploadData.customerId = '';
+				// 	}
+				// 	// this.formInline.customId = this.$store.state.cust.find(item =>
+				// 	// 	item.value === this.formInline.customerName
+				// 	// ).customerId
+				// }
 				this.dialogVisible = true;
 			},
 			// 沿用上月

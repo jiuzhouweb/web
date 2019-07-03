@@ -5,12 +5,12 @@
 				<span class="labelTitle">
 					客户名称：
 				</span>
-				<el-autocomplete class="inline-input" v-model="searchList.customerName" :fetch-suggestions="querySearch"
-				 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
-				<!-- <el-select v-model="searchList.customerId" placeholder="请选择" @change='selectGet'>
+				<!-- <el-autocomplete class="inline-input" v-model="searchList.customerName" :fetch-suggestions="querySearch"
+				 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+				<el-select v-model="searchList.customerId" placeholder="请选择" @change='selectGet' filterable >
 					<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 					</el-option>
-				</el-select> -->
+				</el-select>
 			</div>
 			<div class="row2" style="margin-left:0.2rem">
 				<span class="labelTitle">
@@ -124,40 +124,40 @@
 			}
 		},
 		methods: {
-			querySearch(queryString, cb) {
-				var cust = this.$store.state.cust;
-				cust.forEach((item, index) => {
-					item.value = item.customerName;
-				})
-				var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
-				// 调用 callback 返回建议列表的数据
-				cb(results);
-			},
-			createFilter(queryString) {
-				return (cust) => {
-					return (cust.customerName.indexOf(queryString) === 0);
-				};
-			},
+			// querySearch(queryString, cb) {
+			// 	var cust = this.$store.state.cust;
+			// 	cust.forEach((item, index) => {
+			// 		item.value = item.customerName;
+			// 	})
+			// 	var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
+			// 	// 调用 callback 返回建议列表的数据
+			// 	cb(results);
+			// },
+			// createFilter(queryString) {
+			// 	return (cust) => {
+			// 		return (cust.customerName.indexOf(queryString) === 0);
+			// 	};
+			// },
 			search() {
 				this.declarationType = this.userobj.reportTaxType;
 				this.queryTaxTreatment();
 				this.queryBigTaxTreatment();
 			},
 			queryTaxTreatment() {
-				this.searchList.customerId = '';
-				if (this.searchList.customerName) {
-					var customer = this.$store.state.cust.find(item =>
-						item.value === this.searchList.customerName
-					);
-					if(customer){
-						this.searchList.customerId = customer.customerId;
-					}else{
-						this.searchList.customerId = '';
-					}
+				// this.searchList.customerId = '';
+				// if (this.searchList.customerName) {
+				// 	var customer = this.$store.state.cust.find(item =>
+				// 		item.value === this.searchList.customerName
+				// 	);
+				// 	if(customer){
+				// 		this.searchList.customerId = customer.customerId;
+				// 	}else{
+				// 		this.searchList.customerId = '';
+				// 	}
 					// this.formInline.customId = this.$store.state.cust.find(item =>
 					// 	item.value === this.formInline.customerName
 					// ).customerId
-				}
+				// }
 				let params = this.searchList;
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectTaxTreatment', this.qs.stringify(params), {
 					headers: {
@@ -182,20 +182,20 @@
 				})
 			},
 			queryBigTaxTreatment() {
-				this.searchList.customerId = '';
-				if (this.searchList.customerName) {
-					var customer = this.$store.state.cust.find(item =>
-						item.value === this.searchList.customerName
-					);
-					if(customer){
-						this.searchList.customerId = customer.customerId;
-					}else{
-						this.searchList.customerId = '';
-					}
+				// this.searchList.customerId = '';
+				// if (this.searchList.customerName) {
+				// 	var customer = this.$store.state.cust.find(item =>
+				// 		item.value === this.searchList.customerName
+				// 	);
+				// 	if(customer){
+				// 		this.searchList.customerId = customer.customerId;
+				// 	}else{
+				// 		this.searchList.customerId = '';
+				// 	}
 					// this.formInline.customId = this.$store.state.cust.find(item =>
 					// 	item.value === this.formInline.customerName
 					// ).customerId
-				}
+				// }
 				let params = this.searchList;
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectBigTaxTreatment', this.qs.stringify(params), {
 					headers: {

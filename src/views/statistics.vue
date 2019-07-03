@@ -5,11 +5,11 @@
 				<div class='title'>完成情况统计</div>
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
 					<el-form-item label="客户名称:">
-						<!-- <el-select v-model='formInline.customId'>
+						<el-select v-model='formInline.customId' filterable>
 							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
-						</el-select> -->
-						<el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
+						</el-select>
+						<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 					</el-form-item>
 					<el-form-item label="账期:">
 						<el-date-picker v-model="formInline.period" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
@@ -82,45 +82,45 @@
 		},
 		components: {},
 		methods: {
-			querySearch(queryString, cb) {
-				var cust = this.$store.state.cust;
-				cust.forEach((item, index) => {
-					item.value = item.customerName;
-				})
-				var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
-				// 调用 callback 返回建议列表的数据
-				cb(results);
-			},
-			createFilter(queryString) {
-				return (cust) => {
-					return (cust.customerName.indexOf(queryString) === 0);
-				};
-			},
+			// querySearch(queryString, cb) {
+			// 	var cust = this.$store.state.cust;
+			// 	cust.forEach((item, index) => {
+			// 		item.value = item.customerName;
+			// 	})
+			// 	var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
+			// 	// 调用 callback 返回建议列表的数据
+			// 	cb(results);
+			// },
+			// createFilter(queryString) {
+			// 	return (cust) => {
+			// 		return (cust.customerName.indexOf(queryString) === 0);
+			// 	};
+			// },
 
-			handleSelect(custom) {
+			// handleSelect(custom) {
 				// this.formInline.customId = this.$store.state.cust.find(item =>
 				// 	item.value === custom.value
 				// ).customerId;
 				// console.log(this.$store.state.cust.find(item =>
 				// 	item.value === custom.value
 				// ).customerId)
-			},
+			// },
 
 			search() {
-				this.formInline.customId = '';
-				if (this.formInline.customerName) {
-					var customer = this.$store.state.cust.find(item =>
-						item.value === this.formInline.customerName
-					);
-					if(customer){
-						this.formInline.customId = customer.customerId;
-					}else{
-						this.formInline.customId = '';
-					}
-					// this.formInline.customId = this.$store.state.cust.find(item =>
-					// 	item.value === this.formInline.customerName
-					// ).customerId
-				}
+				// this.formInline.customId = '';
+				// if (this.formInline.customerName) {
+				// 	var customer = this.$store.state.cust.find(item =>
+				// 		item.value === this.formInline.customerName
+				// 	);
+				// 	if(customer){
+				// 		this.formInline.customId = customer.customerId;
+				// 	}else{
+				// 		this.formInline.customId = '';
+				// 	}
+				// 	// this.formInline.customId = this.$store.state.cust.find(item =>
+				// 	// 	item.value === this.formInline.customerName
+				// 	// ).customerId
+				// }
 				this.completed = [];
 				this.incomplete = [];
 				this.con = [];

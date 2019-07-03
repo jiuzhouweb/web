@@ -5,11 +5,11 @@
 				<div class='title'>历史操作记录</div>
 				<el-form :inline="true" :model="formInline" class="demo-form-inline">
 					<el-form-item label="客户名称:">
-						<el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
-						<!-- <el-select v-model='formInline.customId'>
+						<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+						<el-select v-model='formInline.customId' filterable>
 							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
-						</el-select> -->
+						</el-select>
 					</el-form-item>
 					<el-form-item label="账期:">
 						<el-date-picker v-model="formInline.period" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
@@ -27,7 +27,7 @@
 					<img v-show='item.stepName =="大额审核"' src="../assets/img/users.png" alt="">
 					<img v-show='item.stepName =="税款审核"' src="../assets/img/pay.png" alt="">
 					<img v-show='item.stepName =="申报"' src="../assets/img/money.png" alt="">
-					<p v-show='index != historyList.length - 1' style="margin-left:0.05rem;line-height: 0.4rem;margin-left: 0.05rem;">
+					<p v-show='index != historyList.length - 1' style="margin-left:0.05rem">
 						<span class='circle' v-for='item in 10'></span>
 					</p>
 					<!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
@@ -157,35 +157,35 @@
 		},
 		components: {},
 		methods: {
-			querySearch(queryString, cb) {
-				var cust = this.$store.state.cust;
-				cust.forEach((item, index) => {
-					item.value = item.customerName;
-				})
-				var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
-				// 调用 callback 返回建议列表的数据
-				cb(results);
-			},
-			createFilter(queryString) {
-				return (cust) => {
-					return (cust.customerName.indexOf(queryString) === 0);
-				};
-			},
+			// querySearch(queryString, cb) {
+			// 	var cust = this.$store.state.cust;
+			// 	cust.forEach((item, index) => {
+			// 		item.value = item.customerName;
+			// 	})
+			// 	var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
+			// 	// 调用 callback 返回建议列表的数据
+			// 	cb(results);
+			// },
+			// createFilter(queryString) {
+			// 	return (cust) => {
+			// 		return (cust.customerName.indexOf(queryString) === 0);
+			// 	};
+			// },
 			search() {
-				this.formInline.customId = '';
-				if (this.formInline.customerName) {
-					var customer = this.$store.state.cust.find(item =>
-						item.value === this.formInline.customerName
-					);
-					if(customer){
-						this.formInline.customId = customer.customerId;
-					}else{
-						this.formInline.customId = '';
-					}
-					// this.formInline.customId = this.$store.state.cust.find(item =>
-					// 	item.value === this.formInline.customerName
-					// ).customerId
-				}
+				// this.formInline.customId = '';
+				// if (this.formInline.customerName) {
+				// 	var customer = this.$store.state.cust.find(item =>
+				// 		item.value === this.formInline.customerName
+				// 	);
+				// 	if(customer){
+				// 		this.formInline.customId = customer.customerId;
+				// 	}else{
+				// 		this.formInline.customId = '';
+				// 	}
+				// 	// this.formInline.customId = this.$store.state.cust.find(item =>
+				// 	// 	item.value === this.formInline.customerName
+				// 	// ).customerId
+				// }
 				let params = this.formInline;
 				this.axios.post('/perTaxToolTwo/e9z/historyQuery/selectHistory', this.qs.stringify(params), {
 					headers: {
@@ -247,8 +247,7 @@
 		padding: 0.2rem 0.2rem;
 		background: #fff;
 		.contain_body_div {
-			height: 2rem;
-			// align-items: center;
+			align-items: center;
 			display: flex;
 			position: relative;
 			img {

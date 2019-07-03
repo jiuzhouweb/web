@@ -20,11 +20,11 @@
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司">
-						<el-autocomplete class="inline-input" v-model="uploadData.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
-						<!-- <el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable>
+						<!-- <el-autocomplete class="inline-input" v-model="uploadData.customerName" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable filterable>
 							<el-option v-for="item in $store.state.cust" :label="item.customerName" :value='item.customerId'></el-option>
-						</el-select> -->
+						</el-select>
 					</el-form-item>
 					<el-button type="primary" @click='selectExcel("formName")' size="small">选择Excel</el-button>
 					<!-- <el-button type="primary" @click='selectExcel'>上传</el-button> -->
@@ -49,11 +49,11 @@
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司">
-						<el-autocomplete class="inline-input" v-model="search.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
-						<!-- <el-select v-model="search.customerId" placeholder="请选择公司名称" clearable>
+						<!-- <el-autocomplete class="inline-input" v-model="search.customerName" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+						<el-select v-model="search.customerId" placeholder="请选择公司名称" clearable filterable>
 							<el-option v-for="item in $store.state.cust" :label="item.customerName" :value='item.customerId'></el-option>
-						</el-select> -->
+						</el-select>
 					</el-form-item>
 					<el-button type="primary" size="small" @click='searchSheet("formName1")'>搜索</el-button>
 					<!-- <el-button type="primary" @click='selectExcel'>重置</el-button> -->
@@ -160,20 +160,20 @@
 			},
 			
 			selectExcel(formName) {
-				this.uploadData.customerId = '';
-				if (this.uploadData.customerName) {
-					var customer = this.$store.state.cust.find(item =>
-						item.value === this.uploadData.customerName
-					);
-					if(customer){
-						this.uploadData.customerId = customer.customerId;
-					}else{
-						this.uploadData.customerId = '';
-					}
-					// this.formInline.customId = this.$store.state.cust.find(item =>
-					// 	item.value === this.formInline.customerName
-					// ).customerId
-				}
+				// this.uploadData.customerId = '';
+				// if (this.uploadData.customerName) {
+				// 	var customer = this.$store.state.cust.find(item =>
+				// 		item.value === this.uploadData.customerName
+				// 	);
+				// 	if(customer){
+				// 		this.uploadData.customerId = customer.customerId;
+				// 	}else{
+				// 		this.uploadData.customerId = '';
+				// 	}
+				// 	// this.formInline.customId = this.$store.state.cust.find(item =>
+				// 	// 	item.value === this.formInline.customerName
+				// 	// ).customerId
+				// }
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						this.dialogVisible = true;
@@ -201,20 +201,20 @@
 				console.log('submit!');
 			},
 			searchSheet(formName) {
-				this.search.customerId = '';
-				if (this.search.customerName) {
-					var customer = this.$store.state.cust.find(item =>
-						item.value === this.search.customerName
-					);
-					if(customer){
-						this.search.customerId = customer.customerId;
-					}else{
-						this.search.customerId = '';
-					}
-					// this.formInline.customId = this.$store.state.cust.find(item =>
-					// 	item.value === this.formInline.customerName
-					// ).customerId
-				}
+				// this.search.customerId = '';
+				// if (this.search.customerName) {
+				// 	var customer = this.$store.state.cust.find(item =>
+				// 		item.value === this.search.customerName
+				// 	);
+				// 	if(customer){
+				// 		this.search.customerId = customer.customerId;
+				// 	}else{
+				// 		this.search.customerId = '';
+				// 	}
+				// 	// this.formInline.customId = this.$store.state.cust.find(item =>
+				// 	// 	item.value === this.formInline.customerName
+				// 	// ).customerId
+				// }
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						this.accountPeriod = this.search.accountPeriod;
