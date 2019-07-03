@@ -810,10 +810,11 @@
             this.drawLine();
           }
         }).catch((err) => {
-          this.$message({
-            message: '获取收入合计数据失败',
-            type: 'error'
-          });
+          console.log('获取收入合计数据 err',err)
+          // this.$message({
+          //   message: '获取收入合计数据失败',
+          //   type: 'error'
+          // });
         });
       },
       
