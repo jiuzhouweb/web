@@ -1213,6 +1213,8 @@
                 obj.columnValue='1'
               }else if(item.columnValue=='即征即退'){
                 obj.columnValue='2'
+              }else{
+                obj.columnValue=''
               }
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "应税类型") {
@@ -1222,6 +1224,8 @@
                 obj.columnValue='2'
               }else if(item.columnValue=='应税服务'){
                 obj.columnValue='3'
+              }else{
+                obj.columnValue=''
               }
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "是否是辅导期") {
@@ -1229,13 +1233,15 @@
                 obj.columnValue='1'
               }else if(item.columnValue=='否'){
                 obj.columnValue='2'
+              }else{
+                obj.columnValue=''
               }
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "负数冲减") {
-                obj.columnValue=this.fscj;
+                obj.columnValue=this.fscj?this.fscj:0;
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "应税服务抵扣成本") {
-                obj.columnValue=this.ysfwdkcb;
+                obj.columnValue=this.ysfwdkcb?this.ysfwdkcb:0;
               invoiceColumns.push(obj);
             }
             else {
@@ -1562,6 +1568,8 @@
               v.columnValue = '一般'
             } else if (v.columnValue == '2') {
               v.columnValue = '即征即退'
+            } else{
+              v.columnValue = ''
             }
           }
           if (v.columnTitle == "应税类型") {
@@ -1571,6 +1579,8 @@
               v.columnValue = ' 应税劳务'
             } else if (v.columnValue == '3') {
               v.columnValue = ' 应税服务'
+            } else{
+              v.columnValue = ''
             }
           }
           if (v.columnTitle == "是否是辅导期") {
@@ -1578,6 +1588,8 @@
               v.columnValue = '是'
             } else if (v.columnValue == '2') {
               v.columnValue = '否'
+            } else{
+              v.columnValue = ''
             }
           }
           if (v.columnShow == 1) {
