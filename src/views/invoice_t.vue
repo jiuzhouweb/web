@@ -6,12 +6,12 @@
           <span class="labelTitle">
               					客户名称：
               				</span>
-          <!-- <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择">
+          <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
             <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
             </el-option>
-          </el-select> -->
-          <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
+          </el-select>
+          <!-- <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
         </div>
         <div class="row2" style="margin-left:0.2rem">
           <span class="labelTitle">
@@ -22,6 +22,7 @@
           
         </div>
         <div class="searchButton" @click="search()">查询</div>
+        <div class="addInvioceButton" style="margin-left:0.1rem" @click="addInvoice()">新增</div>
         <div class="deleteButton" style="margin-left:0.1rem" @click="submitStep()">审批</div>
         <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div>
       </div>
@@ -447,20 +448,59 @@
       
     },
     methods: {
-      querySearch(queryString, cb) {
-				var cust = this.$store.state.cust;
-				cust.forEach((item, index) => {
-					item.value = item.customerName;
-				})
-				var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
-				// 调用 callback 返回建议列表的数据
-				cb(results);
-			},
-			createFilter(queryString) {
-				return (cust) => {
-					return (cust.customerName.indexOf(queryString) === 0);
-				};
-			},
+      addInvoice(){
+        if(!this.searchList.value||!this.searchList.nowDate){
+          this.$message({
+            message: "请先选择客户和账期后再新增",
+            type: "warning"
+          });
+          return;
+        }
+        let params = {
+          accountPeriod: this.accountPeriod, //账期
+          customerId: this.customerId, //客户Id
+          stepName: "发票录入" //步骤名称
+        };
+        axios
+          .post("/perTaxToolTwo/e9zCalculate/getTaxInfo", params)
+          .then(res => {
+            console.log("获取收账信息Id和税款信息id", res);
+            if (res.data.code == 200) {
+              // 在这里获取收账税款id
+              if(res.data.hasOwnProperty('data')){
+                this.taxationId = res.data.data.taxation_id;
+                this.taxInfoId = res.data.data.tax_info_id;
+                this.addDialogVisible=true;
+              }else{
+                this.$message({
+                  message: '当前条件下无法新增，请重新选择客户或账期！',
+                  type: 'warning'
+                });
+                this.addDialogVisible=false;
+              }
+              
+            }
+          }).catch((err) => {
+            this.$message({
+              message: '获取收账信息Id和税款信息id数据失败',
+              type: 'error'
+            });
+          });
+      },
+      // querySearch(queryString, cb) {
+			// 	var cust = this.$store.state.cust;
+			// 	cust.forEach((item, index) => {
+			// 		item.value = item.customerName;
+			// 	})
+			// 	var results = queryString ? cust.filter(this.createFilter(queryString)) : cust;
+			// 	// 调用 callback 返回建议列表的数据
+			// 	cb(results);
+			// },
+			// createFilter(queryString) {
+			// 	return (cust) => {
+			// 		return (cust.customerName.indexOf(queryString) === 0);
+			// 	};
+			// },
       insertReport(){
         console.log('this.searchList',this.searchList)
         if(!this.searchList.value||!this.searchList.nowDate){
@@ -627,20 +667,21 @@
         this.accountPeriod = year.toString() + "-" + month.toString();
       },
       search() {
-        console.log('this.searchList.value',this.searchList.value)
-        this.customerId = '';
-				if (this.searchList.value) {
-					this.userobj = this.$store.state.cust.find(item =>
-						item.value === this.searchList.value
-					);
-					if(this.userobj){
-						this.customerId = this.userobj.customerId;
-					}else{
-						this.customerId = '';
-					}
-        }
+        // console.log('this.searchList.value',this.searchList.value)
+        // this.customerId = '';
+				// if (this.searchList.value) {
+				// 	this.userobj = this.$store.state.cust.find(item =>
+				// 		item.value === this.searchList.value
+				// 	);
+				// 	if(this.userobj){
+				// 		this.customerId = this.userobj.customerId;
+				// 	}else{
+				// 		this.customerId = '';
+				// 	}
+        // }
         console.log('this.userobj',this.userobj)
         this.accountPeriod = this.searchList.nowDate;
+        this.customerId=this.searchList.value;
         this.customerName=this.userobj.customerName;
         this.statusVaule = this.searchList.statusVaule;
         this.taxationId='';
@@ -1830,6 +1871,13 @@
   }
   .deleteButton {
     background: #ed878e;
+    color: #fff;
+    border-radius: 0.05rem;
+    cursor: pointer;
+    padding: 0.1rem 0.35rem;
+  }
+  .addInvioceButton {
+    background: #7dc36d;
     color: #fff;
     border-radius: 0.05rem;
     cursor: pointer;

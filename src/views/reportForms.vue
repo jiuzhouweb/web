@@ -9,12 +9,12 @@
 			<div class='search_contain'>
 				<div class="row1">
 					<span class="labelTitle">公司：</span>
-					<!-- <el-select v-model="searchList.value" placeholder="请选择" size="small">
+					<el-select v-model="searchList.value" placeholder="请选择" size="small" filterable>
 						<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 						</el-option>
-					</el-select> -->
-					<el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
+					</el-select>
+					<!-- <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 				</div>
 				<div class="row2">
 					<span class="labelTitle">账期：</span>
@@ -354,22 +354,22 @@ export default {
     // this.getTableData("1");
   },
   methods: {
-    querySearch(queryString, cb) {
-      var cust = this.$store.state.cust;
-      cust.forEach((item, index) => {
-        item.value = item.customerName;
-      });
-      var results = queryString
-        ? cust.filter(this.createFilter(queryString))
-        : cust;
-      // 调用 callback 返回建议列表的数据
-      cb(results);
-    },
-    createFilter(queryString) {
-      return cust => {
-        return cust.customerName.indexOf(queryString) === 0;
-      };
-    },
+    // querySearch(queryString, cb) {
+    //   var cust = this.$store.state.cust;
+    //   cust.forEach((item, index) => {
+    //     item.value = item.customerName;
+    //   });
+    //   var results = queryString
+    //     ? cust.filter(this.createFilter(queryString))
+    //     : cust;
+    //   // 调用 callback 返回建议列表的数据
+    //   cb(results);
+    // },
+    // createFilter(queryString) {
+    //   return cust => {
+    //     return cust.customerName.indexOf(queryString) === 0;
+    //   };
+    // },
     getNowMonth() {
       var date = new Date();
       var year = date.getFullYear();
@@ -444,19 +444,20 @@ export default {
       this.getTableData(this.activeName);
     },
     search() {
-      console.log("this.searchList.value", this.searchList.value);
-      this.customerId = "";
-      if (this.searchList.value) {
-        var customer = this.$store.state.cust.find(
-          item => item.value === this.searchList.value
-        );
-        if (customer) {
-          this.customerId = customer.customerId;
-        } else {
-          this.customerId = "";
-        }
-      }
+      // console.log("this.searchList.value", this.searchList.value);
+      // this.customerId = "";
+      // if (this.searchList.value) {
+      //   var customer = this.$store.state.cust.find(
+      //     item => item.value === this.searchList.value
+      //   );
+      //   if (customer) {
+      //     this.customerId = customer.customerId;
+      //   } else {
+      //     this.customerId = "";
+      //   }
+      // }
       this.accountPeriod = this.searchList.nowDate;
+      this.customerId=this.searchList.value;
       this.statusVaule = this.searchList.statusVaule;
       this.getTableData(this.activeName);
     },

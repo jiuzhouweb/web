@@ -5,12 +5,12 @@
             <div class='search_contain'>
                 <div class="row1">
                     <span class="labelTitle">公司：</span>
-                    <!-- <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" size="small">
+                    <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" size="small" filterable>
                         <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
                         </el-option>
-                    </el-select> -->
-                    <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete>
+                    </el-select>
+                    <!-- <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
                 </div>
                 <div class="row2">
                     <span class="labelTitle">账期：</span>
@@ -2065,35 +2065,35 @@ export default {
     // this.getTableData(this.statusVaule);
   },
   methods: {
-    querySearch(queryString, cb) {
-      var cust = this.$store.state.cust;
-      cust.forEach((item, index) => {
-        item.value = item.customerName;
-      });
-      var results = queryString
-        ? cust.filter(this.createFilter(queryString))
-        : cust;
-      // 调用 callback 返回建议列表的数据
-      cb(results);
-    },
-    createFilter(queryString) {
-      return cust => {
-        return cust.customerName.indexOf(queryString) === 0;
-      };
-    },
-    handleSelect(item) {
-      console.log(item);
-      this.userobj=item;
-      console.log('this.userobj',this.userobj)
-      if (item.reportTaxType == 233) {
-        this.searchList.statusVaule = "一般纳税人主表";
-        this.statusVaule = "一般纳税人主表";
-      }
-      if (item.reportTaxType == 232) {
-        this.searchList.statusVaule = "小规模纳税人主表";
-        this.statusVaule = "小规模纳税人主表";
-      }
-    },
+    // querySearch(queryString, cb) {
+    //   var cust = this.$store.state.cust;
+    //   cust.forEach((item, index) => {
+    //     item.value = item.customerName;
+    //   });
+    //   var results = queryString
+    //     ? cust.filter(this.createFilter(queryString))
+    //     : cust;
+    //   // 调用 callback 返回建议列表的数据
+    //   cb(results);
+    // },
+    // createFilter(queryString) {
+    //   return cust => {
+    //     return cust.customerName.indexOf(queryString) === 0;
+    //   };
+    // },
+    // handleSelect(item) {
+    //   console.log(item);
+    //   this.userobj=item;
+    //   console.log('this.userobj',this.userobj)
+    //   if (item.reportTaxType == 233) {
+    //     this.searchList.statusVaule = "一般纳税人主表";
+    //     this.statusVaule = "一般纳税人主表";
+    //   }
+    //   if (item.reportTaxType == 232) {
+    //     this.searchList.statusVaule = "小规模纳税人主表";
+    //     this.statusVaule = "小规模纳税人主表";
+    //   }
+    // },
     blurTop(name, e) {
       if (name == "isReduce") {
         this.uploadData.isReduce = e.target.innerText;
@@ -3298,19 +3298,20 @@ export default {
         });
     },
     search() {
-      console.log("this.searchList.value", this.searchList.value);
-      this.customerId = "";
-      if (this.searchList.value) {
-        this.userobj = this.$store.state.cust.find(
-          item => item.value === this.searchList.value
-        );
-        if (this.userobj) {
-          this.customerId = this.userobj.customerId;
-        } else {
-          this.customerId = "";
-        }
-      }
+      // console.log("this.searchList.value", this.searchList.value);
+      // this.customerId = "";
+      // if (this.searchList.value) {
+      //   this.userobj = this.$store.state.cust.find(
+      //     item => item.value === this.searchList.value
+      //   );
+      //   if (this.userobj) {
+      //     this.customerId = this.userobj.customerId;
+      //   } else {
+      //     this.customerId = "";
+      //   }
+      // }
       this.accountPeriod = this.searchList.nowDate;
+      this.customerId=this.searchList.value;
       this.statusVaule = this.searchList.statusVaule;
       this.taxationId = "";
       this.taxinfoid = "";
