@@ -22,8 +22,8 @@
           
         </div>
         <div class="searchButton" @click="search()">查询</div>
-        <div class="addInvioceButton" v-if="!issubmit" style="margin-left:0.1rem" @click="addInvoice()">新增</div>
-        <div class="deleteButton" style="margin-left:0.1rem" @click="submitStep()">审批</div>
+        <!-- <div class="addInvioceButton" v-if="!issubmit" style="margin-left:0.1rem" @click="addInvoice()">新增</div> -->
+        <div class="deleteButton" v-if="!issubmit" style="margin-left:0.1rem" @click="submitStep()">审批</div>
         <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div>
       </div>
       <div class="invoice_oListModule">
@@ -411,7 +411,7 @@
         fscj:'',
         ysfwdkcb:'',
         addbtnflag:false,
-        issubmit:false,//是否提交审批
+        issubmit:true,//是否提交审批
       };
     },
     components: {
@@ -718,9 +718,7 @@
               if(res.data.hasOwnProperty('data')){
                 this.taxationId = res.data.data.taxation_id;
                 this.taxInfoId = res.data.data.tax_info_id;
-                // this.taxationId = '1';
-                // this.taxInfoId = '1';
-                this.addbtnflag=true;
+                this.isSubmitMethod();
                 this.getInvoiceLeaveShowList();
                 this.getShowSumIncome();
                 this.getShowSumDeduct();
@@ -731,7 +729,6 @@
                   message: '暂无发票数据，请重新选择搜索条件！',
                   type: 'warning'
                 });
-                this.addbtnflag=false;
                 this.invoicePanelList=[];
                 this.tableData=[];
                 this.tableDeductData=[];
@@ -746,6 +743,32 @@
               message: '获取收账信息Id和税款信息id数据失败',
               type: 'error'
             });
+          });
+      },
+      // 判断当前发票数据是否审批
+      isSubmitMethod(){
+        let params={
+          accountPeriod: this.accountPeriod, //账期
+          customerId: this.customerId, //客户Id
+          stepName: "做账" //步骤名称
+        }
+        axios
+          .post(
+            "/perTaxToolTwo/e9z/taxStep/getStateByStepName" ,params)
+          .then(res => {
+            if (res.data.code == 200) {
+              if(res.data.data=='1'){
+              // 未提交
+              this.addbtnflag=true;
+              this.issubmit=false;
+              }else if(res.data.data=='2'){
+                //已提交
+                this.addbtnflag=false;
+                this.issubmit=true;
+              }
+            }
+          }).catch((err) => {
+            console.log('getStateByStepName err',err)
           });
       },
       // 查询个税税款合计
