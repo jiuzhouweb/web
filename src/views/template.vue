@@ -33,8 +33,8 @@
 				</el-table>
 			</div>
 		</div>
-		<div class="right_contain">
-			<el-table :data="columnList"  style="width: 100%;overflow:auto" stripe border v-loading="loading">
+		<div class="right_contain" v-loading="loading">
+			<el-table :data="columnList"  style="width: 100%;overflow:auto" stripe border>
 				<!-- <el-table-column align="center" type="selection" width="50"></el-table-column> -->
 				<el-table-column align="center" label="字段名" :resizable="false" fixed="left">
 					<template slot-scope="scope">
@@ -237,8 +237,11 @@
 				this.axios.post('/perTaxToolTwo/e9z/configColumn/findColumnList', params)
 					.then(res => {
 						if (res.data.code == 200) {
-							this.loading = false;
+							
 							this.columnList = res.data.data;
+							this.$nextTick(function(){
+								this.loading = false;
+							})
 							// this.total = 
 						} else {
 							this.loading = false;

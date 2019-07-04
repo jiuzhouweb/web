@@ -52,7 +52,7 @@
 					<el-input v-model="form.taxesName"></el-input>
 				</el-form-item>
 				<el-form-item label="税率" prop="taxesRate">
-					<el-input v-model.number="form.taxesRate"></el-input>
+					<el-input v-model="form.taxesRate"></el-input>
 				</el-form-item>
 			</el-form>
 			<div class='btn_contain clearfix'>
@@ -61,11 +61,23 @@
 			</div>
 		</el-dialog>
 		<el-dialog title="" :visible.sync="dialogTableVisible" width="8rem">
-			<el-table :data="rateList" row-key='ratesId' border stripe @selection-change="handleSelectionChange" ref='multipleTable'>
-				<el-table-column align="center" type="selection" width="55"></el-table-column>
-				<el-table-column align="center" property="taxesTitle" label="税率名称"></el-table-column>
-				<el-table-column align="center" property="taxesRate" label="税率"></el-table-column>
-			</el-table>
+			<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+				<el-tab-pane v-for='item in dicNameList' :label="item.dicName" :name="item.dicName">
+					<el-table :data="rateList" row-key='ratesId' border stripe @selection-change="handleSelectionChange" ref='multipleTable'>
+						<el-table-column align="center" type="selection" width="55"></el-table-column>
+						<el-table-column align="center" property="taxesTitle" label="税率名称"></el-table-column>
+						<el-table-column align="center" property="taxesRate" label="税率"></el-table-column>
+					</el-table>
+				</el-tab-pane>
+				<!-- <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
+				<el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
+				<el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+				<el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane> -->
+			</el-tabs>
+			<!-- <el-select v-model='tmplType' clearable>
+				<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
+			</el-select> -->
+			
 			<div class='btn_contain clearfix'>
 				<span class='commit' @click='modifyRate'>完成</span>
 				<span class='close' @click="hideDialog1">关闭</span>
@@ -78,7 +90,18 @@
 	export default {
 		name: "customer",
 		data() {
+			var validatePass2 = (rule, value, callback) => {
+				if (value === '') {
+					callback(new Error('请输入税率'));
+				} else if (/^(0\.\d+|0|1)$/.test(value) == false) {
+					callback(new Error('税率在0-1之间!'));
+				} else {
+					callback();
+				}
+			};
 			return {
+				activeName: 'first',
+				tmplType: '',
 				message: "12334456",
 				rateList: [
 
@@ -113,18 +136,26 @@
 						trigger: 'blur'
 					}],
 					taxesRate: [{
+						validator: validatePass2,
+						trigger: 'blur',
 						required: true,
-						message: '请输入税率',
-						trigger: 'blur'
-					}, {
-						type: 'number',
-						message: '必须是数字'
 					}],
 				}
 			}
 		},
 		components: {},
 		methods: {
+			queryDicName() {
+				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=税务类型').then(res => {
+					this.dicNameList = res.data.data;
+					this.activeName = this.dicNameList[0].dicName;
+				}).catch(function(err) {
+					this.$message({
+						message: '获取纳税人类型失败',
+						type: 'error'
+					});
+				})
+			},
 			queryRate() {
 				let params = {};
 				this.axios.post('/perTaxToolTwo/e9z/configTaxes/selectTaxesWithRate', params)
@@ -283,6 +314,7 @@
 			showDialog(row) {
 				this.invoiceId = row.invoiceId;
 				this.dialogTableVisible = true;
+				this.$refs.multipleTable.clearSelection();
 				let params = {
 					"invoiceId": row.invoiceId
 				};
@@ -361,7 +393,8 @@
 			}
 		},
 		created() {
-			this.queryRate()
+			this.queryRate();
+			this.queryDicName()
 
 		}
 	}
