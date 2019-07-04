@@ -30,7 +30,7 @@
 							  @close="handleClose"> -->
 								<el-submenu index="1">
 									<template slot="title">
-										<i class="el-icon-location"></i>
+										<i class="el-icon-geshui"></i>
 										<span>工资表</span>
 									</template>
 									<el-menu-item-group>
@@ -70,7 +70,7 @@
 							 @close="handleClose"> -->
 								<el-submenu index="1">
 									<template slot="title">
-										<i class="el-icon-location"></i>
+										<i class="el-icon-financial"></i>
 										<span>收账</span>
 									</template>
 									<el-menu-item-group>
@@ -81,7 +81,7 @@
 								</el-submenu>
 								<el-submenu index="2">
 									<template slot="title">
-										<i class="el-icon-location"></i>
+										<i class="el-icon-deal"></i>
 										<span>税务处理</span>
 									</template>
 									<el-menu-item-group>
@@ -99,7 +99,7 @@
 								</el-menu-item> -->
 								<el-submenu index="4">
 									<template slot="title">
-										<i class="el-icon-location"></i>
+										<i class="el-icon-declare"></i>
 										<span>申报处理</span>
 									</template>
 									<el-submenu index="4-1">
@@ -114,7 +114,7 @@
 								</el-submenu>
 								<el-submenu index="5">
 									<template slot="title">
-										<i class="el-icon-location"></i>
+										<i class="el-icon-his"></i>
 										<span>历史查询</span>
 									</template>
 									<el-menu-item-group>
@@ -124,7 +124,7 @@
 								</el-submenu>
 								<el-submenu index="6">
 									<template slot="title">
-										<i class="el-icon-location"></i>
+										<i class="el-icon-set"></i>
 										<span>系统配置</span>
 									</template>
 									<el-menu-item-group>
@@ -183,7 +183,43 @@
 	.el-aside {
 		background: #fff
 	}
-
+	
+	.el-icon-financial{
+		width: 0.16rem;
+		height: 0.16rem;
+		background: url(../assets/img/icon-financial-n.png) no-repeat center center;
+	}
+	.el-icon-deal{
+		width: 0.16rem;
+		height: 0.16rem;
+		background: url(../assets/img/icon-deal-n.png) no-repeat center center;
+	}
+	.el-icon-declare{
+		width: 0.16rem;
+		height: 0.16rem;
+		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
+	}
+	.el-icon-declare{
+		width: 0.16rem;
+		height: 0.16rem;
+		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
+	}
+	.el-icon-his{
+		width: 0.16rem;
+		height: 0.16rem;
+		background: url(../assets/img/icon-his-n.png) no-repeat center center;
+	}
+	.el-icon-set{
+		width: 0.16rem;
+		height: 0.16rem;
+		background: url(../assets/img/icon-set-n.png) no-repeat center center;
+	}
+	.el-icon-geshui{
+		width: 0.16rem;
+		height: 0.16rem;
+		background: url(../assets/img/icon-geshui-n.png) no-repeat center center;
+	}
+	
 	.tac.el-row,
 	.el-col,
 	.el-menu {
