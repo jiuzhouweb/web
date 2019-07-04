@@ -42,7 +42,7 @@
               </el-select>
         </div>
         <div class="searchButton" @click="search()" style="margin-bottom:0.1rem;margin-right:0.1rem">查询</div>
-        <div class="addInvioceButton" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="deleteMoreInvoice()">批量删除</div>
+        <div class="addInvioceButton" v-if="!issubmit" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="deleteMoreInvoice()">批量删除</div>
         <div class="deleteButton" v-if="!issubmit" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="submitStep()">审批</div>
         <!-- <div class="importButton2" style="margin-left:0.1rem" @click="insertReport()">生成报表</div> -->
         <!--  -->
@@ -51,8 +51,8 @@
         <div class="cardBox" v-loading="loadingCard">
           <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
             <!-- <div class="circle"> -->
-              <img v-if="!item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/noselect.png" class="circle" alt="">
-              <img v-if="item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/select.png" class="circle" alt="">
+              <img v-if="!issubmit&&!item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/noselect.png" class="circle" alt="">
+              <img v-if="!issubmit&&item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/select.png" class="circle" alt="">
             <!-- </div> -->
             <!-- <i v-if="item.isdelete&&item.invoiceId" @click="selectDelete(item)" class="el-icon-success" style="cursor:pointer;position: absolute;right: -0.1rem;top:-0.1rem;font-size: 0.26rem;color: #409EFF;"></i> -->
             <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
@@ -62,7 +62,7 @@
                 <p v-if="item.invoiceId" class="bigTitle">{{item.invoiceCategory}} {{item.invoiceType}}</p>
                 <!-- <p v-if="item.invoiceId" class="bigTitle" style="margin-left:0.15rem;">{{item.invoiceType}}</p> -->
                 <p class="smallTitle" @click="showDetail(item)">详情</p>
-                <p v-if="item.invoiceId" class="smallTitle" @click="deleteInvoice(item)">删除</p>
+                <p v-if="!issubmit&&item.invoiceId" class="smallTitle" @click="deleteInvoice(item)">删除</p>
               </div>
               <!-- <div v-if="!item.tmplId" class="line2" style="position:relative"> -->
                 <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
@@ -141,7 +141,7 @@
               <span class="error">{{item.errInfo}}</span>
             </el-form-item>
             <el-form-item class="rightSelect" v-if="item.e9zConfigInvoiceTaxesRateList.length>0" :label="item.taxesTitle" v-for="(item,indexs) in nextStepSelectList">
-              <el-select v-model="item.taxesValue" placeholder="请选择"  @change="((val)=>{changeZengzhi(val, item.taxesTitle)})">
+              <el-select v-model="item.taxesValue" placeholder="请选择"  @change="((val)=>{changeZengzhi(val, item.taxesTitle,this.nextStepRes)})">
                 <el-option v-for="child in item.e9zConfigInvoiceTaxesRateList" :label="child.taxesRate" :value="child.taxesRate">
                 </el-option>
               </el-select>
@@ -182,33 +182,21 @@
             </div>
           </div>
           <div class="taxRate" v-if="!detailData.tmplId">
-            <div class="valueBox" v-if="!issubmit" v-for="(item,index) in detailData.taxColumnList" :key="index">
-              <p class="label">{{item.columnTitle}}：</p>
-              <!-- <p class="value" v-if="item.columnTitle=='城建税税率'">{{item.columnValue}}</p> -->
-              <el-select v-if="item.columnTitle=='增值税税率'" @change="((val)=>{changeZengzhi(val, '')})" v-model="item.columnValue" placeholder="请选择">
-                <el-option v-for="item in zengzhiTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
-              </el-select>
-              <el-select v-if="item.columnTitle=='印花税税率'" v-model="item.columnValue" placeholder="请选择">
-                <el-option v-for="item in yinhuaTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
-              </el-select>
-              <el-select v-if="item.columnTitle=='城建税税率'" v-model="item.columnValue" placeholder="请选择">
-                <el-option v-for="item in chengjianTaxList" :key="item.taxesRate" :label="item.taxesRate" :value="item.taxesRate"></el-option>
-              </el-select>
-            </div>
-            <div class="valueBox" v-if="issubmit" v-for="(item,index) in detailData.taxColumnList" :key="index">
-              <p class="label">{{item.columnTitle}}：</p>
-              <p class="value">{{item.columnValue}}</p>
-              
+            <div class="valueBox" v-for="(item,index) in detailData.e9zConfigInvoiceTaxesList" :key="index">
+                <p class="label">{{item.taxesTitle}}</p>
+                <el-select style="margin-left:0.1rem" v-model="item.taxesValue" placeholder="请选择">
+                  <el-option v-for="child in item.e9zConfigInvoiceTaxesRateList" :label="child.taxesRate" :value="child.taxesRate"></el-option>
+                </el-select>
             </div>
           </div>
           <div class="content">
             <div class="valueBox" v-for="(item,index) in detailData.invoiceColumnList" :key="index">
-              <p class="label">{{item.columnTitle}}</p>
-              <p class="value" v-show="item.columnEdit==0">{{item.columnValue}}</p>
-              <el-input v-show="item.columnEdit==1" v-model="item.columnValue"></el-input>
-              <!-- <p class="value" v-show="!item.isEdit" @dblclick="changeValue(item)">{{item.columnValue}}</p>
-              <el-input v-show="item.isEdit" v-model="item.columnValue" @blur="unfocused(item)"></el-input> -->
-              <span class="error">{{item.errInfo}}</span>
+                <p class="label">{{item.columnTitle}}</p>
+                <p class="value" v-show="item.columnEdit==0">{{item.columnValue}}</p>
+                <el-input v-show="item.columnEdit==1" v-model="item.columnValue"></el-input>
+                <!-- <p class="value" v-show="!item.isEdit" @dblclick="changeValue(item)">{{item.columnValue}}</p>
+                <el-input v-show="item.isEdit" v-model="item.columnValue" @blur="unfocused(item)"></el-input> -->
+                <span class="error">{{item.errInfo}}</span>
             </div>
           </div>
           <div class="detailFooter">
@@ -374,7 +362,7 @@
           name: "",
           pages: "",
           amount: "",
-          taxCalcMethod: "", //计税方法
+          taxCalcMethod: 1, //计税方法
           invoiceType: "", //发票类型
           invoiceName: "" //发票名称
         },
@@ -575,8 +563,11 @@
       },
       // 查询发票名称
       findInvoiceName(){
+        let params={
+          taxesTaxType:this.userobj.reportTaxType
+        }
         axios
-          .post("/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName")
+          .post("/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName",params)
           .then(res => {
             console.log("发票名称接口", res);
             if (res.data.code == 200) {
@@ -706,21 +697,19 @@
             console.log('生成报表失败')
           });
       },
-      changeZengzhi(rate,type){
+      changeZengzhi(rate,type,item){
         console.log('type',type)
         console.log('rate,,',rate);
-        console.log('zengzhiTaxList',this.zengzhiTaxList);
-        console.log('this.nextStepRes',this.nextStepRes)
+        console.log('item',item)
         console.log('this.userobj',this.userobj)
-        console.log('invoiceName',this.invoiceName)
-        if(type=='增值税'||type==''){
-          if(this.nextStepRes.invoiceTaxableType==3){
+        if(type.indexOf('增值')>-1){
+          if(item.invoiceTaxableType==3){
           this.selectBusinessCreditsLeaveTableList(rate);
         }
         let params={};
         if (this.userobj.reportTaxType == 233) {
           let redInvType;
-          if(this.invoiceName=='即征即退'){
+          if(item.invoiceName=='即征即退'){
             redInvType=2;
           }else{
             redInvType=1;
@@ -736,7 +725,7 @@
           params={
             taxInfoId:this.taxInfoId,
             taxationId:this.taxationId,
-            invoiceTaxableType:this.nextStepRes.invoiceTaxableType
+            invoiceTaxableType:item.invoiceTaxableType
           }  
         }
         this.selectBusinessReduceLeaveTableList(params)
@@ -749,31 +738,24 @@
           .post("/perTaxToolTwo/e9z/e9zBusinessReduceLeaveTable/selectBusinessReduceLeaveTableList", params)
           .then(res => {
             if(res.data.code==200){
-              this.fscj=res.data.data[0].redLocalLeaveD;
-              console.log('this.fscj',this.fscj)
-              this.nextStepList.forEach(item=>{
-                 if (item.columnTitle == "负数冲减") {
-                      this.$set(item,'columnValue',this.fscj)
-                      this.$set(item,'defaultValue',this.fscj)
-                  } else if (item.columnTitle == "应税服务抵扣成本") {
-                      this.$set(item,'columnValue',this.ysfwdkcb)
-                      this.$set(item,'defaultValue',this.ysfwdkcb)
-                  }
-              })
-              if(this.detailData){
-                  if(this.detailData.invoiceColumnList){
-                      this.detailData.invoiceColumnList.forEach(item=>{
-                        if (item.columnTitle == "负数冲减") {
-                              this.$set(item,'columnValue',this.fscj)
-                          } else if (item.columnTitle == "应税服务抵扣成本") {
-                              this.$set(item,'columnValue',this.ysfwdkcb)
-                          }
-                      })
-                  }
+              if(res.data.hasOwnProperty('data')){
+                if(res.data.data.length>0){
+                  this.fscj=res.data.data[0].redLocalLeaveD;
+                  console.log('this.fscj',this.fscj)
+                  this.nextStepList.forEach(item=>{
+                    if (item.columnTitle == "负数冲减") {
+                          this.$set(item,'columnValue',this.fscj)
+                          this.$set(item,'defaultValue',this.fscj)
+                      } else if (item.columnTitle == "应税服务抵扣成本") {
+                          this.$set(item,'columnValue',this.ysfwdkcb)
+                          this.$set(item,'defaultValue',this.ysfwdkcb)
+                      }
+                  })
+                }
               }
             }
           }).catch((err) => {
-            console.log('负数留抵表接口失败')
+            console.log('负数留抵表接口失败',err)
           });
       },
       // 应税服务可抵扣
@@ -787,31 +769,24 @@
           .post("/perTaxToolTwo/e9z/E9zBusinessCreditsLeaveTable/selectBusinessCreditsLeaveTableList", params)
           .then(res => {
             if(res.data.code==200){
-              this.ysfwdkcb=res.data.data[0].crdLocalLeaveD;
-              console.log('this.ysfwdkcb',this.ysfwdkcb)
-              this.nextStepList.forEach(item=>{
-                 if (item.columnTitle == "负数冲减") {
-                      this.$set(item,'columnValue',this.fscj)
-                      this.$set(item,'defaultValue',this.fscj)
-                  } else if (item.columnTitle == "应税服务抵扣成本") {
-                      this.$set(item,'columnValue',this.ysfwdkcb)
-                      this.$set(item,'defaultValue',this.ysfwdkcb)
-                  }
-              })
-              if(this.detailData){
-                  if(this.detailData.invoiceColumnList){
-                      this.detailData.invoiceColumnList.forEach(item=>{
-                        if (item.columnTitle == "负数冲减") {
-                              this.$set(item,'columnValue',this.fscj)
-                          } else if (item.columnTitle == "应税服务抵扣成本") {
-                              this.$set(item,'columnValue',this.ysfwdkcb)
-                          }
-                      })
-                  }
+              if(res.data.hasOwnProperty('data')){
+                if(res.data.data.length>0){
+                   this.ysfwdkcb=res.data.data[0].crdLocalLeaveD;
+                   console.log('this.ysfwdkcb',this.ysfwdkcb)
+                  this.nextStepList.forEach(item=>{
+                    if (item.columnTitle == "负数冲减") {
+                          this.$set(item,'columnValue',this.fscj)
+                          this.$set(item,'defaultValue',this.fscj)
+                      } else if (item.columnTitle == "应税服务抵扣成本") {
+                          this.$set(item,'columnValue',this.ysfwdkcb)
+                          this.$set(item,'defaultValue',this.ysfwdkcb)
+                      }
+                  })
+                }
               }
             }
           }).catch((err) => {
-            console.log('应税服务可抵扣接口失败')
+            console.log('应税服务可抵扣接口失败',err)
           });
       },
       selectGet(vId){
@@ -890,7 +865,7 @@
                 this.getShowSumTaxPayable();
               }else{
                 this.$message({
-                  message: '暂无发票数据，请重新选择搜索条件！',
+                  message: '该账期暂无数据！',
                   type: 'warning'
                 });
                 this.addbtnflag=false;
@@ -1365,13 +1340,14 @@
         this.form = {
           name: "",
           amount: "",
-          taxCalcMethod: "", //计税方法
+          taxCalcMethod: 1, //计税方法
           invoiceType: "", //发票类型
           invoiceName: "" //发票名称
         };
         //  this.taxCalcMethodOptions= []; //计税方法选择框
         this.invoiceTypeOptions = []; //发票类型选择框
         this.invoiceNameOptions = []; //发票名称选择框
+        this.changeTaxMethod();
         this.$nextTick(() => {
           this.$refs["form"].resetFields();
         });
@@ -1421,7 +1397,16 @@
                       this.nextStepSelectList.push(item);
                     }
                   );
+                  this.nextStepSelectList.forEach(v=>{
+                    if(v.e9zConfigInvoiceTaxesRateList.length>0){
+                      v.taxesValue=v.e9zConfigInvoiceTaxesRateList[0].taxesRate
+                    }
+                    if(v.taxesTitle=="增值税"){
+                      this.changeZengzhi(v.taxesValue,'增值税',this.nextStepRes)
+                    }
+                  })
                 }
+                
                 this.addDialogVisible = false;
                 this.nextStepDialogVisible = true;
               })
@@ -1454,17 +1439,53 @@
               } else {
                 this.$set(item, "errInfo", "");
               }
-            } else {
+            }
+            if (item.columnTitle == "发票张数") {
               if (item.columnValue == "") {
-                this.$set(item, "errInfo", "");
-              } else if (!float4reg.test(item.columnValue)) {
-                this.$set(item, "errInfo", "整数位最多14位，小数位最多4位");
+                this.$set(item, "errInfo", "请填入发票张数");
+              } else if (!intreg.test(item.columnValue)) {
+                this.$set(item, "errInfo", "只可输入整数");
               } else {
                 this.$set(item, "errInfo", "");
               }
             }
+            else {
+              if (item.columnRequire == 1) {
+                if (item.columnValue == null || item.columnValue == "") {
+                  this.$set(item, "errInfo", "必填项不可为空");
+                } else if (!float4reg.test(item.columnValue)) {
+                  this.$set(item, "errInfo", "整数位最多14位，小数位最多4位");
+                } else {
+                  this.$set(item, "errInfo", "");
+                }
+              } else {
+                if (item.columnValue != null) {
+                  if (!float4reg.test(item.columnValue)) {
+                    this.$set(item, "errInfo", "整数位最多14位，小数位最多4位");
+                  } else {
+                    this.$set(item, "errInfo", "");
+                  }
+                }
+              }
+            }
           }
         });
+        let zengzhiValue,yinhuaValue,chengjianValue;
+        if(this.detailData.e9zConfigInvoiceTaxesList){
+          console.log('item.e9zConfigInvoiceTaxesList',this.detailData.e9zConfigInvoiceTaxesList)
+          // 获取选中的税率
+          
+          this.detailData.e9zConfigInvoiceTaxesList.forEach(item=>{
+            if(item.taxesTitle=='增值税'){
+              zengzhiValue=item.taxesValue
+            }else if(item.taxesTitle=='印花税'){
+              yinhuaValue=item.taxesValue
+            }else if(item.taxesTitle=='城市维护建设税'){
+              chengjianValue=item.taxesValue
+            }
+          })
+        } 
+        
         let flag = false;
         this.detailData.invoiceColumnList.forEach((item, index) => {
           if (item.errInfo != "") {
@@ -1529,6 +1550,15 @@
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "应税服务抵扣成本") {
                 obj.columnValue=this.ysfwdkcb?this.ysfwdkcb:0;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "增值税税率") {
+                obj.columnValue=zengzhiValue;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "印花税税率") {
+                obj.columnValue=yinhuaValue;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "城建税税率") {
+                obj.columnValue=chengjianValue;
               invoiceColumns.push(obj);
             }
             else {
@@ -1602,7 +1632,7 @@
         this.nextStepList.forEach((item, index) => {
           if (item.columnTitle == "发票张数") {
             if (this.form.name == "") {
-              this.$set(item, "errInfo", "");
+              this.$set(item, "errInfo", "请填入发票张数");
             } else if (!intreg.test(this.form.name)) {
               this.$set(item, "errInfo", "只可输入整数");
             } else {
@@ -1610,7 +1640,7 @@
             }
           } else if (item.columnTitle == "票面金额") {
             if (this.form.amount == "") {
-              this.$set(item, "errInfo", "");
+              this.$set(item, "errInfo", "请填入票面金额");
             } else if (!float4reg.test(this.form.amount)) {
               this.$set(item, "errInfo", "整数位最多14位，小数位最多4位");
             } else {
@@ -1666,6 +1696,13 @@
                   this.$set(item, "errInfo", "");
                 }
               }
+              if (item.taxesTitle == "城市维护建设税") {
+                if (item.taxesValue == undefined) {
+                  this.$set(item, "errInfo", "请选择城市维护建设税");
+                } else {
+                  this.$set(item, "errInfo", "");
+                }
+              }
             }
           });
         }
@@ -1685,7 +1722,7 @@
         console.log("flag", flag);
         if (!flag) {
           let invoiceColumns = [];
-          let zengzhiValue, yinhuaValue;
+          let zengzhiValue, yinhuaValue,chengjianValue;
           this.nextStepSelectList.forEach((item, index) => {
             if (item.taxesTitle == "增值税") {
               if (item.taxesValue != undefined) {
@@ -1697,8 +1734,13 @@
                 yinhuaValue = item.taxesValue;
               }
             }
+            if (item.taxesTitle == "城市维护建设税") {
+              if (item.taxesValue != undefined) {
+                chengjianValue = item.taxesValue;
+              }
+            }
           });
-          console.log("增值税", zengzhiValue, yinhuaValue);
+          console.log("选中的税率", zengzhiValue, yinhuaValue,chengjianValue);
           this.nextStepList.forEach((item, index) => {
             var obj = {};
             obj.columnId = item.columnId;
@@ -1724,6 +1766,9 @@
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "印花税税率") {
               obj.columnValue = yinhuaValue;
+              invoiceColumns.push(obj);
+            } else if (item.columnTitle == "城建税税率") {
+              obj.columnValue = chengjianValue;
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "负数冲减") {
                 obj.columnValue=this.fscj?this.fscj:0;
@@ -1808,6 +1853,13 @@
           });
           return;
         }
+        if(this.invoicePanelList.length==0){
+          this.$message({
+            message: "当前暂无发票数据，不支持审批",
+            type: "warning"
+          });
+          return;
+        }
         let params={
           taxationId:this.taxationId,
           taxInfoId:this.taxInfoId,
@@ -1848,6 +1900,7 @@
         console.log("item,", item);
         item.invoiceColumnList = [];
         item.taxColumnList = [];
+        let zengzhiValue,yinhuaValue,chengjianValue;
         item.e9zConfigInvoiceColumnList.forEach(v => {
           this.$set(v, "isEdit", false);
           this.$set(v, "errInfo", "");
@@ -1887,18 +1940,38 @@
             v.columnValue = v.columnValue ? this.fomatFloat(v.columnValue, 2) : this.fomatFloat(v.defaultValue, 2);
             item.invoiceColumnList.push(v);
           }
-          if (v.columnTitle.indexOf("税率") > -1) {
-            v.columnValue = parseFloat(v.columnValue)
-            item.taxColumnList.push(v);
+          if(v.columnTitle=='增值税税率'){
+            zengzhiValue =parseFloat(v.columnValue);
+          }else if(v.columnTitle=='印花税税率'){
+            yinhuaValue=parseFloat(v.columnValue);
+          }else if(v.columnTitle=='城建税税率'){
+            chengjianValue=parseFloat(v.columnValue);
           }
         });
+        if(item.invoiceId){
+          item.e9zConfigInvoiceTaxesList.forEach(v=>{
+          this.$set(v, "errInfo", "");
+            if(v.taxesTitle=='增值税'){
+              this.$set(v, "taxesValue", zengzhiValue);
+            }else if(v.taxesTitle=='印花税'){
+              this.$set(v, "taxesValue", yinhuaValue);
+            }else if(v.taxesTitle=='城市维护建设税'){
+              this.$set(v, "taxesValue", chengjianValue);
+            }
+          })
+          console.log('item.e9zConfigInvoiceTaxesList',item.e9zConfigInvoiceTaxesList)
+        }
+        
+        
         this.detailData = item;
       },
       editPanel(item, child) {
         console.log("item,,,", item);
         console.log("child,,,", child);
         if(child.columnTitle.indexOf('税率')>-1){
-          this.showDetail(item);
+          if(item.invoiceId){
+            this.showDetail(item);
+          }
         }else{
           child.columnValue=child.columnValue? this.fomatFloat(child.columnValue,2): this.fomatFloat(child.defaultValue,2);
           item.e9zConfigInvoiceColumnList.forEach(v => {
@@ -1923,6 +1996,7 @@
         });
         item.invoiceColumnList = [];
         item.taxColumnList = [];
+        let zengzhiValue,yinhuaValue,chengjianValue;
         item.e9zConfigInvoiceColumnList.forEach(v => {
           this.$set(v, "isEdit", false);
           this.$set(v, "errInfo", "");
@@ -1962,11 +2036,31 @@
             v.columnValue = v.columnValue ? this.fomatFloat(v.columnValue, 2) : this.fomatFloat(v.defaultValue, 2);
             item.invoiceColumnList.push(v);
           }
-          if (v.columnTitle.indexOf("税率") > -1) {
-            v.columnValue = parseFloat(v.columnValue)
-            item.taxColumnList.push(v);
+          if(v.columnTitle=='增值税税率'){
+            zengzhiValue =this.fomatFloat(v.columnValue, 2);
+          }else if(v.columnTitle=='印花税税率'){
+            yinhuaValue=this.fomatFloat(v.columnValue, 2);
+          }else if(v.columnTitle=='城建税税率'){
+            chengjianValue=this.fomatFloat(v.columnValue, 2);
           }
+          // if (v.columnTitle.indexOf("税率") > -1) {
+          //   v.columnValue = parseFloat(v.columnValue)
+          //   item.taxColumnList.push(v);
+          // }
+          
+          // console.log('item.taxColumnList',item.taxColumnList)
         });
+        item.e9zConfigInvoiceTaxesList.forEach(v=>{
+          this.$set(v, "errInfo", "");
+            if(v.taxesTitle=='增值税'){
+              v.taxesValue=zengzhiValue
+            }else if(v.taxesTitle=='印花税'){
+              v.taxesValue=yinhuaValue
+            }else if(v.taxesTitle=='城市维护建设税'){
+              v.taxesValue=chengjianValue
+            }
+          })
+          console.log('item.e9zConfigInvoiceTaxesList',item.e9zConfigInvoiceTaxesList)
         this.detailData = item;
         this.edit();
 
@@ -2463,7 +2557,6 @@
     height: 0.20rem;
     right: 0.04rem;
     top: 0.04rem;
-    border-radius: 50%;
     cursor: pointer;
   }
 </style>

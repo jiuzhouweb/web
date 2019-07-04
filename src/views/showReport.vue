@@ -8,6 +8,8 @@
                     <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" size="small" filterable>
                         <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
                         </el-option>
+                        <!-- <el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+                        </el-option> -->
                     </el-select>
                     <!-- <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
 						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
@@ -52,7 +54,7 @@
             <div class="Infobox">
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="line1">
-                        <el-form-item label="税款所属时间：">
+                        <el-form-item label="税款所属时间：" class="leftWidth">
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -65,7 +67,7 @@
                         </el-form-item>
                     </div>
                     <div class="line2">
-                        <el-form-item label="纳税人识别号：">
+                        <el-form-item label="纳税人识别号：" class="leftWidth">
                             <el-input v-model="uploadData.taxerNumber"></el-input>
                         </el-form-item>
                         <el-form-item label="所属行业：">
@@ -73,7 +75,7 @@
                         </el-form-item>
                     </div>
                     <div class="line3">
-                        <el-form-item label="纳税人名称：">
+                        <el-form-item label="纳税人名称：" class="leftWidth">
                             <div class="inlineInput input1">
                                 <el-input v-model="uploadData.taxerName"></el-input>
                                 <span style="width:1.6rem">（公章）</span>
@@ -96,7 +98,7 @@
                         </el-form-item>
                     </div>
                     <div class="line4">
-                        <el-form-item label="开户银行及账号：">
+                        <el-form-item label="开户银行及账号：" class="leftWidth">
                             <el-input v-model="uploadData.bank"></el-input>
                         </el-form-item>
                         <el-form-item label="登记注册类型：">
@@ -145,7 +147,7 @@
                         </el-form-item>
                     </div>
                     <div class="line3">
-                        <el-form-item label="纳税人名称：">
+                        <el-form-item label="纳税人名称：" class="leftWidth">
                             <div class="inlineInput">
                                 <el-input v-model="uploadData.taxerName"></el-input>
                                 <span style="width:1.6rem">（公章）</span>
@@ -160,18 +162,18 @@
             <div class="Infobox" v-if="statusVaule=='城市维护建设税、教育费附加、地方教育附加申报表'">
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="line1">
-                        <el-form-item label="税款所属期限：">
+                        <el-form-item label="税款所属期限：" class="leftWidth2">
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
                     </div>
                     <div class="line2">
-                        <el-form-item label="纳税人识别号（统一社会信用代码）：">
+                        <el-form-item label="纳税人识别号（统一社会信用代码）：" class="leftWidth2">
                             <el-input v-model="uploadData.taxerNumber"></el-input>
                         </el-form-item>
                     </div>
                     <div class="line3">
-                        <el-form-item label="纳税人名称：">
+                        <el-form-item label="纳税人名称：" class="leftWidth2">
                             <div class="inlineInput">
                                 <el-input v-model="uploadData.taxerName"></el-input>
                                 <span style="width:1.6rem">（公章）</span>
@@ -210,12 +212,12 @@
             <div class="Infobox" v-if="statusVaule=='小规模纳税人主表'">
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="line1">
-                        <el-form-item label="纳税人识别号：">
+                        <el-form-item label="纳税人识别号：" class="leftWidth">
                             <el-input v-model="uploadData.taxerNumber"></el-input>
                         </el-form-item>
                     </div>
                     <div class="line2">
-                        <el-form-item label="纳税人名称：">
+                        <el-form-item label="纳税人名称：" class="leftWidth">
                             <div class="inlineInput">
                                 <el-input v-model="uploadData.taxerName"></el-input>
                                 <span style="width:1.6rem">（公章）</span>
@@ -226,7 +228,7 @@
                         </el-form-item>
                     </div>
                     <div class="line3">
-                        <el-form-item label="税款所属时间：">
+                        <el-form-item label="税款所属时间：" class="leftWidth">
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd" value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -240,7 +242,7 @@
             <div class="InfoBox4" v-if="statusVaule=='小规模纳税人附列资料'">
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="Infobox4line1">
-                        <el-form-item label="税款所属期限：">
+                        <el-form-item label="税款所属期限：" class="leftWidth">
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -250,7 +252,7 @@
                         </el-form-item>
                     </div>
                     <div class="Infobox4line2">
-                        <el-form-item label="纳税人名称：">
+                        <el-form-item label="纳税人名称：" class="leftWidth">
                             <div class="inlineInput">
                                 <el-input v-model="uploadData.taxerName"></el-input>
                                 <span style="width:1.6rem">（公章）</span>
@@ -2036,13 +2038,13 @@ export default {
     //     customerId: "jz3779",
     //     customerName: "九洲APP测试专用",
     //     reportTaxPeriod: null,
-    //     reportTaxType: 2,
+    //     reportTaxType: 232,
     //     taxPayerId: "11111111111111111111",
     // }, {
     //     customerId: "jz3774",
     //     customerName: "44",
     //     reportTaxPeriod: null,
-    //     reportTaxType: 1,
+    //     reportTaxType: 233,
     //     taxPayerId: "2222222222",
     // }]
     //   默认第一个用户
@@ -2112,6 +2114,10 @@ export default {
         //这里的selectList就是上面遍历的数据源
         return item.customerId === vId; //筛选出匹配数据
       });
+      // this.userobj = this.searchList.options.find(item => {
+      //   //这里的selectList就是上面遍历的数据源
+      //   return item.customerId === vId; //筛选出匹配数据
+      // });
       console.log("this.userobj", this.userobj);
       this.searchList.value = this.userobj.customerId;
       this.customerId = this.userobj.customerId;
@@ -2294,6 +2300,21 @@ export default {
       month = month < 10 ? "0" + month : month;
       this.searchList.nowDate = year.toString() + "-" + month.toString();
       this.accountPeriod = year.toString() + "-" + month.toString();
+    },
+    getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
     },
     // 获取表格数据
     getTableData(statusVaule) {
@@ -3298,23 +3319,6 @@ export default {
         });
     },
     search() {
-      // console.log("this.searchList.value", this.searchList.value);
-      // this.customerId = "";
-      // if (this.searchList.value) {
-      //   this.userobj = this.$store.state.cust.find(
-      //     item => item.value === this.searchList.value
-      //   );
-      //   if (this.userobj) {
-      //     this.customerId = this.userobj.customerId;
-      //   } else {
-      //     this.customerId = "";
-      //   }
-      // }
-      this.accountPeriod = this.searchList.nowDate;
-      this.customerId=this.searchList.value;
-      this.statusVaule = this.searchList.statusVaule;
-      this.taxationId = "";
-      this.taxinfoid = "";
       if (!this.searchList.value || !this.searchList.nowDate) {
         this.$message({
           message: "请先选择客户和账期后再查询",
@@ -3322,6 +3326,26 @@ export default {
         });
         return;
       }
+      this.accountPeriod = this.searchList.nowDate;
+      this.customerId=this.searchList.value;
+      this.statusVaule = this.searchList.statusVaule;
+      this.taxationId = "";
+      this.taxinfoid = "";
+      // 填入纳税人识别号，所属时间，填表日期
+      this.uploadData.taxerName=this.userobj.customerName;
+      var lastDay= new Date(this.accountPeriod.split("-")[0],this.accountPeriod.split("-")[1],0);
+      var year = lastDay.getFullYear();
+      var month = lastDay.getMonth() + 1;
+      month = month < 10 ? '0'+ month : month;
+      var day = lastDay.getDate();
+      day = day < 10 ? '0'+day : day;
+      var startDay=year+'-'+month+'-01';
+      var endDay=year+'-'+month+'-'+day;
+      this.uploadData.shuikuanDate=[startDay,endDay];
+      this.uploadData.tianbiaoDate=this.getNowFormatDate();
+      console.log('111',this.uploadData)
+
+      
       this.getInfoId();
     }
     // clear() {
@@ -3349,6 +3373,14 @@ export default {
 }
 .tianbiaoDate .el-date-editor {
   width: 2rem;
+}
+.leftWidth .el-form-item__label{
+      width: 1.2rem;
+    text-align: left;
+}
+.leftWidth2 .el-form-item__label{
+      width: 2.6rem;
+    text-align: left;
 }
 </style>
 
