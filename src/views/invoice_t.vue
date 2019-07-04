@@ -44,7 +44,7 @@
         <div class="searchButton" @click="search()" style="margin-bottom:0.1rem;margin-right:0.1rem">查询</div>
         <div class="addInvioceButton" style="margin-right:0.1rem;margin-bottom:0.1rem">批量删除</div>
         <div class="deleteButton" v-if="!issubmit" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="submitStep()">审批</div>
-        <div class="importButton2" style="margin-right:0.1rem" @click="insertReport()">生成报表</div>
+        <div class="importButton2" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="insertReport()">生成报表</div>
         <!--  -->
       </div>
       <div class="invoice_oListModule">
@@ -62,8 +62,8 @@
             </div>
           </div>
           <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
-            <div v-if="!item.isdelete" @click="selectDelete(item)" class="circle"></div>
-            <i v-if="item.isdelete" @click="selectDelete(item)" class="el-icon-success" style="cursor:pointer;position: absolute;right: -0.1rem;top:-0.1rem;font-size: 0.26rem;color: #409EFF;"></i>
+            <div v-if="!item.isdelete&&item.invoiceId" @click="selectDelete(item)" class="circle"></div>
+            <i v-if="item.isdelete&&item.invoiceId" @click="selectDelete(item)" class="el-icon-success" style="cursor:pointer;position: absolute;right: -0.1rem;top:-0.1rem;font-size: 0.26rem;color: #409EFF;"></i>
             <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
             <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
               <div class="line1">
@@ -71,7 +71,7 @@
                 <p v-if="item.invoiceId" class="bigTitle">{{item.invoiceCategory}} {{item.invoiceType}}</p>
                 <!-- <p v-if="item.invoiceId" class="bigTitle" style="margin-left:0.15rem;">{{item.invoiceType}}</p> -->
                 <p class="smallTitle" @click="showDetail(item)">详情</p>
-                <p class="smallTitle">删除</p>
+                <p v-if="item.invoiceId" class="smallTitle">删除</p>
               </div>
               <!-- <div v-if="!item.tmplId" class="line2" style="position:relative"> -->
                 <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
@@ -482,12 +482,96 @@
     //     taxPayerId: "2222222222",
     // }]
       this.getNowMonth();
-      this.getTaxCalcMethod();
+      // this.getTaxCalcMethod();
       this.findInvoiceType();
       this.findInvoiceName();
       
     },
     methods: {
+     // 删除
+      deleteInvoice(item){
+        console.log(item);
+        item.e9zConfigInvoiceColumnList.forEach(v=>{
+          if(v.columnName=='id'){
+            item.id=v.columnValue
+          }
+        })
+        let obj={
+          id:item.id,
+          invoiceTaxableType:item.invoiceTaxableType,
+          taxesTaxType:this.userobj.reportTaxType,
+          invoiceName:item.invoiceName
+        }
+        let params=[];
+        params=[obj];
+        this.$confirm('是否确定删除发票?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.deleteMethod(params)
+          
+        }).catch(() => {
+                   
+        });
+        
+      },
+      deleteMoreInvoice(){
+        let deleteArr=[];
+        this.invoicePanelList.forEach(item=>{
+          item.e9zConfigInvoiceColumnList.forEach(v=>{
+          if(v.columnName=='id'){
+            item.id=v.columnValue
+          }
+        })
+          if(item.isdelete){
+            var obj={};
+            obj.id=item.id;
+            obj.invoiceTaxableType=item.invoiceTaxableType;
+            obj.taxesTaxType=this.userobj.reportTaxType;
+            obj.invoiceName=item.invoiceName
+            deleteArr.push(obj)
+          }
+        })
+        console.log('delete',deleteArr)
+        let params=deleteArr;
+        if(deleteArr.length==0){
+          this.$message({
+              type: 'warning',
+              message: '请至少选中一条数据后再删除!'
+            });
+        }else{
+          this.$confirm('是否确定删除发票?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.deleteMethod(params)
+          
+        }).catch(() => {
+                   
+        });
+        }
+      },
+      deleteMethod(params){
+          axios
+          .post("/perTaxToolTwo/e9zCalculate/deleteInvoice",params)
+          .then(res => {
+            console.log("删除发票接口", res);
+            if (res.data.code == 200) {
+              this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+              this.getInvoiceLeaveShowList();
+                this.getShowSumIncome();
+                this.getShowSumDeduct();
+                this.getShowSumTaxPayable();
+            }
+          }).catch((err) => {
+            
+          });
+      },
       // 查询发票类型
       findInvoiceType(){
         axios
@@ -1235,6 +1319,21 @@
             console.log("获取计税方法", res);
             if (res.data.code == 200) {
               this.taxCalcMethodOptions = res.data.data;
+              // 小规模，计税方法只展示一般计税
+              if(this.userobj.reportTaxType==232){
+                this.taxCalcMethodOptions=[{
+                  dicId: 5,
+                  dicLevel: 2,
+                  dicName: "一般计税",
+                  dicValue: 1,
+                  operateDate: "2019-05-29 08:49:37",
+                  operateUserId: "0",
+                  operateUserName: null,
+                  parentLevel: null,
+                  remark: null,
+                  state: 1,
+                }]
+              }
             }
           })
           .catch(err => {
@@ -1309,6 +1408,7 @@
       },
       // 新增弹窗1
       addDialog() {
+        this.getTaxCalcMethod();
         this.form = {
           name: "",
           amount: "",
@@ -1493,7 +1593,7 @@
             taxCalcType: this.detailData.taxCalcType, //计税方法：1 - 一般计税；2 - 简易征收计税
             reducePriority: this.detailData.reducePriority, //抵扣优先级
             tmplShowType: this.detailData.tmplShowType, //下拉框（0-发票 1-其他模板）
-            taxesTaxType: this.detailData.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
+            taxesTaxType: this.userobj.reportTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
             type: this.detailData.type, //对应列/税费下拉框 1-列 2-税费
             declarationType: declarationType, //1：小规模，2一般纳税人
             e9zConfigInvoiceColumnList: invoiceColumns
@@ -1695,7 +1795,7 @@
             taxCalcType: this.nextStepRes.taxCalcType, //计税方法：1 - 一般计税；2 - 简易征收计税
             reducePriority: this.nextStepRes.reducePriority, //抵扣优先级
             tmplShowType: this.nextStepRes.tmplShowType, //下拉框（0-发票 1-其他模板）
-            taxesTaxType: this.nextStepRes.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
+            taxesTaxType: this.userobj.reportTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
             type: this.nextStepRes.type, //对应列/税费下拉框 1-列 2-税费
             declarationType: declarationType, //申报类型 1：小规模，2一般纳税人
             e9zConfigInvoiceColumnList: invoiceColumns
