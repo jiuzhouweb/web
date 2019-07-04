@@ -62,9 +62,9 @@
             </div>
           </div>
           <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
-            <div v-if="!item.isdelete&&item.invoiceId" @click="selectDelete(item)" class="circle"></div>
-            <i v-if="item.isdelete&&item.invoiceId" @click="selectDelete(item)" class="el-icon-success" style="cursor:pointer;position: absolute;right: -0.1rem;top:-0.1rem;font-size: 0.26rem;color: #409EFF;"></i>
-            <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
+            <img v-if="!item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/noselect.png" class="circle" alt="">
+            <img v-if="item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/select.png" class="circle" alt="">
+           <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
             <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
               <div class="line1">
                 <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
@@ -2523,13 +2523,12 @@
     color: #43b3db;
   }
   .circle{
-        position: absolute;
-    width: 0.22rem;
-    height: 0.22rem;
-    right: -0.1rem;
-    top: -0.1rem;
+    position: absolute;
+    width: 0.20rem;
+    height: 0.20rem;
+    right: 0.04rem;
+    top: 0.04rem;
     border-radius: 50%;
     cursor: pointer;
-    background: #fff;
   }
 </style>
