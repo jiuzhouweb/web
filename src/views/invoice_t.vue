@@ -62,9 +62,9 @@
             </div>
           </div>
           <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
-            <div v-if="!item.isdelete&&item.invoiceId" @click="selectDelete(item)" class="circle"></div>
-            <i v-if="item.isdelete&&item.invoiceId" @click="selectDelete(item)" class="el-icon-success" style="cursor:pointer;position: absolute;right: -0.1rem;top:-0.1rem;font-size: 0.26rem;color: #409EFF;"></i>
-            <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
+            <img v-if="!item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/noselect.png" class="circle" alt="">
+            <img v-if="item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/select.png" class="circle" alt="">
+           <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
             <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
               <div class="line1">
                 <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
@@ -1531,32 +1531,44 @@
               obj.columnValue = this.taxationId;
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "发票项目类型") {
-              if(item.columnValue=='一般'){
-                obj.columnValue='1'
-              }else if(item.columnValue=='即征即退'){
-                obj.columnValue='2'
+              if(item.defaultValue){
+                obj.columnValue=item.defaultValue
               }else{
-                obj.columnValue=''
+                if(item.columnValue=='一般'||item.columnValue=='1'){
+                  obj.columnValue='1'
+                }else if(item.columnValue=='即征即退'||item.columnValue=='2'){
+                  obj.columnValue='2'
+                }else{
+                  obj.columnValue=''
+                }
               }
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "应税类型") {
-              if(item.columnValue=='应税货物'){
-                obj.columnValue='1'
-              }else if(item.columnValue=='应税劳务'){
-                obj.columnValue='2'
-              }else if(item.columnValue=='应税服务'){
-                obj.columnValue='3'
+              if(item.defaultValue){
+                obj.columnValue=item.defaultValue
               }else{
-                obj.columnValue=''
+                if(item.columnValue=='应税货物'||item.columnValue=='1'){
+                  obj.columnValue='1'
+                }else if(item.columnValue=='应税劳务'||item.columnValue=='2'){
+                  obj.columnValue='2'
+                }else if(item.columnValue=='应税服务'||item.columnValue=='3'){
+                  obj.columnValue='3'
+                }else{
+                  obj.columnValue=''
+                }
               }
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "是否是辅导期") {
-              if(item.columnValue=='是'){
-                obj.columnValue='1'
-              }else if(item.columnValue=='否'){
-                obj.columnValue='2'
-              }else{
-                obj.columnValue=''
+              if(item.defaultValue){
+                obj.columnValue=item.defaultValue
+              }else{  
+                if(item.columnValue=='是'||item.columnValue=='1'){
+                  obj.columnValue='1'
+                }else if(item.columnValue=='否'||item.columnValue=='2'){
+                  obj.columnValue='2'
+                }else{
+                  obj.columnValue=''
+                }
               }
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "负数冲减") {
@@ -1761,10 +1773,10 @@
               obj.columnValue = yinhuaValue;
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "负数冲减") {
-                obj.columnValue=this.fscj;
+                obj.columnValue=this.fscj?this.fscj:0;
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "应税服务抵扣成本") {
-                obj.columnValue=this.ysfwdkcb;
+                obj.columnValue=this.ysfwdkcb?this.ysfwdkcb:0;
               invoiceColumns.push(obj);
             } else {
               obj.columnValue = item.defaultValue;
@@ -2511,13 +2523,12 @@
     color: #43b3db;
   }
   .circle{
-        position: absolute;
-    width: 0.22rem;
-    height: 0.22rem;
-    right: -0.1rem;
-    top: -0.1rem;
+    position: absolute;
+    width: 0.20rem;
+    height: 0.20rem;
+    right: 0.04rem;
+    top: 0.04rem;
     border-radius: 50%;
     cursor: pointer;
-    background: #fff;
   }
 </style>
