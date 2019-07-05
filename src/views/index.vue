@@ -141,7 +141,7 @@
 					</el-row>
 				</el-aside>
 				<el-container>
-					<el-main>
+					<el-main style='height: 100%;'>
 						<keep-alive>
 							<router-view></router-view>
 						</keep-alive>

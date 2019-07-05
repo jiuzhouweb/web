@@ -221,7 +221,7 @@
 			},
 			submitCard(row, status, nextStepName) {
 				let params = {
-					"taxationId": "3", //税款Id
+					"taxationId": row.taxationId, //税款Id
 					"taxInfoId": row.taxInfoId, //收账信息id
 					"stepName": row.stepName, //步骤名称
 					"nextStepName": nextStepName, //下一个步骤名称
@@ -254,7 +254,8 @@
 				this.info = obj;
 				let params = {
 					"fplrTaxationId": item.fplr,
-
+					"fplrTaxInfoId":item.fplrTaxInfoId,
+					"zzTaxInfoId":item.zzTaxInfoId,
 					"zzTaxationId": item.zz,
 
 				}
