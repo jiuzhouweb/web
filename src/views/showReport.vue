@@ -2463,7 +2463,10 @@ export default {
                 } else if (item.xm == "合计") {
                     if(typeof item == "object"){
                         for(let key in item){
+                            alert(key)
+                            alert(item[key])
                             if(item[key].columnValue.indexOf('.')>-1){
+                                
                                 item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
                             }
                         }
