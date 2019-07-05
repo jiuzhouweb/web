@@ -414,7 +414,7 @@ export default {
         .post(url, params)
         .then(res => {
           console.log("获取表格数据", res);
-          this.loading = false;
+          setTimeout("this.loading = false;", 2000 )
           if (res.data.code == 200) {
             this.tableTabs.forEach(item => {
               if (name == item.name) {
@@ -459,6 +459,13 @@ export default {
       this.accountPeriod = this.searchList.nowDate;
       this.customerId=this.searchList.value;
       this.statusVaule = this.searchList.statusVaule;
+      if(!this.searchList.value||!this.searchList.nowDate){
+          this.$message({
+            message: "请先选择客户和账期后再查询",
+            type: "warning"
+          });
+          return;
+        }
       this.getTableData(this.activeName);
     },
     clear() {

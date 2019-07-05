@@ -58,7 +58,7 @@
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
-                        <el-form-item class="tianbiaoDate" label="填表日期：">
+                        <el-form-item class="tianbiaoDate" label="填表日期：" style="margin-left: -2.5rem;">
                             <el-date-picker v-model="uploadData.tianbiaoDate" type="date" format="yyyy-MM-dd " value-format="yyyy-MM-dd" placeholder="选择日期" clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -81,7 +81,7 @@
                                 <span style="width:1.6rem">（公章）</span>
                             </div>
                         </el-form-item>
-                        <el-form-item label="法定代表人姓名：">
+                        <el-form-item label="法定代表人姓名：" style="margin-left: -1.3rem;">
                             <div class="input2">
                                 <el-input v-model="uploadData.legalName"></el-input>
                             </div>
