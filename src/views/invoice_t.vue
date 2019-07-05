@@ -49,7 +49,7 @@
       </div>
       <div class="invoice_oListModule">
         <div class="cardBox" v-loading="loadingCard">
-          <div class="eachCard" v-if="addbtnflag">
+          <div class="eachCard">
             <div class="topContent tophj hjColor">
               <p class="comName">{{customerName}}</p>
               <p class="dateName">{{accountPeriod}}</p>
