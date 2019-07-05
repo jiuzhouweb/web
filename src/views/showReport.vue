@@ -2485,7 +2485,8 @@ export default {
                       
                   }
               }
-              this.total1 =
+              if(this.thisData){
+                  this.total1 =
                 Number(this.thisData["ybxmjjdjejsqcye"].columnValue) +
                 Number(this.thisData["jzjtxmjjdjejsqcye"].columnValue);
               console.log(
@@ -2509,6 +2510,8 @@ export default {
               this.total6 =
                 Number(this.thisData["ybxmjjdjejsqmye"].columnValue) +
                 Number(this.thisData["jzjtxmjjdjejsqmye"].columnValue);
+              }
+              
             } else {
               this.thisData = res.data.data;
               for(let key in this.thisData){
