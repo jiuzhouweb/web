@@ -2373,7 +2373,7 @@ export default {
                   }
               }
               for(let key in this.lastData){
-                  if(typeof this.lastData[key].columnValue=='number'&&key!='id'&&this.lastData[key].columnValue!=0){
+                  if(typeof this.lastData[key]=='number'&&key!='id'&&this.lastData[key]!=0){
                           this.lastData[key]=this.fomatFloat(this.lastData[key],2)
                   }
               }
