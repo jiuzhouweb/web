@@ -182,11 +182,15 @@
             </div>
           </div>
           <div class="taxRate" v-if="!detailData.tmplId">
-            <div class="valueBox" v-if="item.e9zConfigInvoiceTaxesRateList.length>0" v-for="(item,index) in detailData.e9zConfigInvoiceTaxesList" :key="index">
+            <div class="valueBox" v-if="!issubmit&&item.e9zConfigInvoiceTaxesRateList.length>0" v-for="(item,index) in detailData.e9zConfigInvoiceTaxesList" :key="index">
                 <p class="label">{{item.taxesTitle}}</p>
                 <el-select style="margin-left:0.1rem" v-model="item.taxesValue" placeholder="请选择">
                   <el-option v-for="child in item.e9zConfigInvoiceTaxesRateList" :label="child.taxesRate" :value="child.taxesRate"></el-option>
                 </el-select>
+            </div>
+            <div class="valueBox" v-if="issubmit&&item.e9zConfigInvoiceTaxesRateList.length>0" v-for="(item,index) in detailData.e9zConfigInvoiceTaxesList" :key="index">
+                <p class="label">{{item.taxesTitle}}</p>
+                <p style="margin-left:0.1rem">{{item.taxesValue}}</p>
             </div>
           </div>
           <div class="content">
@@ -430,19 +434,6 @@
       // listModule
     },
     watch: {
-      taxesList(val) {
-        console.log('taxesList111', val)
-        val.forEach(item => {
-          if (item.taxesName == '增值税') {
-            this.zengzhiTaxList = item.taxes;
-          } else if (item.taxesName == '印花税') {
-            this.yinhuaTaxList = item.taxes;
-          } else if (item.taxesName == '城市维护建设税') {
-            this.chengjianTaxList = item.taxes;
-          }
-        })
-        console.log('this.zengzhiTaxList0', this.zengzhiTaxList)
-      }
     },
     mounted() {
         this.searchList.options=this.$store.state.cust;
@@ -865,7 +856,7 @@
                 this.getShowSumTaxPayable();
               }else{
                 this.$message({
-                  message: '该账期暂无数据！',
+                  message: '该账期未启动税款流！',
                   type: 'warning'
                 });
                 this.addbtnflag=false;
@@ -1470,7 +1461,7 @@
             }
           }
         });
-        let zengzhiValue,yinhuaValue,chengjianValue;
+        let zengzhiValue,yinhuaValue,chengjianValue,xiaofeiValue;
         if(this.detailData.e9zConfigInvoiceTaxesList){
           console.log('item.e9zConfigInvoiceTaxesList',this.detailData.e9zConfigInvoiceTaxesList)
           // 获取选中的税率
@@ -1482,6 +1473,8 @@
               yinhuaValue=item.taxesValue?item.taxesValue:0
             }else if(item.taxesTitle=='城市维护建设税'){
               chengjianValue=item.taxesValue?item.taxesValue:0
+            }else if(item.taxesTitle=='消费税'){
+              xiaofeiValue=item.taxesValue?item.taxesValue:0
             }
           })
         } 
@@ -1559,6 +1552,9 @@
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "城建税税率") {
                 obj.columnValue=chengjianValue;
+              invoiceColumns.push(obj);
+            } else if (item.columnName == "verified_rate") {
+                obj.columnValue=xiaofeiValue;
               invoiceColumns.push(obj);
             }
             else {
@@ -1724,7 +1720,7 @@
         console.log("flag", flag);
         if (!flag) {
           let invoiceColumns = [];
-          let zengzhiValue, yinhuaValue,chengjianValue;
+          let zengzhiValue, yinhuaValue,chengjianValue,xiaofeiValue;
           this.nextStepSelectList.forEach((item, index) => {
             if (item.taxesTitle == "增值税") {
               // if (item.taxesValue != undefined) {
@@ -1741,8 +1737,13 @@
                 chengjianValue = item.taxesValue?item.taxesValue:0;
               // }
             }
+            if (item.taxesTitle == "消费税") {
+              // if (item.taxesValue != undefined) {
+                xiaofeiValue = item.taxesValue?item.taxesValue:0;
+              // }
+            }
           });
-          console.log("选中的税率", zengzhiValue, yinhuaValue,chengjianValue);
+          console.log("选中的税率", zengzhiValue, yinhuaValue,chengjianValue,xiaofeiValue);
           this.nextStepList.forEach((item, index) => {
             var obj = {};
             obj.columnId = item.columnId;
@@ -1771,6 +1772,9 @@
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "城建税税率") {
               obj.columnValue = chengjianValue;
+              invoiceColumns.push(obj);
+            } else if (item.columnName == "verified_rate") {
+              obj.columnValue = xiaofeiValue;
               invoiceColumns.push(obj);
             } else if (item.columnTitle == "负数冲减") {
                 obj.columnValue=this.fscj?this.fscj:0;
@@ -1910,7 +1914,7 @@
         console.log("item,", item);
         item.invoiceColumnList = [];
         item.taxColumnList = [];
-        let zengzhiValue,yinhuaValue,chengjianValue;
+        let zengzhiValue,yinhuaValue,chengjianValue,xiaofeiValue;
         item.e9zConfigInvoiceColumnList.forEach(v => {
           this.$set(v, "isEdit", false);
           this.$set(v, "errInfo", "");
@@ -1956,6 +1960,8 @@
             yinhuaValue=parseFloat(v.columnValue);
           }else if(v.columnTitle=='城建税税率'){
             chengjianValue=parseFloat(v.columnValue);
+          }else if(v.columnName=='verified_rate'){
+            xiaofeiValue=parseFloat(v.columnValue);
           }
         });
         if(item.invoiceId){
@@ -1967,6 +1973,8 @@
               this.$set(v, "taxesValue", yinhuaValue);
             }else if(v.taxesTitle=='城市维护建设税'){
               this.$set(v, "taxesValue", chengjianValue);
+            }else if(v.taxesTitle=='消费税'){
+              this.$set(v, "taxesValue", xiaofeiValue);
             }
           })
           console.log('item.e9zConfigInvoiceTaxesList',item.e9zConfigInvoiceTaxesList)
@@ -2006,7 +2014,7 @@
         });
         item.invoiceColumnList = [];
         item.taxColumnList = [];
-        let zengzhiValue,yinhuaValue,chengjianValue;
+        
         item.e9zConfigInvoiceColumnList.forEach(v => {
           this.$set(v, "isEdit", false);
           this.$set(v, "errInfo", "");
@@ -2046,31 +2054,7 @@
             v.columnValue = v.columnValue ? this.fomatFloat(v.columnValue, 2) : this.fomatFloat(v.defaultValue, 2);
             item.invoiceColumnList.push(v);
           }
-          if(v.columnTitle=='增值税税率'){
-            zengzhiValue =this.fomatFloat(v.columnValue, 2);
-          }else if(v.columnTitle=='印花税税率'){
-            yinhuaValue=this.fomatFloat(v.columnValue, 2);
-          }else if(v.columnTitle=='城建税税率'){
-            chengjianValue=this.fomatFloat(v.columnValue, 2);
-          }
-          // if (v.columnTitle.indexOf("税率") > -1) {
-          //   v.columnValue = parseFloat(v.columnValue)
-          //   item.taxColumnList.push(v);
-          // }
-          
-          // console.log('item.taxColumnList',item.taxColumnList)
         });
-        item.e9zConfigInvoiceTaxesList.forEach(v=>{
-          this.$set(v, "errInfo", "");
-            if(v.taxesTitle=='增值税'){
-              v.taxesValue=zengzhiValue
-            }else if(v.taxesTitle=='印花税'){
-              v.taxesValue=yinhuaValue
-            }else if(v.taxesTitle=='城市维护建设税'){
-              v.taxesValue=chengjianValue
-            }
-          })
-          console.log('item.e9zConfigInvoiceTaxesList',item.e9zConfigInvoiceTaxesList)
         this.detailData = item;
         this.edit();
 
