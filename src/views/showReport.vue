@@ -282,7 +282,7 @@
                         <td rowspan="10" class="shuli">销售额</td>
                         <td class="pad3">（一）按适用税率计税销售额</td>
                         <td class="pad3 center">1</td>
-                        <td class="pad3 center" :contenteditable="thisData.asysljsxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','asysljsxse',$event)" @keyup.enter.native="unfocus('table1','yb','by','asysljsxse',$event)" v-text="thisData.asysljsxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.asysljsxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','asysljsxse',$event)" @keyup.enter="unfocus('table1','yb','by','asysljsxse',$event)" v-text="thisData.asysljsxseybby.columnValue"></td>
                         <td class="pad3 center" :contenteditable="thisData.asysljsxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','asysljsxse',$event)" v-text="thisData.asysljsxseybbnlj.columnValue"></td>
                         <td class="pad3 center" :contenteditable="thisData.asysljsxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','asysljsxse',$event)" v-text="thisData.asysljsxsejzby.columnValue"></td>
                         <td class="pad3 center" :contenteditable="thisData.asysljsxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','asysljsxse',$event)" v-text="thisData.asysljsxsejzbnlj.columnValue"></td>
@@ -290,7 +290,7 @@
                     <tr>
                         <td class="pad3">其中：应税货物销售额</td>
                         <td class="pad3 center">2</td>
-                        <td class="pad3 center" :contenteditable="thisData.yshwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','yshwxse',$event)" @keyup.enter.native="unfocus('table1','yb','by','yshwxse',$event)" v-text="thisData.yshwxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.yshwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','yshwxse',$event)" @keydown.native="listen($event)" v-text="thisData.yshwxseybby.columnValue"></td>
                         <td class="pad3 center" :contenteditable="thisData.yshwxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','yshwxse',$event)" v-text="thisData.yshwxseybbnlj.columnValue"></td>
                         <td class="pad3 center" :contenteditable="thisData.yshwxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','yshwxse',$event)" v-text="thisData.yshwxsejzby.columnValue"></td>
                         <td class="pad3 center" :contenteditable="thisData.yshwxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','yshwxse',$event)" v-text="thisData.yshwxsejzbnlj.columnValue"></td>
@@ -2067,6 +2067,14 @@ export default {
     // this.getTableData(this.statusVaule);
   },
   methods: {
+      listen (event) {
+            if (event.keyCode === 13) {
+                // this.send() // 发送文本
+                console.log('tijiaole ')
+                event.preventDefault() // 阻止浏览器默认换行操作
+                return false
+            }
+        }
     // querySearch(queryString, cb) {
     //   var cust = this.$store.state.cust;
     //   cust.forEach((item, index) => {

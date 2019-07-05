@@ -414,7 +414,9 @@ export default {
         .post(url, params)
         .then(res => {
           console.log("获取表格数据", res);
-          setTimeout("this.loading = false;", 2000 )
+          setTimeout(()=>{
+            this.loading = false;
+          },2000)
           if (res.data.code == 200) {
             this.tableTabs.forEach(item => {
               if (name == item.name) {
