@@ -374,7 +374,7 @@
 				this.multipleSelection.forEach((item, index) => {
 					var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId + '&taxesTaxType=' + this.dicNameList[index].dicValue;
 					this.axios.post(url, item).then(res => {
-						item.clearSelection();
+						this.$refs.multipleTable[index].clearSelection();
 						if (res.data.code == 200) {
 							this.dialogTableVisible = false;
 							this.$message({
@@ -390,7 +390,7 @@
 						}
 
 					}).catch(function(err) {
-						item.clearSelection();
+						this.$refs.multipleTable[index].clearSelection();
 						this.dialogTableVisible = false;
 						this.$message({
 							message: '修改失败',
@@ -398,7 +398,7 @@
 						});
 					})
 				})
-				let params = this.multipleSelection;
+				// let params = this.multipleSelection;
 
 				// if(this.multipleSelection.length == 0){
 				// var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
