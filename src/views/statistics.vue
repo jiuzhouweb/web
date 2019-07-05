@@ -3,25 +3,27 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>完成情况统计</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
-					<el-form-item label="客户名称:">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium" :rules="rules" ref='form'>
+					<el-form-item label="员工姓名:">
 						<el-select v-model='formInline.customId' filterable>
-							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
+							<el-option label="全部" value="">全部</el-option>
+							<el-option v-for='item in userList' :label="item.userNickName" :value="item.userId"></el-option>
 						</el-select>
 						<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
 						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 					</el-form-item>
-					<el-form-item label="账期:">
+					<el-form-item label="账期:" prop="period">
 						<el-date-picker v-model="formInline.period" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="会计步骤:">
 						<el-select v-model='formInline.stepName'>
+							<el-option label="全部" value=""></el-option>
 							<el-option v-for='item in stepList' :label="item" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button @click='search'>查询</el-button>
+						<el-button @click='search("form")'>查询</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -77,7 +79,15 @@
 				completed: [],
 				con: [],
 				incomplete: [],
-				nameList: []
+				nameList: [],
+				userList: [],
+				rules: {
+					period: [{
+						required: true,
+						message: '请选择账期',
+						trigger: 'change'
+					}],
+				}
 			}
 		},
 		components: {},
@@ -98,49 +108,62 @@
 			// },
 
 			// handleSelect(custom) {
-				// this.formInline.customId = this.$store.state.cust.find(item =>
-				// 	item.value === custom.value
-				// ).customerId;
-				// console.log(this.$store.state.cust.find(item =>
-				// 	item.value === custom.value
-				// ).customerId)
+			// this.formInline.customId = this.$store.state.cust.find(item =>
+			// 	item.value === custom.value
+			// ).customerId;
+			// console.log(this.$store.state.cust.find(item =>
+			// 	item.value === custom.value
+			// ).customerId)
 			// },
 
-			search() {
-				// this.formInline.customId = '';
-				// if (this.formInline.customerName) {
-				// 	var customer = this.$store.state.cust.find(item =>
-				// 		item.value === this.formInline.customerName
-				// 	);
-				// 	if(customer){
-				// 		this.formInline.customId = customer.customerId;
-				// 	}else{
-				// 		this.formInline.customId = '';
-				// 	}
-				// 	// this.formInline.customId = this.$store.state.cust.find(item =>
-				// 	// 	item.value === this.formInline.customerName
-				// 	// ).customerId
-				// }
-				this.completed = [];
-				this.incomplete = [];
-				this.con = [];
-				this.nameList = [];
-				this.formInline.executeUserId = this.$store.state.user.operatorId;
-				let params = this.formInline;
-				this.axios.post('/perTaxToolTwo/e9z/historyQuery/selectPageList', this.qs.stringify(params), {
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-					}
-				}).then(res => {
-					if (res.data.code == 200) {
-						this.detail = res.data.data;
-						this.detail.forEach((item, index) => {
-							this.completed.push(item.completed);
-							this.incomplete.push(item.incomplete);
-							this.con.push(item.incomplete + item.completed);
-							this.nameList.push(item.executeUserName);
+			search(formName) {
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						this.completed = [];
+						this.incomplete = [];
+						this.con = [];
+						this.nameList = [];
+						this.formInline.executeUserId = this.$store.state.user.operatorId;
+						let params = this.formInline;
+						this.axios.post('/perTaxToolTwo/e9z/historyQuery/selectPageList', this.qs.stringify(params), {
+							headers: {
+								'Content-Type': 'application/x-www-form-urlencoded',
+							}
+						}).then(res => {
+							if (res.data.code == 200) {
+								this.detail = res.data.data;
+								this.detail.forEach((item, index) => {
+									this.completed.push(item.completed);
+									this.incomplete.push(item.incomplete);
+									this.con.push(item.incomplete + item.completed);
+									this.nameList.push(item.executeUserName);
+								})
+								this.drawLine()
+							} else {
+								this.$message({
+									message: res.data.msg,
+									type: 'error'
+								});
+							}
+						
+						}).catch(function(err) {
+							this.$message({
+								message: '获取历史失败',
+								type: 'error'
+							});
 						})
-						this.drawLine()
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
+				
+			},
+			findUserRoleList() {
+				let params = {};
+				this.axios.post('/perTaxToolTwo/e9z/configUserRole/findUserRoleList', params).then(res => {
+					if (res.data.code == 200) {
+						this.userList = res.data.data;
 					} else {
 						this.$message({
 							message: res.data.msg,
@@ -150,7 +173,7 @@
 
 				}).catch(function(err) {
 					this.$message({
-						message: '获取历史失败',
+						message: '获取用户列表失败',
 						type: 'error'
 					});
 				})
@@ -231,6 +254,7 @@
 		},
 		mounted() {
 			// this.cust = this.$store.state.cust
+			this.findUserRoleList()
 		}
 	}
 </script>
