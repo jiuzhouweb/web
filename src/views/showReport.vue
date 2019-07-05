@@ -2377,6 +2377,7 @@ export default {
                       obj[key]=this.fomatFloat(obj[key],2)
                   }
               }
+              console.log('this.thisData',this.thisData)
             } else if (statusVaule == "一般纳税人附表一") {
               this.thisData = res.data.data;
               for(let key in this.thisData){
