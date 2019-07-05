@@ -2368,21 +2368,30 @@ export default {
               this.lastData = res.data.data.lastData;
               this.thisData = res.data.data.thisData;
               for(let key in this.thisData){
-                  if(this.thisData[key].columnValue!=0){
-                      this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
+                  if(this.thisData[key].columnValue){
+                      if(this.thisData[key].columnValue.indexOf('.')>-1){
+                          this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
+                      }
+                      
                   }
               }
               for(let key in this.lastData){
-                  if(this.lastData[key]!=0){
-                      this.lastData[key]=this.fomatFloat(this.lastData[key],2)
+                  if(this.lastData[key]){
+                      if(this.lastData[key].indexOf('.')>-1){
+                          this.lastData[key]=this.fomatFloat(this.lastData[key],2)
+                      }
+                      
                   }
               }
               console.log('this.thisData',this.thisData)
             } else if (statusVaule == "一般纳税人附表一") {
               this.thisData = res.data.data;
               for(let key in this.thisData){
-                  if(this.thisData[key].columnValue!=0){
-                      this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
+                  if(this.thisData[key].columnValue){
+                      if(this.thisData[key].columnValue.indexOf('.')>-1){
+                          this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
+                      }
+                      
                   }
               }
               this.arate =
@@ -2434,52 +2443,61 @@ export default {
               this.thisData = [];
               arr.forEach(item => {
                 if (item.xm == "地方教育附加") {
-                    if(typeof item == "object"){
-                        for(let key in item){
-                            if(item[key].columnValue.indexOf('.')>-1){
-                                item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                    for(let key in item){
+                            if(typeof item[key] == "object"){
+                                if(item[key].columnValue){
+                                    if(item[key].columnValue.indexOf('.')>-1){
+                                        item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                                    }
+                                }
                             }
                         }
-                    }
                   this.thisData[0] = item;
                 } else if (item.xm == "教育费附加") {
-                    if(typeof item == "object"){
-                        for(let key in item){
-                            if(item[key].columnValue.indexOf('.')>-1){
-                                item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                    for(let key in item){
+                            if(typeof item[key] == "object"){
+                                if(item[key].columnValue){
+                                    if(item[key].columnValue.indexOf('.')>-1){
+                                        item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                                    }
+                                }
                             }
                         }
-                    }
                   this.thisData[1] = item;
                 } else if (item.xm == "城市维护建设税") {
-                    if(typeof item == "object"){
-                        for(let key in item){
-                            if(item[key].columnValue.indexOf('.')>-1){
-                                item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                    for(let key in item){
+                            if(typeof item[key] == "object"){
+                                if(item[key].columnValue){
+                                    if(item[key].columnValue.indexOf('.')>-1){
+                                        item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                                    }
+                                }
                             }
                         }
-                    }
                   this.thisData[2] = item;
                 } else if (item.xm == "合计") {
-                    if(typeof item == "object"){
                         for(let key in item){
-                            alert(key)
-                            alert(item[key])
-                            if(item[key].columnValue.indexOf('.')>-1){
-                                
-                                item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                            if(typeof item[key] == "object"){
+                                if(item[key].columnValue){
+                                    if(item[key].columnValue.indexOf('.')>-1){
+                                        item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                                    }
+                                }
                             }
                         }
+                        this.thisData[3] = item;
                     }
-                  this.thisData[3] = item;
-                }
+                  
               });
               console.log('111this.thisData',this.thisData)
             } else if (statusVaule == "一般纳税人附表四") {
               this.thisData = res.data.data;
               for(let key in this.thisData){
-                  if(this.thisData[key].columnValue!=0){
-                      this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
+                  if(this.thisData[key].columnValue){
+                      if(this.thisData[key].columnValue.indexOf('.')>-1){
+                          this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
+                      }
+                      
                   }
               }
               this.total1 =
@@ -2509,8 +2527,11 @@ export default {
             } else {
               this.thisData = res.data.data;
               for(let key in this.thisData){
-                  if(this.thisData[key].columnValue!=0){
-                      this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
+                  if(this.thisData[key].columnValue){
+                      if(this.thisData[key].columnValue.indexOf('.')>-1){
+                          this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
+                      }
+                      
                   }
               }
             }
