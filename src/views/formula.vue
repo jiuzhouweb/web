@@ -162,8 +162,9 @@
 				<ul>
 					<li v-for="item in formulaList">
 						<span class='formula span1' :title="item.tmpl_name">{{item.tmpl_name}}</span>
-						<span class='formula span1' :title="item.invoice_name + item.invoice_category + item.invoice_type">{{item.invoice_name}} {{item.invoice_category}} {{item.invoice_type}}</span>
-						
+						<span class='formula span1' :title="item.invoice_name + item.invoice_category + item.invoice_type">{{item.invoice_name}}
+							{{item.invoice_category}} {{item.invoice_type}}</span>
+
 						<span class='formula span2' :title='item.column_title'>{{item.column_title}}</span>
 						<span class='formula span3' :title='item.formula'>{{item.formula}}</span>
 						<!-- <span class='blue' v-if='item.formula'>查看</span> -->
@@ -252,7 +253,7 @@
 				invoiceTypeSearchList: [],
 				invoiceNameSearchList: [],
 				templateListSearchList: [],
-
+				formulaExcelList: [],
 				rules: {
 					taxesTaxType: [{
 						required: true,
@@ -675,8 +676,38 @@
 			 * 无
 			 * */
 			downLoad() {
-				var sheet = this.xlsx.utils.json_to_sheet(this.formulaList);
-				this.openDownloadDialog(this.sheet2blob(sheet), '税种公式.xlsx');
+				var _this = this;
+				let params = {
+					taxesTaxType: "",
+					taxCalcType: "",
+					tmplShowType: "",
+					invoiceType: "",
+					invoiceName: "",
+					invoiceTmplId: "",
+					columnTitle: "",
+					area: this.area
+				};
+				this.axios.post('/perTaxToolTwo/e9z/configInvoiceFormula/selectFormulaList?currentPage=1' +
+						'&pageCount=100000', params)
+					.then(res => {
+						if (res.data.code == 200) {
+							this.formulaExcelList = res.data.data.list;
+							var sheet = this.xlsx.utils.json_to_sheet(this.formulaExcelList);
+							this.openDownloadDialog(this.sheet2blob(sheet), '税种公式.xlsx');
+						} else {
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
+
+					}).catch(function(err) {
+						this.$message({
+							message: '获取税种公式列表失败',
+							type: 'error'
+						});
+					})
+
 			},
 			sheet2blob(sheet, sheetName) {
 				sheetName = sheetName || 'sheet1';

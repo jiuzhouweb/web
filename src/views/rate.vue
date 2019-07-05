@@ -62,8 +62,8 @@
 		</el-dialog>
 		<el-dialog title="" :visible.sync="dialogTableVisible" width="8rem">
 			<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-				<el-tab-pane v-for='item in dicNameList' :label="item.dicName" :name="item.dicName">
-					<el-table :data="rateList" row-key='ratesId' border stripe @selection-change="handleSelectionChange" ref='multipleTable'>
+				<el-tab-pane v-for='(item,index) in dicNameList' :label="item.dicName" :name="item.dicValue">
+					<el-table :data="rateList" row-key='ratesId' border stripe @selection-change="((val)=>{handleSelectionChange(val)})" ref='multipleTable'>
 						<el-table-column align="center" type="selection" width="55"></el-table-column>
 						<el-table-column align="center" property="taxesTitle" label="税率名称"></el-table-column>
 						<el-table-column align="center" property="taxesRate" label="税率"></el-table-column>
@@ -77,7 +77,7 @@
 			<!-- <el-select v-model='tmplType' clearable>
 				<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
 			</el-select> -->
-			
+
 			<div class='btn_contain clearfix'>
 				<span class='commit' @click='modifyRate'>完成</span>
 				<span class='close' @click="hideDialog1">关闭</span>
@@ -148,7 +148,7 @@
 			queryDicName() {
 				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=税务类型').then(res => {
 					this.dicNameList = res.data.data;
-					this.activeName = this.dicNameList[0].dicName;
+					this.activeName = this.dicNameList[0].dicValue;
 				}).catch(function(err) {
 					this.$message({
 						message: '获取纳税人类型失败',
@@ -314,41 +314,53 @@
 			showDialog(row) {
 				this.invoiceId = row.invoiceId;
 				this.dialogTableVisible = true;
-				this.$refs.multipleTable.clearSelection();
-				let params = {
-					"invoiceId": row.invoiceId
-				};
-				this.axios.post('/perTaxToolTwo/e9z/configInvoiceTaxes/selectWithInvoiceTaxesRate', params).then(res => {
-					if (res.data.code == 200) {
-						this.ownList = res.data.data;
-						if (this.ownList) {
-							this.ownList.forEach(({
-								ratesId
-							}) => {
-								const id = this.rateList.findIndex(item => item.ratesId === ratesId)
-								this.$refs.multipleTable.toggleRowSelection(this.rateList[id], true);
+				this.$nextTick(function(){
+					this.$refs.multipleTable.forEach((item, index) => {
+						item.clearSelection();
+						let params = {
+							"invoiceId": row.invoiceId,
+							"taxesTaxType": this.dicNameList[index].dicValue
+						};
+						this.axios.post('/perTaxToolTwo/e9z/configInvoiceTaxes/selectWithInvoiceTaxesRate', params).then(res => {
+							if (res.data.code == 200) {
+								var ownList = res.data.data;
+								if (ownList) {
+									ownList.forEach(({
+										ratesId
+									}) => {
+										const id = this.rateList.findIndex(item => item.ratesId === ratesId)
+										item.toggleRowSelection(this.rateList[id], true);
+									});
+								} else {
+									item.clearSelection();
+								}
+							} else {
+								this.$message({
+									message: res.data.msg,
+									type: 'error'
+								});
+							}
+					
+						}).catch(function(err) {
+							this.$message({
+								message: '获取发票税率失败',
+								type: 'error'
 							});
-						} else {
-							this.$refs.multipleTable.clearSelection();
-						}
-					} else {
-						this.$message({
-							message: res.data.msg,
-							type: 'error'
-						});
-					}
-
-				}).catch(function(err) {
-					this.$message({
-						message: '获取发票税率失败',
-						type: 'error'
-					});
+						})
+					})
 				})
+				
+
 
 			},
-
+			handleClick(tab, event) {
+				console.log(tab, event);
+			},
 			hideDialog1() {
-				this.$refs.multipleTable.clearSelection();
+				this.$refs.multipleTable.forEach((item, index) => {
+					item.clearSelection();
+				})
+
 				this.dialogTableVisible = false;
 
 			},
@@ -362,7 +374,7 @@
 				// if(this.multipleSelection.length == 0){
 				var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
 				// }else{
-				var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
+				// var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
 				// }
 
 				this.axios.post(url, params).then(res => {
