@@ -2367,8 +2367,23 @@ export default {
             ) {
               this.lastData = res.data.data.lastData;
               this.thisData = res.data.data.thisData;
+              for(let key in this.thisData){
+                  if(obj[key].columnValue!=0){
+                      obj[key].columnValue=this.fomatFloat(obj[key].columnValue,2)
+                  }
+              }
+              for(let key in this.lastData){
+                  if(obj[key]!=0){
+                      obj[key]=this.fomatFloat(obj[key],2)
+                  }
+              }
             } else if (statusVaule == "一般纳税人附表一") {
               this.thisData = res.data.data;
+              for(let key in this.thisData){
+                  if(obj[key].columnValue!=0){
+                      obj[key].columnValue=this.fomatFloat(obj[key].columnValue,2)
+                  }
+              }
               this.arate =
                 this.thisData.yll13azsljyjssl.columnValue == 0
                   ? ""
@@ -2429,6 +2444,11 @@ export default {
               });
             } else if (statusVaule == "一般纳税人附表四") {
               this.thisData = res.data.data;
+              for(let key in this.thisData){
+                  if(obj[key].columnValue!=0){
+                      obj[key].columnValue=this.fomatFloat(obj[key].columnValue,2)
+                  }
+              }
               this.total1 =
                 Number(this.thisData["ybxmjjdjejsqcye"].columnValue) +
                 Number(this.thisData["jzjtxmjjdjejsqcye"].columnValue);
@@ -2455,6 +2475,11 @@ export default {
                 Number(this.thisData["jzjtxmjjdjejsqmye"].columnValue);
             } else {
               this.thisData = res.data.data;
+              for(let key in this.thisData){
+                  if(obj[key].columnValue!=0){
+                      obj[key].columnValue=this.fomatFloat(obj[key].columnValue,2)
+                  }
+              }
             }
           }else{
               this.$message({
@@ -2470,6 +2495,33 @@ export default {
           });
         });
     },
+    // 四舍五入
+      fomatFloat(x, pos) {
+        // console.log('xxx',x)
+        if (x) {
+          if (x.toString().indexOf(".") > -1) {
+            var f = parseFloat(x);
+            if (isNaN(f)) {
+              return false;
+            }
+            f = Math.round(x * Math.pow(10, pos)) / Math.pow(10, pos); // pow 幂
+            var s = f.toString();
+            var rs = s.indexOf(".");
+            if (rs < 0) {
+              rs = s.length;
+              s += ".";
+            }
+            while (s.length <= rs + pos) {
+              s += "0";
+            }
+            return s;
+          } else {
+            return x;
+          }
+        } else {
+          return x;
+        }
+      },
     // (表格一，一般/即征即收，本月/累计，当前字段名，event,参与计算)
     // (表格二，合计对应名称，当前字段名，event,参与计算)
     unfocus(
