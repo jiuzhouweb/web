@@ -587,7 +587,7 @@
           taxesTaxType:this.userobj.reportTaxType
         }
         axios
-          .post("/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName")
+          .post("/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName",params)
           .then(res => {
             console.log("发票名称接口", res);
             if (res.data.code == 200) {
