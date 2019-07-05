@@ -2368,21 +2368,21 @@ export default {
               this.lastData = res.data.data.lastData;
               this.thisData = res.data.data.thisData;
               for(let key in this.thisData){
-                  if(obj[key].columnValue!=0){
-                      obj[key].columnValue=this.fomatFloat(obj[key].columnValue,2)
+                  if(this.thisData[key].columnValue!=0){
+                      this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
                   }
               }
               for(let key in this.lastData){
-                  if(obj[key]!=0){
-                      obj[key]=this.fomatFloat(obj[key],2)
+                  if(this.lastData[key]!=0){
+                      this.lastData[key]=this.fomatFloat(this.lastData[key],2)
                   }
               }
               console.log('this.thisData',this.thisData)
             } else if (statusVaule == "一般纳税人附表一") {
               this.thisData = res.data.data;
               for(let key in this.thisData){
-                  if(obj[key].columnValue!=0){
-                      obj[key].columnValue=this.fomatFloat(obj[key].columnValue,2)
+                  if(this.thisData[key].columnValue!=0){
+                      this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
                   }
               }
               this.arate =
@@ -2446,8 +2446,8 @@ export default {
             } else if (statusVaule == "一般纳税人附表四") {
               this.thisData = res.data.data;
               for(let key in this.thisData){
-                  if(obj[key].columnValue!=0){
-                      obj[key].columnValue=this.fomatFloat(obj[key].columnValue,2)
+                  if(this.thisData[key].columnValue!=0){
+                      this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
                   }
               }
               this.total1 =
@@ -2477,8 +2477,8 @@ export default {
             } else {
               this.thisData = res.data.data;
               for(let key in this.thisData){
-                  if(obj[key].columnValue!=0){
-                      obj[key].columnValue=this.fomatFloat(obj[key].columnValue,2)
+                  if(this.thisData[key].columnValue!=0){
+                      this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
                   }
               }
             }
@@ -2490,6 +2490,8 @@ export default {
           }
         })
         .catch(err => {
+            console.log('获取表格数据失败',err)
+            
           this.$message({
             message: "获取表格数据失败",
             type: "error"

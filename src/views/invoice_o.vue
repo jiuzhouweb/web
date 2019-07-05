@@ -557,6 +557,7 @@
         let params={
           taxesTaxType:this.userobj.reportTaxType
         }
+        console.log('发票名称',params)
         axios
           .post("/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName",params)
           .then(res => {
@@ -1422,15 +1423,15 @@
         var float4reg = /^(-)?\d{1,14}(\.\d{1,4})?$/;
         this.detailData.invoiceColumnList.forEach((item, index) => {
           if (item.columnTitle != "发票项目类型"&&item.columnTitle != "应税类型"&&item.columnTitle != "是否是辅导期") {
-            if (item.columnTitle == "核定征收率") {
-              if (item.columnValue == "") {
-                this.$set(item, "errInfo", "");
-              } else if (!float5reg.test(item.columnValue)) {
-                this.$set(item, "errInfo", "整数位最多3位，小数位最多5位");
-              } else {
-                this.$set(item, "errInfo", "");
-              }
-            }
+            // if (item.columnTitle == "核定征收率") {
+            //   if (item.columnValue == "") {
+            //     this.$set(item, "errInfo", "");
+            //   } else if (!float5reg.test(item.columnValue)) {
+            //     this.$set(item, "errInfo", "整数位最多3位，小数位最多5位");
+            //   } else {
+            //     this.$set(item, "errInfo", "");
+            //   }
+            // }
             if (item.columnTitle == "发票张数") {
               if (item.columnValue == "") {
                 this.$set(item, "errInfo", "请填入发票张数");
@@ -1571,6 +1572,9 @@
           }else if(this.userobj.reportTaxType==232){
             declarationType=1;
           }
+
+          
+
           let params = {
             invoiceId: this.detailData.invoiceId, //发票Id (如果是发票配置表)
             invoiceTmplId: this.detailData.tmplId, //模板id （如果是模板配置表）
@@ -1589,6 +1593,31 @@
             declarationType: declarationType, //1：小规模，2一般纳税人
             e9zConfigInvoiceColumnList: invoiceColumns
           };
+          // 修改模板时新增3个字段
+          let invoiceTaxableType='',taxCalcType='',taxesTaxType='';
+            
+          if(this.detailData.tmplId){
+            console.log('this.detailData.e9zConfigInvoiceColumnList',this.detailData.e9zConfigInvoiceColumnList)
+            this.detailData.e9zConfigInvoiceColumnList.forEach(item=>{
+              if(item.columnTitle=='应税类型'){
+                if(item.columnValue=='应税货物'||item.columnValue=='1'){
+                  params.invoiceTaxableType='1'
+                }else if(item.columnValue=='应税劳务'||item.columnValue=='2'){
+                  params.invoiceTaxableType='2'
+                }else if(item.columnValue=='应税服务'||item.columnValue=='3'){
+                  params.invoiceTaxableType='3'
+                }
+              }
+              if(item.columnTitle=='发票项目类型'){
+                 if(item.columnValue=='一般'||item.columnValue=='1'){
+                  params.taxCalcType='1'
+                }else if(item.columnValue=='即征即退'||item.columnValue=='2'){
+                  params.taxCalcType='2'
+                }
+              }
+            })
+          }
+          
           console.log("params", params);
           axios
             .post("/perTaxToolTwo/e9zCalculate/invoiceCalculate", params)
@@ -1663,15 +1692,15 @@
                 }
               }
             }
-            if (item.columnTitle == "核定征收率") {
-              if (item.defaultValue == null || item.defaultValue == "") {
-                this.$set(item, "errInfo", "必填项不可为空");
-              } else if (!float5reg.test(item.defaultValue)) {
-                this.$set(item, "errInfo", "整数位最多3位，小数位最多5位");
-              } else {
-                this.$set(item, "errInfo", "");
-              }
-            }
+            // if (item.columnTitle == "核定征收率") {
+            //   if (item.defaultValue == null || item.defaultValue == "") {
+            //     this.$set(item, "errInfo", "必填项不可为空");
+            //   } else if (!float5reg.test(item.defaultValue)) {
+            //     this.$set(item, "errInfo", "整数位最多3位，小数位最多5位");
+            //   } else {
+            //     this.$set(item, "errInfo", "");
+            //   }
+            // }
           }
         });
         console.log('this.nextStepSelectList',this.nextStepSelectList)
