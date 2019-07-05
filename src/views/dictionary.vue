@@ -11,7 +11,7 @@
 
 			</div>
 			<div class="contain_body">
-				<el-table :data="tableList" style="width: 100%" stripe border @selection-change="handleSelectionChange">
+				<el-table :data="tableList" style="width: 100%" stripe border @selection-change="handleSelectionChange" v-loading='loading'>
 					<el-table-column align="center" type="selection" width="50"></el-table-column>
 					<el-table-column align="center" label="名称" prop="dicName" :resizable="false"></el-table-column>
 					<el-table-column align="center" label="数值" prop="dicValue" :resizable="false"></el-table-column>
@@ -77,6 +77,7 @@
 		name: "customer",
 		data() {
 			return {
+				loading:false,
 				message: "12334456",
 				tableList: [{
 					employeeName: "zhangsan",
@@ -135,6 +136,7 @@
 				};
 				this.axios.post('/perTaxToolTwo/e9z/configDictionary/queryTree', params)
 					.then(res => {
+						this.loading = false;
 						if (res.data.code == 200) {
 							this.tableList = res.data.data;
 							// this.total = 
@@ -146,6 +148,7 @@
 						}
 
 					}).catch(function(err) {
+						this.loading = false;
 						this.$message({
 							message: '获取字典列表失败',
 							type: 'error'
@@ -372,10 +375,12 @@
 
 			},
 			refresh() {
+				this.loading = true;
 				this.getList()
 			}
 		},
 		created() {
+			this.loading = true;
 			this.getList()
 		}
 	}

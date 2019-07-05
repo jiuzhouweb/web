@@ -12,7 +12,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item label="账期:" prop="period">
-						<el-date-picker v-model="formInline.period" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
+						<el-date-picker v-model="formInline.period" type="month" placeholder="选择账期" clearable value-format='yyyy-MM'>
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item>

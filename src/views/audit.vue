@@ -1,13 +1,11 @@
 <template>
 	<div class="main_contain">
 		<div class='search_contain'>
-			<div class="row1">
+			<!-- <div class="row1">
 				<span class="labelTitle">
 					客户名称：
 				</span>
-				<!-- <el-autocomplete class="inline-input" v-model="searchList.customerName" :fetch-suggestions="querySearch"
-				 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
-				<el-select v-model="searchList.customerId" placeholder="请选择" @change='selectGet' filterable >
+				<el-select v-model="searchList.customerId" placeholder="请选择" @change='selectGet' filterable>
 					<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
 					</el-option>
 				</el-select>
@@ -19,7 +17,25 @@
 				<el-date-picker v-model="searchList.period" type="month" placeholder="选择月" value-format="yyyy-MM">
 				</el-date-picker>
 			</div>
-			<div class="searchButton" @click="search()">查询</div>
+			<div class="searchButton" @click="search()">查询</div> -->
+
+			<el-form :inline="true" :model="searchList" class="demo-form-inline" :rules="rules" ref='form' size="small">
+				<el-form-item label="客户名称:" prop="customerId">
+					<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
+					 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+					<el-select v-model='searchList.customerId' filterable>
+						<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="账期:" prop="period">
+					<el-date-picker v-model="searchList.period" type="month" placeholder="选择账期" clearable value-format='yyyy-MM'>
+					</el-date-picker>
+				</el-form-item>
+				<el-form-item>
+					<el-button @click='search("form")'>查询</el-button>
+				</el-form-item>
+			</el-form>
+
 		</div>
 		<div class='body_contain'>
 			<div class='card' v-for="item in taxTreatment">
@@ -111,7 +127,7 @@
 				searchList: {
 					customerId: "",
 					period: "",
-					customerName:''
+					customerName: ''
 				},
 				bigTaxTreatment: [],
 				taxTreatment: [],
@@ -120,7 +136,19 @@
 				zzList: {},
 				info: {},
 				userobj: {},
-				declarationType: ''
+				declarationType: '',
+				rules: {
+					customerId: [{
+						required: true,
+						message: '请选择客户',
+						trigger: 'change'
+					}],
+					period: [{
+						required: true,
+						message: '请选择账期',
+						trigger: 'change'
+					}]
+				}
 			}
 		},
 		methods: {
@@ -138,10 +166,18 @@
 			// 		return (cust.customerName.indexOf(queryString) === 0);
 			// 	};
 			// },
-			search() {
-				this.declarationType = this.userobj.reportTaxType;
-				this.queryTaxTreatment();
-				this.queryBigTaxTreatment();
+			search(formName) {
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						this.declarationType = this.userobj.reportTaxType;
+						this.queryTaxTreatment();
+						this.queryBigTaxTreatment();
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+
+				})
 			},
 			queryTaxTreatment() {
 				// this.searchList.customerId = '';
@@ -154,9 +190,9 @@
 				// 	}else{
 				// 		this.searchList.customerId = '';
 				// 	}
-					// this.formInline.customId = this.$store.state.cust.find(item =>
-					// 	item.value === this.formInline.customerName
-					// ).customerId
+				// this.formInline.customId = this.$store.state.cust.find(item =>
+				// 	item.value === this.formInline.customerName
+				// ).customerId
 				// }
 				let params = this.searchList;
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectTaxTreatment', this.qs.stringify(params), {
@@ -166,7 +202,12 @@
 				}).then(res => {
 					if (res.data.code == 200) {
 						this.taxTreatment = res.data.data;
-
+						if (this.taxTreatment.length == 0) {
+							this.$message({
+								message: "暂无税款审核数据",
+								type: 'warning'
+							});
+						}
 					} else {
 						this.$message({
 							message: res.data.msg,
@@ -192,9 +233,9 @@
 				// 	}else{
 				// 		this.searchList.customerId = '';
 				// 	}
-					// this.formInline.customId = this.$store.state.cust.find(item =>
-					// 	item.value === this.formInline.customerName
-					// ).customerId
+				// this.formInline.customId = this.$store.state.cust.find(item =>
+				// 	item.value === this.formInline.customerName
+				// ).customerId
 				// }
 				let params = this.searchList;
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectBigTaxTreatment', this.qs.stringify(params), {
@@ -204,7 +245,12 @@
 				}).then(res => {
 					if (res.data.code == 200) {
 						this.bigTaxTreatment = res.data.data;
-
+						if (this.bigTaxTreatment.length == 0) {
+							this.$message({
+								message: "暂无大额审核数据",
+								type: 'warning'
+							});
+						}
 					} else {
 						this.$message({
 							message: res.data.msg,
@@ -254,8 +300,8 @@
 				this.info = obj;
 				let params = {
 					"fplrTaxationId": item.fplr,
-					"fplrTaxInfoId":item.fplrTaxInfoId,
-					"zzTaxInfoId":item.zzTaxInfoId,
+					"fplrTaxInfoId": item.fplrTaxInfoId,
+					"zzTaxInfoId": item.zzTaxInfoId,
 					"zzTaxationId": item.zz,
 
 				}
@@ -363,6 +409,15 @@
 		border-top-right-radius: 0.05rem;
 		background: #fff;
 		padding: 0.20rem 0.20rem;
+
+		.el-button--small {
+			background: #ffb980;
+			color: #fff;
+			border-radius: .05rem;
+			border: none;
+			cursor: pointer;
+			padding: .12rem .35rem;
+		}
 	}
 
 	div.body_contain {
@@ -380,6 +435,7 @@
 			background: #fff;
 			height: 4.85rem;
 			border-top-right-radius: 4px;
+
 			.card_head {
 				height: 2rem;
 				box-sizing: border-box;
