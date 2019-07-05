@@ -54,7 +54,7 @@
             <div class="Infobox">
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="line1">
-                        <el-form-item label="税款所属时间：" class="leftWidth">
+                        <el-form-item label="税款所属时间：" class="leftWidth3">
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -67,7 +67,7 @@
                         </el-form-item>
                     </div>
                     <div class="line2">
-                        <el-form-item label="纳税人识别号：" class="leftWidth">
+                        <el-form-item label="纳税人识别号：" class="leftWidth3">
                             <el-input v-model="uploadData.taxerNumber"></el-input>
                         </el-form-item>
                         <el-form-item label="所属行业：">
@@ -75,7 +75,7 @@
                         </el-form-item>
                     </div>
                     <div class="line3">
-                        <el-form-item label="纳税人名称：" class="leftWidth">
+                        <el-form-item label="纳税人名称：" class="leftWidth3">
                             <div class="inlineInput input1">
                                 <el-input v-model="uploadData.taxerName"></el-input>
                                 <span style="width:1.6rem">（公章）</span>
@@ -98,7 +98,7 @@
                         </el-form-item>
                     </div>
                     <div class="line4">
-                        <el-form-item label="开户银行及账号：" class="leftWidth">
+                        <el-form-item label="开户银行及账号：" class="leftWidth3">
                             <el-input v-model="uploadData.bank"></el-input>
                         </el-form-item>
                         <el-form-item label="登记注册类型：">
@@ -141,7 +141,7 @@
             <div class="Infobox" v-if="statusVaule=='一般纳税人附表一'||statusVaule=='一般纳税人附表二'||statusVaule=='一般纳税人附表三'||statusVaule=='一般纳税人附表四'">
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="line1">
-                        <el-form-item label="税款所属时间：">
+                        <el-form-item label="税款所属时间：" class="leftWidth">
                             <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -2434,15 +2434,44 @@ export default {
               this.thisData = [];
               arr.forEach(item => {
                 if (item.xm == "地方教育附加") {
+                    if(typeof item == "object"){
+                        for(let key in item){
+                            if(item[key].columnValue.indexOf('.')>-1){
+                                item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                            }
+                        }
+                    }
                   this.thisData[0] = item;
                 } else if (item.xm == "教育费附加") {
+                    if(typeof item == "object"){
+                        for(let key in item){
+                            if(item[key].columnValue.indexOf('.')>-1){
+                                item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                            }
+                        }
+                    }
                   this.thisData[1] = item;
                 } else if (item.xm == "城市维护建设税") {
+                    if(typeof item == "object"){
+                        for(let key in item){
+                            if(item[key].columnValue.indexOf('.')>-1){
+                                item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                            }
+                        }
+                    }
                   this.thisData[2] = item;
                 } else if (item.xm == "合计") {
+                    if(typeof item == "object"){
+                        for(let key in item){
+                            if(item[key].columnValue.indexOf('.')>-1){
+                                item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
+                            }
+                        }
+                    }
                   this.thisData[3] = item;
                 }
               });
+              console.log('111this.thisData',this.thisData)
             } else if (statusVaule == "一般纳税人附表四") {
               this.thisData = res.data.data;
               for(let key in this.thisData){
@@ -3417,19 +3446,19 @@ export default {
 </script>
 <style>
 .line3 .input1 .el-input {
-  width: 1.5rem;
+  width: 2rem;
 }
 .line3 .input1 .el-input__inner {
-  width: 1.5rem;
+  width: 2rem;
 }
 .line3 .input2 .el-input {
   width: 1rem;
 }
 .line3 .input3 .el-input {
-  width: 2rem;
+  width: 1.5rem;
 }
 .line3 .input4 .el-input {
-  width: 2rem;
+  width: 1.5rem;
 }
 .tianbiaoDate .el-date-editor {
   width: 2rem;
@@ -3440,6 +3469,10 @@ export default {
 }
 .leftWidth2 .el-form-item__label{
       width: 2.6rem;
+    text-align: left;
+}
+.leftWidth3 .el-form-item__label{
+      width: 1.3rem;
     text-align: left;
 }
 </style>

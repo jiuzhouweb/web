@@ -452,7 +452,7 @@
     // }]
       this.getNowMonth();
       this.findInvoiceType();
-      this.findInvoiceName();
+      
     },
     methods: {
       // 删除
@@ -791,6 +791,8 @@
         //     return item.customerId === vId;//筛选出匹配数据
         // });
         console.log('当前选择的用户信息',this.userobj);//
+
+        this.findInvoiceName();
       
     },
       getNowMonth() {

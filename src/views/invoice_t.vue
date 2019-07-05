@@ -42,7 +42,7 @@
               </el-select>
         </div>
         <div class="searchButton" @click="search()" style="margin-bottom:0.1rem;margin-right:0.1rem">查询</div>
-        <div class="addInvioceButton" v-if="!issubmit" style="margin-right:0.1rem;margin-bottom:0.1rem">批量删除</div>
+        <div class="addInvioceButton" v-if="!issubmit" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="deleteMoreInvoice()">批量删除</div>
         <div class="deleteButton" v-if="!issubmit" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="submitStep()">审批</div>
         <div class="importButton2" style="margin-right:0.1rem;margin-bottom:0.1rem" @click="insertReport()">生成报表</div>
         <!--  -->
@@ -480,7 +480,6 @@
       this.getNowMonth();
       // this.getTaxCalcMethod();
       this.findInvoiceType();
-      this.findInvoiceName();
       
     },
     methods: {
@@ -716,6 +715,13 @@
           });
           return;
         }
+        if(issubmit){
+          this.$message({
+            message: "当前正在审批中，不支持生成报表！",
+            type: "warning"
+          });
+          return;
+        }
         let url;
         if (this.userobj.reportTaxType == 233) {
           url='/perTaxToolTwo/e9zCalculate/insertReport'
@@ -848,6 +854,8 @@
         //     return item.customerId === vId;//筛选出匹配数据
         // });
         console.log('当前选择的用户信息',this.userobj);//
+
+        this.findInvoiceName();
       
     },
       getNowMonth() {
@@ -1987,11 +1995,12 @@
           return;
         }
         console.log(111)
-        this.$confirm('审批前需要先生成报表，是否已生成报表?', '提示', {
+        this.$confirm('审批前需要先生成报表，是否同时生成报表?', '提示', {
           confirmButtonText: '是',
           cancelButtonText: '否',
           type: 'warning'
         }).then(() => {
+          this.insertReport();
           let sums,nextStepName;
         
         console.log('sums',this.sums)
