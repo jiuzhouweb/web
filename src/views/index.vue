@@ -4,8 +4,8 @@
 			<el-header class='header' height='0.88rem'>
 				<h1 class='left'>财务系统</h1>
 				<div class='pr20 mt34 right'>
-					<i class="el-icon-bell"></i>
-					<i class="el-icon-message"></i>
+					<!-- <i class="el-icon-bell"></i>
+					<i class="el-icon-message"></i> -->
 					<el-dropdown @command="handleCommand">
 						<i class="el-icon-user"></i>
 						<!-- <span class="el-dropdown-link">
@@ -17,7 +17,7 @@
 						</el-dropdown-menu>
 					</el-dropdown>
 
-					<i class="el-icon-setting"></i>
+					<!-- <i class="el-icon-setting"></i> -->
 				</div>
 			</el-header>
 			<el-container>
