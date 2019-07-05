@@ -21,7 +21,7 @@
 				</el-form>
 			</div>
 			<div class="contain_body">
-				<el-table :data="detail" style="width: 100%" stripe border>
+				<el-table :data="detail" style="width: 100%" stripe border v-loading='loading'>
 					<!-- <el-table-column type="selection" width="50"></el-table-column> -->
 					<el-table-column align="center" label="工号" prop="userName" :resizable="false" width="200"></el-table-column>
 					<el-table-column align="center" label="员工姓名" prop="userNickName" :resizable="false" width="200"></el-table-column>
@@ -63,6 +63,7 @@
 		name: "customer",
 		data() {
 			return {
+				loading:false,
 				message: "12334456",
 				formInline: {
 					userName: '',
@@ -118,6 +119,7 @@
 			findUserRoleList() {
 				let params = this.formInline;
 				this.axios.post('/perTaxToolTwo/e9z/configUserRole/findUserRoleList', params).then(res => {
+					this.loading = false;
 					if (res.data.code == 200) {
 						this.detail = res.data.data;
 					} else {
@@ -128,6 +130,7 @@
 					}
 
 				}).catch(function(err) {
+					this.loading = false;
 					this.$message({
 						message: '获取用户列表失败',
 						type: 'error'
@@ -138,6 +141,7 @@
 				this.multipleSelection = val;
 			},
 			search() {
+				this.loading = true;
 				this.findUserRoleList()
 			},
 			handleEdit(index, row) {
@@ -177,7 +181,11 @@
 					this.$refs.multipleTable.clearSelection();
 					if (res.data.code == 200) {
 						this.dialogTableVisible = false;
-						this.findUserRoleList()
+						this.findUserRoleList();
+						this.$message({
+							message: res.data.msg,
+							type: 'success'
+						});
 					} else {
 						this.$message({
 							message: res.data.msg,
@@ -188,7 +196,7 @@
 				}).catch(function(err) {
 					this.$refs.multipleTable.clearSelection();
 					this.$message({
-						message: '获取用户列表失败',
+						message: '保存用户角色失败',
 						type: 'error'
 					});
 				})
