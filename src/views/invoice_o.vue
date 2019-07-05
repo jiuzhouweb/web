@@ -182,7 +182,7 @@
             </div>
           </div>
           <div class="taxRate" v-if="!detailData.tmplId">
-            <div class="valueBox" v-for="(item,index) in detailData.e9zConfigInvoiceTaxesList" :key="index">
+            <div class="valueBox" v-if="item.e9zConfigInvoiceTaxesRateList.length>0" v-for="(item,index) in detailData.e9zConfigInvoiceTaxesList" :key="index">
                 <p class="label">{{item.taxesTitle}}</p>
                 <el-select style="margin-left:0.1rem" v-model="item.taxesValue" placeholder="请选择">
                   <el-option v-for="child in item.e9zConfigInvoiceTaxesRateList" :label="child.taxesRate" :value="child.taxesRate"></el-option>
@@ -1477,11 +1477,11 @@
           
           this.detailData.e9zConfigInvoiceTaxesList.forEach(item=>{
             if(item.taxesTitle=='增值税'){
-              zengzhiValue=item.taxesValue
+              zengzhiValue=item.taxesValue?item.taxesValue:0
             }else if(item.taxesTitle=='印花税'){
-              yinhuaValue=item.taxesValue
+              yinhuaValue=item.taxesValue?item.taxesValue:0
             }else if(item.taxesTitle=='城市维护建设税'){
-              chengjianValue=item.taxesValue
+              chengjianValue=item.taxesValue?item.taxesValue:0
             }
           })
         } 
@@ -1678,11 +1678,12 @@
             }
           }
         });
+        console.log('this.nextStepSelectList',this.nextStepSelectList)
         if (this.nextStepSelectList.length > 0) {
           this.nextStepSelectList.forEach((item, index) => {
-            if (item.e9zConfigInvoiceTaxesRateList) {
+            if (item.e9zConfigInvoiceTaxesRateList.length>0) {
               if (item.taxesTitle == "增值税") {
-                console.log(item.taxesValue);
+                console.log(222,item.taxesValue);
                 if (item.taxesValue == undefined) {
                   this.$set(item, "errInfo", "请选择增值税");
                 } else {
@@ -1703,6 +1704,7 @@
                   this.$set(item, "errInfo", "");
                 }
               }
+              console.log(111,item.taxesValue);
             }
           });
         }
@@ -1725,19 +1727,19 @@
           let zengzhiValue, yinhuaValue,chengjianValue;
           this.nextStepSelectList.forEach((item, index) => {
             if (item.taxesTitle == "增值税") {
-              if (item.taxesValue != undefined) {
-                zengzhiValue = item.taxesValue;
-              }
+              // if (item.taxesValue != undefined) {
+                zengzhiValue = item.taxesValue?item.taxesValue:0;
+              // }
             }
             if (item.taxesTitle == "印花税") {
-              if (item.taxesValue != undefined) {
-                yinhuaValue = item.taxesValue;
-              }
+              // if (item.taxesValue != undefined) {
+                yinhuaValue =item.taxesValue?item.taxesValue:0;
+              // }
             }
             if (item.taxesTitle == "城市维护建设税") {
-              if (item.taxesValue != undefined) {
-                chengjianValue = item.taxesValue;
-              }
+              // if (item.taxesValue != undefined) {
+                chengjianValue = item.taxesValue?item.taxesValue:0;
+              // }
             }
           });
           console.log("选中的税率", zengzhiValue, yinhuaValue,chengjianValue);
