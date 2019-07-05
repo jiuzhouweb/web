@@ -63,7 +63,7 @@
 		<el-dialog title="" :visible.sync="dialogTableVisible" width="8rem">
 			<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 				<el-tab-pane v-for='(item,index) in dicNameList' :label="item.dicName" :name="item.dicValue">
-					<el-table :data="rateList" row-key='ratesId' border stripe @selection-change="((val)=>{handleSelectionChange(val)})" ref='multipleTable'>
+					<el-table :data="rateList" row-key='ratesId' border stripe @selection-change="((val,index)=>{handleSelectionChange(val,index)})" ref='multipleTable'>
 						<el-table-column align="center" type="selection" width="55"></el-table-column>
 						<el-table-column align="center" property="taxesTitle" label="税率名称"></el-table-column>
 						<el-table-column align="center" property="taxesRate" label="税率"></el-table-column>
@@ -364,8 +364,8 @@
 				this.dialogTableVisible = false;
 
 			},
-			handleSelectionChange(val) {
-				this.multipleSelection = val;
+			handleSelectionChange(val,index) {
+				this.multipleSelection[index] = val;
 			},
 			modifyRate() {
 
