@@ -1870,14 +1870,22 @@
             .post("/perTaxToolTwo/e9z/taxStep/submit", params)
             .then(res => {
               console.log("流程步骤提交", res);
-              this.$message({
+              if(res.data.code==200){
+                this.$message({
                   message: '审批成功',
                   type: 'success'
                 });
-              this.getInvoiceLeaveShowList();
-              // 隐藏新增按钮,数据不可修改
-              this.issubmit=true;
-              this.addbtnflag=false;
+                this.getInvoiceLeaveShowList();
+                // 隐藏新增按钮,数据不可修改
+                this.issubmit=true;
+                this.addbtnflag=false;
+              }else{
+                this.$message({
+                  message: res.data.msg,
+                  type: 'error'
+                });
+              }
+              
             })
             .catch(err => {
               this.$message({

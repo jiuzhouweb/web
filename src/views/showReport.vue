@@ -2456,6 +2456,11 @@ export default {
             } else {
               this.thisData = res.data.data;
             }
+          }else{
+              this.$message({
+                  message: res.data.msg,
+                  type: 'error'
+                });
           }
         })
         .catch(err => {

@@ -703,6 +703,13 @@
           });
           return;
         }
+        if(this.invoicePanelList.length==0){
+          this.$message({
+            message: "当前暂无发票数据，不支持生成报表！",
+            type: "warning"
+          });
+          return;
+        }
         let url;
         if (this.userobj.reportTaxType == 233) {
           url='/perTaxToolTwo/e9zCalculate/insertReport'
@@ -723,6 +730,11 @@
                 type: 'success'
               });
                 
+            }else{
+              this.$message({
+                  message: res.data.msg,
+                  type: 'error'
+                });
             }
           }).catch((err) => {
             console.log('生成报表失败')
@@ -1944,6 +1956,11 @@
                 // 隐藏新增按钮,数据不可修改
                 this.issubmit=true;
                 this.addbtnflag=false;
+              }else{
+                this.$message({
+                  message: res.data.msg,
+                  type: 'error'
+                });
               }
             })
             .catch(err => {
