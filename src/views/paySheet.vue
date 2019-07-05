@@ -11,7 +11,7 @@
 			</div>
 			<div>
 				<el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small" :rules="rulesf" ref='formName'>
-					<el-form-item label="账期"  prop="accountPeriod">
+					<el-form-item label="账期" prop="accountPeriod">
 						<el-date-picker v-model="uploadData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM"
 						 placeholder="选择账期" clearable>
 						</el-date-picker>
@@ -662,12 +662,12 @@
 					accountPeriod: "",
 					customerId: "",
 					inputType: "",
-					customerName:"",
+					customerName: "",
 				},
 				switchvalue: false,
 				accountPeriod: "",
 				customerId: "",
-				customerName:"",
+				customerName: "",
 				statusVaule: "0",
 				fileList: [],
 				tableData1: [],
@@ -748,7 +748,7 @@
 						message: '请选择账期',
 						trigger: 'blur'
 					}],
-					customerId:[{
+					customerId: [{
 						required: true,
 						message: '请选择公司',
 						trigger: 'blur'
@@ -1357,39 +1357,47 @@
 						return false;
 					}
 				});
-				
+
 			},
 			// 沿用上月
-			continueExcel() {
-				let params = {
-					customerId: this.uploadData.customerId,
-					accountPeriod: this.uploadData.accountPeriod
-				};
-				this.axios
-					.post("/perTaxToolTwo/initialMonSal/continueExcel", params)
-					.then(res => {
-						if (res.data.code == 200) {
-							this.pageNum1 = '1';
-							this.customerId = this.uploadData.customerId;
-							this.accountPeriod = this.uploadData.accountPeriod;
-							this.getTableData1();
-							this.pageNum2 = '1';
-							this.getTableData2();
-							this.pageNum3 = '1';
-							this.getTableData3();
-						} else {
-							this.$message({
-								message: res.data.msg,
-								type: "error"
+			continueExcel(formName) {
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						let params = {
+							customerId: this.uploadData.customerId,
+							accountPeriod: this.uploadData.accountPeriod
+						};
+						this.axios
+							.post("/perTaxToolTwo/initialMonSal/continueExcel", params)
+							.then(res => {
+								if (res.data.code == 200) {
+									this.pageNum1 = '1';
+									this.customerId = this.uploadData.customerId;
+									this.accountPeriod = this.uploadData.accountPeriod;
+									this.getTableData1();
+									this.pageNum2 = '1';
+									this.getTableData2();
+									this.pageNum3 = '1';
+									this.getTableData3();
+								} else {
+									this.$message({
+										message: res.data.msg,
+										type: "error"
+									});
+								}
+							})
+							.catch(function(err) {
+								this.$message({
+									message: "沿用上月数据失败",
+									type: "error"
+								});
 							});
-						}
-					})
-					.catch(function(err) {
-						this.$message({
-							message: "沿用上月数据失败",
-							type: "error"
-						});
-					});
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
+
 			},
 			submitUpload() {
 				this.$refs.upload.submit();

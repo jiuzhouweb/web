@@ -2074,7 +2074,7 @@ export default {
                 event.preventDefault() // 阻止浏览器默认换行操作
                 return false
             }
-        }
+        },
     // querySearch(queryString, cb) {
     //   var cust = this.$store.state.cust;
     //   cust.forEach((item, index) => {
