@@ -1984,7 +1984,7 @@
           });
           return;
         }
-        this.gsskhj=0;
+        // this.gsskhj=0;
         console.log('this.gsskhj',this.gsskhj)
         if(this.gsskhj===''){
           console.log('11122')
