@@ -16,7 +16,7 @@
 			<div>
 				<el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small" :rules="rules" ref='formName'>
 					<el-form-item label="账期" prop="accountPeriod">
-						<el-date-picker v-model="uploadData.accountPeriod" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
+						<el-date-picker v-model="uploadData.accountPeriod" type="month" placeholder="选择账期" clearable value-format='yyyy-MM'>
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司">

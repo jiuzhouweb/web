@@ -10,13 +10,13 @@
 				<a href="月度工资表模板.xlsx" download="月度工资表模板">点击下载工资表模板</a>
 			</div>
 			<div>
-				<el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
-					<el-form-item label="账期">
+				<el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small" :rules="rulesf" ref='formName'>
+					<el-form-item label="账期"  prop="accountPeriod">
 						<el-date-picker v-model="uploadData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM"
-						 placeholder="选择月" clearable>
+						 placeholder="选择账期" clearable>
 						</el-date-picker>
 					</el-form-item>
-					<el-form-item label="公司">
+					<el-form-item label="公司" prop="customerId">
 						<!-- <el-autocomplete class="inline-input" v-model="uploadData.customerName" :fetch-suggestions="querySearch"
 						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable filterable>
@@ -27,8 +27,8 @@
 						<el-switch v-model="switchvalue"></el-switch>
 					</el-form-item>
 
-					<el-button type="primary" @click='selectExcel' size="small">选择Excel</el-button>
-					<el-button type="primary" @click='continueExcel' size="small">沿用上月</el-button>
+					<el-button type="primary" @click='selectExcel("formName")' size="small">选择Excel</el-button>
+					<el-button type="primary" @click='continueExcel("formName")' size="small">沿用上月</el-button>
 				</el-form>
 			</div>
 		</div>
@@ -742,6 +742,18 @@
 					phone: "0"
 				},
 				dialogVisibleAdd: false,
+				rulesf: {
+					accountPeriod: [{
+						required: true,
+						message: '请选择账期',
+						trigger: 'blur'
+					}],
+					customerId:[{
+						required: true,
+						message: '请选择公司',
+						trigger: 'blur'
+					}],
+				},
 				rules: {
 					employeeName: [{
 						required: true,
@@ -1322,7 +1334,7 @@
 					this.calcFlag = false;
 				}
 			},
-			selectExcel() {
+			selectExcel(formName) {
 				// this.uploadData.customerId = '';
 				// if (this.uploadData.customerName) {
 				// 	var customer = this.$store.state.cust.find(item =>
@@ -1337,7 +1349,15 @@
 				// 	// 	item.value === this.formInline.customerName
 				// 	// ).customerId
 				// }
-				this.dialogVisible = true;
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						this.dialogVisible = true;
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
+				
 			},
 			// 沿用上月
 			continueExcel() {
