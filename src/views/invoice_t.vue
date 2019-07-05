@@ -715,7 +715,7 @@
           });
           return;
         }
-        if(issubmit){
+        if(this.issubmit){
           this.$message({
             message: "当前正在审批中，不支持生成报表！",
             type: "warning"
