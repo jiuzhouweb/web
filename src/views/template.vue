@@ -5,7 +5,10 @@
 				<div class='title'>发票模板配置</div>
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
 					<el-form-item label="模板名称:">
-						<el-input v-model='formInline.tmplName'></el-input>
+						<el-select v-model='formInline.tmplName' clearable filterable>
+							<el-option v-for='item in tableList' :label="item.tmplName" :value="item.tmplName"></el-option>
+						</el-select>
+						<!-- <el-input v-model='formInline.tmplName'></el-input> -->
 					</el-form-item>
 					<el-form-item label="纳税人类型:">
 						<el-select v-model='formInline.tmplType' clearable>

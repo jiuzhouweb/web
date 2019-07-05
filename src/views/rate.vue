@@ -63,7 +63,8 @@
 		<el-dialog title="" :visible.sync="dialogTableVisible" width="8rem">
 			<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 				<el-tab-pane v-for='(item,index) in dicNameList' :label="item.dicName" :name="item.dicValue">
-					<el-table :data="rateList" row-key='ratesId' border stripe @selection-change="((val,index)=>{handleSelectionChange(val,index)})" ref='multipleTable'>
+					<el-table :data="rateList" row-key='ratesId' border stripe @selection-change="((val)=>{handleSelectionChange(val,index)})"
+					 ref='multipleTable'>
 						<el-table-column align="center" type="selection" width="55"></el-table-column>
 						<el-table-column align="center" property="taxesTitle" label="税率名称"></el-table-column>
 						<el-table-column align="center" property="taxesRate" label="税率"></el-table-column>
@@ -107,6 +108,7 @@
 
 
 				],
+				multipleSelection: [],
 				queryName: '',
 				dialogVisible: false,
 				dialogTableVisible: false,
@@ -314,7 +316,7 @@
 			showDialog(row) {
 				this.invoiceId = row.invoiceId;
 				this.dialogTableVisible = true;
-				this.$nextTick(function(){
+				this.$nextTick(function() {
 					this.$refs.multipleTable.forEach((item, index) => {
 						item.clearSelection();
 						let params = {
@@ -340,7 +342,7 @@
 									type: 'error'
 								});
 							}
-					
+
 						}).catch(function(err) {
 							this.$message({
 								message: '获取发票税率失败',
@@ -349,7 +351,7 @@
 						})
 					})
 				})
-				
+
 
 
 			},
@@ -364,44 +366,71 @@
 				this.dialogTableVisible = false;
 
 			},
-			handleSelectionChange(val,index) {
+			handleSelectionChange(val, index) {
 				this.multipleSelection[index] = val;
 			},
 			modifyRate() {
+				console.log(this.multipleSelection);
+				this.multipleSelection.forEach((item, index) => {
+					var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId + '&taxesTaxType=' + this.dicNameList[index].dicValue;
+					this.axios.post(url, item).then(res => {
+						item.clearSelection();
+						if (res.data.code == 200) {
+							this.dialogTableVisible = false;
+							this.$message({
+								message: res.data.msg,
+								type: 'success'
+							});
+						} else {
+							this.dialogTableVisible = false;
+							this.$message({
+								message: res.data.msg,
+								type: 'error'
+							});
+						}
 
+					}).catch(function(err) {
+						item.clearSelection();
+						this.dialogTableVisible = false;
+						this.$message({
+							message: '修改失败',
+							type: 'error'
+						});
+					})
+				})
 				let params = this.multipleSelection;
 
 				// if(this.multipleSelection.length == 0){
-				var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
+				// var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
 				// }else{
 				// var url = '/perTaxToolTwo/e9z/configInvoiceTaxes/insertAndDelInvoiceTaxesAndInvoiceRates?invoiceId=' + this.invoiceId;
 				// }
-
-				this.axios.post(url, params).then(res => {
-					this.$refs.multipleTable.clearSelection();
-					if (res.data.code == 200) {
-						this.dialogTableVisible = false;
-						this.$message({
-							message: res.data.msg,
-							type: 'success'
-						});
-					} else {
-						this.dialogTableVisible = false;
-						this.$refs.multipleTable.clearSelection();
-						this.$message({
-							message: res.data.msg,
-							type: 'error'
-						});
-					}
-
-				}).catch(function(err) {
-					this.dialogTableVisible = false;
-					this.$refs.multipleTable.clearSelection();
-					this.$message({
-						message: '修改失败',
-						type: 'error'
-					});
-				})
+				// 
+				// 				this.axios.post(url, params).then(res => {
+				// 					this.$refs.multipleTable.clearSelection();
+				// 					if (res.data.code == 200) {
+				// 						this.dialogTableVisible = false;
+				// 						this.$message({
+				// 							message: res.data.msg,
+				// 							type: 'success'
+				// 						});
+				// 					} else {
+				// 						this.dialogTableVisible = false;
+				// 						this.$refs.multipleTable.clearSelection();
+				// 						this.$message({
+				// 							message: res.data.msg,
+				// 							type: 'error'
+				// 						});
+				// 					}
+				// 
+				// 				}).catch(function(err) {
+				// 					this.dialogTableVisible = false;
+				// 					this.$refs.multipleTable.clearSelection();
+				// 					this.$message({
+				// 						message: '修改失败',
+				// 						type: 'error'
+				// 					});
+				// 				})
 			}
 		},
 		created() {
