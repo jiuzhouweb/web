@@ -1040,6 +1040,7 @@
 				index: 0,
 				dialogVisibleBasicInfo: false,
 				itemBasicInfo: {
+					personInfoId:'',
 					employeeCode: '',
 					employeeName: '',
 					cardType: '',
@@ -1906,6 +1907,7 @@
 					.post("/perTaxToolTwo/Employee/addOrEditTaxEmployee", params)
 					.then(res => {
 						if (res.data.code == 200) {
+							this.itemBasicInfo.personInfoId = res.data.data;
 							this.dialogVisibleAdd = false;
 							this.pageNum1 = '1';
 							this.getTableData1();
