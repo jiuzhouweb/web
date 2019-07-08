@@ -73,16 +73,16 @@
 				</el-form-item>
 
 				<el-form-item label="【分开核算】当月个税" prop="name" v-if='!isShow'>
-					<el-input v-model="calResult.sepTaxation" disabled></el-input>
+					<el-input v-model="calResult.sepTaxation" disabled :class='calResult.sepTaxation < calResult.comTaxation?"red":""'></el-input>
 				</el-form-item>
 				<el-form-item label="【分开核算】税后工资" prop="name" v-if='!isShow'>
-					<el-input v-model="calResult.sepAfterTaxIncome" disabled></el-input>
+					<el-input v-model="calResult.sepAfterTaxIncome" disabled :class='calResult.sepAfterTaxIncome > calResult.comAfterTaxIncome?"red":""'></el-input>
 				</el-form-item>
 				<el-form-item label="【合并核算】当月个税" prop="name" v-if='!isShow'>
-					<el-input v-model="calResult.comTaxation" disabled></el-input>
+					<el-input v-model="calResult.comTaxation" disabled :class='calResult.sepTaxation > calResult.comTaxation?"red":""'></el-input>
 				</el-form-item>
 				<el-form-item label="【合并核算】税后工资" prop="name" v-if='!isShow'>
-					<el-input v-model="calResult.comAfterTaxIncome" disabled></el-input>
+					<el-input v-model="calResult.comAfterTaxIncome" disabled :class='calResult.sepAfterTaxIncome < calResult.comAfterTaxIncome?"red":""'></el-input>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -247,5 +247,9 @@
 	.el-form-item {
 		/* margin-bottom: 18px; */
 		margin-bottom: 0.18rem;
+	}
+	
+	/deep/ .el-input.is-disabled.red .el-input__inner{
+		color: #F56C6C
 	}
 </style>

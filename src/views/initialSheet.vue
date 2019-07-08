@@ -76,7 +76,7 @@
 		</div>
 		<el-dialog title="选择Excel" :visible.sync="dialogVisible" width="30%" @close="cancelUpload">
 			<el-upload class="upload-demo" action="/perTaxToolTwo/api/excel/initUpload.do" :on-preview="handlePreview" ref='upload'
-			 :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="10" :on-exceed="handleExceed" :file-list="fileList"
+			 :on-change="onChange" :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="10" :on-exceed="handleExceed" :file-list="fileList"
 			 :on-success="handleSuccess" :on-error="handleError" :auto-upload="false" :data='uploadData' accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 				<el-button size="small" type="primary" slot="trigger">选择Excel</el-button>
 
@@ -228,6 +228,15 @@
 				// this.uploadData.accountPeriod = this.accountPeriod;
 				// this.uploadData.customerId = this.customerId;
 
+			},
+			onChange(file, fileList) { //这里做一些文件控制，注意：就算一次选取多个文件，这里依旧会执行多次
+			
+				let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name)
+				if (existFile) {
+					this.$message.error('当前文件已经存在!');
+					fileList.pop()
+				}
+				this.fileList = fileList
 			},
 			handleSuccess(response) {
 				if (response.code == 200) {

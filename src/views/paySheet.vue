@@ -35,27 +35,27 @@
 		<div class='main_contain'>
 			<h5>月度录入表</h5>
 			<div>
-				<el-form :inline="true" class="demo-form-inline" size="small">
-					<el-form-item label="账期">
-						<el-date-picker v-model="accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月"
-						 clearable>
+				<el-form :inline="true" :model="searchData" class="demo-form-inline" size="small" :rules="ruless" ref='formName1'>
+					<el-form-item label="账期" prop="accountPeriod">
+						<el-date-picker v-model="searchData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM"
+						 placeholder="选择月" clearable>
 						</el-date-picker>
 					</el-form-item>
-					<el-form-item label="公司">
+					<el-form-item label="公司" prop="customerId">
 						<!-- <el-autocomplete class="inline-input" v-model="customerName" :fetch-suggestions="querySearch"
 						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
-						<el-select v-model="customerId" placeholder="请选择公司名称" clearable filterable>
+						<el-select v-model="searchData.customerId" placeholder="请选择公司名称" clearable filterable>
 							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
 
-					<el-form-item label="状态">
-						<el-select v-model="statusVaule" placeholder="请选择状态" clearable>
+					<el-form-item label="状态" prop="statusVaule">
+						<el-select v-model="searchData.statusVaule" placeholder="请选择状态" clearable>
 							<el-option label="已提交" value="1"></el-option>
 							<el-option label="未提交" value="0"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-button type="primary" @click='search' size="small">搜索</el-button>
+					<el-button type="primary" @click='search("formName1")' size="small">搜索</el-button>
 					<el-button type="primary" @click='addUser' v-if="calcFlag" size="small">新增员工</el-button>
 					<!-- <el-button type="primary" @click='selectExcel'>重置</el-button> -->
 				</el-form>
@@ -577,13 +577,14 @@
 
 		<el-dialog title="选择Excel" :visible.sync="dialogVisible" width="30%">
 			<el-upload class="upload-demo" action="/perTaxToolTwo/api/excel/monthlyUpload.do" :on-preview="handlePreview" ref='upload'
-			 :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="10" :on-exceed="handleExceed" :file-list="fileList"
-			 :on-success="handleSuccess" :on-error="handleError" :auto-upload="false" :data='uploadData' accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+			 :on-remove="handleRemove" :on-change="onChange" :before-remove="beforeRemove" :limit="1" :on-exceed="handleExceed"
+			 :file-list="fileList" :on-success="handleSuccess" :on-error="handleError" :auto-upload="false" :data='uploadData'
+			 accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 				<el-button size="small" type="primary" slot="trigger">选择Excel</el-button>
 
 			</el-upload>
 			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button @click="cancelUpload">取 消</el-button>
 				<el-button type="primary" @click="submitUpload">上传</el-button>
 			</span>
 		</el-dialog>
@@ -665,10 +666,13 @@
 					customerName: "",
 				},
 				switchvalue: false,
-				accountPeriod: "",
-				customerId: "",
-				customerName: "",
-				statusVaule: "0",
+				searchData: {
+					accountPeriod: "",
+					customerId: "",
+					customerName: "",
+					statusVaule: "0",
+				},
+
 				fileList: [],
 				tableData1: [],
 				currentPage1: 1,
@@ -751,6 +755,23 @@
 					customerId: [{
 						required: true,
 						message: '请选择公司',
+						trigger: 'blur'
+					}],
+				},
+				ruless: {
+					accountPeriod: [{
+						required: true,
+						message: '请选择账期',
+						trigger: 'blur'
+					}],
+					customerId: [{
+						required: true,
+						message: '请选择公司',
+						trigger: 'blur'
+					}],
+					statusVaule: [{
+						required: true,
+						message: '请选择状态',
 						trigger: 'blur'
 					}],
 				},
@@ -1114,9 +1135,9 @@
 					row: this.pageSize1,
 					page: this.pageNum1,
 					data: {
-						accountPeriod: this.accountPeriod,
-						customerId: this.customerId,
-						submitStatus: this.statusVaule
+						accountPeriod: this.searchData.accountPeriod,
+						customerId: this.searchData.customerId,
+						submitStatus: this.searchData.statusVaule
 					}
 				};
 				this.axios
@@ -1144,9 +1165,9 @@
 					row: this.pageSize1,
 					page: this.pageNum1,
 					data: {
-						accountPeriod: this.accountPeriod,
-						customerId: this.customerId,
-						submitStatus: this.statusVaule
+						accountPeriod: this.searchData.accountPeriod,
+						customerId: this.searchData.customerId,
+						submitStatus: this.searchData.statusVaule
 					}
 				};
 				this.axios
@@ -1175,10 +1196,10 @@
 					row: this.pageSize2,
 					page: this.pageNum2,
 					data: {
-						accountPeriod: this.accountPeriod,
-						customerId: this.customerId,
+						accountPeriod: this.searchData.accountPeriod,
+						customerId: this.searchData.customerId,
 						employeeName: "",
-						submitStatus: this.statusVaule
+						submitStatus: this.searchData.statusVaule
 					}
 				};
 				this.axios
@@ -1207,10 +1228,10 @@
 					row: this.pageSize3,
 					page: this.pageNum3,
 					data: {
-						accountPeriod: this.accountPeriod,
-						customerId: this.customerId,
+						accountPeriod: this.searchData.accountPeriod,
+						customerId: this.searchData.customerId,
 						employeeName: "",
-						submitStatus: this.statusVaule
+						submitStatus: this.searchData.statusVaule
 					}
 				};
 				this.axios
@@ -1305,7 +1326,7 @@
 				this.dialogVisibleDetail = true;
 				this.getMonthDetail(row.cardNum);
 			},
-			search() {
+			search(formName) {
 				// this.customerId = '';
 				// if (this.customerName) {
 				// 	var customer = this.$store.state.cust.find(item =>
@@ -1320,19 +1341,27 @@
 				// 	// 	item.value === this.formInline.customerName
 				// 	// ).customerId
 				// }
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						this.getOperatorId();
+						this.pageNum1 = '1';
+						this.getTableData1();
+						this.pageNum2 = '1';
+						this.getTableData2();
+						this.pageNum3 = '1';
+						this.getTableData3();
+						if (this.searchData.statusVaule == 0) {
+							this.calcFlag = true;
+						} else {
+							this.calcFlag = false;
+						}
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				})
 				// 获取操作表id
-				this.getOperatorId();
-				this.pageNum1 = '1';
-				this.getTableData1();
-				this.pageNum2 = '1';
-				this.getTableData2();
-				this.pageNum3 = '1';
-				this.getTableData3();
-				if (this.statusVaule == 0) {
-					this.calcFlag = true;
-				} else {
-					this.calcFlag = false;
-				}
+
 			},
 			selectExcel(formName) {
 				// this.uploadData.customerId = '';
@@ -1399,8 +1428,21 @@
 				});
 
 			},
+			cancelUpload() {
+				this.fileList = [];
+				this.dialogVisible = false;
+			},
 			submitUpload() {
 				this.$refs.upload.submit();
+			},
+			onChange(file, fileList) { //这里做一些文件控制，注意：就算一次选取多个文件，这里依旧会执行多次
+
+				let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name)
+				if (existFile) {
+					this.$message.error('当前文件已经存在!');
+					fileList.pop()
+				}
+				this.fileList = fileList
 			},
 			handleSuccess(response) {
 				if (response.code == 200) {
@@ -1410,10 +1452,10 @@
 						type: "success"
 					});
 					this.dialogVisible = false;
-					this.accountPeriod = this.uploadData.accountPeriod;
-					this.customerId = this.uploadData.customerId;
-					this.customerName = this.uploadData.customerName;
-					this.statusVaule = "0";
+					this.searchData.accountPeriod = this.uploadData.accountPeriod;
+					this.searchData.customerId = this.uploadData.customerId;
+					this.searchData.customerName = this.uploadData.customerName;
+					this.searchData.statusVaule = "0";
 					this.calcFlag = true;
 					this.addFlag = true;
 					this.getOperatorId();
@@ -1446,7 +1488,7 @@
 			},
 			handleExceed(files, fileList) {
 				this.$message.warning(
-					`当前限制选择 3 个文件，本次选择了 ${
+					`当前限制选择 1 个文件，本次选择了 ${
           files.length
         } 个文件，共选择了 ${files.length + fileList.length} 个文件`
 				);
@@ -1621,6 +1663,13 @@
 									// 再获取弹出层表格的数据
 									this.pageNum4 = '1';
 									this.getTableData4(res.data.data[0].operateId);
+								} else {
+									this.pageNum1 = '1';
+									this.getTableData1();
+									this.pageNum2 = '1';
+									this.getTableData2();
+									this.pageNum3 = '1';
+									this.getTableData3();
 								}
 							} else {
 								this.$message({
@@ -1793,9 +1842,9 @@
 				let params = this.item;
 
 				if (this.addFlag) {
-					params.accountPeriod = this.accountPeriod;
-					params.customerId = this.customerId;
-					params.submitStatus = this.statusVaule;
+					params.accountPeriod = this.searchData.accountPeriod;
+					params.customerId = this.searchData.customerId;
+					params.submitStatus = this.searchData.statusVaule;
 					params.monthlyId = "";
 					params.operateId = "";
 				}
@@ -1884,7 +1933,7 @@
 						})
 						.then(res => {
 							if (res.data.code == 200) {
-								this.statusVaule = "0";
+								this.searchData.statusVaule = "0";
 								this.addFlag = false;
 								this.pageNum1 = '1';
 								this.getTableData1();

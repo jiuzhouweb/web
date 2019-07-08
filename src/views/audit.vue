@@ -23,7 +23,7 @@
 				<el-form-item label="客户名称:" prop="customerId">
 					<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
 					 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
-					<el-select v-model='searchList.customerId' filterable>
+					<el-select v-model='searchList.customerId' filterable @change='selectGet'>
 						<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
 					</el-select>
 				</el-form-item>
@@ -299,10 +299,10 @@
 				this.dialogVisible = true;
 				this.info = obj;
 				let params = {
-					"fplrTaxationId": item.fplr,
+					"fplrTaxationId": item.fplrTaxationId,
 					"fplrTaxInfoId": item.fplrTaxInfoId,
 					"zzTaxInfoId": item.zzTaxInfoId,
-					"zzTaxationId": item.zz,
+					"zzTaxationId": item.zzTaxationId,
 
 				}
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectInvoiceCompare', params).then(res => {
@@ -338,7 +338,7 @@
 					taxCalcType: detailData.taxCalcType, //计税方法：1 - 一般计税；2 - 简易征收计税
 					reducePriority: detailData.reducePriority, //抵扣优先级
 					tmplShowType: detailData.tmplShowType, //下拉框（0-发票 1-其他模板）
-					taxesTaxType: detailData.taxesTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
+					taxesTaxType: this.declarationType, //税务类型：0：通用；232：小规模；233：一般纳税人
 					type: detailData.type, //对应列/税费下拉框 1-列 2-税费
 					declarationType: this.declarationType, //1：一般纳税人，2：小规模,要修改
 					// declarationType: 1,

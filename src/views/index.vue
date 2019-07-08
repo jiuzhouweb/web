@@ -39,7 +39,7 @@
 										<el-menu-item index="/index/initialSheet">初始导入</el-menu-item>
 										<el-menu-item index="/index/paySheet">工资表导入</el-menu-item>
 										<!-- <el-menu-item index="/index/reportForms">报表查看</el-menu-item> -->
-										<el-menu-item index="/index/payEdit">工资表变更</el-menu-item>
+										<el-menu-item index="/index/payEdit" v-if='userTypeId == 1'>工资表变更</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 								<!-- <el-menu-item index="/index/incomeTaxCalculate">
@@ -285,7 +285,8 @@
 			return {
 				userName: '15651965271',
 				userId: "",
-				menu: []
+				menu: [],
+				userTypeId:''
 			}
 		},
 		methods: {
@@ -301,6 +302,7 @@
 						if (res.data.code == 200) {
 							this.userName = res.data.user.phone;
 							this.userId = res.data.user.operatorId;
+							this.userTypeId = res.data.user.userTypeId;
 							this.menuList = res.data.user.menuList;
 							this.menuList.forEach((item, index) => {
 								this.menu.push(item.productName);
