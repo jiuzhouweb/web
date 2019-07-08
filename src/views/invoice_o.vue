@@ -195,8 +195,9 @@
             </div>
           </div>
           <div class="detailFooter">
-            <div class="nextStep" @click="edit()">提交</div>
-            <div class="cancel" @click="closeDetail()">关闭</div>
+            <div class="nextStep" v-if="!issubmit" @click="edit()">提交</div>
+            <div class="cancel"  v-if="!issubmit" @click="closeDetail()">关闭</div>
+            <div class="cancel"  v-if="issubmit" @click="detailDialogVisible = false;">关闭</div>
           </div>
         </el-dialog>
       </div>
@@ -874,6 +875,7 @@ export default {
                   this.tableTaxData = [];
                   this.nameData = [];
                   this.seriesData = [];
+                  this.drawLine();
                 }
               } else {
                 let type;
@@ -1023,7 +1025,7 @@ export default {
               if (item.vat_rate == "simple") {
                 item.vat_rate = "简易征收";
               } else if (item.vat_rate == "immeduate") {
-                item.vat_rate = "即佂即退";
+                item.vat_rate = "即征即退";
               }
               if (item.hasOwnProperty("ex_tax_income")) {
                 valueArr.push(item);
@@ -1036,7 +1038,12 @@ export default {
             // });
             valueArr.forEach((item, index) => {
               item.color = this.color[index];
-              item.ratename = this.accMul(item.vat_rate, 100) + "%增值税";
+              if(typeof item.vat_rate=='number'){
+                item.ratename = this.accMul(item.vat_rate, 100) + "%增值税";
+              }else{
+                item.ratename =item.vat_rate
+              }
+              
               var obj = {};
               obj.name = item.ratename;
               obj.value = item.invoice_amt;
