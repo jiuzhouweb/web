@@ -34,7 +34,6 @@
 				</el-form-item>
 			</el-form>
 			<el-form :model="ruleForm" label-width="130px" class="demo-ruleForm" size="small">
-
 				<el-form-item label="累计收入" prop="name">
 					<el-input v-model="totalSalary" disabled></el-input>
 				</el-form-item>
@@ -47,7 +46,6 @@
 				<el-form-item label="累计减除费用" prop="name">
 					<el-input v-model="totalDecrease" disabled></el-input>
 				</el-form-item>
-
 			</el-form>
 			<el-form :model="ruleForm" label-width="160px" class="demo-ruleForm" size="small">
 				<el-form-item label="应纳税所得额" prop="name">
@@ -71,7 +69,6 @@
 				<el-form-item label="税后工资" prop="name" v-if='isShow'>
 					<el-input v-model="calResult.afterTaxIncome" disabled></el-input>
 				</el-form-item>
-
 				<el-form-item label="【分开核算】当月个税" prop="name" v-if='!isShow'>
 					<el-input v-model="calResult.sepTaxation" disabled :class='calResult.sepTaxation < calResult.comTaxation?"red":""'></el-input>
 				</el-form-item>
@@ -86,7 +83,6 @@
 				</el-form-item>
 			</el-form>
 		</div>
-
 	</div>
 </template>
 
@@ -145,7 +141,6 @@
 		components: {},
 		methods: {
 			submitForm(formName) {
-
 				if (this.ruleForm.bonus) {
 					this.isShow = false
 				} else {
@@ -168,16 +163,30 @@
 						};
 						this.axios.post('/perTaxToolTwo/monAcct/perTaxCalculator', params)
 							.then(res => {
-								this.isloading = false;
-								console.log(res.data.data);
-								this.calResult = res.data.data;
-							}).catch(function(err) {
+								if (res.data.code == 200) {
+									this.isloading = false;
+									console.log(res.data.data);
+									this.calResult = res.data.data;
+								} else {
+									let type;
+									if (res.data.code == 0) {
+										type = "warning";
+									} else if (res.data.code == 500) {
+										type = "error";
+									}
+									this.$message({
+										message: res.data.msg,
+										type: type
+									});
+								}
+							})
+							.catch(err => {
 								this.isloading = false;
 								this.$message({
-									message: '获取结果失败',
-									type: 'error'
+									message: "系统繁忙，请稍后重试",
+									type: "error"
 								});
-							})
+							});
 					} else {
 						console.log('error submit!!');
 						return false;
@@ -202,8 +211,7 @@
 				return this.ruleForm.decrease ? this.ruleForm.decrease * this.ruleForm.month + '.00' : "";
 			}
 		},
-		created() {
-		}
+		created() {}
 	}
 </script>
 
@@ -213,7 +221,7 @@
 		height: 100%;
 		/* padding: 20px 0px 0px 20px; */
 		box-sizing: border-box;
-		.el-breadcrumb{
+		.el-breadcrumb {
 			height: 30px;
 			line-height: 29px;
 			padding-left: 20px;
@@ -221,35 +229,31 @@
 			border-top: 1px solid #F2F6FC;
 			box-sizing: border-box
 		}
-		.el-tag{
+		.el-tag {
 			margin: 20px 0 0 20px;
 		}
 	}
-
 	.formlist {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		padding-top:20px;
+		padding-top: 20px;
 		margin: 20px;
 		background: #fff;
 	}
-
 	.demo-ruleForm {
 		/* width: 460px; */
 		width: 4.6rem;
 		float: left;
-		/deep/ .el-date-editor{
+		/deep/ .el-date-editor {
 			width: 100%
 		}
 	}
-
 	.el-form-item {
 		/* margin-bottom: 18px; */
 		margin-bottom: 0.18rem;
 	}
-	
-	/deep/ .el-input.is-disabled.red .el-input__inner{
+	/deep/ .el-input.is-disabled.red .el-input__inner {
 		color: #F56C6C
 	}
 </style>

@@ -5,7 +5,6 @@
 			</el-page-header>
 		</div>
 		<div class='search_contain'>
-
 			<div>
 				<el-form :inline="true" class="demo-form-inline" size="small">
 					<el-form-item label="姓名">
@@ -18,87 +17,86 @@
 		<div class='main_contain'>
 			<el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog'>批量删除</el-button>
 			<el-table :data="employeeList" stripe style="width: 100%" @selection-change="handleSelectionChange">>
-
 				<el-table-column align="center" type="expand">
 					<template slot-scope="props">
-						<el-form label-position="left" inline class="demo-table-expand">
-							<el-form-item label="本期基本养老保险费">
-								<span>{{ props.row.pensionInsurance }}</span>
-							</el-form-item>
-							<el-form-item label="本期基本医疗保险费">
-								<span>{{ props.row.medicalInsurance }}</span>
-							</el-form-item>
-							<el-form-item label="本期失业保险费">
-								<span>{{ props.row.unemploymentInsurance }}</span>
-							</el-form-item>
-							<el-form-item label="本期住房公积金">
-								<span>{{ props.row.housingFund }}</span>
-							</el-form-item>
-							<el-form-item label="本期企业(职业)年金">
-								<span>{{ props.row.companyAnnuity }}</span>
-							</el-form-item>
-							<el-form-item label="本期商业健康保险费">
-								<span>{{ props.row.healthInsurance }}</span>
-							</el-form-item>
-							<el-form-item label="本期税延养老保险费">
-								<span>{{ props.row.pension }}</span>
-							</el-form-item>
-							<el-form-item label="本期其他扣除(其他)">
-								<span>{{ props.row.preTaxDeduction }}</span>
-							</el-form-item>
-							<el-form-item label="累计收入额">
-								<span>{{ props.row.incomeAmountTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计减除费用">
-								<span>{{ props.row.deductFeeTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计专项扣除">
-								<span>{{ props.row.refDeductSumTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计子女教育支出扣除">
-								<span>{{ props.row.childEducationTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计赡养老人支出扣除">
-								<span>{{ props.row.elderlyTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计继续教育支出扣除">
-								<span>{{ props.row.continuingEducationTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计住房贷款利息支出扣除">
-								<span>{{ props.row.homeLoanTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计住房租金支出扣除">
-								<span>{{ props.row.housingRentTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计其他扣除">
-								<span>{{ props.row.preTaxDeductionTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计准予扣除的捐赠">
-								<span>{{ props.row.deductedDonationTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计应纳税所得额">
-								<span>{{ props.row.taxableIncomeTotal }}</span>
-							</el-form-item>
-							<el-form-item label="税率%">
-								<span>{{ props.row.rateTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计应纳税额">
-								<span>{{ props.row.payableTaxTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计减免税额">
-								<span>{{ props.row.deductTaxTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计应扣缴税额">
-								<span>{{ props.row.preWithholdTaxTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计已预缴税额">
-								<span>{{ props.row.sumWithholdTaxTotal }}</span>
-							</el-form-item>
-							<el-form-item label="累计应补(退)税额">
-								<span>{{ props.row.taxationTotal }}</span>
-							</el-form-item>
-						</el-form>
-					</template>
+							<el-form label-position="left" inline class="demo-table-expand">
+								<el-form-item label="本期基本养老保险费">
+									<span>{{ props.row.pensionInsurance }}</span>
+								</el-form-item>
+								<el-form-item label="本期基本医疗保险费">
+									<span>{{ props.row.medicalInsurance }}</span>
+								</el-form-item>
+								<el-form-item label="本期失业保险费">
+									<span>{{ props.row.unemploymentInsurance }}</span>
+								</el-form-item>
+								<el-form-item label="本期住房公积金">
+									<span>{{ props.row.housingFund }}</span>
+								</el-form-item>
+								<el-form-item label="本期企业(职业)年金">
+									<span>{{ props.row.companyAnnuity }}</span>
+								</el-form-item>
+								<el-form-item label="本期商业健康保险费">
+									<span>{{ props.row.healthInsurance }}</span>
+								</el-form-item>
+								<el-form-item label="本期税延养老保险费">
+									<span>{{ props.row.pension }}</span>
+								</el-form-item>
+								<el-form-item label="本期其他扣除(其他)">
+									<span>{{ props.row.preTaxDeduction }}</span>
+								</el-form-item>
+								<el-form-item label="累计收入额">
+									<span>{{ props.row.incomeAmountTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计减除费用">
+									<span>{{ props.row.deductFeeTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计专项扣除">
+									<span>{{ props.row.refDeductSumTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计子女教育支出扣除">
+									<span>{{ props.row.childEducationTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计赡养老人支出扣除">
+									<span>{{ props.row.elderlyTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计继续教育支出扣除">
+									<span>{{ props.row.continuingEducationTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计住房贷款利息支出扣除">
+									<span>{{ props.row.homeLoanTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计住房租金支出扣除">
+									<span>{{ props.row.housingRentTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计其他扣除">
+									<span>{{ props.row.preTaxDeductionTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计准予扣除的捐赠">
+									<span>{{ props.row.deductedDonationTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计应纳税所得额">
+									<span>{{ props.row.taxableIncomeTotal }}</span>
+								</el-form-item>
+								<el-form-item label="税率%">
+									<span>{{ props.row.rateTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计应纳税额">
+									<span>{{ props.row.payableTaxTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计减免税额">
+									<span>{{ props.row.deductTaxTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计应扣缴税额">
+									<span>{{ props.row.preWithholdTaxTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计已预缴税额">
+									<span>{{ props.row.sumWithholdTaxTotal }}</span>
+								</el-form-item>
+								<el-form-item label="累计应补(退)税额">
+									<span>{{ props.row.taxationTotal }}</span>
+								</el-form-item>
+							</el-form>
+</template>
 				</el-table-column>
 				<el-table-column align="center" type="selection" width="55">
 				</el-table-column>
@@ -109,10 +107,10 @@
 				<!-- <el-table-column align="center" prop="cardNum" label="证件号码">
 				</el-table-column> -->
 				<el-table-column label="证件号码">
-					<template scope="scope">
-						<!-- <el-input v-show="scope.row.tedit" size="small" v-model="scope.row.cardNum"></el-input> -->
-						<div contenteditable="true" @blur="editSingle($event,scope.row)" v-text='scope.row.cardNum'></div>
-					</template>
+<template scope="scope">
+	<!-- <el-input v-show="scope.row.tedit" size="small" v-model="scope.row.cardNum"></el-input> -->
+	<div contenteditable="true" @blur="editSingle($event,scope.row)" v-text='scope.row.cardNum'></div>
+</template>
 				</el-table-column>
 				<el-table-column align="center" prop="taxPeriodBegin" label="税款所属期起">
 				</el-table-column>
@@ -125,11 +123,11 @@
 				<el-table-column align="center" prop="taxFreeIncome" label="本期免税收入">
 				</el-table-column>
 				<el-table-column align="center" fixed="right" label="操作" width="100">
-					<template slot-scope="scope">
-						<!-- <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button> -->
-						<el-button type="text" size="small" @click='edit(scope.row)'>编辑</el-button>
-						<el-button type="text" size="small" @click='del(scope.row)'>删除</el-button>
-					</template>
+<template slot-scope="scope">
+	<!-- <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button> -->
+	<el-button type="text" size="small" @click='edit(scope.row)'>编辑</el-button>
+	<el-button type="text" size="small" @click='del(scope.row)'>删除</el-button>
+</template>
 				</el-table-column>
 			</el-table>
 			<el-pagination background layout="total,prev, pager, next, jumper" :total="total" :page-size=10 @current-change='handleCurrentChange'
@@ -273,12 +271,11 @@
 		name: "incomeTaxCalculate",
 		data() {
 			return {
-				tedit:false,
+				tedit: false,
 				employeeList: [],
 				currentPage: 1,
 				total: 0,
 				formInline: {
-
 				},
 				input: '',
 				name: '',
@@ -400,18 +397,24 @@
 							// 	this.tableData.push({});
 							// }
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '获取税种公式列表失败',
-							type: 'error'
-						});
 					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			},
 			edit(row) {
 				this.item = JSON.parse(JSON.stringify(row));
@@ -429,33 +432,36 @@
 								if (res.data.code == 200) {
 									this.currentPage = 1;
 									this.queryEmployeePage();
-
 									this.$message({
 										type: 'success',
 										message: '编辑成功!'
 									});
 								} else {
+									let type;
+									if (res.data.code == 0) {
+										type = "warning";
+									} else if (res.data.code == 500) {
+										type = "error";
+									}
 									this.$message({
 										message: res.data.msg,
-										type: 'error'
+										type: type
 									});
 								}
-
-							}).catch(function(err) {
+							})
+							.catch(err => {
 								this.dialogVisible = false;
 								this.$message({
-									message: '编辑失败',
-									type: 'error'
+									message: "系统繁忙，请稍后重试",
+									type: "error"
 								});
-							})
+							});
 					} else {
 						console.log('error submit!!');
 						return false;
 					}
 				});
-
 			},
-
 			del(row) {
 				this.$confirm('确定删除此条记录?', '提示', {
 					confirmButtonText: '确定',
@@ -473,19 +479,24 @@
 									message: '删除成功!'
 								});
 							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
 								this.$message({
 									message: res.data.msg,
-									type: 'error'
+									type: type
 								});
 							}
-
-						}).catch(function(err) {
-							this.$message({
-								message: '删除失败',
-								type: 'error'
-							});
 						})
-
+						.catch(err => {
+							this.$message({
+								message: "系统繁忙，请稍后重试",
+								type: "error"
+							});
+						});
 				}).catch(() => {
 					this.$message({
 						type: 'info',
@@ -510,18 +521,24 @@
 									message: '删除成功!'
 								});
 							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
 								this.$message({
 									message: res.data.msg,
-									type: 'error'
+									type: type
 								});
 							}
-
-						}).catch(function(err) {
-							this.$message({
-								message: '删除失败',
-								type: 'error'
-							});
 						})
+						.catch(err => {
+							this.$message({
+								message: "系统繁忙，请稍后重试",
+								type: "error"
+							});
+						});
 				}).catch(() => {
 					this.$message({
 						type: 'info',
@@ -546,11 +563,11 @@
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
-			setEdit(index){
+			setEdit(index) {
 				this.employeeList[index].tedit = true;
 				console.log(this.employeeList)
 			},
-			editSingle(event,row){
+			editSingle(event, row) {
 				row.cardNum = event.target.innerText;
 				let params = row;
 				this.axios.post('/perTaxToolTwo/initialMonCom/saveCompanyEmployee', params)
@@ -562,18 +579,24 @@
 							// 	message: '编辑成功!'
 							// });
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-				
-					}).catch(function(err) {
-						this.$message({
-							message: '编辑失败',
-							type: 'error'
-						});
 					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			}
 		},
 		computed: {},
@@ -598,70 +621,56 @@
 		width: 100%;
 		height: 100%;
 		box-sizing: border-box;
-
 		/deep/ .el-table__header tr,
 		.el-table__header th {
 			padding: 0;
 			height: 40px;
 		}
-
 		/deep/ .el-table__body tr,
 		.el-table__body td {
 			padding: 0;
 			height: 40px;
 		}
-
 		/deep/ .el-table td {
 			padding: 6px 0;
 		}
-
 		/deep/ .el-table th {
 			background-color: #ebf6fb;
 		}
-
 		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
 			background: #ebf6fb;
 		}
-
 		.el-dialog .el-form {
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
 			flex-wrap: wrap
 		}
-
 		/deep/ .el-form-item__content {
 			width: 180px;
 		}
-
 		/deep/ .el-date-editor.el-input {
 			width: 180px;
 		}
-
 		/deep/ .el-table__body tr,
 		.el-table__body td {
 			padding: 0;
 			height: 40px;
 			background-color: #fff7f1;
 		}
-
 		/deep/ .el-table__body tr.el-table__row--striped {
 			background-color: #ebf6fb;
 		}
-
 		/deep/ .el-table thead {
 			color: #343434;
 		}
-
 		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
 			background-color: #efe9e5;
 		}
-
 		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
 			border-bottom-color: #fff;
 			background: #ebf6fb;
 		}
-
 		.el-page-header {
 			height: 40px;
 			line-height: 40px;
@@ -671,7 +680,6 @@
 			border-top: 1px solid #F2F6FC;
 			box-sizing: border-box;
 		}
-
 		.search_contain {
 			background: #fff;
 			height: 100px;
@@ -680,17 +688,14 @@
 			margin-left: 20px;
 			margin-right: 20px;
 			padding-top: 30px;
-
 			.info {
 				height: 40px;
 				line-height: 40px;
 			}
-
 			a {
 				margin-left: 10px;
 			}
 		}
-
 		.main_contain {
 			background: #fff;
 			margin-top: 20px;
@@ -699,57 +704,45 @@
 			margin-right: 20px;
 			height: calc(100% - 240px);
 			overflow-y: scroll;
-
 			h5 {
 				height: 40px;
 				line-height: 40px;
 			}
-
 			.el-button.muldel {
 				/* float: right */
 				margin-bottom: 10px;
 			}
-
 			/deep/ .demo-table-expand {
 				font-size: 0;
 			}
-
 			/deep/ .demo-table-expand label {
 				color: #99a9bf;
 				padding-left: 120px;
 			}
-
 			/deep/ .demo-table-expand .el-form-item {
 				margin-right: 0;
 				margin-bottom: 0;
 				width: 50%;
 			}
 		}
-
 		/deep/ .el-pagination {
 			text-align: right;
 			margin-top: 10px;
 		}
-
-
 	}
-
 	/*滚动条样式*/
 	::-webkit-scrollbar {
 		width: 4px;
 		/*height: 4px;*/
 	}
-
 	::-webkit-scrollbar-thumb {
 		border-radius: 10px;
 		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
 		background: rgba(0, 0, 0, 0.2);
 	}
-
 	::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
 		border-radius: 0;
 		background: rgba(0, 0, 0, 0.1);
-
 	}
 </style>

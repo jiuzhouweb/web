@@ -7,8 +7,8 @@
 		<div class='search_contain'>
 			<div class='info'>
 				<!-- <el-tag effect="dark">
-							初始公司表上传
-						</el-tag> -->
+								初始公司表上传
+							</el-tag> -->
 				<h5 class='left' style="margin-right: 10px;">初始录入企业表</h5>
 				<span>*若初始导入多家Excel，请勿选择公司名</span>
 				<a href="初始累计表模板.xls" download="模板">点击下载模板</a>
@@ -21,7 +21,7 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<!-- <el-autocomplete class="inline-input" v-model="uploadData.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+							 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable filterable>
 							<el-option v-for="item in $store.state.cust" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
@@ -29,17 +29,14 @@
 					<el-button type="primary" @click='selectExcel("formName")' size="small">选择Excel</el-button>
 					<!-- <el-button type="primary" @click='selectExcel'>上传</el-button> -->
 					<!-- <el-form-item>
-							<el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-preview="handlePreview"
-							 :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="3" :on-exceed="handleExceed" :file-list="fileList">
-								<el-button size="small" type="primary">选择Excel</el-button>
-							</el-upload>
-						</el-form-item> -->
+								<el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-preview="handlePreview"
+								 :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="3" :on-exceed="handleExceed" :file-list="fileList">
+									<el-button size="small" type="primary">选择Excel</el-button>
+								</el-upload>
+							</el-form-item> -->
 				</el-form>
-
 			</div>
 		</div>
-
-
 		<div class='main_contain'>
 			<h5>录入企业表详情</h5>
 			<div>
@@ -50,7 +47,7 @@
 					</el-form-item>
 					<el-form-item label="公司">
 						<!-- <el-autocomplete class="inline-input" v-model="search.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+							 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 						<el-select v-model="search.customerId" placeholder="请选择公司名称" clearable filterable>
 							<el-option v-for="item in $store.state.cust" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
@@ -58,7 +55,6 @@
 					<el-button type="primary" size="small" @click='searchSheet("formName1")'>搜索</el-button>
 					<!-- <el-button type="primary" @click='selectExcel'>重置</el-button> -->
 				</el-form>
-
 			</div>
 			<el-table :data="tableData" style="width: 100%" stripe border>
 				<el-table-column align="center" label="序号" type='index' width="80"></el-table-column>
@@ -66,8 +62,8 @@
 				<el-table-column align="center" label="企业名称" prop="customerName"></el-table-column>
 				<el-table-column align="center" label="操作">
 					<template slot-scope="scope">
-						<el-button size="mini" type='primary' @click="handleEdit(scope.row)">查看企业员工详情</el-button>
-					</template>
+							<el-button size="mini" type='primary' @click="handleEdit(scope.row)">查看企业员工详情</el-button>
+</template>
 				</el-table-column>
 			</el-table>
 			<el-pagination background layout="total,prev, pager, next, jumper" :total="total" :page-size=10 @current-change='handleCurrentChange'
@@ -110,18 +106,16 @@
 				uploadData: {
 					"accountPeriod": "",
 					"customerId": "",
-					"customerName":''
+					"customerName": ''
 				},
 				search: {
 					"accountPeriod": '',
 					"customerId": '',
-					"customerName":''
+					"customerName": ''
 				},
-
 				fileList: [],
 				total: 0,
 				currentPage: 1,
-
 				tableData: [],
 				pageSize: 10,
 				employeeList: [],
@@ -158,7 +152,6 @@
 					return (cust.customerName.indexOf(queryString) === 0);
 				};
 			},
-			
 			selectExcel(formName) {
 				// this.uploadData.customerId = '';
 				// if (this.uploadData.customerName) {
@@ -227,10 +220,8 @@
 				});
 				// this.uploadData.accountPeriod = this.accountPeriod;
 				// this.uploadData.customerId = this.customerId;
-
 			},
 			onChange(file, fileList) { //这里做一些文件控制，注意：就算一次选取多个文件，这里依旧会执行多次
-			
 				let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name)
 				if (existFile) {
 					this.$message.error('当前文件已经存在!');
@@ -282,8 +273,6 @@
 				this.currentPage = val;
 				this.queryPage(this.accountPeriod, this.customerId);
 			},
-
-
 			queryPage(accountPeriod, customerId) {
 				let params = {
 					row: this.pageSize,
@@ -293,7 +282,6 @@
 						customerId: customerId,
 						submitStatus: 1
 					}
-
 				};
 				this.axios.post('/perTaxToolTwo/initialMonCom/queryPage', params)
 					// this.axios.post('/miaoxing/queryPage', params)
@@ -307,18 +295,24 @@
 							// }
 							console.log(this.tableData)
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '获取税种公式列表失败',
-							type: 'error'
-						});
 					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			},
 			handleEdit(row) {
 				this.$router.push({
@@ -331,7 +325,6 @@
 		},
 		computed: {},
 		created() {
-
 			this.customerList = this.$store.state.cust;
 			// console.log(this.customerList);
 		},
@@ -347,7 +340,6 @@
 		width: 100%;
 		height: 100%;
 		box-sizing: border-box;
-
 		.el-breadcrumb {
 			height: 30px;
 			line-height: 29px;
@@ -356,73 +348,59 @@
 			border-top: 1px solid #F2F6FC;
 			box-sizing: border-box
 		}
-
 		/deep/ .el-table__header tr,
 		.el-table__header th {
 			padding: 0;
 			height: 40px;
 			background-color: #ebf6fb;
 		}
-
 		/deep/ .el-table th {
 			background-color: #ebf6fb;
 		}
-
 		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
 			background: #ebf6fb;
 		}
-
 		/deep/ .el-table__body tr,
 		.el-table__body td {
 			padding: 0;
 			height: 40px;
 			background-color: #fff7f1;
 		}
-
 		/deep/ .el-table__body tr.el-table__row--striped {
 			background-color: #ebf6fb;
 		}
-
 		/deep/ .el-table thead {
 			color: #343434;
 		}
-
 		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
 			background-color: #efe9e5;
 		}
-
 		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
 			border-bottom-color: #fff;
 			background: #ebf6fb;
 		}
-
 		.search_contain {
 			background: #fff;
 			height: 100px;
 			padding-left: 20px;
 			margin: 20px;
-
 			.info {
 				height: 40px;
 				line-height: 40px;
 			}
-
 			a {
 				margin-left: 10px;
 			}
 		}
-
 		.main_contain {
 			background: #fff;
 			margin: 0 20px;
 			padding: 0px 20px;
 			height: calc(100% - 190px);
-
 			h5 {
 				height: 40px;
 				line-height: 40px;
 			}
-
 			/deep/ .el-pagination {
 				text-align: right;
 				margin-top: 10px;

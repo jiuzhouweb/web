@@ -3,25 +3,18 @@
         <div class='search'>
             <!-- <div class="title">报表查看</div> -->
             <div class='search_contain'>
-                <div class="row1">
-                    <span class="labelTitle">公司：</span>
-                    <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" size="small" filterable>
+                <el-form :inline="true" :model="searchList" class="demo-form-inline" size="medium" :rules="rulesSearch" ref='formSearch'>
+					<el-form-item label="公司:" prop="value">
+                        <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
                         <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
                         </el-option>
-                        <!-- <el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
-                        </el-option> -->
-                    </el-select>
-                    <!-- <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
-                </div>
-                <div class="row2">
-                    <span class="labelTitle">账期：</span>
-                    <el-date-picker v-model="searchList.nowDate" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月" size="small">
-                    </el-date-picker>
-                </div>
-                <div class="row3">
-                    <div v-if="userobj.reportTaxType==233">
-                        <span class="labelTitle">报表类型：</span>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="账期:" prop="nowDate">
+                        <el-date-picker v-model="searchList.nowDate" type="month" placeholder="选择账期" clearable value-format='yyyy-MM'>
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="报表类型:" v-if="userobj.reportTaxType==233">
                         <el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
                             <el-option label="一般纳税人主表" value="一般纳税人主表"></el-option>
                             <el-option label="一般纳税人附表一" value="一般纳税人附表一"></el-option>
@@ -30,19 +23,22 @@
                             <el-option label="一般纳税人附表四" value="一般纳税人附表四"></el-option>
                             <el-option label="城市维护建设税、教育费附加、地方教育附加申报表" value="城市维护建设税、教育费附加、地方教育附加申报表"></el-option>
                         </el-select>
-                    </div>
-                    <div v-if="userobj.reportTaxType==232">
-                        <span class="labelTitle">报表类型：</span>
+                    </el-form-item>
+                    <el-form-item label="报表类型:" v-if="userobj.reportTaxType==232">
                         <el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
                             <el-option label="小规模纳税人主表" value="小规模纳税人主表"></el-option>
                             <el-option label="小规模纳税人附列资料" value="小规模纳税人附列资料"></el-option>
                             <el-option label="城市维护建设税、教育费附加、地方教育附加申报表" value="城市维护建设税、教育费附加、地方教育附加申报表"></el-option>
                         </el-select>
-                    </div>
-                </div>
-                <el-button type="primary" @click="search()" style="margin-left:20px" size="medium">查看</el-button>
-                <!-- <el-button @click="clear()" size="small">重置</el-button> -->
-                <el-button @click="outputFile" size="medium">一键导出</el-button>
+                    </el-form-item>
+                    <el-form-item style="margin-bottom:0">
+                        <el-button type="primary" @click="search('formSearch')" style="margin-left:20px" size="medium">查询</el-button>
+                    </el-form-item>
+                    <el-form-item style="margin-bottom:0">
+                        <el-button @click="outputFile('formSearch')" size="medium">一键导出</el-button>
+                       
+                    </el-form-item>
+				</el-form>
             </div>
         </div>
         <div class="titleBox" v-if="showFlag&&statusVaule=='一般纳税人主表'">
@@ -2027,7 +2023,23 @@ export default {
       userobj: {
         reportTaxType: 233
       },
-      showFlag: false
+      showFlag: false,
+      rulesSearch: {
+        value: [
+          {
+            required: true,
+            message: "请选择客户",
+            trigger: "change"
+          }
+        ],
+        nowDate: [
+          {
+            required: true,
+            message: "请选择账期",
+            trigger: "change"
+          }
+        ]
+      }
     };
   },
   watch: {},
@@ -2047,63 +2059,22 @@ export default {
     //     reportTaxType: 233,
     //     taxPayerId: "2222222222",
     // }]
-    //   默认第一个用户
-    // this.userobj = this.searchList.options[0];
-    // this.searchList.value = this.userobj.customerId;
-    // this.customerId = this.userobj.customerId;
-    // this.uploadData.taxerNumber = this.userobj.taxPayerId;
-    // console.log('this.userobj.reportTaxType', this.userobj.reportTaxType)
-    // if (this.userobj.reportTaxType == 1) {
-    //     this.searchList.statusVaule = '一般纳税人主表'
-    //     this.statusVaule = '一般纳税人主表'
-    // }
-    // if (this.userobj.reportTaxType == 2) {
-    //     this.searchList.statusVaule = '小规模纳税人主表'
-    //     this.statusVaule = '小规模纳税人主表'
-    // }
-    this.getNowMonth();
+
+    // this.getNowMonth();
     // this.getInfoId();
     // this.taxinfoid = '1';
     // this.getTableData(this.statusVaule);
   },
   methods: {
-      listen (event) {
-            if (event.keyCode === 13) {
-                // this.send() // 发送文本
-                console.log('tijiaole ')
-                event.preventDefault() // 阻止浏览器默认换行操作
-                return false
-            }
-        },
-    // querySearch(queryString, cb) {
-    //   var cust = this.$store.state.cust;
-    //   cust.forEach((item, index) => {
-    //     item.value = item.customerName;
-    //   });
-    //   var results = queryString
-    //     ? cust.filter(this.createFilter(queryString))
-    //     : cust;
-    //   // 调用 callback 返回建议列表的数据
-    //   cb(results);
-    // },
-    // createFilter(queryString) {
-    //   return cust => {
-    //     return cust.customerName.indexOf(queryString) === 0;
-    //   };
-    // },
-    // handleSelect(item) {
-    //   console.log(item);
-    //   this.userobj=item;
-    //   console.log('this.userobj',this.userobj)
-    //   if (item.reportTaxType == 233) {
-    //     this.searchList.statusVaule = "一般纳税人主表";
-    //     this.statusVaule = "一般纳税人主表";
-    //   }
-    //   if (item.reportTaxType == 232) {
-    //     this.searchList.statusVaule = "小规模纳税人主表";
-    //     this.statusVaule = "小规模纳税人主表";
-    //   }
-    // },
+    listen(event) {
+      if (event.keyCode === 13) {
+        // this.send() // 发送文本
+        console.log("tijiaole ");
+        event.preventDefault(); // 阻止浏览器默认换行操作
+        return false;
+      }
+    },
+
     blurTop(name, e) {
       if (name == "isReduce") {
         this.uploadData.isReduce = e.target.innerText;
@@ -2167,139 +2138,150 @@ export default {
               });
               this.showFlag = false;
             }
+          } else {
+            let type;
+            if (res.data.code == 0) {
+              type = "warning";
+            } else if (res.data.code == 500) {
+              type = "error";
+            }
+            this.$message({
+              message: res.data.msg,
+              type: type
+            });
           }
         })
         .catch(err => {
           this.$message({
-            message: "获取收账信息Id和税款信息id数据失败",
+            message: "系统繁忙，请稍后重试",
             type: "error"
           });
         });
     },
-    outputFile() {
-      console.log("this.searchList", this.searchList);
-      if (!this.searchList.value || !this.searchList.nowDate) {
-        this.$message({
-          message: "请先选择客户和账期后再导出数据",
-          type: "warning"
-        });
-        return;
-      }
-      if (this.taxinfoid == "") {
-        this.$message({
-          message: "无数据时不支持导出报表操作",
-          type: "warning"
-        });
-        return;
-      }
-      console.log("uploadData", this.uploadData);
-      let params = {};
-      let url = "";
-      console.log("this.taxinfoid", this.taxinfoid);
-      if (this.userobj.reportTaxType == 233) {
-        //   一般纳税人
-        params = {
-          taxInfoId: this.taxinfoid,
-          taxStartdate: this.uploadData.shuikuanDate
-            ? this.uploadData.shuikuanDate[0]
-            : "",
-          taxEnddate: this.uploadData.shuikuanDate
-            ? this.uploadData.shuikuanDate[1]
-            : "",
-          inputdate: this.uploadData.tianbiaoDate,
-          taxPayerId: this.userobj.taxPayerId,
-          trade: this.uploadData.trade,
-          taxname: this.uploadData.taxerName,
-          legalname: this.uploadData.legalName,
-          registerAddress: this.uploadData.registerAddress,
-          runAddress: this.uploadData.runAddress,
-          bank: this.uploadData.bank,
-          registerType: this.uploadData.registerType,
-          phone: this.uploadData.phone,
-          isReduce: this.uploadData.isReduce,
-          chengshiRate: this.uploadData.chengshiRate,
-          jiaoyuRate: this.uploadData.jiaoyuRate,
-          difangRate: this.uploadData.difangRate
-        };
-        url = "/perTaxToolTwo/e9zReportSb/export";
-        window.location.href =
-          url +
-          "?taxInfoId=" +
-          params.taxInfoId +
-          "&taxStartdate=" +
-          params.taxStartdate +
-          "&taxEnddate=" +
-          params.taxEnddate +
-          "&inputdate=" +
-          params.inputdate +
-          "&taxPayerId=" +
-          params.taxPayerId +
-          "&trade=" +
-          params.trade +
-          "&taxname=" +
-          params.taxname +
-          "&legalname=" +
-          params.legalname +
-          "&registerAddress=" +
-          params.registerAddress +
-          "&runAddress=" +
-          params.runAddress +
-          "&bank=" +
-          params.bank +
-          "&registerType=" +
-          params.registerType +
-          "&phone=" +
-          params.phone +
-          "&isReduce=" +
-          params.isReduce +
-          "&chengshiRate=" +
-          params.chengshiRate +
-          "&jiaoyuRate=" +
-          params.jiaoyuRate +
-          "&difangRate=" +
-          params.difangRate;
-      } else if (this.userobj.reportTaxType == 232) {
-        params = {
-          taxInfoId: this.taxinfoid,
-          taxStartdate: this.uploadData.shuikuanDate
-            ? this.uploadData.shuikuanDate[0]
-            : "",
-          taxEnddate: this.uploadData.shuikuanDate
-            ? this.uploadData.shuikuanDate[1]
-            : "",
-          inputdate: this.uploadData.tianbiaoDate,
-          taxPayerId: this.userobj.taxPayerId,
-          taxname: this.uploadData.taxerName,
-          isReduce: this.uploadData.isReduce,
-          chengshiRate: this.uploadData.chengshiRate,
-          jiaoyuRate: this.uploadData.jiaoyuRate,
-          difangRate: this.uploadData.difangRate
-        };
-        url = "/perTaxToolTwo/e9zReportSb/xgmexport";
-        console.log("params", params);
-        window.location.href =
-          url +
-          "?taxInfoId=" +
-          params.taxInfoId +
-          "&taxStartdate=" +
-          params.taxStartdate +
-          "&taxEnddate=" +
-          params.taxEnddate +
-          "&inputdate=" +
-          params.inputdate +
-          "&taxPayerId=" +
-          params.taxPayerId +
-          "&taxname=" +
-          params.taxname +
-          "&isReduce=" +
-          params.isReduce +
-          "&chengshiRate=" +
-          params.chengshiRate +
-          "&jiaoyuRate=" +
-          params.jiaoyuRate +
-          "&difangRate=" +
-          params.difangRate;
-      }
+    outputFile(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          console.log("this.searchList", this.searchList);
+          if (this.taxinfoid == "") {
+            this.$message({
+              message: "无数据时不支持导出报表操作",
+              type: "warning"
+            });
+            return;
+          }
+          console.log("uploadData", this.uploadData);
+          let params = {};
+          let url = "";
+          console.log("this.taxinfoid", this.taxinfoid);
+          if (this.userobj.reportTaxType == 233) {
+            //   一般纳税人
+            params = {
+              taxInfoId: this.taxinfoid,
+              taxStartdate: this.uploadData.shuikuanDate
+                ? this.uploadData.shuikuanDate[0]
+                : "",
+              taxEnddate: this.uploadData.shuikuanDate
+                ? this.uploadData.shuikuanDate[1]
+                : "",
+              inputdate: this.uploadData.tianbiaoDate,
+              taxPayerId: this.userobj.taxPayerId,
+              trade: this.uploadData.trade,
+              taxname: this.uploadData.taxerName,
+              legalname: this.uploadData.legalName,
+              registerAddress: this.uploadData.registerAddress,
+              runAddress: this.uploadData.runAddress,
+              bank: this.uploadData.bank,
+              registerType: this.uploadData.registerType,
+              phone: this.uploadData.phone,
+              isReduce: this.uploadData.isReduce,
+              chengshiRate: this.uploadData.chengshiRate,
+              jiaoyuRate: this.uploadData.jiaoyuRate,
+              difangRate: this.uploadData.difangRate
+            };
+            url = "/perTaxToolTwo/e9zReportSb/export";
+            window.location.href =
+              url +
+              "?taxInfoId=" +
+              params.taxInfoId +
+              "&taxStartdate=" +
+              params.taxStartdate +
+              "&taxEnddate=" +
+              params.taxEnddate +
+              "&inputdate=" +
+              params.inputdate +
+              "&taxPayerId=" +
+              params.taxPayerId +
+              "&trade=" +
+              params.trade +
+              "&taxname=" +
+              params.taxname +
+              "&legalname=" +
+              params.legalname +
+              "&registerAddress=" +
+              params.registerAddress +
+              "&runAddress=" +
+              params.runAddress +
+              "&bank=" +
+              params.bank +
+              "&registerType=" +
+              params.registerType +
+              "&phone=" +
+              params.phone +
+              "&isReduce=" +
+              params.isReduce +
+              "&chengshiRate=" +
+              params.chengshiRate +
+              "&jiaoyuRate=" +
+              params.jiaoyuRate +
+              "&difangRate=" +
+              params.difangRate;
+          } else if (this.userobj.reportTaxType == 232) {
+            params = {
+              taxInfoId: this.taxinfoid,
+              taxStartdate: this.uploadData.shuikuanDate
+                ? this.uploadData.shuikuanDate[0]
+                : "",
+              taxEnddate: this.uploadData.shuikuanDate
+                ? this.uploadData.shuikuanDate[1]
+                : "",
+              inputdate: this.uploadData.tianbiaoDate,
+              taxPayerId: this.userobj.taxPayerId,
+              taxname: this.uploadData.taxerName,
+              isReduce: this.uploadData.isReduce,
+              chengshiRate: this.uploadData.chengshiRate,
+              jiaoyuRate: this.uploadData.jiaoyuRate,
+              difangRate: this.uploadData.difangRate
+            };
+            url = "/perTaxToolTwo/e9zReportSb/xgmexport";
+            console.log("params", params);
+            window.location.href =
+              url +
+              "?taxInfoId=" +
+              params.taxInfoId +
+              "&taxStartdate=" +
+              params.taxStartdate +
+              "&taxEnddate=" +
+              params.taxEnddate +
+              "&inputdate=" +
+              params.inputdate +
+              "&taxPayerId=" +
+              params.taxPayerId +
+              "&taxname=" +
+              params.taxname +
+              "&isReduce=" +
+              params.isReduce +
+              "&chengshiRate=" +
+              params.chengshiRate +
+              "&jiaoyuRate=" +
+              params.jiaoyuRate +
+              "&difangRate=" +
+              params.difangRate;
+          }
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
     getNowMonth() {
       var date = new Date();
@@ -2310,19 +2292,19 @@ export default {
       this.accountPeriod = year.toString() + "-" + month.toString();
     },
     getNowFormatDate() {
-        var date = new Date();
-        var seperator1 = "-";
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
-        }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        var currentdate = year + seperator1 + month + seperator1 + strDate;
-        return currentdate;
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      return currentdate;
     },
     // 获取表格数据
     getTableData(statusVaule) {
@@ -2375,23 +2357,41 @@ export default {
             ) {
               this.lastData = res.data.data.lastData;
               this.thisData = res.data.data.thisData;
-              for(let key in this.thisData){
-                  if(typeof this.thisData[key].columnValue=='number'&&key!='id'&&this.thisData[key].columnValue!=0){
-                      this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
-                  }
+              for (let key in this.thisData) {
+                if (
+                  typeof this.thisData[key].columnValue == "number" &&
+                  key != "id" &&
+                  this.thisData[key].columnValue != 0
+                ) {
+                  this.thisData[key].columnValue = this.fomatFloat(
+                    this.thisData[key].columnValue,
+                    2
+                  );
+                }
               }
-              for(let key in this.lastData){
-                  if(typeof this.lastData[key]=='number'&&key!='id'&&this.lastData[key]!=0){
-                          this.lastData[key]=this.fomatFloat(this.lastData[key],2)
-                  }
+              for (let key in this.lastData) {
+                if (
+                  typeof this.lastData[key] == "number" &&
+                  key != "id" &&
+                  this.lastData[key] != 0
+                ) {
+                  this.lastData[key] = this.fomatFloat(this.lastData[key], 2);
+                }
               }
-              console.log('this.thisData',this.thisData)
+              console.log("this.thisData", this.thisData);
             } else if (statusVaule == "一般纳税人附表一") {
               this.thisData = res.data.data;
-              for(let key in this.thisData){
-                  if(typeof this.thisData[key].columnValue=='number'&&key!='id'&&this.thisData[key].columnValue!=0){
-                          this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
-                  }
+              for (let key in this.thisData) {
+                if (
+                  typeof this.thisData[key].columnValue == "number" &&
+                  key != "id" &&
+                  this.thisData[key].columnValue != 0
+                ) {
+                  this.thisData[key].columnValue = this.fomatFloat(
+                    this.thisData[key].columnValue,
+                    2
+                  );
+                }
               }
               this.arate =
                 this.thisData.yll13azsljyjssl.columnValue == 0
@@ -2442,136 +2442,202 @@ export default {
               this.thisData = [];
               arr.forEach(item => {
                 if (item.xm == "地方教育附加") {
-                    for(let key in item){
-                            if(typeof item[key] == "object"){
-                                console.log('item[key].columnValue',item[key].columnValue)
-                                if(typeof item[key].columnValue=='number'&&key!='id'&&key!='projName'&&key!='typeName'&&key!='sl'&&item[key].columnValue!=0){
-                                        item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
-                                }
-                            }
-                        }
+                  for (let key in item) {
+                    if (typeof item[key] == "object") {
+                      console.log(
+                        "item[key].columnValue",
+                        item[key].columnValue
+                      );
+                      if (
+                        typeof item[key].columnValue == "number" &&
+                        key != "id" &&
+                        key != "projName" &&
+                        key != "typeName" &&
+                        key != "sl" &&
+                        item[key].columnValue != 0
+                      ) {
+                        item[key].columnValue = this.fomatFloat(
+                          item[key].columnValue,
+                          2
+                        );
+                      }
+                    }
+                  }
                   this.thisData[0] = item;
                 } else if (item.xm == "教育费附加") {
-                    for(let key in item){
-                            if(typeof item[key] == "object"){
-                                console.log('item[key].columnValue',item[key].columnValue)
-                                if(typeof item[key].columnValue=='number'&&key!='id'&&key!='projName'&&key!='typeName'&&key!='sl'&&item[key].columnValue!=0){
-                                        item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
-                                }
-                            }
-                        }
+                  for (let key in item) {
+                    if (typeof item[key] == "object") {
+                      console.log(
+                        "item[key].columnValue",
+                        item[key].columnValue
+                      );
+                      if (
+                        typeof item[key].columnValue == "number" &&
+                        key != "id" &&
+                        key != "projName" &&
+                        key != "typeName" &&
+                        key != "sl" &&
+                        item[key].columnValue != 0
+                      ) {
+                        item[key].columnValue = this.fomatFloat(
+                          item[key].columnValue,
+                          2
+                        );
+                      }
+                    }
+                  }
                   this.thisData[1] = item;
                 } else if (item.xm == "城市维护建设税") {
-                    for(let key in item){
-                            if(typeof item[key] == "object"){
-                                console.log('item[key].columnValue',item[key].columnValue)
-                                if(typeof item[key].columnValue=='number'&&key!='id'&&key!='projName'&&key!='typeName'&&key!='sl'&&item[key].columnValue!=0){
-                                        item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
-                                }
-                            }
-                        }
+                  for (let key in item) {
+                    if (typeof item[key] == "object") {
+                      console.log(
+                        "item[key].columnValue",
+                        item[key].columnValue
+                      );
+                      if (
+                        typeof item[key].columnValue == "number" &&
+                        key != "id" &&
+                        key != "projName" &&
+                        key != "typeName" &&
+                        key != "sl" &&
+                        item[key].columnValue != 0
+                      ) {
+                        item[key].columnValue = this.fomatFloat(
+                          item[key].columnValue,
+                          2
+                        );
+                      }
+                    }
+                  }
                   this.thisData[2] = item;
                 } else if (item.xm == "合计") {
-                        for(let key in item){
-                            if(typeof item[key] == "object"){
-                                console.log('item[key].columnValue',item[key].columnValue)
-                                if(typeof item[key].columnValue=='number'&&key!='id'&&key!='projName'&&key!='typeName'&&key!='sl'&&item[key].columnValue!=0){
-                                        item[key].columnValue=this.fomatFloat(item[key].columnValue,2)
-                                }
-                            }
-                        }
-                        this.thisData[3] = item;
+                  for (let key in item) {
+                    if (typeof item[key] == "object") {
+                      console.log(
+                        "item[key].columnValue",
+                        item[key].columnValue
+                      );
+                      if (
+                        typeof item[key].columnValue == "number" &&
+                        key != "id" &&
+                        key != "projName" &&
+                        key != "typeName" &&
+                        key != "sl" &&
+                        item[key].columnValue != 0
+                      ) {
+                        item[key].columnValue = this.fomatFloat(
+                          item[key].columnValue,
+                          2
+                        );
+                      }
                     }
-                  
+                  }
+                  this.thisData[3] = item;
+                }
               });
-              console.log('111this.thisData',this.thisData)
+              console.log("111this.thisData", this.thisData);
             } else if (statusVaule == "一般纳税人附表四") {
               this.thisData = res.data.data;
-              for(let key in this.thisData){
-                  if(typeof this.thisData[key].columnValue=='number'&&key!='id'&&this.thisData[key].columnValue!=0){
-                          this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
-                      
-                  }
+              for (let key in this.thisData) {
+                if (
+                  typeof this.thisData[key].columnValue == "number" &&
+                  key != "id" &&
+                  this.thisData[key].columnValue != 0
+                ) {
+                  this.thisData[key].columnValue = this.fomatFloat(
+                    this.thisData[key].columnValue,
+                    2
+                  );
+                }
               }
-              if(JSON.stringify(this.thisData) != "{}"){
-                  this.total1 =
-                Number(this.thisData["ybxmjjdjejsqcye"].columnValue) +
-                Number(this.thisData["jzjtxmjjdjejsqcye"].columnValue);
-              console.log(
-                "this.arate",
-                this.thisData["ybxmjjdjejsqcye"].columnValue,
-                this.thisData["jzjtxmjjdjejsqcye"].columnValue,
-                this.total1
-              );
-              this.total2 =
-                Number(this.thisData["ybxmjjdjejsbqfse"].columnValue) +
-                Number(this.thisData["jzjtxmjjdjejsbqfse"].columnValue);
-              this.total3 =
-                Number(this.thisData["ybxmjjdjejsbqtje"].columnValue) +
-                Number(this.thisData["jzjtxmjjdjejsbqtje"].columnValue);
-              this.total4 =
-                Number(this.thisData["ybxmjjdjejsbqkdje"].columnValue) +
-                Number(this.thisData["jzjtxmjjdjejsbqkdje"].columnValue);
-              this.total5 =
-                Number(this.thisData["ybxmjjdjejsbqsjdje"].columnValue) +
-                Number(this.thisData["jzjtxmjjdjejsbqsjdje"].columnValue);
-              this.total6 =
-                Number(this.thisData["ybxmjjdjejsqmye"].columnValue) +
-                Number(this.thisData["jzjtxmjjdjejsqmye"].columnValue);
+              if (JSON.stringify(this.thisData) != "{}") {
+                this.total1 =
+                  Number(this.thisData["ybxmjjdjejsqcye"].columnValue) +
+                  Number(this.thisData["jzjtxmjjdjejsqcye"].columnValue);
+                console.log(
+                  "this.arate",
+                  this.thisData["ybxmjjdjejsqcye"].columnValue,
+                  this.thisData["jzjtxmjjdjejsqcye"].columnValue,
+                  this.total1
+                );
+                this.total2 =
+                  Number(this.thisData["ybxmjjdjejsbqfse"].columnValue) +
+                  Number(this.thisData["jzjtxmjjdjejsbqfse"].columnValue);
+                this.total3 =
+                  Number(this.thisData["ybxmjjdjejsbqtje"].columnValue) +
+                  Number(this.thisData["jzjtxmjjdjejsbqtje"].columnValue);
+                this.total4 =
+                  Number(this.thisData["ybxmjjdjejsbqkdje"].columnValue) +
+                  Number(this.thisData["jzjtxmjjdjejsbqkdje"].columnValue);
+                this.total5 =
+                  Number(this.thisData["ybxmjjdjejsbqsjdje"].columnValue) +
+                  Number(this.thisData["jzjtxmjjdjejsbqsjdje"].columnValue);
+                this.total6 =
+                  Number(this.thisData["ybxmjjdjejsqmye"].columnValue) +
+                  Number(this.thisData["jzjtxmjjdjejsqmye"].columnValue);
               }
-              
             } else {
               this.thisData = res.data.data;
-              for(let key in this.thisData){
-                  if(typeof this.thisData[key].columnValue=='number'&&key!='id'&&this.thisData[key].columnValue!=0){
-                    this.thisData[key].columnValue=this.fomatFloat(this.thisData[key].columnValue,2)
-                      
-                  }
+              for (let key in this.thisData) {
+                if (
+                  typeof this.thisData[key].columnValue == "number" &&
+                  key != "id" &&
+                  this.thisData[key].columnValue != 0
+                ) {
+                  this.thisData[key].columnValue = this.fomatFloat(
+                    this.thisData[key].columnValue,
+                    2
+                  );
+                }
               }
             }
-          }else{
-              this.$message({
-                  message: res.data.msg,
-                  type: 'error'
-                });
+          } else {
+            let type;
+            if (res.data.code == 0) {
+              type = "warning";
+            } else if (res.data.code == 500) {
+              type = "error";
+            }
+            this.$message({
+              message: res.data.msg,
+              type: type
+            });
           }
         })
         .catch(err => {
-            console.log('获取表格数据失败',err)
-            
           this.$message({
-            message: "获取表格数据失败",
+            message: "系统繁忙，请稍后重试",
             type: "error"
           });
         });
     },
     // 四舍五入
-      fomatFloat(x, pos) {
-        // console.log('xxx',x)
-        if (x) {
-          if (x.toString().indexOf(".") > -1) {
-            var f = parseFloat(x);
-            if (isNaN(f)) {
-              return false;
-            }
-            f = Math.round(x * Math.pow(10, pos)) / Math.pow(10, pos); // pow 幂
-            var s = f.toString();
-            var rs = s.indexOf(".");
-            if (rs < 0) {
-              rs = s.length;
-              s += ".";
-            }
-            while (s.length <= rs + pos) {
-              s += "0";
-            }
-            return s;
-          } else {
-            return x;
+    fomatFloat(x, pos) {
+      // console.log('xxx',x)
+      if (x) {
+        if (x.toString().indexOf(".") > -1) {
+          var f = parseFloat(x);
+          if (isNaN(f)) {
+            return false;
           }
+          f = Math.round(x * Math.pow(10, pos)) / Math.pow(10, pos); // pow 幂
+          var s = f.toString();
+          var rs = s.indexOf(".");
+          if (rs < 0) {
+            rs = s.length;
+            s += ".";
+          }
+          while (s.length <= rs + pos) {
+            s += "0";
+          }
+          return s;
         } else {
           return x;
         }
-      },
+      } else {
+        return x;
+      }
+    },
     // (表格一，一般/即征即收，本月/累计，当前字段名，event,参与计算)
     // (表格二，合计对应名称，当前字段名，event,参与计算)
     unfocus(
@@ -2585,11 +2651,11 @@ export default {
       rate,
       index
     ) {
-         if (e.keyCode === 13) {
-                // this.send() // 发送文本
-                console.log('tijiaole ')
-                e.preventDefault() // 阻止浏览器默认换行操作
-            }
+      if (e.keyCode === 13) {
+        // this.send() // 发送文本
+        console.log("tijiaole ");
+        e.preventDefault(); // 阻止浏览器默认换行操作
+      }
       var reg = /^(-)?\d{1,10}(\.\d{1,2})?$/;
       if (!reg.test(Number(e.target.innerText))) {
         this.$message({
@@ -3421,44 +3487,58 @@ export default {
           console.log("修改数据", res);
           if (res.data.code == 200) {
             this.getTableData(this.statusVaule);
+          } else {
+            let type;
+            if (res.data.code == 0) {
+              type = "warning";
+            } else if (res.data.code == 500) {
+              type = "error";
+            }
+            this.$message({
+              message: res.data.msg,
+              type: type
+            });
           }
         })
         .catch(err => {
           this.$message({
-            message: "修改数据失败",
+            message: "系统繁忙，请稍后重试",
             type: "error"
           });
         });
     },
-    search() {
-      if (!this.searchList.value || !this.searchList.nowDate) {
-        this.$message({
-          message: "请先选择客户和账期后再查询",
-          type: "warning"
-        });
-        return;
-      }
-      this.accountPeriod = this.searchList.nowDate;
-      this.customerId=this.searchList.value;
-      this.statusVaule = this.searchList.statusVaule;
-      this.taxationId = "";
-      this.taxinfoid = "";
-      // 填入纳税人识别号，所属时间，填表日期
-      this.uploadData.taxerName=this.userobj.customerName;
-      var lastDay= new Date(this.accountPeriod.split("-")[0],this.accountPeriod.split("-")[1],0);
-      var year = lastDay.getFullYear();
-      var month = lastDay.getMonth() + 1;
-      month = month < 10 ? '0'+ month : month;
-      var day = lastDay.getDate();
-      day = day < 10 ? '0'+day : day;
-      var startDay=year+'-'+month+'-01';
-      var endDay=year+'-'+month+'-'+day;
-      this.uploadData.shuikuanDate=[startDay,endDay];
-      this.uploadData.tianbiaoDate=this.getNowFormatDate();
-      console.log('111',this.uploadData)
+    search(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.accountPeriod = this.searchList.nowDate;
+          this.customerId = this.searchList.value;
+          this.statusVaule = this.searchList.statusVaule;
+          this.taxationId = "";
+          this.taxinfoid = "";
+          // 填入纳税人识别号，所属时间，填表日期
+          this.uploadData.taxerName = this.userobj.customerName;
+          var lastDay = new Date(
+            this.accountPeriod.split("-")[0],
+            this.accountPeriod.split("-")[1],
+            0
+          );
+          var year = lastDay.getFullYear();
+          var month = lastDay.getMonth() + 1;
+          month = month < 10 ? "0" + month : month;
+          var day = lastDay.getDate();
+          day = day < 10 ? "0" + day : day;
+          var startDay = year + "-" + month + "-01";
+          var endDay = year + "-" + month + "-" + day;
+          this.uploadData.shuikuanDate = [startDay, endDay];
+          this.uploadData.tianbiaoDate = this.getNowFormatDate();
+          console.log("111", this.uploadData);
 
-      
-      this.getInfoId();
+          this.getInfoId();
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
     // clear() {
     //   this.searchList.statusVaule = "一般纳税人主表";
@@ -3486,17 +3566,17 @@ export default {
 .tianbiaoDate .el-date-editor {
   width: 2rem;
 }
-.leftWidth .el-form-item__label{
-      width: 1.2rem;
-    text-align: left;
+.leftWidth .el-form-item__label {
+  width: 1.2rem;
+  text-align: left;
 }
-.leftWidth2 .el-form-item__label{
-      width: 2.6rem;
-    text-align: left;
+.leftWidth2 .el-form-item__label {
+  width: 2.6rem;
+  text-align: left;
 }
-.leftWidth3 .el-form-item__label{
-      width: 1.3rem;
-    text-align: left;
+.leftWidth3 .el-form-item__label {
+  width: 1.3rem;
+  text-align: left;
 }
 </style>
 

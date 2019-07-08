@@ -8,7 +8,6 @@
 					<el-button @click='deleteDic' size="medium">删除</el-button>
 					<el-button @click='refresh' size="medium">刷新</el-button>
 				</div>
-
 			</div>
 			<div class="contain_body">
 				<el-table :data="tableList" style="width: 100%" stripe border @selection-change="handleSelectionChange" v-loading='loading'>
@@ -19,18 +18,19 @@
 					<el-table-column align="center" label="排序" prop="dicSort" :resizable="false"></el-table-column>
 					<el-table-column align="center" label="状态" prop="state" :resizable="false">
 						<template slot-scope="scope">
-							<span style='color: #F56C6C;'>{{scope.row.state==1?'有效':'无效'}}</span>
-						</template>
+								<span style='color: #F56C6C;'>{{scope.row.state==1?'有效':'无效'}}</span>
+</template>
 					</el-table-column>
 					<el-table-column align="center" width="260" :resizable="false">
-						<template slot="header" slot-scope="scope">
-							<span>操作</span>
-						</template>
-						<template slot-scope="scope">
-							<el-button size="mini" type="text" @click="handleEdit(scope.row)">编辑</el-button>
-							<!-- <el-button size="mini" type="primary" @click="addChildMenu(scope.$index, scope.row)">添加子条目</el-button> -->
-							<el-button size="mini" type="primary" @click="showDialog(2,scope.row)">添加子条目</el-button>
-						</template>
+<template slot="header" slot-scope="scope">
+	<span>操作</span>
+</template>
+<template slot-scope="scope">
+	<el-button size="mini" type="text" @click="handleEdit(scope.row)">
+		编辑</el-button>
+	<!-- <el-button size="mini" type="primary" @click="addChildMenu(scope.$index, scope.row)">添加子条目</el-button> -->
+	<el-button size="mini" type="primary" @click="showDialog(2,scope.row)">添加子条目</el-button>
+</template>
 					</el-table-column>
 				</el-table>
 				<!-- <el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
@@ -77,7 +77,7 @@
 		name: "customer",
 		data() {
 			return {
-				loading:false,
+				loading: false,
 				message: "12334456",
 				tableList: [{
 					employeeName: "zhangsan",
@@ -97,7 +97,6 @@
 				row: {},
 				editRow: {},
 				multipleSelection: [],
-
 				rules: {
 					dicName: [{
 						required: true,
@@ -141,19 +140,25 @@
 							this.tableList = res.data.data;
 							// this.total = 
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
+					})
+					.catch(err => {
 						this.loading = false;
 						this.$message({
-							message: '获取字典列表失败',
-							type: 'error'
+							message: "系统繁忙，请稍后重试",
+							type: "error"
 						});
-					})
+					});
 			},
 			/*新增一级条目*/
 			addFirstMenu() {
@@ -178,20 +183,25 @@
 							this.getList();
 							// this.total = 
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '新增失败',
-							type: 'error'
-						});
 					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			},
-
 			/*
 			* 新增子条目
 			* params
@@ -229,20 +239,25 @@
 							});
 							// this.total = 
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '新增失败',
-							type: 'error'
-						});
 					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			},
-
 			hideDialog(formName) {
 				this.$refs[formName].resetFields();
 				this.form.dicName = '';
@@ -270,7 +285,6 @@
 							return false;
 						}
 					});
-					
 				} else if (this.tag == 2) {
 					this.$refs[formName].validate((valid) => {
 						if (valid) {
@@ -280,7 +294,6 @@
 							return false;
 						}
 					});
-					
 				}
 			},
 			commitEditDialog(formName) {
@@ -307,24 +320,29 @@
 									});
 									// this.total = 
 								} else {
+									let type;
+									if (res.data.code == 0) {
+										type = "warning";
+									} else if (res.data.code == 500) {
+										type = "error";
+									}
 									this.$message({
 										message: res.data.msg,
-										type: 'error'
+										type: type
 									});
 								}
-						
-							}).catch(function(err) {
-								this.$message({
-									message: '编辑失败',
-									type: 'error'
-								});
 							})
+							.catch(err => {
+								this.$message({
+									message: "系统繁忙，请稍后重试",
+									type: "error"
+								});
+							});
 					} else {
 						console.log('error submit!!');
 						return false;
 					}
 				});
-				
 			},
 			handleEdit(row) {
 				this.dialogVisible = true;
@@ -336,11 +354,9 @@
 			commitEdit() {
 				this.dialogVisible = true
 			},
-
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
-
 			deleteDic() {
 				if (this.multipleSelection.length > 0) {
 					let params = this.multipleSelection;
@@ -354,25 +370,30 @@
 								});
 								// this.total = 
 							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
 								this.$message({
 									message: res.data.msg,
-									type: 'error'
+									type: type
 								});
 							}
-
-						}).catch(function(err) {
-							this.$message({
-								message: '删除失败',
-								type: 'error'
-							});
 						})
+						.catch(err => {
+							this.$message({
+								message: "系统繁忙，请稍后重试",
+								type: "error"
+							});
+						});
 				} else {
 					this.$message({
 						message: '请至少选择一条数据',
 						type: 'error'
 					});
 				}
-
 			},
 			refresh() {
 				this.loading = true;
@@ -392,13 +413,10 @@
 		height: 100%;
 		padding: 20px;
 		box-sizing: border-box;
-
 		.left_contain {
 			height: 100%
 		}
-
 	}
-
 	.contain_header {
 		height: 2rem;
 		padding: 0px 30px;
@@ -406,42 +424,34 @@
 		background-size: cover;
 		border-top-left-radius: 0.06rem;
 		border-top-right-radius: 0.06rem;
-
 		.title {
 			font-size: 0.24rem;
 			height: 1rem;
 			line-height: 1.24rem;
 			color: #fff;
 		}
-
 		/deep/ .el-form-item--mini .el-form-item__label {
 			color: #fff;
 		}
-
 		/deep/ .el-form {
 			margin-top: 0.1rem
 		}
-
 		/deep/ .el-button {
 			color: #43b3db;
 		}
 	}
-
 	.contain_body {
 		padding: 0.2rem 0.2rem;
 		background: #fff
 	}
-
 	/deep/ .el-pagination {
 		text-align: right;
 		margin-top: 0.10rem;
 	}
-
 	.btn_contain {
 		text-align: center;
 		margin-top: 0.36rem;
 	}
-
 	.commit {
 		width: 1.2rem;
 		height: 0.4rem;
@@ -453,7 +463,6 @@
 		margin-right: 0.4rem;
 		border-radius: 4px;
 	}
-
 	.close {
 		width: 1.2rem;
 		height: 0.4rem;
@@ -464,66 +473,52 @@
 		text-align: center;
 		border-radius: 4px;
 	}
-
-
 	/deep/ .el-table__header tr,
 	.el-table__header th {
 		padding: 0;
 		height: 40px;
 	}
-
 	/deep/ .el-table__body tr,
 	.el-table__body td {
 		padding: 0;
 		height: 40px;
 	}
-
 	/deep/ .el-table td {
 		padding: 6px 0;
 	}
-
 	/deep/ .el-table th {
 		background-color: #ebf6fb;
 	}
-
 	/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
 		background: #ebf6fb;
 	}
-
 	.el-dialog .el-form {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		flex-wrap: wrap
 	}
-
 	/deep/ .el-form-item__content {
 		width: 180px;
 	}
-
 	/deep/ .el-date-editor.el-input {
 		width: 180px;
 	}
-
 	/deep/ .el-table__body tr,
 	.el-table__body td {
 		padding: 0;
 		height: 40px;
 		background-color: #fff7f1;
 	}
-
 	/deep/ .el-table__body tr.el-table__row--striped {
 		background-color: #ebf6fb;
 	}
-
 	/deep/ .el-table thead {
 		color: #343434;
 	}
-
 	/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
 		background-color: #efe9e5;
 	}
-
 	/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
 		border-bottom-color: #fff;
 		background: #ebf6fb;

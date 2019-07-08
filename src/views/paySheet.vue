@@ -12,13 +12,12 @@
 			<div>
 				<el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small" :rules="rulesf" ref='formName'>
 					<el-form-item label="账期" prop="accountPeriod">
-						<el-date-picker v-model="uploadData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM"
-						 placeholder="选择账期" clearable>
+						<el-date-picker v-model="uploadData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择账期" clearable>
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司" prop="customerId">
 						<!-- <el-autocomplete class="inline-input" v-model="uploadData.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+							 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 						<el-select v-model="uploadData.customerId" placeholder="请选择公司名称" clearable filterable>
 							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
@@ -26,7 +25,6 @@
 					<el-form-item label="证件号导入">
 						<el-switch v-model="switchvalue"></el-switch>
 					</el-form-item>
-
 					<el-button type="primary" @click='selectExcel("formName")' size="small">选择Excel</el-button>
 					<el-button type="primary" @click='continueExcel("formName")' size="small">沿用上月</el-button>
 				</el-form>
@@ -37,18 +35,16 @@
 			<div>
 				<el-form :inline="true" :model="searchData" class="demo-form-inline" size="small" :rules="ruless" ref='formName1'>
 					<el-form-item label="账期" prop="accountPeriod">
-						<el-date-picker v-model="searchData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM"
-						 placeholder="选择月" clearable>
+						<el-date-picker v-model="searchData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM" placeholder="选择月" clearable>
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="公司" prop="customerId">
 						<!-- <el-autocomplete class="inline-input" v-model="customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+							 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 						<el-select v-model="searchData.customerId" placeholder="请选择公司名称" clearable filterable>
 							<el-option v-for="(item,index) in $store.state.cust" :key="index" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
-
 					<el-form-item label="状态" prop="statusVaule">
 						<el-select v-model="searchData.statusVaule" placeholder="请选择状态" clearable>
 							<el-option label="已提交" value="1"></el-option>
@@ -61,69 +57,67 @@
 				</el-form>
 			</div>
 			<el-button type="primary" size='mini' @click='calc' v-if="calcFlag">计算</el-button>
-			<el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog'
-			 v-if="tableData1.length>0">批量删除</el-button>
+			<el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canDel" @click='showDelDialog' v-if="tableData1.length>0">批量删除</el-button>
 			<el-table class="table1" :data="tableData1" stripe style="width: 100%;margin-top: 20px;" @selection-change="handleSelectionChange">
-
 				<el-table-column type="expand">
 					<template slot-scope="props">
-						<el-form label-position="left" inline class="demo-table-expand" size="small">
-							<el-form-item label="基本养老保险费">
-								<span>{{ props.row.pensionInsurance }}</span>
-							</el-form-item>
-							<el-form-item label="基本医疗保险费">
-								<span>{{ props.row.medicalInsurance }}</span>
-							</el-form-item>
-							<el-form-item label="失业保险费">
-								<span>{{ props.row.unemploymentInsurance }}</span>
-							</el-form-item>
-							<el-form-item label="住房公积金">
-								<span>{{ props.row.housingFund }}</span>
-							</el-form-item>
-							<el-form-item label="本月计子女教育">
-								<span>{{ props.row.childEducation }}</span>
-							</el-form-item>
-							<el-form-item label="本月继续教育">
-								<span>{{ props.row.continuingEducation }}</span>
-							</el-form-item>
-							<el-form-item label="本月住房贷款利息">
-								<span>{{ props.row.homeLoan }}</span>
-							</el-form-item>
-							<el-form-item label="本月住房租金">
-								<span>{{ props.row.housingRent }}</span>
-							</el-form-item>
-							<el-form-item label="本月赡养老人">
-								<span>{{ props.row.elderly }}</span>
-							</el-form-item>
-							<el-form-item label="企业(职业)年金">
-								<span>{{ props.row.companyAnnuity }}</span>
-							</el-form-item>
-							<el-form-item label="商业健康保险">
-								<span>{{ props.row.healthInsurance }}</span>
-							</el-form-item>
-							<el-form-item label="税延养老保险">
-								<span>{{ props.row.pension }}</span>
-							</el-form-item>
-							<el-form-item label="准予扣除的捐赠额">
-								<span>{{ props.row.deductedDonation }}</span>
-							</el-form-item>
-							<el-form-item label="是否残疾烈属孤老">
-								<span>{{ props.row.isSolitary }}</span>
-							</el-form-item>
-							<el-form-item label="允许扣除的税费">
-								<span>{{ props.row.deductedTaxes }}</span>
-							</el-form-item>
-							<el-form-item label="其他税前扣除项目">
-								<span>{{ props.row.preTaxDeduction }}</span>
-							</el-form-item>
-							<el-form-item label="年终奖">
-								<span>{{ props.row.yearAwards }}</span>
-							</el-form-item>
-							<el-form-item label="减免税额">
-								<span>{{ props.row.deductTax }}</span>
-							</el-form-item>
-						</el-form>
-					</template>
+							<el-form label-position="left" inline class="demo-table-expand" size="small">
+								<el-form-item label="基本养老保险费">
+									<span>{{ props.row.pensionInsurance }}</span>
+								</el-form-item>
+								<el-form-item label="基本医疗保险费">
+									<span>{{ props.row.medicalInsurance }}</span>
+								</el-form-item>
+								<el-form-item label="失业保险费">
+									<span>{{ props.row.unemploymentInsurance }}</span>
+								</el-form-item>
+								<el-form-item label="住房公积金">
+									<span>{{ props.row.housingFund }}</span>
+								</el-form-item>
+								<el-form-item label="本月计子女教育">
+									<span>{{ props.row.childEducation }}</span>
+								</el-form-item>
+								<el-form-item label="本月继续教育">
+									<span>{{ props.row.continuingEducation }}</span>
+								</el-form-item>
+								<el-form-item label="本月住房贷款利息">
+									<span>{{ props.row.homeLoan }}</span>
+								</el-form-item>
+								<el-form-item label="本月住房租金">
+									<span>{{ props.row.housingRent }}</span>
+								</el-form-item>
+								<el-form-item label="本月赡养老人">
+									<span>{{ props.row.elderly }}</span>
+								</el-form-item>
+								<el-form-item label="企业(职业)年金">
+									<span>{{ props.row.companyAnnuity }}</span>
+								</el-form-item>
+								<el-form-item label="商业健康保险">
+									<span>{{ props.row.healthInsurance }}</span>
+								</el-form-item>
+								<el-form-item label="税延养老保险">
+									<span>{{ props.row.pension }}</span>
+								</el-form-item>
+								<el-form-item label="准予扣除的捐赠额">
+									<span>{{ props.row.deductedDonation }}</span>
+								</el-form-item>
+								<el-form-item label="是否残疾烈属孤老">
+									<span>{{ props.row.isSolitary }}</span>
+								</el-form-item>
+								<el-form-item label="允许扣除的税费">
+									<span>{{ props.row.deductedTaxes }}</span>
+								</el-form-item>
+								<el-form-item label="其他税前扣除项目">
+									<span>{{ props.row.preTaxDeduction }}</span>
+								</el-form-item>
+								<el-form-item label="年终奖">
+									<span>{{ props.row.yearAwards }}</span>
+								</el-form-item>
+								<el-form-item label="减免税额">
+									<span>{{ props.row.deductTax }}</span>
+								</el-form-item>
+							</el-form>
+</template>
 				</el-table-column>
 				<el-table-column align="center" type="selection" width="55"></el-table-column>
 				<el-table-column align="center" label="序号" type='index' width="50"></el-table-column>
@@ -136,10 +130,11 @@
 				<el-table-column align="center" prop="reportedIncome" label="已申报收入"></el-table-column>
 				<el-table-column align="center" prop="taxFreeIncome" label="免税所得"></el-table-column>
 				<el-table-column align="center" fixed="right" label="操作" width="100">
-					<template slot-scope="scope">
-						<el-button type="text" size="small" @click='edit(scope.row)'>编辑</el-button>
-						<el-button type="text" size="small" @click='del(scope.row)'>删除</el-button>
-					</template>
+<template slot-scope="scope">
+	<el-button type="text" size="small" @click='edit(scope.row)'>
+		编辑</el-button>
+	<el-button type="text" size="small" @click='del(scope.row)'>删除</el-button>
+</template>
 				</el-table-column>
 			</el-table>
 			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '1')})" :current-page="currentPage1"
@@ -168,9 +163,10 @@
 				<el-table-column align="center" label="已缴税额" prop="withholdTax" width="90" :resizable="false"></el-table-column>
 				<el-table-column align="center" label="应补（退）税额" prop="taxation" width="130" :resizable="false"></el-table-column>
 				<el-table-column align="center" label="操作" :resizable="false">
-					<template slot-scope="scope">
-						<el-button @click="handleClick(scope.row)" type="text" size="small">查看详细</el-button>
-					</template>
+<template slot-scope="scope">
+	<el-button @click="handleClick(scope.row)" type="text" size="small">
+		查看详细</el-button>
+</template>
 				</el-table-column>
 			</el-table>
 			<el-pagination background @current-change="((val)=>{handleCurrentChange(val, '2')})" :current-page="currentPage2"
@@ -548,26 +544,26 @@
 				<el-table-column align="center" label="合并核算个税" prop="comTaxation" width="120" :resizable="false"></el-table-column>
 				<el-table-column align="center" label="推荐方案" prop="suggestType" width="120" :resizable="false"></el-table-column>
 				<el-table-column align="center" :resizable="false">
-					<template slot="header" slot-scope="scope">
-						<el-dropdown @command="handleCommand" style='float: left;line-height: 28px;'>
-							<span class="el-dropdown-link">
-								操作<i class="el-icon-arrow-down el-icon--right"></i>
-							</span>
-							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item command="分开核算">全部分开核算</el-dropdown-item>
-								<el-dropdown-item command="合并核算">全部合并核算</el-dropdown-item>
-								<el-dropdown-item command="推荐核算">全部推荐核算</el-dropdown-item>
-							</el-dropdown-menu>
-						</el-dropdown>
-						<el-button size='mini' type='primary' @click="saveCalc()" style='float: right;'>保存年终筹划</el-button>
-					</template>
-					<template slot-scope="scope">
-						<el-radio-group v-model="scope.row.radio" size="small" @change='setIsAll'>
-							<el-radio-button label="分开核算"></el-radio-button>
-							<el-radio-button label="合并核算"></el-radio-button>
-							<el-radio-button label="推荐核算"></el-radio-button>
-						</el-radio-group>
-					</template>
+<template slot="header" slot-scope="scope">
+	<el-dropdown @command="handleCommand" style='float: left;line-height: 28px;'>
+		<span class="el-dropdown-link">
+									操作<i class="el-icon-arrow-down el-icon--right"></i>
+								</span>
+		<el-dropdown-menu slot="dropdown">
+			<el-dropdown-item command="分开核算">全部分开核算</el-dropdown-item>
+			<el-dropdown-item command="合并核算">全部合并核算</el-dropdown-item>
+			<el-dropdown-item command="推荐核算">全部推荐核算</el-dropdown-item>
+		</el-dropdown-menu>
+	</el-dropdown>
+	<el-button size='mini' type='primary' @click="saveCalc()" style='float: right;'>保存年终筹划</el-button>
+</template>
+<template slot-scope="scope">
+	<el-radio-group v-model="scope.row.radio" size="small" @change='setIsAll'>
+		<el-radio-button label="分开核算"></el-radio-button>
+		<el-radio-button label="合并核算"></el-radio-button>
+		<el-radio-button label="推荐核算"></el-radio-button>
+	</el-radio-group>
+</template>
 				</el-table-column>
 			</el-table>
 			<el-pagination background style="margin-top:10px;text-align: right;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
@@ -656,7 +652,6 @@
 					callback();
 				}
 			};
-
 			return {
 				dialogVisible: false,
 				uploadData: {
@@ -672,7 +667,6 @@
 					customerName: "",
 					statusVaule: "0",
 				},
-
 				fileList: [],
 				tableData1: [],
 				currentPage1: 1,
@@ -1018,7 +1012,6 @@
 						trigger: "blur"
 					}]
 				},
-
 				rulesBasic: {
 					employeeName: [{
 						required: true,
@@ -1036,7 +1029,6 @@
 						trigger: "blur"
 					}]
 				},
-
 				dialogVisibleCalc: false,
 				calcData: {},
 				addFlag: false,
@@ -1146,15 +1138,21 @@
 						if (res.data.code == 200) {
 							this.operateId = res.data.data[0].operateId;
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: "error"
+								type: type
 							});
 						}
 					})
-					.catch(function(err) {
+					.catch(err => {
 						this.$message({
-							message: "获取操作表id失败",
+							message: "系统繁忙，请稍后重试",
 							type: "error"
 						});
 					});
@@ -1177,15 +1175,21 @@
 							this.tableData1 = res.data.data;
 							this.total1 = res.data.count;
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: "error"
+								type: type
 							});
 						}
 					})
-					.catch(function(err) {
+					.catch(err => {
 						this.$message({
-							message: "获取月度录入表失败",
+							message: "系统繁忙，请稍后重试",
 							type: "error"
 						});
 					});
@@ -1209,15 +1213,21 @@
 							this.tableData2 = res.data.data;
 							this.total2 = res.data.count;
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: "error"
+								type: type
 							});
 						}
 					})
-					.catch(function(err) {
+					.catch(err => {
 						this.$message({
-							message: "获取累计工资薪金汇算表失败",
+							message: "系统繁忙，请稍后重试",
 							type: "error"
 						});
 					});
@@ -1241,15 +1251,21 @@
 							this.tableData3 = res.data.data;
 							this.total3 = res.data.count;
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: "error"
+								type: type
 							});
 						}
 					})
-					.catch(function(err) {
+					.catch(err => {
 						this.$message({
-							message: "获取年终奖工资表失败",
+							message: "系统繁忙，请稍后重试",
 							type: "error"
 						});
 					});
@@ -1266,15 +1282,21 @@
 						if (res.data.code == 200) {
 							this.tableDataDetail = res.data.data;
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: "error"
+								type: type
 							});
 						}
 					})
-					.catch(function(err) {
+					.catch(err => {
 						this.$message({
-							message: "获取月度工资表详细数据失败",
+							message: "系统繁忙，请稍后重试",
 							type: "error"
 						});
 					});
@@ -1305,18 +1327,23 @@
 							for (let i = 0; i < this.tableData4.length; i += 10) {
 								this.tableTem.push(this.tableData4.slice(i, i + 10));
 							}
-
 							console.log("11", this.tableData4);
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: "error"
+								type: type
 							});
 						}
 					})
-					.catch(function(err) {
+					.catch(err => {
 						this.$message({
-							message: "获取失败",
+							message: "系统繁忙，请稍后重试",
 							type: "error"
 						});
 					});
@@ -1361,7 +1388,6 @@
 					}
 				})
 				// 获取操作表id
-
 			},
 			selectExcel(formName) {
 				// this.uploadData.customerId = '';
@@ -1386,7 +1412,6 @@
 						return false;
 					}
 				});
-
 			},
 			// 沿用上月
 			continueExcel(formName) {
@@ -1409,15 +1434,21 @@
 									this.pageNum3 = '1';
 									this.getTableData3();
 								} else {
+									let type;
+									if (res.data.code == 0) {
+										type = "warning";
+									} else if (res.data.code == 500) {
+										type = "error";
+									}
 									this.$message({
 										message: res.data.msg,
-										type: "error"
+										type: type
 									});
 								}
 							})
-							.catch(function(err) {
+							.catch(err => {
 								this.$message({
-									message: "沿用上月数据失败",
+									message: "系统繁忙，请稍后重试",
 									type: "error"
 								});
 							});
@@ -1426,7 +1457,6 @@
 						return false;
 					}
 				});
-
 			},
 			cancelUpload() {
 				this.fileList = [];
@@ -1436,7 +1466,6 @@
 				this.$refs.upload.submit();
 			},
 			onChange(file, fileList) { //这里做一些文件控制，注意：就算一次选取多个文件，这里依旧会执行多次
-
 				let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name)
 				if (existFile) {
 					this.$message.error('当前文件已经存在!');
@@ -1489,8 +1518,8 @@
 			handleExceed(files, fileList) {
 				this.$message.warning(
 					`当前限制选择 1 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+	          files.length
+	        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
 				);
 			},
 			beforeRemove(file, fileList) {
@@ -1589,15 +1618,21 @@
 									message: res.data.msg
 								});
 							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
 								this.$message({
 									message: res.data.msg,
-									type: "error"
+									type: type
 								});
 							}
 						})
-						.catch(function(err) {
+						.catch(err => {
 							this.$message({
-								message: "删除失败",
+								message: "系统繁忙，请稍后重试",
 								type: "error"
 							});
 						});
@@ -1626,15 +1661,21 @@
 									message: res.data.msg
 								});
 							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
 								this.$message({
 									message: res.data.msg,
-									type: "error"
+									type: type
 								});
 							}
 						})
-						.catch(function(err) {
+						.catch(err => {
 							this.$message({
-								message: "删除失败",
+								message: "系统繁忙，请稍后重试",
 								type: "error"
 							});
 						});
@@ -1672,15 +1713,21 @@
 									this.getTableData3();
 								}
 							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
 								this.$message({
 									message: res.data.msg,
-									type: "error"
+									type: type
 								});
 							}
 						})
-						.catch(function(err) {
+						.catch(err => {
 							this.$message({
-								message: "删除失败",
+								message: "系统繁忙，请稍后重试",
 								type: "error"
 							});
 						});
@@ -1720,9 +1767,7 @@
 					params.operateId = this.operateId;
 					confirmInfo = "您确定要年终筹划全是【推荐核算】吗？";
 				}
-
 				console.log("params", params);
-
 				this.$confirm(confirmInfo, "提示", {
 					confirmButtonText: "确定",
 					cancelButtonText: "取消",
@@ -1749,15 +1794,21 @@
 										this.getTableData3();
 									}
 								} else {
+									let type;
+									if (res.data.code == 0) {
+										type = "warning";
+									} else if (res.data.code == 500) {
+										type = "error";
+									}
 									this.$message({
 										message: res.data.msg,
-										type: "error"
+										type: type
 									});
 								}
 							})
-							.catch(function(err) {
+							.catch(err => {
 								this.$message({
-									message: "保存失败",
+									message: "系统繁忙，请稍后重试",
 									type: "error"
 								});
 							});
@@ -1785,20 +1836,25 @@
 										this.getTableData3();
 									}
 								} else {
+									let type;
+									if (res.data.code == 0) {
+										type = "warning";
+									} else if (res.data.code == 500) {
+										type = "error";
+									}
 									this.$message({
 										message: res.data.msg,
-										type: "error"
+										type: type
 									});
 								}
 							})
-							.catch(function(err) {
+							.catch(err => {
 								this.$message({
-									message: "保存失败",
+									message: "系统繁忙，请稍后重试",
 									type: "error"
 								});
 							});
 					}
-
 				});
 			},
 			continueAdd(formName) {
@@ -1815,7 +1871,6 @@
 						return false;
 					}
 				});
-
 			},
 			save(formName) {
 				this.$refs[formName].validate(valid => {
@@ -1836,11 +1891,9 @@
 						return false;
 					}
 				});
-
 			},
 			submit() {
 				let params = this.item;
-
 				if (this.addFlag) {
 					params.accountPeriod = this.searchData.accountPeriod;
 					params.customerId = this.searchData.customerId;
@@ -1848,7 +1901,6 @@
 					params.monthlyId = "";
 					params.operateId = "";
 				}
-
 				console.log("params", params);
 				this.axios
 					.post("/perTaxToolTwo/Employee/addOrEditTaxEmployee", params)
@@ -1866,24 +1918,27 @@
 								message: res.data.msg
 							});
 						} else {
-							// this.dialogVisibleAdd = false;
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: "error"
+								type: type
 							});
 						}
 					})
-					.catch(function(err) {
-						this.dialogVisibleAdd = false;
+					.catch(err => {
 						this.$message({
-							message: "新增失败",
+							message: "系统繁忙，请稍后重试",
 							type: "error"
 						});
 					});
 			},
 			submitBasic() {
 				let params = this.itemBasicInfo;
-
 				console.log("params", params);
 				this.axios
 					.post("/perTaxToolTwo/Employee/addOrEditPersonInfo", params)
@@ -1895,22 +1950,26 @@
 								message: res.data.msg
 							});
 						} else {
-							// this.dialogVisibleAdd = false;
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: "error"
+								type: type
 							});
 						}
 					})
 					.catch(function(err) {
 						this.dialogVisibleAdd = false;
 						this.$message({
-							message: "新增失败",
+							message: "系统繁忙，请稍后重试",
 							type: "error"
 						});
 					});
 			},
-
 			goReportForms() {
 				this.$router.push({
 					path: '/index/reportForms',
@@ -1946,20 +2005,25 @@
 									message: res.data.msg
 								});
 							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
 								this.$message({
 									message: res.data.msg,
-									type: "error"
+									type: type
 								});
 							}
 						})
-						.catch(function(err) {
+						.catch(err => {
 							this.$message({
-								message: "新增失败",
+								message: "系统繁忙，请稍后重试",
 								type: "error"
 							});
 						});
 				});
-
 			},
 			setIsAll() {
 				this.tag = 0;
@@ -2009,19 +2073,16 @@
 		color: #99a9bf;
 		padding-left: 120px;
 	}
-
 	.table1 .demo-table-expand .el-form-item {
 		margin-right: 0;
 		margin-bottom: 0;
 		width: 50%;
 	}
-
 	.dialogAdd .el-input,
 	.dialogAdd .el-select,
 	.dialogAdd .el-date-editor {
 		width: 200px;
 	}
-
 	.dialogCalc .el-dialog__body {
 		padding-top: 0;
 	}
@@ -2033,7 +2094,6 @@
 		width: 100%;
 		height: 100%;
 		box-sizing: border-box;
-
 		.el-breadcrumb {
 			height: 30px;
 			line-height: 29px;
@@ -2042,104 +2102,82 @@
 			border-top: 1px solid #f2f6fc;
 			box-sizing: border-box;
 		}
-
 		/deep/ .el-table__header tr,
 		.el-table__header th {
 			padding: 0;
 			height: 40px;
 		}
-
 		/deep/ .el-table th {
 			background-color: #ebf6fb;
 		}
-
 		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
 			background: #ebf6fb;
 		}
-
 		/deep/ .el-table__body tr,
 		.el-table__body td {
 			padding: 0;
 			height: 40px;
 		}
-
 		/deep/ .el-table__body tr,
 		.el-table__body td {
 			padding: 0;
 			height: 40px;
-
 			background-color: #fff7f1;
 		}
-
 		/deep/ .el-table__body tr.el-table__row--striped {
 			background-color: #ebf6fb;
 		}
-
 		/deep/ .el-table thead {
-			color: #343434;
-			// font-size: 16px;
+			color: #343434; // font-size: 16px;
 		}
-
 		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
 			background-color: #efe9e5;
 		}
-
 		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
 			border-bottom-color: #fff;
 			background: #ebf6fb;
 		}
-
 		/deep/ .el-table td {
 			padding: 6px 0;
 		}
-
 		.search_contain {
 			background: #fff;
 			height: 100px;
 			padding-left: 20px;
 			margin: 20px;
-
 			.info {
 				height: 40px;
 				line-height: 40px;
 			}
-
 			a {
 				margin-left: 10px;
 			}
 		}
-
 		.main_contain {
 			background: #fff;
 			margin: 0 20px;
 			padding: 0px 20px 10px; // height: calc(100% - 190px);
-
 			h5 {
 				height: 40px;
 				line-height: 40px;
 			}
-
 			/deep/ .el-pagination {
 				text-align: right;
 				margin-top: 10px;
 				/* margin-bottom: 10px; */
 			}
 		}
-
 		.title {
 			font-weight: bold;
 			line-height: 40px;
 		}
-
 		.reportFrom {
 			color: red;
 			cursor: pointer;
 		}
-
 		.bottomTable {
 			margin-top: 20px;
 		}
-
 		.tips {
 			color: #2e78ff;
 			font-size: 14px;

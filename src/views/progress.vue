@@ -6,7 +6,7 @@
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" :rules="rules" ref='form'>
 					<el-form-item label="客户名称:" prop="customId">
 						<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+							 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 						<el-select v-model='formInline.customId' filterable>
 							<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
 						</el-select>
@@ -58,7 +58,6 @@
 				},
 				// loading:false,
 				historyList: [],
-
 				rules: {
 					customId: [{
 						required: true,
@@ -94,39 +93,43 @@
 					if (valid) {
 						let params = this.formInline;
 						this.axios.post('/perTaxToolTwo/e9z/historyQuery/selectHistory', this.qs.stringify(params), {
-							headers: {
-								'Content-Type': 'application/x-www-form-urlencoded',
-							}
-						}).then(res => {
-							if (res.data.code == 200) {
-								// this.loading = false;
-								this.historyList = res.data.data;
-								if (this.historyList.length == 0) {
+								headers: {
+									'Content-Type': 'application/x-www-form-urlencoded',
+								}
+							}).then(res => {
+								if (res.data.code == 200) {
+									// this.loading = false;
+									this.historyList = res.data.data;
+									if (this.historyList.length == 0) {
+										this.$message({
+											message: '暂无历史操作记录',
+											type: 'success'
+										});
+									}
+								} else {
+									let type;
+									if (res.data.code == 0) {
+										type = "warning";
+									} else if (res.data.code == 500) {
+										type = "error";
+									}
 									this.$message({
-										message: '暂无历史操作记录',
-										type: 'success'
+										message: res.data.msg,
+										type: type
 									});
 								}
-							} else {
-								// this.loading = false;
+							})
+							.catch(err => {
 								this.$message({
-									message: res.data.msg,
-									type: 'error'
+									message: "系统繁忙，请稍后重试",
+									type: "error"
 								});
-							}
-						}).catch(function(err) {
-							// this.loading = false;
-							this.$message({
-								message: '获取历史失败',
-								type: 'error'
 							});
-						})
 					} else {
 						console.log('error submit!!');
 						return false;
 					}
 				});
-				
 			}
 		}
 	}
@@ -138,12 +141,10 @@
 		height: 100%;
 		padding: 20px;
 		box-sizing: border-box;
-
 		.left_contain {
 			height: 100%
 		}
 	}
-
 	.contain_header {
 		height: 2rem;
 		padding: 0px 30px;
@@ -151,40 +152,33 @@
 		background-size: cover;
 		border-top-left-radius: 0.06rem;
 		border-top-right-radius: 0.06rem;
-
 		.title {
 			font-size: 0.24rem;
 			height: 1rem;
 			line-height: 1.24rem;
 			color: #fff;
 		}
-
 		/deep/ .el-form-item .el-form-item__label {
 			color: #fff;
 		}
-
 		/deep/ .el-form {
 			margin-top: 0.1rem
 		}
 	}
-
 	.contain_body {
 		height: calc(100% - 2rem);
 		box-sizing: border-box;
 		padding: 0.2rem 0.2rem;
 		background: #fff;
-
 		.contain_body_div {
 			align-items: center;
 			display: flex;
 			position: relative;
-
 			img {
 				display: inline-block;
 				width: 0.4rem;
 				height: 0.4rem;
 			}
-
 			.circle {
 				display: inline-block;
 				width: 0.08rem;
@@ -193,7 +187,6 @@
 				background-color: #c9c9c9;
 				margin-right: 0.08rem
 			}
-
 			.date1 {
 				height: 0.4rem;
 				line-height: 0.4rem;
@@ -203,9 +196,7 @@
 				padding: 0 0.1rem;
 				font-size: 0.16rem;
 			}
-
 		}
-
 		.contentBox {
 			position: absolute;
 			top: 0.7rem;
@@ -214,7 +205,6 @@
 			border-style: solid;
 			border-radius: 0.1rem;
 			width: 1.4rem;
-
 			#triangle-top {
 				width: 0;
 				height: 0;
@@ -223,68 +213,52 @@
 				position: absolute;
 				top: -0.2rem;
 			}
-
 			p {
 				color: #666;
 			}
 		}
-
 		.step1color {
 			color: #ed878e
 		}
-
 		.contentBoxBorder1 {
 			border-color: #ed878e;
 		}
-
 		.trianglecolor1 {
 			border-bottom: 0.2rem solid #ed878e;
 		}
-
 		.step2color {
 			color: #7dc36d
 		}
-
 		.contentBoxBorder2 {
 			border-color: #7dc36d;
 		}
-
 		.trianglecolor2 {
 			border-bottom: 0.2rem solid #7dc36d;
 		}
-
 		.step3color {
 			color: #43b3db
 		}
-
 		.contentBoxBorder3 {
 			border-color: #43b3db;
 		}
-
 		.trianglecolor3 {
 			border-bottom: 0.2rem solid #43b3db;
 		}
-
 		.step4color {
 			color: #ffac69
 		}
-
 		.contentBoxBorder4 {
 			border-color: #ffac69;
 		}
-
 		.trianglecolor4 {
 			border-bottom: 0.2rem solid #ffac69;
 		}
-
 		.step5color {
 			color: #e6a08a
 		}
-
 		.contentBoxBorder5 {
 			border-color: #e6a08a;
 		}
-
 		.trianglecolor5 {
 			border-bottom: 0.2rem solid #e6a08a;
 		}

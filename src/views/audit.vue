@@ -2,27 +2,26 @@
 	<div class="main_contain">
 		<div class='search_contain'>
 			<!-- <div class="row1">
-				<span class="labelTitle">
-					客户名称：
-				</span>
-				<el-select v-model="searchList.customerId" placeholder="请选择" @change='selectGet' filterable>
-					<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
-					</el-option>
-				</el-select>
-			</div>
-			<div class="row2" style="margin-left:0.2rem">
-				<span class="labelTitle">
-					账期：
-				</span>
-				<el-date-picker v-model="searchList.period" type="month" placeholder="选择月" value-format="yyyy-MM">
-				</el-date-picker>
-			</div>
-			<div class="searchButton" @click="search()">查询</div> -->
-
+					<span class="labelTitle">
+						客户名称：
+					</span>
+					<el-select v-model="searchList.customerId" placeholder="请选择" @change='selectGet' filterable>
+						<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+						</el-option>
+					</el-select>
+				</div>
+				<div class="row2" style="margin-left:0.2rem">
+					<span class="labelTitle">
+						账期：
+					</span>
+					<el-date-picker v-model="searchList.period" type="month" placeholder="选择月" value-format="yyyy-MM">
+					</el-date-picker>
+				</div>
+				<div class="searchButton" @click="search()">查询</div> -->
 			<el-form :inline="true" :model="searchList" class="demo-form-inline" :rules="rules" ref='form' size="small">
 				<el-form-item label="客户名称:" prop="customerId">
 					<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
-					 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
+						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
 					<el-select v-model='searchList.customerId' filterable @change='selectGet'>
 						<el-option v-for='item in $store.state.cust' :label="item.customerName" :value="item.customerId"></el-option>
 					</el-select>
@@ -35,7 +34,6 @@
 					<el-button @click='search("form")'>查询</el-button>
 				</el-form-item>
 			</el-form>
-
 		</div>
 		<div class='body_contain'>
 			<div class='card' v-for="item in taxTreatment">
@@ -52,7 +50,6 @@
 				</div>
 				<div class='card_btn'>
 					<span class='pass' @click="submitCard(item,1,'申报')" v-if='!item.taxationIdList || item.taxationIdList.length == 0'>审核通过</span>
-
 					<span class='redo' @click='showDialog(item,item.taxationIdList[0])' v-if='item.taxationIdList && item.taxationIdList.length > 0'>比较（工资差异{{item.taxationIdList.length}}条）</span>
 				</div>
 			</div>
@@ -82,12 +79,11 @@
 				<div>账期：{{info.accountPeriod}}</div>
 				<div>申报纳税种类：{{fplrList.declarationType == 1?'一般纳税人':'小规模纳税人'}}</div>
 			</div>
-
 			<!-- <div>增值税率</div>
-			<div>印花税率</div>
-			<div>城市维护建设税税率</div>
-			<div>教育费附加税率</div>
-			<div>地方教育费附加税率</div> -->
+				<div>印花税率</div>
+				<div>城市维护建设税税率</div>
+				<div>教育费附加税率</div>
+				<div>地方教育费附加税率</div> -->
 			<div class='clearfix'>
 				<div class='left' style='width: calc(50% - 10px)'>
 					<h5>发票录入：</h5>
@@ -103,13 +99,11 @@
 					<ul>
 						<li v-for='(item,index) in zzList.e9zConfigInvoiceColumnList' v-if="item.columnShow==1" :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
 							<span class='left'>{{item.columnTitle}}</span>
-							<span class='right' :contenteditable='item.columnRemark1 == "1"' @blur='setLine($event,index,"columnValue")'
-							 v-text='item.columnValue'></span>
+							<span class='right' :contenteditable='item.columnRemark1 == "1"' @blur='setLine($event,index,"columnValue")' v-text='item.columnValue'></span>
 						</li>
 					</ul>
 				</div>
 			</div>
-
 			<div class='btn_contain clearfix'>
 				<span class='commit' @click='commitDialog(zzList)'>完成</span>
 				<span class='close' @click="hideDialog">关闭</span>
@@ -176,7 +170,6 @@
 						console.log('error submit!!');
 						return false;
 					}
-
 				})
 			},
 			queryTaxTreatment() {
@@ -196,31 +189,37 @@
 				// }
 				let params = this.searchList;
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectTaxTreatment', this.qs.stringify(params), {
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-					}
-				}).then(res => {
-					if (res.data.code == 200) {
-						this.taxTreatment = res.data.data;
-						if (this.taxTreatment.length == 0) {
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded',
+						}
+					}).then(res => {
+						if (res.data.code == 200) {
+							this.taxTreatment = res.data.data;
+							if (this.taxTreatment.length == 0) {
+								this.$message({
+									message: "暂无税款审核数据",
+									type: 'warning'
+								});
+							}
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
-								message: "暂无税款审核数据",
-								type: 'warning'
+								message: res.data.msg,
+								type: type
 							});
 						}
-					} else {
+					})
+					.catch(err => {
 						this.$message({
-							message: res.data.msg,
-							type: 'error'
+							message: "系统繁忙，请稍后重试",
+							type: "error"
 						});
-					}
-
-				}).catch(function(err) {
-					this.$message({
-						message: '获取税款审核数据失败',
-						type: 'error'
 					});
-				})
 			},
 			queryBigTaxTreatment() {
 				// this.searchList.customerId = '';
@@ -239,31 +238,37 @@
 				// }
 				let params = this.searchList;
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectBigTaxTreatment', this.qs.stringify(params), {
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-					}
-				}).then(res => {
-					if (res.data.code == 200) {
-						this.bigTaxTreatment = res.data.data;
-						if (this.bigTaxTreatment.length == 0) {
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded',
+						}
+					}).then(res => {
+						if (res.data.code == 200) {
+							this.bigTaxTreatment = res.data.data;
+							if (this.bigTaxTreatment.length == 0) {
+								this.$message({
+									message: "暂无大额审核数据",
+									type: 'warning'
+								});
+							}
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
-								message: "暂无大额审核数据",
-								type: 'warning'
+								message: res.data.msg,
+								type: type
 							});
 						}
-					} else {
+					})
+					.catch(err => {
 						this.$message({
-							message: res.data.msg,
-							type: 'error'
+							message: "系统繁忙，请稍后重试",
+							type: "error"
 						});
-					}
-
-				}).catch(function(err) {
-					this.$message({
-						message: '获取税款审核数据失败',
-						type: 'error'
 					});
-				})
 			},
 			submitCard(row, status, nextStepName) {
 				let params = {
@@ -274,26 +279,32 @@
 					"state": status
 				}
 				this.axios.post('/perTaxToolTwo/e9z/taxStep/submit', params).then(res => {
-					if (res.data.code == 200) {
-						this.queryTaxTreatment();
-						this.queryBigTaxTreatment();
+						if (res.data.code == 200) {
+							this.queryTaxTreatment();
+							this.queryBigTaxTreatment();
+							this.$message({
+								message: res.data.msg,
+								type: 'success'
+							});
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
+							this.$message({
+								message: res.data.msg,
+								type: type
+							});
+						}
+					})
+					.catch(err => {
 						this.$message({
-							message: res.data.msg,
-							type: 'success'
+							message: "系统繁忙，请稍后重试",
+							type: "error"
 						});
-					} else {
-						this.$message({
-							message: res.data.msg,
-							type: 'error'
-						});
-					}
-
-				}).catch(function(err) {
-					this.$message({
-						message: '获取税款审核数据失败',
-						type: 'error'
 					});
-				})
 			},
 			showDialog(obj, item) {
 				this.dialogVisible = true;
@@ -303,26 +314,30 @@
 					"fplrTaxInfoId": item.fplrTaxInfoId,
 					"zzTaxInfoId": item.zzTaxInfoId,
 					"zzTaxationId": item.zzTaxationId,
-
 				}
 				this.axios.post('/perTaxToolTwo/e9z/taxTreatment/selectInvoiceCompare', params).then(res => {
-					if (res.data.code == 200) {
-						this.fplrList = res.data.data[0].fplr;
-						this.zzList = res.data.data[0].zz;
-
-					} else {
+						if (res.data.code == 200) {
+							this.fplrList = res.data.data[0].fplr;
+							this.zzList = res.data.data[0].zz;
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
+							this.$message({
+								message: res.data.msg,
+								type: type
+							});
+						}
+					})
+					.catch(err => {
 						this.$message({
-							message: res.data.msg,
-							type: 'error'
+							message: "系统繁忙，请稍后重试",
+							type: "error"
 						});
-					}
-
-				}).catch(function(err) {
-					this.$message({
-						message: '获取比对数据失败',
-						type: 'error'
 					});
-				})
 			},
 			commitDialog(detailData) {
 				let params = {
@@ -355,24 +370,28 @@
 						});
 					} else {
 						this.dialogVisible = false;
+						let type;
+						if (res.data.code == 0) {
+							type = "warning";
+						} else if (res.data.code == 500) {
+							type = "error";
+						}
 						this.$message({
 							message: res.data.msg,
-							type: 'error'
+							type: type
 						});
 					}
-
 				}).catch(function(err) {
 					this.dialogVisible = false;
 					this.$message({
-						message: '修改失败',
-						type: 'error'
+						message: "系统繁忙，请稍后重试",
+						type: "error"
 					});
 				})
 			},
 			hideDialog() {
 				this.dialogVisible = false;
 			},
-
 			selectGet(vId) {
 				this.userobj = {};
 				this.userobj = this.$store.state.cust.find((item) => { //这里的selectList就是上面遍历的数据源
@@ -380,14 +399,12 @@
 				});
 				console.log('当前选择的用户信息', this.userobj); //
 			},
-
 			setLine(event, index, type) {
 				this.zzList.e9zConfigInvoiceColumnList[index][type] = event.target.innerText;
 			}
 		},
 		components: {},
 		created() {
-
 		}
 	}
 </script>
@@ -397,7 +414,6 @@
 		height: 100%;
 		margin: 20px;
 	}
-
 	div.search_contain {
 		/* width: 1180rem; */
 		/* height: 78rem; */
@@ -409,7 +425,6 @@
 		border-top-right-radius: 0.05rem;
 		background: #fff;
 		padding: 0.20rem 0.20rem;
-
 		.el-button--small {
 			background: #ffb980;
 			color: #fff;
@@ -419,15 +434,12 @@
 			padding: .12rem .35rem;
 		}
 	}
-
 	div.body_contain {
 		margin-top: .2rem;
-
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: start;
-
 		.card {
 			width: calc((100% - 0.8rem) / 5);
 			margin-right: .2rem;
@@ -435,7 +447,6 @@
 			background: #fff;
 			height: 4.85rem;
 			border-top-right-radius: 4px;
-
 			.card_head {
 				height: 2rem;
 				box-sizing: border-box;
@@ -443,35 +454,29 @@
 				color: #fff;
 				padding-top: 0.3rem;
 				background: url(../assets/img/list-bg1.png) no-repeat;
-
 				p:nth-of-type(1) {
 					font-size: 0.18rem;
 					height: 0.36rem;
 					line-height: 0.36rem;
 				}
-
 				p:nth-of-type(2) {
 					font-size: 0.12rem;
 					height: 0.3rem;
 					line-height: 0.3rem;
 				}
-
 				p:nth-of-type(3) {
 					font-size: 0.16rem;
 					height: 0.34rem;
 					line-height: 0.34rem;
 				}
-
 				p:nth-of-type(4) {
 					font-size: 0.16rem;
 					height: 0.38rem;
 					line-height: 0.38rem;
 				}
 			}
-
 			.card_body {
 				margin: 0.2rem 0;
-
 				p {
 					height: 0.3rem;
 					line-height: 0.3rem;
@@ -479,20 +484,15 @@
 					padding-left: 0.2rem;
 					color: #666
 				}
-
 				p:nth-of-type(1) {}
-
 				p:nth-of-type(2) {}
-
 				p:nth-of-type(3) {}
 			}
 		}
-
 		.card:nth-of-type(5n) {
 			margin-right: 0rem;
 		}
 	}
-
 	.dialog {
 		.title {
 			height: 0.4rem;
@@ -500,7 +500,6 @@
 			font-size: 0.16rem;
 			color: #333;
 		}
-
 		.line {
 			display: flex;
 			flex-wrap: nowrap;
@@ -511,8 +510,6 @@
 			align-items: center;
 			margin-bottom: 20px;
 		}
-
-
 		ul {
 			background: #f8f8f8;
 			padding-left: 0.24rem;
@@ -521,23 +518,19 @@
 			height: 3.5rem;
 			overflow-y: auto;
 			margin-top: 0.1rem;
-
 			li {
 				height: 0.24rem;
 				font-size: 0.12rem;
 			}
 		}
-
 		.mark {
 			color: #ed878e;
 		}
 	}
-
 	.btn_contain {
 		text-align: center;
 		margin-top: 0.36rem;
 	}
-
 	.commit {
 		width: 2.4rem;
 		height: 0.4rem;
@@ -549,7 +542,6 @@
 		margin-right: 0.4rem;
 		border-radius: 4px;
 	}
-
 	.close {
 		width: 2.4rem;
 		height: 0.4rem;
@@ -560,12 +552,10 @@
 		text-align: center;
 		border-radius: 4px;
 	}
-
 	.card_btn {
 		text-align: center;
 		margin-top: 0.36rem;
 	}
-
 	.pass {
 		width: 2.4rem;
 		height: 0.4rem;
@@ -577,7 +567,6 @@
 		margin-top: 0.26rem;
 		border-radius: 4px;
 	}
-
 	.redo {
 		width: 2.4rem;
 		height: 0.4rem;
@@ -588,8 +577,6 @@
 		text-align: center;
 		border-radius: 4px;
 	}
-
-
 	.searchButton {
 		background: #ffb980;
 		color: #fff;

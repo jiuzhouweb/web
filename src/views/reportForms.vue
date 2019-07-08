@@ -7,30 +7,27 @@
 		<div class='search'>
 			<div class="title">报表查看</div>
 			<div class='search_contain'>
-				<div class="row1">
-					<span class="labelTitle">公司：</span>
-					<el-select v-model="searchList.value" placeholder="请选择" size="small" filterable>
-						<el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
-						</el-option>
-					</el-select>
-					<!-- <el-autocomplete class="inline-input" v-model="searchList.value" :fetch-suggestions="querySearch"
-						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
-				</div>
-				<div class="row2">
-					<span class="labelTitle">账期：</span>
-					<el-date-picker v-model="searchList.nowDate" type="month" format="yyyy-MM" value-format="yyyy-MM" placeholder="选择月"
-					 size="small">
-					</el-date-picker>
-				</div>
-				<div class="row3">
-					<span class="labelTitle">状态：</span>
-					<el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
+        <el-form :inline="true" :model="searchList" class="demo-form-inline" size="medium" :rules="rulesSearch" ref='formSearch'>
+					<el-form-item label="公司:" prop="value">
+            <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
+              <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="账期:" prop="nowDate">
+          <el-date-picker v-model="searchList.nowDate" type="month" placeholder="选择账期" clearable value-format='yyyy-MM'>
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="状态:">
+          <el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
 						<el-option v-for="item in searchList.status" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
-				</div>
-				<el-button type="primary" @click="search()" style="margin-left:20px" size="small">查看</el-button>
-				<el-button @click="clear()" size="small">重置</el-button>
+        </el-form-item>
+        <el-form-item style="margin-bottom:0">
+          <el-button type="primary" @click="search('formSearch')" style="margin-left:20px" size="medium">查看</el-button>
+        </el-form-item>
+				</el-form>
 			</div>
 		</div>
 		<div class="content">
@@ -343,33 +340,27 @@ export default {
       pageNum: 1,
       pageSize: 10,
       total: 10,
-      loading: false
+      loading: false,
+      rulesSearch: {
+        value: [
+          {
+            required: true,
+            message: "请选择客户",
+            trigger: "change"
+          }
+        ],
+        nowDate: [
+          {
+            required: true,
+            message: "请选择账期",
+            trigger: "change"
+          }
+        ]
+      }
     };
   },
-  created() {
-    // this.searchList.options = this.$store.state.cust;
-    // this.searchList.value=this.searchList.options[0].value;
-    // console.log('this.searchList.options', this.searchList.options)
-    this.getNowMonth();
-    // this.getTableData("1");
-  },
+  created() {},
   methods: {
-    // querySearch(queryString, cb) {
-    //   var cust = this.$store.state.cust;
-    //   cust.forEach((item, index) => {
-    //     item.value = item.customerName;
-    //   });
-    //   var results = queryString
-    //     ? cust.filter(this.createFilter(queryString))
-    //     : cust;
-    //   // 调用 callback 返回建议列表的数据
-    //   cb(results);
-    // },
-    // createFilter(queryString) {
-    //   return cust => {
-    //     return cust.customerName.indexOf(queryString) === 0;
-    //   };
-    // },
     getNowMonth() {
       var date = new Date();
       var year = date.getFullYear();
@@ -414,9 +405,9 @@ export default {
         .post(url, params)
         .then(res => {
           console.log("获取表格数据", res);
-          setTimeout(()=>{
+          setTimeout(() => {
             this.loading = false;
-          },2000)
+          }, 2000);
           if (res.data.code == 200) {
             this.tableTabs.forEach(item => {
               if (name == item.name) {
@@ -424,11 +415,22 @@ export default {
                 this.total = res.data.count;
               }
             });
+          } else {
+            let type;
+            if (res.data.code == 0) {
+              type = "warning";
+            } else if (res.data.code == 500) {
+              type = "error";
+            }
+            this.$message({
+              message: res.data.msg,
+              type: type
+            });
           }
         })
         .catch(err => {
           this.$message({
-            message: "获取表格数据失败",
+            message: "系统繁忙，请稍后重试",
             type: "error"
           });
         });
@@ -445,30 +447,19 @@ export default {
       this.pageNum = val;
       this.getTableData(this.activeName);
     },
-    search() {
-      // console.log("this.searchList.value", this.searchList.value);
-      // this.customerId = "";
-      // if (this.searchList.value) {
-      //   var customer = this.$store.state.cust.find(
-      //     item => item.value === this.searchList.value
-      //   );
-      //   if (customer) {
-      //     this.customerId = customer.customerId;
-      //   } else {
-      //     this.customerId = "";
-      //   }
-      // }
-      this.accountPeriod = this.searchList.nowDate;
-      this.customerId=this.searchList.value;
-      this.statusVaule = this.searchList.statusVaule;
-      if(!this.searchList.value||!this.searchList.nowDate){
-          this.$message({
-            message: "请先选择客户和账期后再查询",
-            type: "warning"
-          });
-          return;
+    search(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.accountPeriod = this.searchList.nowDate;
+          this.customerId = this.searchList.value;
+          this.statusVaule = this.searchList.statusVaule;
+
+          this.getTableData(this.activeName);
+        } else {
+          console.log("error submit!!");
+          return false;
         }
-      this.getTableData(this.activeName);
+      });
     },
     clear() {
       this.searchList.statusVaule = "1";

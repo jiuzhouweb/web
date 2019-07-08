@@ -6,7 +6,6 @@
 					<el-form-item label="省份选择:">
 						<el-select v-model="division" @change='getArea'>
 							<el-option v-for='item in divisionList' :label="item.divisionName" :value="item.divisionName"></el-option>
-
 						</el-select>
 					</el-form-item>
 					<el-form-item label="城市选择:">
@@ -25,8 +24,7 @@
 				</div>
 			</div>
 			<div class="contain_body">
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-position='left' :rules="rules" ref="ruleForm"
-				 size="medium">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-position='left' :rules="rules" ref="ruleForm" size="medium">
 					<el-form-item label="纳税人类型:" class='short' prop="taxesTaxType">
 						<el-select clearable v-model="formInline.taxesTaxType">
 							<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
@@ -76,21 +74,16 @@
 						<div>
 							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in cal' @click='createFormula(item.dicName)'>{{item.dicName}}</el-button>
 						</div>
-
 					</el-form-item>
-
 					<el-form-item v-if="formInline.e9z && formInline.tmplShowType == '0' || formInline.columnTitle && formInline.tmplShowType == '1'">
 						<div>
 							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in formulaTitleList' @click='createFormula(item.column_title)'>{{item.column_title}}</el-button>
-
 						</div>
-
 					</el-form-item>
 				</el-form>
 				<!-- <div v-if='showCommitBtn'> -->
 				<div v-show="formInline.e9z && formInline.tmplShowType == '0'">
 					<p>我们将根据您输入的 <span>'发票类型' '税种类型'</span> 还有 <span>'税种公式'</span> ，及时的做出相应的计算公式反馈。</p>
-
 					<p>公式：{{formInline.formula}}</p>
 				</div>
 				<div v-show="formInline.columnTitle && formInline.tmplShowType == '1'">
@@ -104,17 +97,17 @@
 			<div class="contain_header">
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
 					<!-- <el-form-item label="省份选择:">
-						<el-select clearable v-model="formInline.province">
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="城市选择:">
-						<el-select clearable v-model="formInline.area">
-							<el-option label="区域一" value="shanghai"></el-option>
-							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
-					</el-form-item> -->
+							<el-select clearable v-model="formInline.province">
+								<el-option label="区域一" value="shanghai"></el-option>
+								<el-option label="区域二" value="beijing"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="城市选择:">
+							<el-select clearable v-model="formInline.area">
+								<el-option label="区域一" value="shanghai"></el-option>
+								<el-option label="区域二" value="beijing"></el-option>
+							</el-select>
+						</el-form-item> -->
 					<el-form-item label="纳税人类型:">
 						<el-select clearable v-model="searchTaxesTaxType">
 							<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
@@ -163,20 +156,15 @@
 					<li v-for="item in formulaList">
 						<span class='formula span1' :title="item.tmpl_name">{{item.tmpl_name}}</span>
 						<span class='formula span1' :title="item.invoice_name + item.invoice_category + item.invoice_type">{{item.invoice_name}}
-							{{item.invoice_category}} {{item.invoice_type}}</span>
-
+								{{item.invoice_category}} {{item.invoice_type}}</span>
 						<span class='formula span2' :title='item.column_title'>{{item.column_title}}</span>
 						<span class='formula span3' :title='item.formula'>{{item.formula}}</span>
 						<!-- <span class='blue' v-if='item.formula'>查看</span> -->
 					</li>
 				</ul>
-
-
-				<el-pagination background layout="prev, pager, next" :total="total" :page-size=15 @current-change='handleCurrentChange'
-				 :current-page="currentPage">
+				<el-pagination background layout="prev, pager, next" :total="total" :page-size=15 @current-change='handleCurrentChange' :current-page="currentPage">
 				</el-pagination>
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -212,19 +200,15 @@
 					invoiceName: '',
 					e9z: "",
 					formula: "",
-
 					tmplName: '',
 					columnTitle: '',
 				},
-
 				currentPage: 1,
 				pageSize: 13,
 				total: 0,
 				showCommitBtn: false,
 				// canInput: true,
 				canCommit: false,
-
-
 				dicNameList: [],
 				taxCalcTypeList: [],
 				invoiceTypeList: [{
@@ -249,7 +233,6 @@
 				searchInvoiceName: '',
 				searchTmplName: '',
 				searchColumnTitle: '',
-
 				invoiceTypeSearchList: [],
 				invoiceNameSearchList: [],
 				templateListSearchList: [],
@@ -297,7 +280,6 @@
 					}],
 				},
 				cal: ["+", "-", "*", "/", "(", ")", ",", "if", "<", ">", "="]
-
 			}
 		},
 		components: {
@@ -316,18 +298,24 @@
 						if (res.data.code == 200) {
 							this.divisionList = res.data.data;
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '获取省份失败',
-							type: 'error'
-						});
 					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			},
 			/*
 			 * 获取城市
@@ -344,18 +332,24 @@
 						if (res.data.code == 200) {
 							this.areaList = res.data.data;
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '获取省份失败',
-							type: 'error'
-						});
 					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			},
 			getAreaDefault() {
 				let params = {
@@ -366,24 +360,29 @@
 						if (res.data.code == 200) {
 							this.areaList = res.data.data;
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '获取省份失败',
-							type: 'error'
-						});
 					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			},
 			setArea() {
 				console.log(this.temArea);
 				this.area = this.temArea.divisionCode;
 				this.areaName = this.temArea.divisionName;
-
 				this.queryFormulaList();
 				this.queryInvoiceType();
 				this.queryInvoiceName();
@@ -399,15 +398,28 @@
 			 * */
 			queryDicName() {
 				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=税务类型').then(res => {
-					this.dicNameList = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取纳税人类型失败',
-						type: 'error'
+						if (res.data.code == 200) {
+							this.dicNameList = res.data.data;
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
+							this.$message({
+								message: res.data.msg,
+								type: type
+							});
+						}
+					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
 					});
-				})
 			},
-
 			/*
 			 * 获取计税方法下拉列表
 			 * {params}
@@ -416,15 +428,28 @@
 			 * */
 			queryRateMethods() {
 				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法').then(res => {
-					this.taxCalcTypeList = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取计税方法失败',
-						type: 'error'
+						if (res.data.code == 200) {
+							this.taxCalcTypeList = res.data.data;
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
+							this.$message({
+								message: res.data.msg,
+								type: type
+							});
+						}
+					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
 					});
-				})
 			},
-
 			/*
 			 * 获取公式字符下拉列表
 			 * {params}
@@ -433,15 +458,28 @@
 			 * */
 			queryCalSymbol() {
 				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=公式字符').then(res => {
-					this.cal = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取公式字符失败',
-						type: 'error'
+						if (res.data.code == 200) {
+							this.cal = res.data.data;
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
+							this.$message({
+								message: res.data.msg,
+								type: type
+							});
+						}
+					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
 					});
-				})
 			},
-
 			/*
 			 * 根据发票类型获取发票名称
 			 * */
@@ -469,7 +507,6 @@
 					item.tag = index;
 				})
 			},
-
 			/*
 			 * 根据税种及相关列获取已有的计算公式
 			 * */
@@ -504,18 +541,24 @@
 							}
 							console.log(this.formulaList)
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '获取税种公式列表失败',
-							type: 'error'
-						});
 					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			},
 			/*
 			 * 点击公式字符和中文字符生成公式
@@ -524,7 +567,6 @@
 			createFormula(value) {
 				this.formInline.formula += value;
 			},
-
 			/*
 			 * 判断公式合法性并创建公式
 			 * 
@@ -553,29 +595,34 @@
 							type: 2
 						};
 					}
-
 					this.axios.post('/perTaxToolTwo/e9z/configInvoiceFormula/updateInvoiceFormulaById', params).then(res => {
-						if (res.data.code == 200) {
+							if (res.data.code == 200) {
+								this.$message({
+									message: '公式添加成功',
+									type: 'success'
+								});
+								this.resetSelect();
+								this.formInline.tmplShowType = '0';
+								this.queryFormulaList();
+							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
+								this.$message({
+									message: res.data.msg,
+									type: type
+								});
+							}
+						})
+						.catch(err => {
 							this.$message({
-								message: '公式添加成功',
-								type: 'success'
+								message: "系统繁忙，请稍后重试",
+								type: "error"
 							});
-							this.resetSelect();
-							this.formInline.tmplShowType = '0';
-							this.queryFormulaList();
-						} else {
-							this.$message({
-								message: res.data.data,
-								type: 'error'
-							});
-						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '公式添加失败',
-							type: 'error'
 						});
-					})
 					// this.showCommitBtn = true;
 				} else {
 					this.$message.error(this.regExpUtil.formulaRegExp(this.formInline.formula));
@@ -598,7 +645,6 @@
 				this.formInline.columnTitle = '';
 				this.formInline.formula = '';
 			},
-
 			resetFilter(val) {
 				this.searchTaxCalcType = '';
 				this.searchInvoiceType = '';
@@ -606,8 +652,6 @@
 				this.searchTmplName = '';
 				this.searchColumnTitle = '';
 			},
-
-
 			/*
 			 * 查询右侧发票类型下拉列表
 			 * {params}
@@ -618,13 +662,27 @@
 					"area": this.area
 				};
 				this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceTypeByAreaAndState', params).then(res => {
-					this.invoiceTypeSearchList = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取发票类型失败',
-						type: 'error'
+						if (res.data.code == 200) {
+							this.invoiceTypeSearchList = res.data.data;
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
+							this.$message({
+								message: res.data.msg,
+								type: type
+							});
+						}
+					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
 					});
-				})
 			},
 			/*
 			 * 查询右侧发票名称下拉列表
@@ -636,13 +694,27 @@
 					"area": this.area
 				};
 				this.axios.post('/perTaxToolTwo/e9z/invoiceListInfo/findInvoiceName', params).then(res => {
-					this.invoiceNameSearchList = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取发票名称失败',
-						type: 'error'
+						if (res.data.code == 200) {
+							this.invoiceNameSearchList = res.data.data;
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
+							this.$message({
+								message: res.data.msg,
+								type: type
+							});
+						}
+					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
 					});
-				})
 			},
 			/*
 			 * 查询右侧模板名称下拉列表
@@ -654,13 +726,27 @@
 					"area": this.area
 				};
 				this.axios.post('/perTaxToolTwo/e9z/configTemplate/findTemplateList', params).then(res => {
-					this.templateListSearchList = res.data.data;
-				}).catch(function(err) {
-					this.$message({
-						message: '获取模板名称失败',
-						type: 'error'
+						if (res.data.code == 200) {
+							this.templateListSearchList = res.data.data;
+						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
+							this.$message({
+								message: res.data.msg,
+								type: type
+							});
+						}
+					})
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
 					});
-				})
 			},
 			/*
 			 * 公式过滤
@@ -695,19 +781,24 @@
 							var sheet = this.xlsx.utils.json_to_sheet(this.formulaExcelList);
 							this.openDownloadDialog(this.sheet2blob(sheet), '税种公式.xlsx');
 						} else {
+							let type;
+							if (res.data.code == 0) {
+								type = "warning";
+							} else if (res.data.code == 500) {
+								type = "error";
+							}
 							this.$message({
 								message: res.data.msg,
-								type: 'error'
+								type: type
 							});
 						}
-
-					}).catch(function(err) {
-						this.$message({
-							message: '获取税种公式列表失败',
-							type: 'error'
-						});
 					})
-
+					.catch(err => {
+						this.$message({
+							message: "系统繁忙，请稍后重试",
+							type: "error"
+						});
+					});
 			},
 			sheet2blob(sheet, sheetName) {
 				sheetName = sheetName || 'sheet1';
@@ -750,7 +841,6 @@
 				}
 				aLink.dispatchEvent(event);
 			},
-
 			/*
 			 * 分页事件
 			 * {params}
@@ -771,16 +861,29 @@
 						"area": this.area
 					};
 					this.axios.post('/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
-						this.formulaTitleList = res.data.data;
-					}).catch(function(err) {
-						this.$message({
-							message: '获取公式标题失败',
-							type: 'error'
+							if (res.data.code == 200) {
+								this.formulaTitleList = res.data.data;
+							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
+								this.$message({
+									message: res.data.msg,
+									type: type
+								});
+							}
+						})
+						.catch(err => {
+							this.$message({
+								message: "系统繁忙，请稍后重试",
+								type: "error"
+							});
 						});
-					})
 				},
 				deep: true
-
 			},
 			"formInline.taxCalcType": {
 				handler(val, oldVal) {
@@ -791,18 +894,29 @@
 						"area": this.area
 					};
 					this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
-						this.invoiceTypeList = res.data.data;
-					}).catch(function(err) {
-						this.$message({
-							message: '获取发票/模板公式失败',
-							type: 'error'
+							if (res.data.code == 200) {
+								this.invoiceTypeList = res.data.data;
+							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
+								this.$message({
+									message: res.data.msg,
+									type: type
+								});
+							}
+						})
+						.catch(err => {
+							this.$message({
+								message: "系统繁忙，请稍后重试",
+								type: "error"
+							});
 						});
-					})
 				},
 				deep: true
-
-
-
 			},
 			"formInline.tmplShowType": {
 				handler(val, oldVal) {
@@ -812,13 +926,27 @@
 						"area": this.area
 					};
 					this.axios.post('/perTaxToolTwo/e9z/configColumn/findFormulaTitleList', params).then(res => {
-						this.formulaTitleList = res.data.data;
-					}).catch(function(err) {
-						this.$message({
-							message: '获取模板名称失败',
-							type: 'error'
+							if (res.data.code == 200) {
+								this.formulaTitleList = res.data.data;
+							} else {
+								let type;
+								if (res.data.code == 0) {
+									type = "warning";
+								} else if (res.data.code == 500) {
+									type = "error";
+								}
+								this.$message({
+									message: res.data.msg,
+									type: type
+								});
+							}
+						})
+						.catch(err => {
+							this.$message({
+								message: "系统繁忙，请稍后重试",
+								type: "error"
+							});
 						});
-					})
 					if (val == 1) {
 						let params = {
 							"taxesTaxType": this.formInline.taxesTaxType,
@@ -826,13 +954,27 @@
 							"area": this.area
 						};
 						this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
-							this.templateTypeList = res.data.data;
-						}).catch(function(err) {
-							this.$message({
-								message: '获取发票/模板公式失败',
-								type: 'error'
+								if (res.data.code == 200) {
+									this.templateTypeList = res.data.data;
+								} else {
+									let type;
+									if (res.data.code == 0) {
+										type = "warning";
+									} else if (res.data.code == 500) {
+										type = "error";
+									}
+									this.$message({
+										message: res.data.msg,
+										type: type
+									});
+								}
+							})
+							.catch(err => {
+								this.$message({
+									message: "系统繁忙，请稍后重试",
+									type: "error"
+								});
 							});
-						})
 					}
 				},
 				deep: true
@@ -860,53 +1002,39 @@
 	@orange: #ffb980;
 	@pcolor: #999;
 	@scolor: #ed878e;
-
 	/*滚动条样式*/
 	::-webkit-scrollbar {
 		width: 0.04rem;
 		height: 0.04rem;
 	}
-
 	::-webkit-scrollbar-thumb {
 		border-radius: 0.10rem;
 		-webkit-box-shadow: inset 0 0 0.05rem rgba(0, 0, 0, 0.2);
 		background: rgba(0, 0, 0, 0.2);
 	}
-
 	::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 0.05rem rgba(0, 0, 0, 0.2);
 		border-radius: 0;
 		background: rgba(0, 0, 0, 0.1);
-
 	}
-
-
 	.blue {
 		color: @blue
 	}
-
 	.main_contain {
 		padding: 0.2rem;
 		width: calc(100% - 0.4rem);
 		height: calc(100% - 0.4rem);
-
-
-
 		/deep/ input::-webkit-input-placeholder {
 			/* placeholder颜色  */
 			color: #fff;
 		}
-
-
 	}
-
 	.left_contain {
 		width: calc(50% - 0.15rem);
 		background: #fff;
 		border-radius: 0.06rem;
 		float: left;
 		height: 100%;
-
 		.contain_header {
 			height: 2rem;
 			box-sizing: border-box;
@@ -915,44 +1043,35 @@
 			background-size: cover;
 			border-top-left-radius: 0.06rem;
 			border-top-right-radius: 0.06rem;
-
 			/deep/ .el-select__caret {
 				color: #fff;
 				line-height: 0.4rem;
 			}
-
 			/deep/ .el-button {
 				background: #fff;
 				color: @button;
-				width: 1.3rem;
-				// height: 0.40rem;
+				width: 1.3rem; // height: 0.40rem;
 				// line-height: 0;
 				border-color: #fff
 			}
-
 			/deep/ .el-input {
 				font-size: 0.14rem
 			}
-
 			/deep/ .el-form-item__label {
 				color: #fff
 			}
-
 			/deep/ .el-form {
 				width: 100%;
 				display: flex;
 				flex-direction: row;
 				justify-content: space-between;
-
 				.el-form-item {
 					margin-right: 0rem
 				}
 			}
-
 			/deep/ .info {
 				width: 100%;
 				margin-top: 0.20rem;
-
 				/deep/ .el-button {
 					float: right;
 					background: #fff;
@@ -961,77 +1080,59 @@
 					height: 0.4rem;
 					border-color: #fff
 				}
-
 				.large {
 					font-size: 0.3rem;
 					color: #fff
 				}
-
 				.mini {
 					font-size: 0.16rem;
 					color: #fff;
 					margin-left: 0.20rem;
 				}
 			}
-
 			/deep/ .el-input__inner {
 				border: 0.01rem solid #fff;
 				background: transparent;
 				color: #fff;
-				width: 1.8rem;
-				// line-height: 0.4rem;
+				width: 1.8rem; // line-height: 0.4rem;
 				// height: 0.4rem;
 			}
 		}
-
 		.contain_body {
 			padding: 0.2rem 0.2rem 0rem;
 			height: calc(100% - 2rem);
 			box-sizing: border-box;
 			overflow-y: scroll;
 		}
-
 		/deep/ .el-form {
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
 			flex-wrap: wrap;
-
 			/deep/ .el-form-item {
 				margin-right: 0rem;
-
 				label {
 					// width: 1rem;
 					font-size: 0.14rem;
 					padding: 0 0.12rem 0 0;
 				}
-
 				.el-form-item__content {}
-
 			}
-
 			/deep/ .el-form-item.long {
 				label {
 					// width: 1.4rem;
 				}
-
 			}
-
 			/deep/ .el-form-item.line {
 				width: 100%;
-
 				.el-form-item__content {
 					width: calc(100% - 1rem);
-
 					.el-input {
 						width: calc(100% - 1.4rem);
-
 						.el-input__inner {
 							width: 100%;
 						}
-
 					}
-
 					.el-button {
 						width: 1.2rem;
 						margin-left: 0.2rem;
@@ -1041,21 +1142,17 @@
 				}
 			}
 		}
-
 		/deep/ .el-input__inner {
 			width: 1.2rem;
 		}
-
 		p {
 			color: @pcolor;
 			font-size: 0.14rem;
 			line-height: 0.30rem;
-
 			span {
 				color: @scolor;
 			}
 		}
-
 		.el-button.confirm {
 			display: block;
 			margin: 0.4rem auto;
@@ -1064,37 +1161,30 @@
 			font-size: 0.18rem;
 		}
 	}
-
 	.right_contain {
 		width: calc(50% - 0.15rem);
 		height: 100%;
 		float: right;
 		background: #fff;
 		border-radius: 0.06rem;
-
 		.contain_header {
 			height: 2rem;
 			box-sizing: border-box;
 			padding: 0.2rem 0.2rem;
 			display: flex;
 			flex-direction: row;
-
 			background: url(../assets/img/list-bg2.png) no-repeat;
 			background-size: cover;
 			border-top-left-radius: 0.06rem;
 			border-top-right-radius: 0.06rem;
-
 			/deep/ .el-select__caret {
 				color: #fff;
 				line-height: 0.4rem;
 			}
-
 			/deep/ .el-input__inner {
-				border: 0.01rem solid #fff;
-				// line-height: 0.4rem;
+				border: 0.01rem solid #fff; // line-height: 0.4rem;
 				// height: 0.4rem;
 			}
-
 			/deep/ .el-button {
 				background: #fff;
 				color: @button_orange;
@@ -1107,34 +1197,27 @@
 				line-height: 2;
 			}
 		}
-
 		/deep/ .el-form-item__label {
 			color: #fff;
 			font-size: 0.14rem
 		}
-
 		/deep/ .el-form {
 			width: calc(100% - 1.35rem);
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
-			flex-wrap: wrap;
-			// align-content: space-between;
-
+			flex-wrap: wrap; // align-content: space-between;
 			.el-form-item {
 				margin-right: 0rem
 			}
 		}
-
 		/deep/.el-form-item {
 			/* width: 25%; */
 			margin-bottom: 0rem;
 		}
-
 		/deep/ .info {
 			width: 100%;
 			margin-top: 0.20rem;
-
 			/deep/ .el-button {
 				float: right;
 				background: #fff;
@@ -1143,19 +1226,16 @@
 				height: 0.40rem;
 				border-color: #fff
 			}
-
 			.large {
 				font-size: 0.30rem;
 				color: #fff
 			}
-
 			.mini {
 				font-size: 0.16rem;
 				color: #fff;
 				margin-left: 0.20rem;
 			}
 		}
-
 		/deep/ .el-input__inner {
 			border: 0.01rem solid #fff;
 			background: transparent;
@@ -1163,7 +1243,6 @@
 			width: 1.5rem
 		}
 	}
-
 	.contain_body {
 		h3 {
 			margin-top: 0.24rem;
@@ -1172,7 +1251,6 @@
 			font-size: 0.18rem;
 			color: #333;
 			padding-left: 0.30rem;
-
 			span {
 				font-size: 0.14rem;
 				color: #ccc;
@@ -1180,28 +1258,21 @@
 				font-weight: normal;
 			}
 		}
-
 		li {
 			font-size: 0.14rem;
 			height: 0.28rem;
 			line-height: 0.28rem;
 			color: #454545;
 			padding-left: 0.30rem;
-
 			span.span1 {
-
 				width: 1.60rem;
 			}
-
 			span.span2 {
-
 				width: 1.60rem;
 			}
-
 			span.span3 {
 				max-width: calc(100% - 3.90rem);
 			}
-
 			.formula {
 				float: left;
 				/* max-width: calc(100% - 140rem); */
@@ -1210,13 +1281,11 @@
 				text-overflow: ellipsis;
 			}
 		}
-
 		span.blue {
 			float: left;
 			font-size: 0.14rem;
 			margin-left: 0.10rem;
 		}
-
 		/deep/ .el-pagination {
 			text-align: right;
 			margin-top: 0.10rem;
