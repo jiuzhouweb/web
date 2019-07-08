@@ -652,6 +652,16 @@
 					callback();
 				}
 			};
+			var validateCard = (rule, value, callback) => {
+				var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+				if (value === "") {
+					callback();
+				} else if (!reg.test(value)) {
+					callback(new Error("身份证输入不合法"));
+				} else {
+					callback();
+				}
+			};
 			return {
 				dialogVisible: false,
 				uploadData: {
@@ -784,7 +794,10 @@
 						required: true,
 						message: "请输入证件号码",
 						trigger: "blur"
-					}],
+					},{
+							validator: validateCard,
+							trigger: "blur"
+						}],
 					employmentDate: [{
 						type: "string",
 						required: true,
@@ -1027,7 +1040,10 @@
 						required: true,
 						message: "请输入证件号码",
 						trigger: "blur"
-					}]
+					},{
+							validator: validateCard,
+							trigger: "blur"
+						}]
 				},
 				dialogVisibleCalc: false,
 				calcData: {},
