@@ -282,80 +282,80 @@
                         <td rowspan="10" class="shuli">销售额</td>
                         <td class="pad3">（一）按适用税率计税销售额</td>
                         <td class="pad3 center">1</td>
-                        <td class="pad3 center" :contenteditable="thisData.asysljsxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','asysljsxse',$event)" @keyup.enter="unfocus('table1','yb','by','asysljsxse',$event)" v-text="thisData.asysljsxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.asysljsxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','asysljsxse',$event)" v-text="thisData.asysljsxseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.asysljsxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','asysljsxse',$event)" v-text="thisData.asysljsxsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.asysljsxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','asysljsxse',$event)" v-text="thisData.asysljsxsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.asysljsxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','asysljsxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','asysljsxse',$event)})"  v-text="thisData.asysljsxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.asysljsxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','asysljsxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','asysljsxse',$event)})"  v-text="thisData.asysljsxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.asysljsxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','asysljsxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','by','asysljsxse',$event)})"  v-text="thisData.asysljsxsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.asysljsxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','asysljsxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','asysljsxse',$event)})"  v-text="thisData.asysljsxsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">其中：应税货物销售额</td>
                         <td class="pad3 center">2</td>
-                        <td class="pad3 center" :contenteditable="thisData.yshwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','yshwxse',$event)" @keydown.native="listen($event)" v-text="thisData.yshwxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.yshwxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','yshwxse',$event)" v-text="thisData.yshwxseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.yshwxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','yshwxse',$event)" v-text="thisData.yshwxsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.yshwxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','yshwxse',$event)" v-text="thisData.yshwxsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.yshwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','yshwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','yshwxse',$event)})"  v-text="thisData.yshwxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.yshwxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','yshwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','yshwxse',$event)})"  v-text="thisData.yshwxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.yshwxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','yshwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','by','yshwxse',$event)})"  v-text="thisData.yshwxsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.yshwxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','yshwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','yshwxse',$event)})"  v-text="thisData.yshwxsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3 padL">应税劳务销售额</td>
                         <td class="pad3 center">3</td>
-                        <td class="pad3 center" :contenteditable="thisData.yslwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','yslwxse',$event)" v-text="thisData.yslwxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.yslwxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','yslwxse',$event)" v-text="thisData.yslwxseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.yslwxsejzby.columnEdit==1" @blur="unfocus('table1','jz','yb','yslwxse',$event)" v-text="thisData.yslwxsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.yslwxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','yslwxse',$event)" v-text="thisData.yslwxsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.yslwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','yslwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','yslwxse',$event)})"  v-text="thisData.yslwxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.yslwxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','yslwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','yslwxse',$event)})"  v-text="thisData.yslwxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.yslwxsejzby.columnEdit==1" @blur="unfocus('table1','jz','yb','yslwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','yb','yslwxse',$event)})"  v-text="thisData.yslwxsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.yslwxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','yslwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','yslwxse',$event)})"  v-text="thisData.yslwxsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3 padL">纳税检查调整的销售额</td>
                         <td class="pad3 center">4</td>
-                        <td class="pad3 center" :contenteditable="thisData.nsjcdzxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','nsjcdzxse',$event)" v-text="thisData.nsjcdzxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.nsjcdzxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','nsjcdzxse',$event)" v-text="thisData.nsjcdzxseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.nsjcdzxsejzby.columnEdit==1" @blur="unfocus('table1','jz','yb','nsjcdzxse',$event)" v-text="thisData.nsjcdzxsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.nsjcdzxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','nsjcdzxse',$event)" v-text="thisData.nsjcdzxsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.nsjcdzxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','nsjcdzxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','nsjcdzxse',$event)})"  v-text="thisData.nsjcdzxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.nsjcdzxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','nsjcdzxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','nsjcdzxse',$event)})"  v-text="thisData.nsjcdzxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.nsjcdzxsejzby.columnEdit==1" @blur="unfocus('table1','jz','yb','nsjcdzxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','yb','nsjcdzxse',$event)})"  v-text="thisData.nsjcdzxsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.nsjcdzxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','nsjcdzxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','nsjcdzxse',$event)})"  v-text="thisData.nsjcdzxsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">（二）按简易办法计税销售额</td>
                         <td class="pad3 center">5</td>
-                        <td class="pad3 center" :contenteditable="thisData.ajyfsjsxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','ajyfsjsxse',$event)" v-text="thisData.ajyfsjsxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ajyfsjsxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ajyfsjsxse',$event)" v-text="thisData.ajyfsjsxseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ajyfsjsxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','ajyfsjsxse',$event)" v-text="thisData.ajyfsjsxsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ajyfsjsxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','ajyfsjsxse',$event)" v-text="thisData.ajyfsjsxsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ajyfsjsxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','ajyfsjsxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','ajyfsjsxse',$event)})"  v-text="thisData.ajyfsjsxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ajyfsjsxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ajyfsjsxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','ajyfsjsxse',$event)})"  v-text="thisData.ajyfsjsxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ajyfsjsxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','ajyfsjsxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','by','ajyfsjsxse',$event)})"  v-text="thisData.ajyfsjsxsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ajyfsjsxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','ajyfsjsxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','ajyfsjsxse',$event)})"  v-text="thisData.ajyfsjsxsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">其中：纳税检查调整的销售额</td>
                         <td class="pad3 center">6</td>
-                        <td class="pad3 center" :contenteditable="thisData.nsjctzxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','nsjctzxse',$event)" v-text="thisData.nsjctzxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.nsjctzxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','nsjctzxse',$event)" v-text="thisData.nsjctzxseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.nsjctzxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','nsjctzxse',$event)" v-text="thisData.nsjctzxsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.nsjctzxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','nsjctzxse',$event)" v-text="thisData.nsjctzxsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.nsjctzxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','nsjctzxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','nsjctzxse',$event)})"  v-text="thisData.nsjctzxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.nsjctzxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','nsjctzxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','nsjctzxse',$event)})"  v-text="thisData.nsjctzxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.nsjctzxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','nsjctzxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','by','nsjctzxse',$event)})"  v-text="thisData.nsjctzxsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.nsjctzxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','nsjctzxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','nsjctzxse',$event)})"  v-text="thisData.nsjctzxsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">（三）免、抵、退办法出口销售额</td>
                         <td class="pad3 center">7</td>
-                        <td class="pad3 center" :contenteditable="thisData.mdtbfckxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','mdtbfckxse',$event)" v-text="thisData.mdtbfckxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.mdtbfckxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','mdtbfckxse',$event)" v-text="thisData.mdtbfckxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.mdtbfckxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','mdtbfckxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','mdtbfckxse',$event)})"  v-text="thisData.mdtbfckxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.mdtbfckxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','mdtbfckxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','mdtbfckxse',$event)})"  v-text="thisData.mdtbfckxseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">（四）免税销售额</td>
                         <td class="pad3 center">8</td>
-                        <td class="pad3 center" :contenteditable="thisData.msxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','msxse',$event)" v-text="thisData.msxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.msxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','msxse',$event)" v-text="thisData.msxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.msxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','msxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','msxse',$event)})"  v-text="thisData.msxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.msxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','msxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','msxse',$event)})"  v-text="thisData.msxseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">其中：免税货物销售额</td>
                         <td class="pad3 center">9</td>
-                        <td class="pad3 center" :contenteditable="thisData.mshwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','mshwxse',$event)" v-text="thisData.mshwxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.mshwxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','mshwxse',$event)" v-text="thisData.mshwxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.mshwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','mshwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','mshwxse',$event)})"  v-text="thisData.mshwxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.mshwxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','mshwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','mshwxse',$event)})"  v-text="thisData.mshwxseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3 padL">免税劳务销售额</td>
                         <td class="pad3 center">10</td>
-                        <td class="pad3 center" :contenteditable="thisData.mslwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','mslwxse',$event)" v-text="thisData.mslwxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.mslwxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','mslwxse',$event)" v-text="thisData.mslwxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.mslwxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','mslwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','mslwxse',$event)})"  v-text="thisData.mslwxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.mslwxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','mslwxse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','mslwxse',$event)})"  v-text="thisData.mslwxseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
@@ -363,153 +363,153 @@
                         <td rowspan="14" class="shuli">税款计算</td>
                         <td class="pad3">销项税额</td>
                         <td class="pad3 center">11</td>
-                        <td class="pad3 center" :contenteditable="thisData.xxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','xxse',$event,'sjdkse')" v-text="thisData.xxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.xxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','xxse',$event,'sjdkse')" v-text="thisData.xxseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.xxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','xxse',$event,'sjdkse')" v-text="thisData.xxsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.xxsejzbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','xxse',$event,'sjdkse')" v-text="thisData.xxsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.xxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','xxse',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','xxse',$event,'sjdkse')})"  v-text="thisData.xxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.xxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','xxse',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','xxse',$event,'sjdkse')})"  v-text="thisData.xxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.xxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','xxse',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','xxse',$event,'sjdkse')})"  v-text="thisData.xxsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.xxsejzbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','xxse',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','xxse',$event,'sjdkse')})"  v-text="thisData.xxsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">进项税额</td>
                         <td class="pad3 center">12</td>
-                        <td class="pad3 center" :contenteditable="thisData.jxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','jxse',$event,'ydksehj')" v-text="thisData.jxseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','jxse',$event,'ydksehj')" v-text="thisData.jxseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','jxse',$event,'ydksehj')" v-text="thisData.jxsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','jxse',$event,'ydksehj')" v-text="thisData.jxsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jxseybby.columnEdit==1" @blur="unfocus('table1','yb','by','jxse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','jxse',$event,'ydksehj')})"  v-text="thisData.jxseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jxseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','jxse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','jxse',$event,'ydksehj')})"  v-text="thisData.jxseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jxsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','jxse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','jxse',$event,'ydksehj')})"  v-text="thisData.jxsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jxsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','jxse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','jxse',$event,'ydksehj')})"  v-text="thisData.jxsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">上期留抵税额</td>
                         <td class="pad3 center">13</td>
-                        <td class="pad3 center" :contenteditable="thisData.sqldseybby.columnEdit==1" @blur="unfocus('table1','yb','by','sqldse',$event,'ydksehj')" v-text="thisData.sqldseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.sqldseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','sqldse',$event,'ydksehj')" v-text="thisData.sqldseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.sqldsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','sqldse',$event,'ydksehj')" v-text="thisData.sqldsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.sqldseybby.columnEdit==1" @blur="unfocus('table1','yb','by','sqldse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','sqldse',$event,'ydksehj')})"  v-text="thisData.sqldseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.sqldseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','sqldse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','sqldse',$event,'ydksehj')})"  v-text="thisData.sqldseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.sqldsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','sqldse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','sqldse',$event,'ydksehj')})"  v-text="thisData.sqldsejzby.columnValue"></td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">进项税额转出</td>
                         <td class="pad3 center">14</td>
-                        <td class="pad3 center" :contenteditable="thisData.jxsezcybby.columnEdit==1" @blur="unfocus('table1','yb','by','jxsezc',$event,'ydksehj')" v-text="thisData.jxsezcybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jxsezcybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','jxsezc',$event,'ydksehj')" v-text="thisData.jxsezcybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jxsezcjzby.columnEdit==1" @blur="unfocus('table1','jz','by','jxsezc',$event,'ydksehj')" v-text="thisData.jxsezcjzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jxsezcjzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','jxsezc',$event,'ydksehj')" v-text="thisData.jxsezcjzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jxsezcybby.columnEdit==1" @blur="unfocus('table1','yb','by','jxsezc',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','jxsezc',$event,'ydksehj')})"  v-text="thisData.jxsezcybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jxsezcybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','jxsezc',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','jxsezc',$event,'ydksehj')})"  v-text="thisData.jxsezcybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jxsezcjzby.columnEdit==1" @blur="unfocus('table1','jz','by','jxsezc',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','jxsezc',$event,'ydksehj')})"  v-text="thisData.jxsezcjzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jxsezcjzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','jxsezc',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','jxsezc',$event,'ydksehj')})"  v-text="thisData.jxsezcjzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">免、抵、退应退税额</td>
                         <td class="pad3 center">15</td>
-                        <td class="pad3 center" :contenteditable="thisData.mdtytseybby.columnEdit==1" @blur="unfocus('table1','yb','by','mdtytse',$event,'ydksehj')" v-text="thisData.mdtytseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.mdtytseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','mdtytse',$event,'ydksehj')" v-text="thisData.mdtytseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.mdtytseybby.columnEdit==1" @blur="unfocus('table1','yb','by','mdtytse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','mdtytse',$event,'ydksehj')})"  v-text="thisData.mdtytseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.mdtytseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','mdtytse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','mdtytse',$event,'ydksehj')})"  v-text="thisData.mdtytseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">按适用税率计算的纳税检查应补缴税额</td>
                         <td class="pad3 center">16</td>
-                        <td class="pad3 center" :contenteditable="thisData.asysljsnsjcybjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','asysljsnsjcybjse',$event,'ydksehj')" v-text="thisData.asysljsnsjcybjseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.asysljsnsjcybjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','asysljsnsjcybjse',$event,'ydksehj')" v-text="thisData.asysljsnsjcybjseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.asysljsnsjcybjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','asysljsnsjcybjse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','asysljsnsjcybjse',$event,'ydksehj')})"  v-text="thisData.asysljsnsjcybjseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.asysljsnsjcybjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','asysljsnsjcybjse',$event,'ydksehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','asysljsnsjcybjse',$event,'ydksehj')})"  v-text="thisData.asysljsnsjcybjseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">应抵扣税额合计</td>
                         <td class="pad3 center">17=12+13-14-15+16</td>
-                        <td class="pad3 center" :contenteditable="thisData.ydksehjybby.columnEdit==1" @blur="unfocus('table1','yb','by','ydksehj',$event,'sjdkse')" v-text="thisData.ydksehjybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ydksehjybby.columnEdit==1" @blur="unfocus('table1','yb','by','ydksehj',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','ydksehj',$event,'sjdkse')})"  v-text="thisData.ydksehjybby.columnValue"></td>
                         <td class="pad3 center">——</td>
-                        <td class="pad3 center" :contenteditable="thisData.ydksehjjzby.columnEdit==1" @blur="unfocus('table1','yb','lj','ydksehj',$event,'sjdkse')" v-text="thisData.ydksehjjzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ydksehjjzby.columnEdit==1" @blur="unfocus('table1','yb','lj','ydksehj',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','ydksehj',$event,'sjdkse')})"  v-text="thisData.ydksehjjzby.columnValue"></td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">实际抵扣税额</td>
                         <td class="pad3 center">18（如17
                             <11，则为17，否则为11）</td>
-                                <td class="pad3 center" :contenteditable="thisData.sjdkseybby.columnEdit==1" @blur="unfocus('table1','yb','by','sjdkse',$event,'sjdkse')" v-text="thisData.sjdkseybby.columnValue"></td>
-                                <td class="pad3 center" :contenteditable="thisData.sjdkseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','sjdkse',$event,'sjdkse')" v-text="thisData.sjdkseybbnlj.columnValue"></td>
-                                <td class="pad3 center" :contenteditable="thisData.sjdksejzby.columnEdit==1" @blur="unfocus('table1','jz','by','sjdkse',$event,'sjdkse')" v-text="thisData.sjdksejzby.columnValue"></td>
-                                <td class="pad3 center" :contenteditable="thisData.sjdksejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','sjdkse',$event,'sjdkse')" v-text="thisData.sjdksejzbnlj.columnValue"></td>
+                                <td class="pad3 center" :contenteditable="thisData.sjdkseybby.columnEdit==1" @blur="unfocus('table1','yb','by','sjdkse',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','sjdkse',$event,'sjdkse')})"  v-text="thisData.sjdkseybby.columnValue"></td>
+                                <td class="pad3 center" :contenteditable="thisData.sjdkseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','sjdkse',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','sjdkse',$event,'sjdkse')})"  v-text="thisData.sjdkseybbnlj.columnValue"></td>
+                                <td class="pad3 center" :contenteditable="thisData.sjdksejzby.columnEdit==1" @blur="unfocus('table1','jz','by','sjdkse',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','sjdkse',$event,'sjdkse')})"  v-text="thisData.sjdksejzby.columnValue"></td>
+                                <td class="pad3 center" :contenteditable="thisData.sjdksejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','sjdkse',$event,'sjdkse')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','sjdkse',$event,'sjdkse')})"  v-text="thisData.sjdksejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">应纳税额</td>
                         <td class="pad3 center">19=if(（11-18）>0,(11-18-附表4G16),(11-18))</td>
-                        <td class="pad3 center" :contenteditable="thisData.ynseybby.columnEdit==1" @blur="unfocus('table1','yb','by','ynse',$event,'ynsehj')" v-text="thisData.ynseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ynseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ynse',$event,'ynsehj')" v-text="thisData.ynseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','ynse',$event,'ynsehj')" v-text="thisData.ynsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','ynse',$event,'ynsehj')" v-text="thisData.ynsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynseybby.columnEdit==1" @blur="unfocus('table1','yb','by','ynse',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','ynse',$event,'ynsehj')})"  v-text="thisData.ynseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ynse',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','ynse',$event,'ynsehj')})"  v-text="thisData.ynseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','ynse',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','ynse',$event,'ynsehj')})"  v-text="thisData.ynsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','ynse',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','ynse',$event,'ynsehj')})"  v-text="thisData.ynsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">期末留抵税额</td>
                         <td class="pad3 center">20=17-18</td>
-                        <td class="pad3 center" :contenteditable="thisData.qmldseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qmldse',$event)" v-text="thisData.qmldseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qmldseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','qmldse',$event)" v-text="thisData.qmldseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qmldsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','qmldse',$event)" v-text="thisData.qmldsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qmldseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qmldse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','qmldse',$event)})"  v-text="thisData.qmldseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qmldseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','qmldse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','qmldse',$event)})"  v-text="thisData.qmldseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qmldsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','qmldse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','by','qmldse',$event)})"  v-text="thisData.qmldsejzby.columnValue"></td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">简易计税办法计算的应纳税额</td>
                         <td class="pad3 center">21</td>
-                        <td class="pad3 center" :contenteditable="thisData.jyjsynseybby.columnEdit==1" @blur="unfocus('table1','yb','by','jyjsynse',$event,'ynsehj')" v-text="thisData.jyjsynseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jyjsynseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','jyjsynse',$event,'ynsehj')" v-text="thisData.jyjsynseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jyjsynsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','jyjsynse',$event,'ynsehj')" v-text="thisData.jyjsynsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jyjsynsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','jyjsynse',$event,'ynsehj')" v-text="thisData.jyjsynsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jyjsynseybby.columnEdit==1" @blur="unfocus('table1','yb','by','jyjsynse',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','jyjsynse',$event,'ynsehj')})"  v-text="thisData.jyjsynseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jyjsynseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','jyjsynse',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','jyjsynse',$event,'ynsehj')})"  v-text="thisData.jyjsynseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jyjsynsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','jyjsynse',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','jyjsynse',$event,'ynsehj')})"  v-text="thisData.jyjsynsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jyjsynsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','jyjsynse',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','jyjsynse',$event,'ynsehj')})"  v-text="thisData.jyjsynsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">按简易计税办法计算的纳税检查应补缴税额</td>
                         <td class="pad3 center">22</td>
-                        <td class="pad3 center" :contenteditable="thisData.ajynsjcybjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','ajynsjcybjse',$event,'qmmjcbse')" v-text="thisData.ajynsjcybjseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ajynsjcybjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ajynsjcybjse',$event,'qmmjcbse')" v-text="thisData.ajynsjcybjseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ajynsjcybjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','ajynsjcybjse',$event,'qmmjcbse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','ajynsjcybjse',$event,'qmmjcbse')})"  v-text="thisData.ajynsjcybjseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ajynsjcybjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ajynsjcybjse',$event,'qmmjcbse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','ajynsjcybjse',$event,'qmmjcbse')})"  v-text="thisData.ajynsjcybjseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">应纳税额减征额</td>
                         <td class="pad3 center">23</td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsejzeybby.columnEdit==1" @blur="unfocus('table1','yb','by','ynsejze',$event,'ynsehj')" v-text="thisData.ynsejzeybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsejzeybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ynsejze',$event,'ynsehj')" v-text="thisData.ynsejzeybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsejzejzby.columnEdit==1" @blur="unfocus('table1','jz','by','ynsejze',$event,'ynsehj')" v-text="thisData.ynsejzejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsejzejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','ynsejze',$event,'ynsehj')" v-text="thisData.ynsejzejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsejzeybby.columnEdit==1" @blur="unfocus('table1','yb','by','ynsejze',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','ynsejze',$event,'ynsehj')})"  v-text="thisData.ynsejzeybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsejzeybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ynsejze',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','ynsejze',$event,'ynsehj')})"  v-text="thisData.ynsejzeybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsejzejzby.columnEdit==1" @blur="unfocus('table1','jz','by','ynsejze',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','ynsejze',$event,'ynsehj')})"  v-text="thisData.ynsejzejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsejzejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','ynsejze',$event,'ynsehj')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','ynsejze',$event,'ynsehj')})"  v-text="thisData.ynsejzejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">应纳税额合计</td>
                         <td class="pad3 center">24=19+21-23</td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsehjybby.columnEdit==1" @blur="unfocus('table1','yb','by','ynsehj',$event,'qmwjse')" v-text="thisData.ynsehjybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsehjybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ynsehj',$event,'qmwjse')" v-text="thisData.ynsehjybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsehjjzby.columnEdit==1" @blur="unfocus('table1','jz','by','ynsehj',$event,'qmwjse')" v-text="thisData.ynsehjjzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ynsehjjzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','ynsehj',$event,'qmwjse')" v-text="thisData.ynsehjjzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsehjybby.columnEdit==1" @blur="unfocus('table1','yb','by','ynsehj',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','ynsehj',$event,'qmwjse')})"  v-text="thisData.ynsehjybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsehjybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','ynsehj',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','ynsehj',$event,'qmwjse')})"  v-text="thisData.ynsehjybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsehjjzby.columnEdit==1" @blur="unfocus('table1','jz','by','ynsehj',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','ynsehj',$event,'qmwjse')})"  v-text="thisData.ynsehjjzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ynsehjjzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','ynsehj',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','ynsehj',$event,'qmwjse')})"  v-text="thisData.ynsehjjzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td rowspan="14" class="shuli">税款缴纳</td>
                         <td class="pad3">期初未缴税额（多缴为负数）</td>
                         <td class="pad3 center">25</td>
-                        <td class="pad3 center" :contenteditable="thisData.qcmjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qcmjse',$event,'qmwjse')" v-text="thisData.qcmjseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qcmjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','qcmjse',$event,'qmwjse')" v-text="thisData.qcmjseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qcmjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','qcmjse',$event,'qmwjse')" v-text="thisData.qcmjsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qcmjsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','qcmjse',$event,'qmwjse')" v-text="thisData.qcmjsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qcmjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qcmjse',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','qcmjse',$event,'qmwjse')})"  v-text="thisData.qcmjseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qcmjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','qcmjse',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','qcmjse',$event,'qmwjse')})"  v-text="thisData.qcmjseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qcmjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','qcmjse',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','qcmjse',$event,'qmwjse')})"  v-text="thisData.qcmjsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qcmjsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','qcmjse',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','qcmjse',$event,'qmwjse')})"  v-text="thisData.qcmjsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">实收出口开具专用缴款书退税额</td>
                         <td class="pad3 center">26</td>
-                        <td class="pad3 center" :contenteditable="thisData.ssckkjzyjkstkeybby.columnEdit==1" @blur="unfocus('table1','yb','by','ssckkjzyjkstke',$event,'qmwjse')" v-text="thisData.ssckkjzyjkstkeybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.ssckkjzyjkstkeybbnlj.columnEdit==1" @blur="unfocus('table1','yb','by','ssckkjzyjkstke',$event,'qmwjse')" v-text="thisData.ssckkjzyjkstkeybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ssckkjzyjkstkeybby.columnEdit==1" @blur="unfocus('table1','yb','by','ssckkjzyjkstke',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','ssckkjzyjkstke',$event,'qmwjse')})"  v-text="thisData.ssckkjzyjkstkeybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ssckkjzyjkstkeybbnlj.columnEdit==1" @blur="unfocus('table1','yb','by','ssckkjzyjkstke',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','ssckkjzyjkstke',$event,'qmwjse')})"  v-text="thisData.ssckkjzyjkstkeybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">本期已缴税额</td>
                         <td class="pad3 center">27=28+29+30+31</td>
-                        <td class="pad3 center" :contenteditable="thisData.bqyjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','bqyjse',$event,'qmwjse')" v-text="thisData.bqyjseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.bqyjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','bqyjse',$event,'qmwjse')" v-text="thisData.bqyjseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.bqyjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','bqyjse',$event,'qmwjse')" v-text="thisData.bqyjsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.bqyjsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','bqyjse',$event,'qmwjse')" v-text="thisData.bqyjsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqyjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','bqyjse',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','bqyjse',$event,'qmwjse')})"  v-text="thisData.bqyjseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqyjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','bqyjse',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','bqyjse',$event,'qmwjse')})"  v-text="thisData.bqyjseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqyjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','bqyjse',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','bqyjse',$event,'qmwjse')})"  v-text="thisData.bqyjsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqyjsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','bqyjse',$event,'qmwjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','bqyjse',$event,'qmwjse')})"  v-text="thisData.bqyjsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">①分次预缴税额</td>
                         <td class="pad3 center">28</td>
-                        <td class="pad3 center" :contenteditable="thisData.cyjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','cyjse',$event,'bqyjse')" v-text="thisData.cyjseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.cyjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','cyjse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','cyjse',$event,'bqyjse')})"  v-text="thisData.cyjseybby.columnValue"></td>
                         <td class="pad3 center">——</td>
-                        <td class="pad3 center" :contenteditable="thisData.cyjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','cyjse',$event,'bqyjse')" v-text="thisData.cyjsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.cyjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','cyjse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','cyjse',$event,'bqyjse')})"  v-text="thisData.cyjsejzby.columnValue"></td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">②出口开具专用缴款书预缴税额</td>
                         <td class="pad3 center">29</td>
-                        <td class="pad3 center" :contenteditable="thisData.ckkjzyjksyjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','cyjse',$event,'bqyjse')" v-text="thisData.ckkjzyjksyjseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.ckkjzyjksyjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','ckkjzyjksyjse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','ckkjzyjksyjse',$event,'bqyjse')})"  v-text="thisData.ckkjzyjksyjseybby.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
@@ -517,41 +517,41 @@
                     <tr>
                         <td class="pad3">③本期缴纳上期应纳税额</td>
                         <td class="pad3 center">30</td>
-                        <td class="pad3 center" :contenteditable="thisData.jqjnsqynseybby.columnEdit==1" @blur="unfocus('table1','yb','by','cyjse',$event,'bqyjse')" v-text="thisData.jqjnsqynseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jqjnsqynseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','by','cyjse',$event,'bqyjse')" v-text="thisData.jqjnsqynseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jqjnsqynsejzby.columnEdit==1" @blur="unfocus('table1','yb','by','cyjse',$event,'bqyjse')" v-text="thisData.jqjnsqynsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jqjnsqynsejzbnlj.columnEdit==1" @blur="unfocus('table1','yb','by','cyjse',$event,'bqyjse')" v-text="thisData.jqjnsqynsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jqjnsqynseybby.columnEdit==1" @blur="unfocus('table1','yb','by','jqjnsqynse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','jqjnsqynse',$event,'bqyjse')})"  v-text="thisData.jqjnsqynseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jqjnsqynseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','jqjnsqynse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','jqjnsqynse',$event,'bqyjse')})"  v-text="thisData.jqjnsqynseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jqjnsqynsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','jqjnsqynse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','jqjnsqynse',$event,'bqyjse')})"  v-text="thisData.jqjnsqynsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jqjnsqynsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','jqjnsqynse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','jqjnsqynse',$event,'bqyjse')})"  v-text="thisData.jqjnsqynsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">④本期缴纳欠缴税额</td>
                         <td class="pad3 center">31</td>
-                        <td class="pad3 center" :contenteditable="thisData.bqjnqjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','bqjnqjse',$event,'bqyjse')" v-text="thisData.bqjnqjseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.bqjnqjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','bqjnqjse',$event,'bqyjse')" v-text="thisData.bqjnqjseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.bqjnqjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','bqjnqjse',$event,'bqyjse')" v-text="thisData.bqjnqjsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.bqjnqjsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','bqjnqjse',$event,'bqyjse')" v-text="thisData.bqjnqjsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqjnqjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','bqjnqjse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','bqjnqjse',$event,'bqyjse')})"  v-text="thisData.bqjnqjseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqjnqjseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','bqjnqjse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','bqjnqjse',$event,'bqyjse')})"  v-text="thisData.bqjnqjseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqjnqjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','bqjnqjse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','by','bqjnqjse',$event,'bqyjse')})"  v-text="thisData.bqjnqjsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqjnqjsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','bqjnqjse',$event,'bqyjse')" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','bqjnqjse',$event,'bqyjse')})"  v-text="thisData.bqjnqjsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">期末未缴税额（多缴为负数）</td>
                         <td class="pad3 center">32=24+25+26-27</td>
-                        <td class="pad3 center" :contenteditable="thisData.qmwjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qmwjse',$event)" v-text="thisData.qmwjseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qmwjseybbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','qmwjse',$event)" v-text="thisData.qmwjseybbnlj.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qmwjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','qmwjse',$event)" v-text="thisData.qmwjsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qmwjsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','qmwjse',$event)" v-text="thisData.qmwjsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qmwjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qmwjse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','qmwjse',$event)})"  v-text="thisData.qmwjseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qmwjseybbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','qmwjse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','qmwjse',$event)})"  v-text="thisData.qmwjseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qmwjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','qmwjse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','by','qmwjse',$event)})"  v-text="thisData.qmwjsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qmwjsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','qmwjse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','qmwjse',$event)})"  v-text="thisData.qmwjsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">其中：欠缴税额（≥0）</td>
                         <td class="pad3 center">33=25+26-27</td>
-                        <td class="pad3 center" :contenteditable="thisData.qzqjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qzqjse',$event)" v-text="thisData.qzqjseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qzqjseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qzqjse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','qzqjse',$event)})"  v-text="thisData.qzqjseybby.columnValue"></td>
                         <td class="pad3 center">——</td>
-                        <td class="pad3 center" :contenteditable="thisData.qzqjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','qzqjse',$event)" v-text="thisData.qzqjsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qzqjsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','qzqjse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','by','qzqjse',$event)})"  v-text="thisData.qzqjsejzby.columnValue"></td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">本期应补(退)税额</td>
                         <td class="pad3 center">34＝24-28-29</td>
-                        <td class="pad3 center" :contenteditable="thisData.bqybtseybby.columnEdit==1" @blur="unfocus('table1','yb','by','bqybtse',$event)" v-text="thisData.bqybtseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqybtseybby.columnEdit==1" @blur="unfocus('table1','yb','by','bqybtse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','bqybtse',$event)})"  v-text="thisData.bqybtseybby.columnValue"></td>
                         <td class="pad3 center">——</td>
-                        <td class="pad3 center" :contenteditable="thisData.bqybtsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','bqybtse',$event)" v-text="thisData.bqybtsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqybtsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','bqybtse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','by','bqybtse',$event)})"  v-text="thisData.bqybtsejzby.columnValue"></td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
@@ -559,30 +559,30 @@
                         <td class="pad3 center">35</td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
-                        <td class="pad3 center" :contenteditable="thisData.jzjtsjtsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','jzjtsjtse',$event)" v-text="thisData.jzjtsjtsejzby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.jzjtsjtsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','jzjtsjtse',$event)" v-text="thisData.jzjtsjtsejzbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jzjtsjtsejzby.columnEdit==1" @blur="unfocus('table1','jz','by','jzjtsjtse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','by','jzjtsjtse',$event)})"  v-text="thisData.jzjtsjtsejzby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.jzjtsjtsejzbnlj.columnEdit==1" @blur="unfocus('table1','jz','lj','jzjtsjtse',$event)" @keydown.enter="(($event)=>{unfocus('table1','jz','lj','jzjtsjtse',$event)})"  v-text="thisData.jzjtsjtsejzbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="pad3">期初未缴查补税额</td>
                         <td class="pad3 center">36</td>
-                        <td class="pad3 center" :contenteditable="thisData.qcmjcbseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qcmjcbse',$event,'qmmjcbse')" v-text="thisData.qcmjcbseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qcmjcbseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','qcmjcbse',$event,'qmmjcbse')" v-text="thisData.qcmjcbseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qcmjcbseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qcmjcbse',$event,'qmmjcbse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','qcmjcbse',$event,'qmmjcbse')})"  v-text="thisData.qcmjcbseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qcmjcbseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','qcmjcbse',$event,'qmmjcbse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','qcmjcbse',$event,'qmmjcbse')})"  v-text="thisData.qcmjcbseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">本期入库查补税额</td>
                         <td class="pad3 center">37</td>
-                        <td class="pad3 center" :contenteditable="thisData.bqrkcbseybby.columnEdit==1" @blur="unfocus('table1','yb','by','bqrkcbse',$event,'qmmjcbse')" v-text="thisData.bqrkcbseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.bqrkcbseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','bqrkcbse',$event,'qmmjcbse')" v-text="thisData.bqrkcbseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqrkcbseybby.columnEdit==1" @blur="unfocus('table1','yb','by','bqrkcbse',$event,'qmmjcbse')" @keydown.enter="(($event)=>{unfocus('table1','yb','by','bqrkcbse',$event,'qmmjcbse')})"  v-text="thisData.bqrkcbseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.bqrkcbseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','bqrkcbse',$event,'qmmjcbse')" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','bqrkcbse',$event,'qmmjcbse')})"  v-text="thisData.bqrkcbseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
                     <tr>
                         <td class="pad3">期末未缴查补税额</td>
                         <td class="pad3 center">38=16+22+36-37</td>
-                        <td class="pad3 center" :contenteditable="thisData.qmmjcbseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qmmjcbse',$event)" v-text="thisData.qmmjcbseybby.columnValue"></td>
-                        <td class="pad3 center" :contenteditable="thisData.qmmjcbseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','qmmjcbse',$event)" v-text="thisData.qmmjcbseybbnlj.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qmmjcbseybby.columnEdit==1" @blur="unfocus('table1','yb','by','qmmjcbse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','by','qmmjcbse',$event)})"  v-text="thisData.qmmjcbseybby.columnValue"></td>
+                        <td class="pad3 center" :contenteditable="thisData.qmmjcbseybbnlj.columnEdit==1" @blur="unfocus('table1','yb','lj','qmmjcbse',$event)" @keydown.enter="(($event)=>{unfocus('table1','yb','lj','qmmjcbse',$event)})"  v-text="thisData.qmmjcbseybbnlj.columnValue"></td>
                         <td class="pad3 center">——</td>
                         <td class="pad3 center">——</td>
                     </tr>
@@ -665,16 +665,16 @@
                         <td rowspan="5" class="center shuli" style="width:0.5rem">全部征税项目</td>
                         <td class="center">13%税率的货物及加工修理修配劳务</td>
                         <td class="center">1</td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjszzsfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjszzsfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjszzsfpxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjszzsfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjskjqtfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjskjqtfpxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjswkjfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjswkjfpxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjswkjfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjsnsjctzxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjsnsjctzxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjsnsjctzxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjsnsjctzxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjshjxse',$event,'','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjshjxxse',$event,'','bfz13hwjjgxlxplwybjs')" v-text="this.thisData.bfz13hwjjgxlxplwybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjszzsfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjszzsfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjszzsfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjszzsfpxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjszzsfpxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjszzsfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjskjqtfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjskjqtfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjskjqtfpxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjskjqtfpxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjswkjfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjswkjfpxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjswkjfpxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjswkjfpxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjsnsjctzxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjsnsjctzxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjsnsjctzxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjsnsjctzxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjsnsjctzxxse',$event,'hjxse','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjsnsjctzxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjshjxse',$event,'','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjshjxse',$event,'','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13hwjjgxlxplwybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13hwjjgxlxplwybjshjxxse',$event,'','bfz13hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13hwjjgxlxplwybjshjxxse',$event,'','bfz13hwjjgxlxplwybjs')})"  v-text="this.thisData.bfz13hwjjgxlxplwybjshjxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -683,34 +683,34 @@
                     <tr>
                         <td class="center">13%税率的服务、不动产和无形资产</td>
                         <td class="center">2</td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjszzsfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjszzsfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjswkjfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsnsjctzxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjsnsjctzxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsnsjctzxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjsnsjctzxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjjshj',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" v-text="thisData.bfz13fwbdchwxzcybjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskchhsxxse',$event,'','bfz13fwbdchwxzcybjs')" v-text="thisData.bfz13fwbdchwxzcybjskchhsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjszzsfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjszzsfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsnsjctzxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjsnsjctzxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjsnsjctzxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsnsjctzxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjsnsjctzxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjsnsjctzxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjshjxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjshjxxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjshjjshj',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjshjjshj',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz13fwbdchwxzcybjs',0.13)})"  v-text="thisData.bfz13fwbdchwxzcybjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz13fwbdchwxzcybjskchhsxxse',$event,'','bfz13fwbdchwxzcybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz13fwbdchwxzcybjskchhsxxse',$event,'','bfz13fwbdchwxzcybjs')})"  v-text="thisData.bfz13fwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">9%税率的货物及加工修理修配劳务</td>
                         <td class="center">3</td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjszzsfpxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjszzsfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjszzsfpxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjszzsfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjskjqtfpxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjskjqtfpxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjswkjfpxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjswkjfpxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjswkjfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjsnsjctzxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjsnsjctzxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjsnsjctzxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjsnsjctzxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjshjxse',$event,'','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjshjxxse',$event,'','bfz9hwjjgxlxplwybjs')" v-text="thisData.bfz9hwjjgxlxplwybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjszzsfpxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjszzsfpxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjszzsfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjszzsfpxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjszzsfpxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjszzsfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjskjqtfpxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjskjqtfpxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjskjqtfpxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjskjqtfpxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjswkjfpxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjswkjfpxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjswkjfpxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjswkjfpxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjsnsjctzxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjsnsjctzxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjsnsjctzxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjsnsjctzxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjsnsjctzxxse',$event,'hjxse','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjsnsjctzxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjshjxse',$event,'','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjshjxse',$event,'','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9hwjjgxlxplwybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9hwjjgxlxplwybjshjxxse',$event,'','bfz9hwjjgxlxplwybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9hwjjgxlxplwybjshjxxse',$event,'','bfz9hwjjgxlxplwybjs')})"  v-text="thisData.bfz9hwjjgxlxplwybjshjxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -719,38 +719,38 @@
                     <tr>
                         <td class="center">9%税率的服务、不动产和无形资产</td>
                         <td class="center">4</td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjszzsfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjszzsfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjswkjfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsnsjctzxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjsnsjctzxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsnsjctzxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjsnsjctzxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjjshj',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" v-text="thisData.bfz9fwbdchwxzcybjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskchhsxxse',$event,'','bfz9fwbdchwxzcybjs')" v-text="thisData.bfz9fwbdchwxzcybjskchhsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjszzsfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjszzsfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsnsjctzxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjsnsjctzxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjsnsjctzxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsnsjctzxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjsnsjctzxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjsnsjctzxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjshjxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjshjxxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjshjjshj',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjshjjshj',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz9fwbdchwxzcybjs',0.09)})"  v-text="thisData.bfz9fwbdchwxzcybjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz9fwbdchwxzcybjskchhsxxse',$event,'','bfz9fwbdchwxzcybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz9fwbdchwxzcybjskchhsxxse',$event,'','bfz9fwbdchwxzcybjs')})"  v-text="thisData.bfz9fwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">6%税率</td>
                         <td class="center">5</td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjszzsxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjszzsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjszzsxxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjszzsxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskjqtfpxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskjqtfpxxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjswkjfpxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjswkjfpxxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjswkjfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsnsjctzxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjsnsjctzxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsnsjctzxxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjsnsjctzxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjxxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjjshj',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjsfubdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsfubdchwxzckcxmbqsjkcje',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjsfubdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskchhsxse',$event,'hjxse','bfz6slybjs',0.06)" v-text="thisData.bfz6slybjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6slybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskchhsxxse',$event,'','bfz6slybjs')" v-text="thisData.bfz6slybjskchhsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjszzsxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjszzsxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjszzsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjszzsxxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjszzsxxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjszzsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskjqtfpxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjskjqtfpxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskjqtfpxxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjskjqtfpxxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjswkjfpxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjswkjfpxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjswkjfpxxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjswkjfpxxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjsnsjctzxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsnsjctzxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjsnsjctzxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjsnsjctzxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjsnsjctzxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsnsjctzxxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjsnsjctzxxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjsnsjctzxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjshjxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjxxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjshjxxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjshjjshj',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjshjjshj',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjsfubdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjsfubdchwxzckcxmbqsjkcje',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjsfubdchwxzckcxmbqsjkcje',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjsfubdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskchhsxse',$event,'hjxse','bfz6slybjs',0.06)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjskchhsxse',$event,'hjxse','bfz6slybjs',0.06)})"  v-text="thisData.bfz6slybjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6slybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6slybjskchhsxxse',$event,'','bfz6slybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6slybjskchhsxxse',$event,'','bfz6slybjs')})"  v-text="thisData.bfz6slybjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td rowspan="2" class="center">其中：即征即退项目</td>
@@ -764,8 +764,8 @@
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.jzjthwjjgxlybhjxse.columnEdit==1" @blur="unfocus('table2','','','jzjthwjjgxlybhjxse',$event,'','')" v-text="thisData.jzjthwjjgxlybhjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjthwjjgxlybhjxse.columnEdit==1" @blur="unfocus('table2','','','jzjthwjjgxlybhjxse',$event,'','')" v-text="thisData.jzjthwjjgxlybhjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjthwjjgxlybhjxse.columnEdit==1" @blur="unfocus('table2','','','jzjthwjjgxlybhjxse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table2','','','jzjthwjjgxlybhjxse',$event,'','')})"  v-text="thisData.jzjthwjjgxlybhjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjthwjjgxlybhjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjthwjjgxlybhjxxse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table2','','','jzjthwjjgxlybhjxxse',$event,'','')})"  v-text="thisData.jzjthwjjgxlybhjxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -782,28 +782,28 @@
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjxse',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjxxse',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjskchhsxse',$event,'','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcybjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjskchhsxxse',$event,'','jzjtfwbdchwxzcybjs')" v-text="thisData.jzjtfwbdchwxzcybjskchhsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjxse',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcybjshjxse',$event,'hjxse','jzjtfwbdchwxzcybjs',0)})"  v-text="thisData.jzjtfwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjxxse',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcybjshjxxse',$event,'hjxse','jzjtfwbdchwxzcybjs',0)})"  v-text="thisData.jzjtfwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcybjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs',0)})"  v-text="thisData.jzjtfwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcybjs',0)})"  v-text="thisData.jzjtfwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjskchhsxse',$event,'','jzjtfwbdchwxzcybjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcybjskchhsxse',$event,'','jzjtfwbdchwxzcybjs',0)})"  v-text="thisData.jzjtfwbdchwxzcybjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcybjskchhsxxse',$event,'','jzjtfwbdchwxzcybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcybjskchhsxxse',$event,'','jzjtfwbdchwxzcybjs')})"  v-text="thisData.jzjtfwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td rowspan="11" class="center">二、简易计税方法计税</td>
                         <td rowspan="9" class="center">全部征税项目</td>
                         <td class="center">6%征收率</td>
                         <td class="center">8</td>
-                        <td class="center" :contenteditable="thisData.bfz6zsljyjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjszzsxse',$event,'hjxse','bfz6zsljyjs')" v-text="thisData.bfz6zsljyjszzsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6zsljyjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjszzsxxse',$event,'hjxse','bfz6zsljyjs')" v-text="thisData.bfz6zsljyjszzsxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6zsljyjjskqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjjskqtfpxse',$event,'hjxse','bfz6zsljyjjs')" v-text="thisData.bfz6zsljyjjskqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6zsljyjjskqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjjskqtfpxxse',$event,'hjxse','bfz6zsljyjjs')" v-text="thisData.bfz6zsljyjjskqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6zsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjswkjfpxse',$event,'hjxse','bfz6zsljyjs')" v-text="thisData.bfz6zsljyjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6zsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjswkjfpxxse',$event,'hjxse','bfz6zsljyjs')" v-text="thisData.bfz6zsljyjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6zsljyjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjszzsxse',$event,'hjxse','bfz6zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6zsljyjszzsxse',$event,'hjxse','bfz6zsljyjs')})"  v-text="thisData.bfz6zsljyjszzsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6zsljyjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjszzsxxse',$event,'hjxse','bfz6zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6zsljyjszzsxxse',$event,'hjxse','bfz6zsljyjs')})"  v-text="thisData.bfz6zsljyjszzsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6zsljyjjskqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjjskqtfpxse',$event,'hjxse','bfz6zsljyjjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6zsljyjjskqtfpxse',$event,'hjxse','bfz6zsljyjjs')})"  v-text="thisData.bfz6zsljyjjskqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6zsljyjjskqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjjskqtfpxxse',$event,'hjxse','bfz6zsljyjjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6zsljyjjskqtfpxxse',$event,'hjxse','bfz6zsljyjjs')})"  v-text="thisData.bfz6zsljyjjskqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6zsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjswkjfpxse',$event,'hjxse','bfz6zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6zsljyjswkjfpxse',$event,'hjxse','bfz6zsljyjs')})"  v-text="thisData.bfz6zsljyjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6zsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjswkjfpxxse',$event,'hjxse','bfz6zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6zsljyjswkjfpxxse',$event,'hjxse','bfz6zsljyjs')})"  v-text="thisData.bfz6zsljyjswkjfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.bfz6zsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjshjxse',$event,'','bfz6zsljyjs')" v-text="thisData.bfz6zsljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6zsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjshjxxse',$event,'','bfz6zsljyjs')" v-text="thisData.bfz6zsljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6zsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjshjxse',$event,'','bfz6zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6zsljyjshjxse',$event,'','bfz6zsljyjs')})"  v-text="thisData.bfz6zsljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6zsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz6zsljyjshjxxse',$event,'','bfz6zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz6zsljyjshjxxse',$event,'','bfz6zsljyjs')})"  v-text="thisData.bfz6zsljyjshjxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -812,16 +812,16 @@
                     <tr>
                         <td class="center">5%征收率的货物及加工修理修配劳务</td>
                         <td class="center">9a</td>
-                        <td class="center" :contenteditable="thisData.bfz5zsljyjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjszzsxse',$event,'hjxse','bfz5zsljyjs')" v-text="thisData.bfz5zsljyjszzsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsljyjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjszzsxxse',$event,'hjxse','bfz5zsljyjs')" v-text="thisData.bfz5zsljyjszzsxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjskjqtfpxse',$event,'hjxse','bfz5zsljyjs')" v-text="thisData.bfz5zsljyjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjskjqtfpxxse',$event,'hjxse','bfz5zsljyjs')" v-text="thisData.bfz5zsljyjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjswkjfpxse',$event,'hjxse','bfz5zsljyjs')" v-text="thisData.bfz5zsljyjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjswkjfpxxse',$event,'hjxse','bfz5zsljyjs')" v-text="thisData.bfz5zsljyjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsljyjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjszzsxse',$event,'hjxse','bfz5zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5zsljyjszzsxse',$event,'hjxse','bfz5zsljyjs')})"  v-text="thisData.bfz5zsljyjszzsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsljyjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjszzsxxse',$event,'hjxse','bfz5zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5zsljyjszzsxxse',$event,'hjxse','bfz5zsljyjs')})"  v-text="thisData.bfz5zsljyjszzsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjskjqtfpxse',$event,'hjxse','bfz5zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5zsljyjskjqtfpxse',$event,'hjxse','bfz5zsljyjs')})"  v-text="thisData.bfz5zsljyjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjskjqtfpxxse',$event,'hjxse','bfz5zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5zsljyjskjqtfpxxse',$event,'hjxse','bfz5zsljyjs')})"  v-text="thisData.bfz5zsljyjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjswkjfpxse',$event,'hjxse','bfz5zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5zsljyjswkjfpxse',$event,'hjxse','bfz5zsljyjs')})"  v-text="thisData.bfz5zsljyjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjswkjfpxxse',$event,'hjxse','bfz5zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5zsljyjswkjfpxxse',$event,'hjxse','bfz5zsljyjs')})"  v-text="thisData.bfz5zsljyjswkjfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.bfz5zsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjshjxse',$event,'','bfz5zsljyjs')" v-text="thisData.bfz5zsljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjshjxxse',$event,'','bfz5zsljyjs')" v-text="thisData.bfz5zsljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjshjxse',$event,'','bfz5zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5zsljyjshjxse',$event,'','bfz5zsljyjs')})"  v-text="thisData.bfz5zsljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5zsljyjshjxxse',$event,'','bfz5zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5zsljyjshjxxse',$event,'','bfz5zsljyjs')})"  v-text="thisData.bfz5zsljyjshjxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -830,34 +830,34 @@
                     <tr>
                         <td class="center">5%征收率的服务、不动产和无形资产</td>
                         <td class="center">9b</td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjszzsfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjszzsfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjszzsfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjszzsfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjswkjfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjjshj',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" v-text="thisData.bfz5fwbdchwxzcybjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskchhsxxse',$event,'','bfz5fwbdchwxzcybjs')" v-text="thisData.bfz5fwbdchwxzcybjskchhsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjshjxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjshjxxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjshjjshj',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjshjjshj',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz5fwbdchwxzcybjs',0.05)})"  v-text="thisData.bfz5fwbdchwxzcybjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz5fwbdchwxzcybjskchhsxxse',$event,'','bfz5fwbdchwxzcybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz5fwbdchwxzcybjskchhsxxse',$event,'','bfz5fwbdchwxzcybjs')})"  v-text="thisData.bfz5fwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">4%征收率</td>
                         <td class="center">10</td>
-                        <td class="center" :contenteditable="thisData.bfz4zsljyjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjszzsxse',$event,'hjxse','bfz4zsljyjs')" v-text="thisData.bfz4zsljyjszzsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz4zsljyjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjszzsxxse',$event,'hjxse','bfz4zsljyjs')" v-text="thisData.bfz4zsljyjszzsxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz4zsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjskjqtfpxse',$event,'hjxse','bfz4zsljyjjs')" v-text="thisData.bfz4zsljyjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz4zsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjskjqtfpxxse',$event,'hjxse','bfz4zsljyjjs')" v-text="thisData.bfz4zsljyjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz4zsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjswkjfpxse',$event,'hjxse','bfz4zsljyjs')" v-text="thisData.bfz4zsljyjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz4zsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjswkjfpxxse',$event,'hjxse','bfz4zsljyjs')" v-text="thisData.bfz4zsljyjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz4zsljyjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjszzsxse',$event,'hjxse','bfz4zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz4zsljyjszzsxse',$event,'hjxse','bfz4zsljyjs')})"  v-text="thisData.bfz4zsljyjszzsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz4zsljyjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjszzsxxse',$event,'hjxse','bfz4zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz4zsljyjszzsxxse',$event,'hjxse','bfz4zsljyjs')})"  v-text="thisData.bfz4zsljyjszzsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz4zsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjskjqtfpxse',$event,'hjxse','bfz4zsljyjjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz4zsljyjskjqtfpxse',$event,'hjxse','bfz4zsljyjjs')})"  v-text="thisData.bfz4zsljyjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz4zsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjskjqtfpxxse',$event,'hjxse','bfz4zsljyjjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz4zsljyjskjqtfpxxse',$event,'hjxse','bfz4zsljyjjs')})"  v-text="thisData.bfz4zsljyjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz4zsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjswkjfpxse',$event,'hjxse','bfz4zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz4zsljyjswkjfpxse',$event,'hjxse','bfz4zsljyjs')})"  v-text="thisData.bfz4zsljyjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz4zsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjswkjfpxxse',$event,'hjxse','bfz4zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz4zsljyjswkjfpxxse',$event,'hjxse','bfz4zsljyjs')})"  v-text="thisData.bfz4zsljyjswkjfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.bfz4zsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjshjxse',$event,'','bfz4zsljyjs')" v-text="thisData.bfz4zsljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz4zsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjshjxxse',$event,'','bfz4zsljyjs')" v-text="thisData.bfz4zsljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz4zsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjshjxse',$event,'','bfz4zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz4zsljyjshjxse',$event,'','bfz4zsljyjs')})"  v-text="thisData.bfz4zsljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz4zsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz4zsljyjshjxxse',$event,'','bfz4zsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz4zsljyjshjxxse',$event,'','bfz4zsljyjs')})"  v-text="thisData.bfz4zsljyjshjxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -866,16 +866,16 @@
                     <tr>
                         <td class="center">3%征收率的货物及加工修理修配劳务</td>
                         <td class="center">11</td>
-                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjszzsxse',$event,'hjxse','bfz3hwjjgxljyjs')" v-text="thisData.bfz3hwjjgxljyjszzsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjszzsxxse',$event,'hjxse','bfz3hwjjgxljyjs')" v-text="thisData.bfz3hwjjgxljyjszzsxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjskjqtfpxse',$event,'hjxse','bfz3hwjjgxljyjs')" v-text="thisData.bfz3hwjjgxljyjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjskjqtfpxxse',$event,'hjxse','bfz3hwjjgxljyjs')" v-text="thisData.bfz3hwjjgxljyjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjswjjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjswjjfpxse',$event,'hjxse','bfz3hwjjgxljyjs')" v-text="thisData.bfz3hwjjgxljyjswjjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjswjjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjswjjfpxxse',$event,'hjxse','bfz3hwjjgxljyjs')" v-text="thisData.bfz3hwjjgxljyjswjjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjszzsxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjszzsxse',$event,'hjxse','bfz3hwjjgxljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3hwjjgxljyjszzsxse',$event,'hjxse','bfz3hwjjgxljyjs')})"  v-text="thisData.bfz3hwjjgxljyjszzsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjszzsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjszzsxxse',$event,'hjxse','bfz3hwjjgxljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3hwjjgxljyjszzsxxse',$event,'hjxse','bfz3hwjjgxljyjs')})"  v-text="thisData.bfz3hwjjgxljyjszzsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjskjqtfpxse',$event,'hjxse','bfz3hwjjgxljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3hwjjgxljyjskjqtfpxse',$event,'hjxse','bfz3hwjjgxljyjs')})"  v-text="thisData.bfz3hwjjgxljyjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjskjqtfpxxse',$event,'hjxse','bfz3hwjjgxljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3hwjjgxljyjskjqtfpxxse',$event,'hjxse','bfz3hwjjgxljyjs')})"  v-text="thisData.bfz3hwjjgxljyjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjswjjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjswjjfpxse',$event,'hjxse','bfz3hwjjgxljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3hwjjgxljyjswjjfpxse',$event,'hjxse','bfz3hwjjgxljyjs')})"  v-text="thisData.bfz3hwjjgxljyjswjjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjswjjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjswjjfpxxse',$event,'hjxse','bfz3hwjjgxljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3hwjjgxljyjswjjfpxxse',$event,'hjxse','bfz3hwjjgxljyjs')})"  v-text="thisData.bfz3hwjjgxljyjswjjfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjshjxse',$event,'','bfz3hwjjgxljyjs')" v-text="thisData.bfz3hwjjgxljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjshjxxse',$event,'','bfz3hwjjgxljyjs')" v-text="thisData.bfz3hwjjgxljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjshjxse',$event,'','bfz3hwjjgxljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3hwjjgxljyjshjxse',$event,'','bfz3hwjjgxljyjs')})"  v-text="thisData.bfz3hwjjgxljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3hwjjgxljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3hwjjgxljyjshjxxse',$event,'','bfz3hwjjgxljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3hwjjgxljyjshjxxse',$event,'','bfz3hwjjgxljyjs')})"  v-text="thisData.bfz3hwjjgxljyjshjxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -884,74 +884,74 @@
                     <tr>
                         <td class="center">3%征收率的服务、不动产和无形资产</td>
                         <td class="center">12</td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjszzsfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjszzsfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjszzsfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjszzsfpxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjszzsfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjszzsfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjszzsfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjszzsfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjskjqtfpxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjskjqtfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjswkjfpxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjswkjfpxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjswkjfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjjshj',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" v-text="thisData.bfz3fwbdchwxzcybjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskchhsxxse',$event,'','bfz3fwbdchwxzcybjs')" v-text="thisData.bfz3fwbdchwxzcybjskchhsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjshjxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjshjxxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjshjjshj.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjshjjshj',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjshjjshj',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjskchhsxse',$event,'hjxse','bfz3fwbdchwxzcybjs',0.03)})"  v-text="thisData.bfz3fwbdchwxzcybjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3fwbdchwxzcybjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','bfz3fwbdchwxzcybjskchhsxxse',$event,'','bfz3fwbdchwxzcybjs')" @keydown.enter="(($event)=>{unfocus('table2','','','bfz3fwbdchwxzcybjskchhsxxse',$event,'','bfz3fwbdchwxzcybjs')})"  v-text="thisData.bfz3fwbdchwxzcybjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
-                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13azsljyjssl',$event,'hjxse','yll13azsljyjs',arate)">{{arate}} </span>%</td>
+                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13azsljyjssl',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjssl',$event,'hjxse','yll13azsljyjs',arate)})" >{{arate}} </span>%</td>
                         <td class="center">13a</td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsskzzsxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjsskzzsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsskzzsxxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjsskzzsxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskjqtfpxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskjqtfpxxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjswkjfpxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjswkjfpxxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsskzzsxse',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjsskzzsxse',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjsskzzsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsskzzsxxse',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjsskzzsxxse',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjsskzzsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskjqtfpxse',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjskjqtfpxse',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskjqtfpxxse',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjskjqtfpxxse',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjswkjfpxse',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjswkjfpxse',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjswkjfpxxse',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjswkjfpxxse',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjswkjfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjxxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjjshj',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskchhsxse',$event,'hjxse','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13azsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskchxxse',$event,'','yll13azsljyjs',arate)" v-text="thisData.yll13azsljyjskchxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjxse',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjshjxse',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjxxse',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjshjxxse',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjshjjshj',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjshjjshj',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskchhsxse',$event,'hjxse','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjskchhsxse',$event,'hjxse','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13azsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13azsljyjskchxxse',$event,'','yll13azsljyjs',arate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13azsljyjskchxxse',$event,'','yll13azsljyjs',arate)})"  v-text="thisData.yll13azsljyjskchxxse.columnValue"></td>
                     </tr>
                     <tr>
-                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13bzsljyjssl',$event,'hjxse','yll13bzsljyjs',brate)">{{brate}}</span>%</td>
+                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13bzsljyjssl',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjssl',$event,'hjxse','yll13bzsljyjs',brate)})" >{{brate}}</span>%</td>
                         <td class="center">13b</td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsskzzsxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjsskzzsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsskzzsxxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjsskzzsxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskjqtfpxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskjqtfpxxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjswkjfpxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjswkjfpxxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsskzzsxse',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjsskzzsxse',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjsskzzsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsskzzsxxse',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjsskzzsxxse',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjsskzzsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskjqtfpxse',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjskjqtfpxse',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskjqtfpxxse',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjskjqtfpxxse',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjswkjfpxse',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjswkjfpxse',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjswkjfpxxse',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjswkjfpxxse',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjswkjfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjxxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjjshj',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskchhsxse',$event,'hjxse','yll13bzsljyjs',brate)" v-text="thisData.yll13bzsljyjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13bzsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskchxxse',$event,'','yll13bzsljyjs')" v-text="thisData.yll13bzsljyjskchxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjxse',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjshjxse',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjxxse',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjshjxxse',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjshjjshj',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjshjjshj',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskchhsxse',$event,'hjxse','yll13bzsljyjs',brate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjskchhsxse',$event,'hjxse','yll13bzsljyjs',brate)})"  v-text="thisData.yll13bzsljyjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13bzsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13bzsljyjskchxxse',$event,'','yll13bzsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','yll13bzsljyjskchxxse',$event,'','yll13bzsljyjs')})"  v-text="thisData.yll13bzsljyjskchxxse.columnValue"></td>
                     </tr>
                     <tr>
-                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13czsljyjssl',$event,'hjxse','yll13czsljyjs',crate)">{{crate}}</span>%</td>
+                        <td class="center">预征率<span contenteditable @blur="unfocus('table2','','','yll13czsljyjssl',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjssl',$event,'hjxse','yll13czsljyjs',crate)})" >{{crate}}</span>%</td>
                         <td class="center">13c</td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsskzzsxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjsskzzsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsskzzsxxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjsskzzsxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskjqtfpxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjskjqtfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskjqtfpxxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjskjqtfpxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjswkjfpxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjswkjfpxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjswkjfpxxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjswkjfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsskzzsxse',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjsskzzsxse',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjsskzzsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsskzzsxxse',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjsskzzsxxse',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjsskzzsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskjqtfpxse',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjskjqtfpxse',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjskjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskjqtfpxxse',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjskjqtfpxxse',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjskjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjswkjfpxse',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjswkjfpxse',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjswkjfpxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjswkjfpxxse',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjswkjfpxxse',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjswkjfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjxxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjjshj',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskchhsxse',$event,'hjxse','yll13czsljyjs',crate)" v-text="thisData.yll13czsljyjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yll13czsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskchxxse',$event,'','yll13czsljyjs')" v-text="thisData.yll13czsljyjskchxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjshjxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjxse',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjshjxse',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjxxse',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjshjxxse',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjshjjshj',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjshjjshj',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskchhsxse',$event,'hjxse','yll13czsljyjs',crate)" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjskchhsxse',$event,'hjxse','yll13czsljyjs',crate)})"  v-text="thisData.yll13czsljyjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yll13czsljyjskchxxse.columnEdit==1" @blur="unfocus('table2','','','yll13czsljyjskchxxse',$event,'','yll13czsljyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','yll13czsljyjskchxxse',$event,'','yll13czsljyjs')})"  v-text="thisData.yll13czsljyjskchxxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td rowspan="2" class="center">其中：即征即退项目</td>
@@ -965,8 +965,8 @@
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.jzjthwjgjyjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjthwjgjyjshjxse',$event,'','')" v-text="thisData.jzjthwjgjyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjthwjgjyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjthwjgjyjshjxxse',$event,'','')" v-text="thisData.jzjthwjgjyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjthwjgjyjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjthwjgjyjshjxse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table2','','','jzjthwjgjyjshjxse',$event,'','')})"  v-text="thisData.jzjthwjgjyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjthwjgjyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjthwjgjyjshjxxse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table2','','','jzjthwjgjyjshjxxse',$event,'','')})"  v-text="thisData.jzjthwjgjyjshjxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -983,12 +983,12 @@
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjxse',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjshjxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjxxse',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjshjxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjskchhsxse',$event,'','jzjtfwbdchwxzcjyjs',0)" v-text="thisData.jzjtfwbdchwxzcjyjskchhsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjskchhsxxse',$event,'','jzjtfwbdchwxzcjyjs')" v-text="thisData.jzjtfwbdchwxzcjyjskchhsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjxse',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcjyjshjxse',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)})"  v-text="thisData.jzjtfwbdchwxzcjyjshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjxxse',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcjyjshjxxse',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)})"  v-text="thisData.jzjtfwbdchwxzcjyjshjxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjshjjshj.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcjyjshjjshj',$event,'hjxse','jzjtfwbdchwxzcybjs',0)})"  v-text="thisData.jzjtfwbdchwxzcjyjshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','jzjtfwbdchwxzcjyjs',0)})"  v-text="thisData.jzjtfwbdchwxzcjyjsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjskchhsxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjskchhsxse',$event,'','jzjtfwbdchwxzcjyjs',0)" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcjyjskchhsxse',$event,'','jzjtfwbdchwxzcjyjs',0)})"  v-text="thisData.jzjtfwbdchwxzcjyjskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtfwbdchwxzcjyjskchhsxxse.columnEdit==1" @blur="unfocus('table2','','','jzjtfwbdchwxzcjyjskchhsxxse',$event,'','jzjtfwbdchwxzcjyjs')" @keydown.enter="(($event)=>{unfocus('table2','','','jzjtfwbdchwxzcjyjskchhsxxse',$event,'','jzjtfwbdchwxzcjyjs')})"  v-text="thisData.jzjtfwbdchwxzcjyjskchhsxxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td rowspan="2" class="center">三、免抵退税</td>
@@ -996,13 +996,13 @@
                         <td class="center">16</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.hwjjgxllwmdtskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmdtskjqtfpxse',$event,'hjxse','hwjjgxllwmdts')" v-text="thisData.hwjjgxllwmdtskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hwjjgxllwmdtskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmdtskjqtfpxse',$event,'hjxse','hwjjgxllwmdts')" @keydown.enter="(($event)=>{unfocus('table2','','','hwjjgxllwmdtskjqtfpxse',$event,'hjxse','hwjjgxllwmdts')})"  v-text="thisData.hwjjgxllwmdtskjqtfpxse.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.hwjjgxllwmdtswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmdtswkjfpxse',$event,'hjxse','hwjjgxllwmdts')" v-text="thisData.hwjjgxllwmdtswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hwjjgxllwmdtswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmdtswkjfpxse',$event,'hjxse','hwjjgxllwmdts')" @keydown.enter="(($event)=>{unfocus('table2','','','hwjjgxllwmdtswkjfpxse',$event,'hjxse','hwjjgxllwmdts')})"  v-text="thisData.hwjjgxllwmdtswkjfpxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.hwjjgxllwmdtshjxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmdtshjxse',$event,'hjxse','hwjjgxllwmdts')" v-text="thisData.hwjjgxllwmdtshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hwjjgxllwmdtshjxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmdtshjxse',$event,'hjxse','hwjjgxllwmdts')" @keydown.enter="(($event)=>{unfocus('table2','','','hwjjgxllwmdtshjxse',$event,'hjxse','hwjjgxllwmdts')})"  v-text="thisData.hwjjgxllwmdtshjxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -1014,32 +1014,32 @@
                         <td class="center">17</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtskjqtfpxse',$event,'hjxse','fwbdchwxzcmdts')" v-text="thisData.fwbdchwxzcmdtskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtskjqtfpxse',$event,'hjxse','fwbdchwxzcmdts')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmdtskjqtfpxse',$event,'hjxse','fwbdchwxzcmdts')})"  v-text="thisData.fwbdchwxzcmdtskjqtfpxse.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtswkjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtswkjqtfpxxse',$event,'hjxse','fwbdchwxzcmdts')" v-text="thisData.fwbdchwxzcmdtswkjqtfpxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtswkjqtfpxxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtswkjqtfpxxse',$event,'hjxse','fwbdchwxzcmdts')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmdtswkjqtfpxxse',$event,'hjxse','fwbdchwxzcmdts')})"  v-text="thisData.fwbdchwxzcmdtswkjqtfpxxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtshjxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtshjxse',$event,'hjxse','fwbdchwxzcmdts')" v-text="thisData.fwbdchwxzcmdtshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtshjxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtshjxse',$event,'hjxse','fwbdchwxzcmdts')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmdtshjxse',$event,'hjxse','fwbdchwxzcmdts')})"  v-text="thisData.fwbdchwxzcmdtshjxse.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtshjjshj.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtshjjshj',$event,'hjxse','fwbdchwxzcmdts')" v-text="thisData.fwbdchwxzcmdtshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','fwbdchwxzcmdts')" v-text="thisData.fwbdchwxzcmdtsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtskchhsxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtskchhsxse',$event,'','fwbdchwxzcmdts')" v-text="thisData.fwbdchwxzcmdtskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtshjjshj.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtshjjshj',$event,'hjxse','fwbdchwxzcmdts')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmdtshjjshj',$event,'hjxse','fwbdchwxzcmdts')})"  v-text="thisData.fwbdchwxzcmdtshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','fwbdchwxzcmdts')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmdtsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','fwbdchwxzcmdts')})"  v-text="thisData.fwbdchwxzcmdtsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmdtskchhsxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmdtskchhsxse',$event,'','fwbdchwxzcmdts')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmdtskchhsxse',$event,'','fwbdchwxzcmdts')})"  v-text="thisData.fwbdchwxzcmdtskchhsxse.columnValue"></td>
                         <td class="center">——</td>
                     </tr>
                     <tr>
                         <td rowspan="2" class="center">四、免税</td>
                         <td colspan="2" class="center">货物及加工修理修配劳务</td>
                         <td class="center">18</td>
-                        <td class="center" :contenteditable="thisData.hwjjgxllwmsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmsskzzsxse',$event,'hjxse','hwjjgxllwmssk')" v-text="thisData.hwjjgxllwmsskzzsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.hwjjgxllwmsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmsskzzsxxse',$event,'hjxse','hwjjgxllwmssk')" v-text="thisData.hwjjgxllwmsskzzsxxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.hwjjgxllwmskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmskjqtfpxse',$event,'hjxse','hwjjgxllwmssk')" v-text="thisData.hwjjgxllwmskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hwjjgxllwmsskzzsxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmsskzzsxse',$event,'hjxse','hwjjgxllwmssk')" @keydown.enter="(($event)=>{unfocus('table2','','','hwjjgxllwmsskzzsxse',$event,'hjxse','hwjjgxllwmssk')})"  v-text="thisData.hwjjgxllwmsskzzsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hwjjgxllwmsskzzsxxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmsskzzsxxse',$event,'hjxse','hwjjgxllwmssk')" @keydown.enter="(($event)=>{unfocus('table2','','','hwjjgxllwmsskzzsxxse',$event,'hjxse','hwjjgxllwmssk')})"  v-text="thisData.hwjjgxllwmsskzzsxxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hwjjgxllwmskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmskjqtfpxse',$event,'hjxse','hwjjgxllwmssk')" @keydown.enter="(($event)=>{unfocus('table2','','','hwjjgxllwmskjqtfpxse',$event,'hjxse','hwjjgxllwmssk')})"  v-text="thisData.hwjjgxllwmskjqtfpxse.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.hwjjgxllwmswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmswkjfpxse',$event,'hjxse','hwjjgxllwmssk')" v-text="thisData.hwjjgxllwmswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hwjjgxllwmswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmswkjfpxse',$event,'hjxse','hwjjgxllwmssk')" @keydown.enter="(($event)=>{unfocus('table2','','','hwjjgxllwmswkjfpxse',$event,'hjxse','hwjjgxllwmssk')})"  v-text="thisData.hwjjgxllwmswkjfpxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.hwjjgxllwmshjxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmshjxse',$event,'hjxse','hwjjgxllwmssk')" v-text="thisData.hwjjgxllwmshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hwjjgxllwmshjxse.columnEdit==1" @blur="unfocus('table2','','','hwjjgxllwmshjxse',$event,'hjxse','hwjjgxllwmssk')" @keydown.enter="(($event)=>{unfocus('table2','','','hwjjgxllwmshjxse',$event,'hjxse','hwjjgxllwmssk')})"  v-text="thisData.hwjjgxllwmshjxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
@@ -1051,17 +1051,17 @@
                         <td class="center">19</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmskjqtfpxse',$event,'hjxse','fwbdchwxzcms')" v-text="thisData.fwbdchwxzcmskjqtfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmskjqtfpxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmskjqtfpxse',$event,'hjxse','fwbdchwxzcms')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmskjqtfpxse',$event,'hjxse','fwbdchwxzcms')})"  v-text="thisData.fwbdchwxzcmskjqtfpxse.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmswkjfpxse',$event,'hjxse','fwbdchwxzcms')" v-text="thisData.fwbdchwxzcmswkjfpxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmswkjfpxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmswkjfpxse',$event,'hjxse','fwbdchwxzcms')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmswkjfpxse',$event,'hjxse','fwbdchwxzcms')})"  v-text="thisData.fwbdchwxzcmswkjfpxse.columnValue"></td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmshjxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmshjxse',$event,'hjxse','fwbdchwxzcms')" v-text="thisData.fwbdchwxzcmshjxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmshjxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmshjxse',$event,'hjxse','fwbdchwxzcms')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmshjxse',$event,'hjxse','fwbdchwxzcms')})"  v-text="thisData.fwbdchwxzcmshjxse.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmshjjshj.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmshjjshj',$event,'hjxse','fwbdchwxzcms')" v-text="thisData.fwbdchwxzcmshjjshj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','fwbdchwxzcms')" v-text="thisData.fwbdchwxzcmsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.fwbdchwxzcmskchhsxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmskchhsxse',$event,'','fwbdchwxzcms')" v-text="thisData.fwbdchwxzcmskchhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmshjjshj.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmshjjshj',$event,'hjxse','fwbdchwxzcms')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmshjjshj',$event,'hjxse','fwbdchwxzcms')})"  v-text="thisData.fwbdchwxzcmshjjshj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmsfwbdchwxzckcxmbqsjkcje.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','fwbdchwxzcms')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmsfwbdchwxzckcxmbqsjkcje',$event,'hjxse','fwbdchwxzcms')})"  v-text="thisData.fwbdchwxzcmsfwbdchwxzckcxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fwbdchwxzcmskchhsxse.columnEdit==1" @blur="unfocus('table2','','','fwbdchwxzcmskchhsxse',$event,'','fwbdchwxzcms')" @keydown.enter="(($event)=>{unfocus('table2','','','fwbdchwxzcmskchhsxse',$event,'','fwbdchwxzcms')})"  v-text="thisData.fwbdchwxzcmskchhsxse.columnValue"></td>
                         <td class="center">——</td>
                     </tr>
                 </table>
@@ -1081,93 +1081,93 @@
                     <tr>
                         <td>（一）认证相符的增值税专用发票</td>
                         <td class="center">1=2+3</td>
-                        <td class="center" :contenteditable="thisData.rzxfzzszyfpsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','rzxfzzszyfpsbdkfs',$event,'dqsbdkjxsehj','')" v-text="thisData.rzxfzzszyfpsbdkfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.rzxfzzszyfpsbdkje.columnEdit==1" @blur="unfocus('table3','je','','rzxfzzszyfpsbdkje',$event,'dqsbdkjxsehj','')" v-text="thisData.rzxfzzszyfpsbdkje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.rzxfzzszyfpsbdkse.columnEdit==1" @blur="unfocus('table3','se','','rzxfzzszyfpsbdkse',$event,'dqsbdkjxsehj','')" v-text="thisData.rzxfzzszyfpsbdkse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.rzxfzzszyfpsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','rzxfzzszyfpsbdkfs',$event,'dqsbdkjxsehj','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','rzxfzzszyfpsbdkfs',$event,'dqsbdkjxsehj','')})"  v-text="thisData.rzxfzzszyfpsbdkfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.rzxfzzszyfpsbdkje.columnEdit==1" @blur="unfocus('table3','je','','rzxfzzszyfpsbdkje',$event,'dqsbdkjxsehj','')" @keydown.enter="(($event)=>{unfocus('table3','je','','rzxfzzszyfpsbdkje',$event,'dqsbdkjxsehj','')})"  v-text="thisData.rzxfzzszyfpsbdkje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.rzxfzzszyfpsbdkse.columnEdit==1" @blur="unfocus('table3','se','','rzxfzzszyfpsbdkse',$event,'dqsbdkjxsehj','')" @keydown.enter="(($event)=>{unfocus('table3','se','','rzxfzzszyfpsbdkse',$event,'dqsbdkjxsehj','')})"  v-text="thisData.rzxfzzszyfpsbdkse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">其中：本期认证相符且本期申报抵扣</td>
                         <td class="center">2</td>
-                        <td class="center" :contenteditable="thisData.bqrzxfqbqsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','bqrzxfqbqsbdkfs',$event,'rzxfzzszyfpsbdk','')" v-text="thisData.bqrzxfqbqsbdkfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqrzxfqbqsbdkje.columnEdit==1" @blur="unfocus('table3','je','','bqrzxfqbqsbdkje',$event,'rzxfzzszyfpsbdk','')" v-text="thisData.bqrzxfqbqsbdkje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqrzxfqbqsbdkse.columnEdit==1" @blur="unfocus('table3','se','','bqrzxfqbqsbdkse',$event,'rzxfzzszyfpsbdk','')" v-text="thisData.bqrzxfqbqsbdkse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqrzxfqbqsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','bqrzxfqbqsbdkfs',$event,'rzxfzzszyfpsbdk','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','bqrzxfqbqsbdkfs',$event,'rzxfzzszyfpsbdk','')})"  v-text="thisData.bqrzxfqbqsbdkfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqrzxfqbqsbdkje.columnEdit==1" @blur="unfocus('table3','je','','bqrzxfqbqsbdkje',$event,'rzxfzzszyfpsbdk','')" @keydown.enter="(($event)=>{unfocus('table3','je','','bqrzxfqbqsbdkje',$event,'rzxfzzszyfpsbdk','')})"  v-text="thisData.bqrzxfqbqsbdkje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqrzxfqbqsbdkse.columnEdit==1" @blur="unfocus('table3','se','','bqrzxfqbqsbdkse',$event,'rzxfzzszyfpsbdk','')" @keydown.enter="(($event)=>{unfocus('table3','se','','bqrzxfqbqsbdkse',$event,'rzxfzzszyfpsbdk','')})"  v-text="thisData.bqrzxfqbqsbdkse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">前期认证相符且本期申报抵扣</td>
                         <td class="center">3</td>
-                        <td class="center" :contenteditable="thisData.qqrzxfqbqsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','qqrzxfqbqsbdkfs',$event,'rzxfzzszyfpsbdk','')" v-text="thisData.qqrzxfqbqsbdkfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qqrzxfqbqsbdkje.columnEdit==1" @blur="unfocus('table3','je','','qqrzxfqbqsbdkje',$event,'rzxfzzszyfpsbdk','')" v-text="thisData.qqrzxfqbqsbdkje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qqrzxfqbqsbdkse.columnEdit==1" @blur="unfocus('table3','se','','qqrzxfqbqsbdkse',$event,'rzxfzzszyfpsbdk','')" v-text="thisData.qqrzxfqbqsbdkse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qqrzxfqbqsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','qqrzxfqbqsbdkfs',$event,'rzxfzzszyfpsbdk','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','qqrzxfqbqsbdkfs',$event,'rzxfzzszyfpsbdk','')})"  v-text="thisData.qqrzxfqbqsbdkfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qqrzxfqbqsbdkje.columnEdit==1" @blur="unfocus('table3','je','','qqrzxfqbqsbdkje',$event,'rzxfzzszyfpsbdk','')" @keydown.enter="(($event)=>{unfocus('table3','je','','qqrzxfqbqsbdkje',$event,'rzxfzzszyfpsbdk','')})"  v-text="thisData.qqrzxfqbqsbdkje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qqrzxfqbqsbdkse.columnEdit==1" @blur="unfocus('table3','se','','qqrzxfqbqsbdkse',$event,'rzxfzzszyfpsbdk','')" @keydown.enter="(($event)=>{unfocus('table3','se','','qqrzxfqbqsbdkse',$event,'rzxfzzszyfpsbdk','')})"  v-text="thisData.qqrzxfqbqsbdkse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>（二）其他扣税凭证</td>
                         <td class="center">4=5+6+7+8a+8b</td>
-                        <td class="center" :contenteditable="thisData.qtkspzfs.columnEdit==1" @blur="unfocus('table3','fs','','qtkspzfs',$event,'dqsbdkjxsehj','')" v-text="thisData.qtkspzfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qtkspzje.columnEdit==1" @blur="unfocus('table3','je','','qtkspzje',$event,'dqsbdkjxsehj','')" v-text="thisData.qtkspzje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qtkspzse.columnEdit==1" @blur="unfocus('table3','se','','qtkspzse',$event,'dqsbdkjxsehj','')" v-text="thisData.qtkspzse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtkspzfs.columnEdit==1" @blur="unfocus('table3','fs','','qtkspzfs',$event,'dqsbdkjxsehj','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','qtkspzfs',$event,'dqsbdkjxsehj','')})"  v-text="thisData.qtkspzfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtkspzje.columnEdit==1" @blur="unfocus('table3','je','','qtkspzje',$event,'dqsbdkjxsehj','')" @keydown.enter="(($event)=>{unfocus('table3','je','','qtkspzje',$event,'dqsbdkjxsehj','')})"  v-text="thisData.qtkspzje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtkspzse.columnEdit==1" @blur="unfocus('table3','se','','qtkspzse',$event,'dqsbdkjxsehj','')" @keydown.enter="(($event)=>{unfocus('table3','se','','qtkspzse',$event,'dqsbdkjxsehj','')})"  v-text="thisData.qtkspzse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">其中：海关进口增值税专用缴款书</td>
                         <td class="center">5</td>
-                        <td class="center" :contenteditable="thisData.hgjkzzszyjksfs.columnEdit==1" @blur="unfocus('table3','fs','','hgjkzzszyjksfs',$event,'qtkspz','')" v-text="thisData.hgjkzzszyjksfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.hgjkzzszyjksje.columnEdit==1" @blur="unfocus('table3','je','','hgjkzzszyjksje',$event,'qtkspz','')" v-text="thisData.hgjkzzszyjksje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.hgjkzzszyjksse.columnEdit==1" @blur="unfocus('table3','se','','hgjkzzszyjksse',$event,'qtkspz','')" v-text="thisData.hgjkzzszyjksse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hgjkzzszyjksfs.columnEdit==1" @blur="unfocus('table3','fs','','hgjkzzszyjksfs',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','hgjkzzszyjksfs',$event,'qtkspz','')})"  v-text="thisData.hgjkzzszyjksfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hgjkzzszyjksje.columnEdit==1" @blur="unfocus('table3','je','','hgjkzzszyjksje',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','je','','hgjkzzszyjksje',$event,'qtkspz','')})"  v-text="thisData.hgjkzzszyjksje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hgjkzzszyjksse.columnEdit==1" @blur="unfocus('table3','se','','hgjkzzszyjksse',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','se','','hgjkzzszyjksse',$event,'qtkspz','')})"  v-text="thisData.hgjkzzszyjksse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">农产品收购发票或者销售发票</td>
                         <td class="center">6</td>
-                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpfs.columnEdit==1" @blur="unfocus('table3','fs','','ncpsgfphzxsfpfs',$event,'qtkspz','')" v-text="thisData.ncpsgfphzxsfpfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpje.columnEdit==1" @blur="unfocus('table3','je','','ncpsgfphzxsfpje',$event,'qtkspz','')" v-text="thisData.ncpsgfphzxsfpje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpsbdkse.columnEdit==1" @blur="unfocus('table3','se','','ncpsgfphzxsfpsbdkse',$event,'qtkspz','')" v-text="thisData.ncpsgfphzxsfpsbdkse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpfs.columnEdit==1" @blur="unfocus('table3','fs','','ncpsgfphzxsfpfs',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','ncpsgfphzxsfpfs',$event,'qtkspz','')})"  v-text="thisData.ncpsgfphzxsfpfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpje.columnEdit==1" @blur="unfocus('table3','je','','ncpsgfphzxsfpje',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','je','','ncpsgfphzxsfpje',$event,'qtkspz','')})"  v-text="thisData.ncpsgfphzxsfpje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpsbdkse.columnEdit==1" @blur="unfocus('table3','se','','ncpsgfphzxsfpsbdkse',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','se','','ncpsgfphzxsfpsbdkse',$event,'qtkspz','')})"  v-text="thisData.ncpsgfphzxsfpsbdkse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">代扣代缴税收缴款凭证</td>
                         <td class="center">7</td>
-                        <td class="center" :contenteditable="thisData.dkdjssjkpzfs.columnEdit==1" @blur="unfocus('table3','fs','','dkdjssjkpzfs',$event,'qtkspz','')" v-text="thisData.dkdjssjkpzfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dkdjssjkpzfs.columnEdit==1" @blur="unfocus('table3','fs','','dkdjssjkpzfs',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','dkdjssjkpzfs',$event,'qtkspz','')})"  v-text="thisData.dkdjssjkpzfs.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.dkdjssjkpzse.columnEdit==1" @blur="unfocus('table3','se','','dkdjssjkpzse',$event,'qtkspz','')" v-text="thisData.dkdjssjkpzse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dkdjssjkpzse.columnEdit==1" @blur="unfocus('table3','se','','dkdjssjkpzse',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','se','','dkdjssjkpzse',$event,'qtkspz','')})"  v-text="thisData.dkdjssjkpzse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">加计扣除农产品进项税额</td>
                         <td class="center">8a</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.jjkcncpjxsese.columnEdit==1" @blur="unfocus('table3','se','','jjkcncpjxsese',$event,'qtkspz','')" v-text="thisData.jjkcncpjxsese.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jjkcncpjxsese.columnEdit==1" @blur="unfocus('table3','se','','jjkcncpjxsese',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','se','','jjkcncpjxsese',$event,'qtkspz','')})"  v-text="thisData.jjkcncpjxsese.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">其他</td>
                         <td class="center">8b</td>
-                        <td class="center" :contenteditable="thisData.sbdkdjxseqtkspzqtfs.columnEdit==1" @blur="unfocus('table3','fs','','sbdkdjxseqtkspzqtfs',$event,'qtkspz','')" v-text="thisData.sbdkdjxseqtkspzqtfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.sbdkdjxseqtkspzqtje.columnEdit==1" @blur="unfocus('table3','je','','sbdkdjxseqtkspzqtje',$event,'qtkspz','')" v-text="thisData.sbdkdjxseqtkspzqtje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.sbdkdjxseqtkspzqtse.columnEdit==1" @blur="unfocus('table3','se','','sbdkdjxseqtkspzqtse',$event,'qtkspz','')" v-text="thisData.sbdkdjxseqtkspzqtse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.sbdkdjxseqtkspzqtfs.columnEdit==1" @blur="unfocus('table3','fs','','sbdkdjxseqtkspzqtfs',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','sbdkdjxseqtkspzqtfs',$event,'qtkspz','')})"  v-text="thisData.sbdkdjxseqtkspzqtfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.sbdkdjxseqtkspzqtje.columnEdit==1" @blur="unfocus('table3','je','','sbdkdjxseqtkspzqtje',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','je','','sbdkdjxseqtkspzqtje',$event,'qtkspz','')})"  v-text="thisData.sbdkdjxseqtkspzqtje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.sbdkdjxseqtkspzqtse.columnEdit==1" @blur="unfocus('table3','se','','sbdkdjxseqtkspzqtse',$event,'qtkspz','')" @keydown.enter="(($event)=>{unfocus('table3','se','','sbdkdjxseqtkspzqtse',$event,'qtkspz','')})"  v-text="thisData.sbdkdjxseqtkspzqtse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>（三）本期用于购建不动产的扣税凭证</td>
                         <td class="center">9</td>
-                        <td class="center" :contenteditable="thisData.bqgjbdckspzfs.columnEdit==1" @blur="unfocus('table3','fs','','bqgjbdckspzfs',$event,'','')" v-text="thisData.bqgjbdckspzfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqgjbdckspzje.columnEdit==1" @blur="unfocus('table3','je','','bqgjbdckspzje',$event,'','')" v-text="thisData.bqgjbdckspzje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqgjbdckspzse.columnEdit==1" @blur="unfocus('table3','se','','bqgjbdckspzse',$event,'','')" v-text="thisData.bqgjbdckspzse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqgjbdckspzfs.columnEdit==1" @blur="unfocus('table3','fs','','bqgjbdckspzfs',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','bqgjbdckspzfs',$event,'','')})"  v-text="thisData.bqgjbdckspzfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqgjbdckspzje.columnEdit==1" @blur="unfocus('table3','je','','bqgjbdckspzje',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','je','','bqgjbdckspzje',$event,'','')})"  v-text="thisData.bqgjbdckspzje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqgjbdckspzse.columnEdit==1" @blur="unfocus('table3','se','','bqgjbdckspzse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','bqgjbdckspzse',$event,'','')})"  v-text="thisData.bqgjbdckspzse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>（四）本期用于抵扣的旅客运输服务扣税凭证</td>
                         <td class="center">10</td>
-                        <td class="center" :contenteditable="thisData.bqyydkdlkysfwkspzfs.columnEdit==1" @blur="unfocus('table3','fs','','bqyydkdlkysfwkspzfs',$event,'','')" v-text="thisData.bqyydkdlkysfwkspzfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqyydkdlkysfwkspzje.columnEdit==1" @blur="unfocus('table3','je','','bqyydkdlkysfwkspzje',$event,'','')" v-text="thisData.bqyydkdlkysfwkspzje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqyydkdlkysfwkspzse.columnEdit==1" @blur="unfocus('table3','se','','bqyydkdlkysfwkspzse',$event,'','')" v-text="thisData.bqyydkdlkysfwkspzse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqyydkdlkysfwkspzfs.columnEdit==1" @blur="unfocus('table3','fs','','bqyydkdlkysfwkspzfs',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','bqyydkdlkysfwkspzfs',$event,'','')})"  v-text="thisData.bqyydkdlkysfwkspzfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqyydkdlkysfwkspzje.columnEdit==1" @blur="unfocus('table3','je','','bqyydkdlkysfwkspzje',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','je','','bqyydkdlkysfwkspzje',$event,'','')})"  v-text="thisData.bqyydkdlkysfwkspzje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqyydkdlkysfwkspzse.columnEdit==1" @blur="unfocus('table3','se','','bqyydkdlkysfwkspzse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','bqyydkdlkysfwkspzse',$event,'','')})"  v-text="thisData.bqyydkdlkysfwkspzse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>（五）外贸企业进项税额抵扣证明</td>
                         <td class="center">11</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.wmqyjxsdkzmse.columnEdit==1" @blur="unfocus('table3','se','','wmqyjxsdkzmse',$event,'dqsbdkjxsehj','')" v-text="thisData.wmqyjxsdkzmse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.wmqyjxsdkzmse.columnEdit==1" @blur="unfocus('table3','se','','wmqyjxsdkzmse',$event,'dqsbdkjxsehj','')" @keydown.enter="(($event)=>{unfocus('table3','se','','wmqyjxsdkzmse',$event,'dqsbdkjxsehj','')})"  v-text="thisData.wmqyjxsdkzmse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>当期申报抵扣进项税额合计</td>
                         <td class="center">12=1+4+11</td>
-                        <td class="center" :contenteditable="thisData.dqsbdkjxsehjfs.columnEdit==1" @blur="unfocus('table3','fs','','dqsbdkjxsehjfs',$event,'','')" v-text="thisData.dqsbdkjxsehjfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.dqsbdkjxsehjje.columnEdit==1" @blur="unfocus('table3','je','','dqsbdkjxsehjje',$event,'','')" v-text="thisData.dqsbdkjxsehjje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.dqsbdkjxsehjse.columnEdit==1" @blur="unfocus('table3','se','','dqsbdkjxsehjse',$event,'','')" v-text="thisData.dqsbdkjxsehjse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dqsbdkjxsehjfs.columnEdit==1" @blur="unfocus('table3','fs','','dqsbdkjxsehjfs',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','dqsbdkjxsehjfs',$event,'','')})"  v-text="thisData.dqsbdkjxsehjfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dqsbdkjxsehjje.columnEdit==1" @blur="unfocus('table3','je','','dqsbdkjxsehjje',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','je','','dqsbdkjxsehjje',$event,'','')})"  v-text="thisData.dqsbdkjxsehjje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dqsbdkjxsehjse.columnEdit==1" @blur="unfocus('table3','se','','dqsbdkjxsehjse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','dqsbdkjxsehjse',$event,'','')})"  v-text="thisData.dqsbdkjxsehjse.columnValue"></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="center" style="font-weight: bold;padding: 0.05rem;">二、进项税额转出额</td>
@@ -1180,57 +1180,57 @@
                     <tr>
                         <td>本期进项税额转出额</td>
                         <td class="center">13=14至23之和</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.bqjxszcese.columnEdit==1" @blur="unfocus('table3','se','','bqjxszcese',$event,'','')" v-text="thisData.bqjxszcese.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.bqjxszcese.columnEdit==1" @blur="unfocus('table3','se','','bqjxszcese',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','bqjxszcese',$event,'','')})"  v-text="thisData.bqjxszcese.columnValue"></td>
                     </tr>
                     <tr>
                         <td>其中：免税项目用</td>
                         <td class="center">14</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.msxmyse.columnEdit==1" @blur="unfocus('table3','se','','msxmyse',$event,'bqjxszce','')" v-text="thisData.msxmyse.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.msxmyse.columnEdit==1" @blur="unfocus('table3','se','','msxmyse',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','msxmyse',$event,'bqjxszce','')})"  v-text="thisData.msxmyse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">集体福利、个人消费</td>
                         <td class="center">15</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.jtflgrxfse.columnEdit==1" @blur="unfocus('table3','se','','jtflgrxfse',$event,'bqjxszce','')" v-text="thisData.jtflgrxfse.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.jtflgrxfse.columnEdit==1" @blur="unfocus('table3','se','','jtflgrxfse',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','jtflgrxfse',$event,'bqjxszce','')})"  v-text="thisData.jtflgrxfse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">非正常损失</td>
                         <td class="center">16</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.fzcssse.columnEdit==1" @blur="unfocus('table3','se','','fzcssse',$event,'bqjxszce','')" v-text="thisData.fzcssse.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.fzcssse.columnEdit==1" @blur="unfocus('table3','se','','fzcssse',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','fzcssse',$event,'bqjxszce','')})"  v-text="thisData.fzcssse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">简易计税方法征税项目用</td>
                         <td class="center">17</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.jyjsbfzsxmyse.columnEdit==1" @blur="unfocus('table3','se','','jyjsbfzsxmyse',$event,'bqjxszce','')" v-text="thisData.jyjsbfzsxmyse.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.jyjsbfzsxmyse.columnEdit==1" @blur="unfocus('table3','se','','jyjsbfzsxmyse',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','jyjsbfzsxmyse',$event,'bqjxszce','')})"  v-text="thisData.jyjsbfzsxmyse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">免抵退税办法不得抵扣的进项税额</td>
                         <td class="center">18</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.mdtsbfbddkdjxsese.columnEdit==1" @blur="unfocus('table3','se','','mdtsbfbddkdjxsese',$event,'bqjxszce','')" v-text="thisData.mdtsbfbddkdjxsese.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.mdtsbfbddkdjxsese.columnEdit==1" @blur="unfocus('table3','se','','mdtsbfbddkdjxsese',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','mdtsbfbddkdjxsese',$event,'bqjxszce','')})"  v-text="thisData.mdtsbfbddkdjxsese.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">纳税检查调减进项税额</td>
                         <td class="center">19</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.nsjctjjxsese.columnEdit==1" @blur="unfocus('table3','se','','nsjctjjxsese',$event,'bqjxszce','')" v-text="thisData.nsjctjjxsese.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.nsjctjjxsese.columnEdit==1" @blur="unfocus('table3','se','','nsjctjjxsese',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','nsjctjjxsese',$event,'bqjxszce','')})"  v-text="thisData.nsjctjjxsese.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">红字专用发票信息表注明的进项税额</td>
                         <td class="center">20</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.hzzyfptzdzmdjxsese.columnEdit==1" @blur="unfocus('table3','se','','hzzyfptzdzmdjxsese',$event,'bqjxszce','')" v-text="thisData.hzzyfptzdzmdjxsese.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.hzzyfptzdzmdjxsese.columnEdit==1" @blur="unfocus('table3','se','','hzzyfptzdzmdjxsese',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','hzzyfptzdzmdjxsese',$event,'bqjxszce','')})"  v-text="thisData.hzzyfptzdzmdjxsese.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">上期留抵税额抵减欠税</td>
                         <td class="center">21</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.sqldsedjqsse.columnEdit==1" @blur="unfocus('table3','se','','sqldsedjqsse',$event,'bqjxszce','')" v-text="thisData.sqldsedjqsse.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.sqldsedjqsse.columnEdit==1" @blur="unfocus('table3','se','','sqldsedjqsse',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','sqldsedjqsse',$event,'bqjxszce','')})"  v-text="thisData.sqldsedjqsse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">上期留抵税额退税</td>
                         <td class="center">22</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.sqldsetsse.columnEdit==1" @blur="unfocus('table3','se','','sqldsetsse',$event,'bqjxszce','')" v-text="thisData.sqldsetsse.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.sqldsetsse.columnEdit==1" @blur="unfocus('table3','se','','sqldsetsse',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','sqldsetsse',$event,'bqjxszce','')})"  v-text="thisData.sqldsetsse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">其他应作进项税额转出的情形</td>
                         <td class="center">23</td>
-                        <td colspan="3" class="center" :contenteditable="thisData.qtyzjxsezcdqxse.columnEdit==1" @blur="unfocus('table3','se','','qtyzjxsezcdqxse',$event,'bqjxszce','')" v-text="thisData.qtyzjxsezcdqxse.columnValue"></td>
+                        <td colspan="3" class="center" :contenteditable="thisData.qtyzjxsezcdqxse.columnEdit==1" @blur="unfocus('table3','se','','qtyzjxsezcdqxse',$event,'bqjxszce','')" @keydown.enter="(($event)=>{unfocus('table3','se','','qtyzjxsezcdqxse',$event,'bqjxszce','')})"  v-text="thisData.qtyzjxsezcdqxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="center" style="font-weight: bold;padding: 0.05rem;">三、待抵扣进项税额</td>
@@ -1252,65 +1252,65 @@
                     <tr>
                         <td class=" padL">期初已认证相符但未申报抵扣</td>
                         <td class="center">25</td>
-                        <td class="center" :contenteditable="thisData.qcyrzxfqbqwsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','qcyrzxfqbqwsbdkfs',$event,'','')" v-text="thisData.qcyrzxfqbqwsbdkfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qcyrzxfqbqwsbdkje.columnEdit==1" @blur="unfocus('table3','je','','qcyrzxfqbqwsbdkje',$event,'','')" v-text="thisData.qcyrzxfqbqwsbdkje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qcyrzxfqbqwsbdkse.columnEdit==1" @blur="unfocus('table3','se','','qcyrzxfqbqwsbdkse',$event,'','')" v-text="thisData.qcyrzxfqbqwsbdkse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qcyrzxfqbqwsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','qcyrzxfqbqwsbdkfs',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','qcyrzxfqbqwsbdkfs',$event,'','')})"  v-text="thisData.qcyrzxfqbqwsbdkfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qcyrzxfqbqwsbdkje.columnEdit==1" @blur="unfocus('table3','je','','qcyrzxfqbqwsbdkje',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','je','','qcyrzxfqbqwsbdkje',$event,'','')})"  v-text="thisData.qcyrzxfqbqwsbdkje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qcyrzxfqbqwsbdkse.columnEdit==1" @blur="unfocus('table3','se','','qcyrzxfqbqwsbdkse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','qcyrzxfqbqwsbdkse',$event,'','')})"  v-text="thisData.qcyrzxfqbqwsbdkse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class=" padL">本期认证相符且本期未申报抵扣</td>
                         <td class="center">26</td>
-                        <td class="center" :contenteditable="thisData.bqrzxfqbqwsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','bqrzxfqbqwsbdkfs',$event,'','')" v-text="thisData.bqrzxfqbqwsbdkfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqrzxfqbqwsbdkje.columnEdit==1" @blur="unfocus('table3','je','','bqrzxfqbqwsbdkje',$event,'','')" v-text="thisData.bqrzxfqbqwsbdkje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqrzxfqbqwsbdkse.columnEdit==1" @blur="unfocus('table3','se','','bqrzxfqbqwsbdkse',$event,'','')" v-text="thisData.bqrzxfqbqwsbdkse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqrzxfqbqwsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','bqrzxfqbqwsbdkfs',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','bqrzxfqbqwsbdkfs',$event,'','')})"  v-text="thisData.bqrzxfqbqwsbdkfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqrzxfqbqwsbdkje.columnEdit==1" @blur="unfocus('table3','je','','bqrzxfqbqwsbdkje',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','je','','bqrzxfqbqwsbdkje',$event,'','')})"  v-text="thisData.bqrzxfqbqwsbdkje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqrzxfqbqwsbdkse.columnEdit==1" @blur="unfocus('table3','se','','bqrzxfqbqwsbdkse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','bqrzxfqbqwsbdkse',$event,'','')})"  v-text="thisData.bqrzxfqbqwsbdkse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class=" padL">期末已认证相符但未申报抵扣</td>
                         <td class="center">27</td>
-                        <td class="center" :contenteditable="thisData.qmyrzxfdwsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','qmyrzxfdwsbdkfs',$event,'','')" v-text="thisData.qmyrzxfdwsbdkfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qmyrzxfdwsbdkje.columnEdit==1" @blur="unfocus('table3','je','','qmyrzxfdwsbdkje',$event,'','')" v-text="thisData.qmyrzxfdwsbdkje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qmyrzxfdwsbdkse.columnEdit==1" @blur="unfocus('table3','se','','qmyrzxfdwsbdkse',$event,'','')" v-text="thisData.qmyrzxfdwsbdkse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qmyrzxfdwsbdkfs.columnEdit==1" @blur="unfocus('table3','fs','','qmyrzxfdwsbdkfs',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','qmyrzxfdwsbdkfs',$event,'','')})"  v-text="thisData.qmyrzxfdwsbdkfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qmyrzxfdwsbdkje.columnEdit==1" @blur="unfocus('table3','je','','qmyrzxfdwsbdkje',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','je','','qmyrzxfdwsbdkje',$event,'','')})"  v-text="thisData.qmyrzxfdwsbdkje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qmyrzxfdwsbdkse.columnEdit==1" @blur="unfocus('table3','se','','qmyrzxfdwsbdkse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','qmyrzxfdwsbdkse',$event,'','')})"  v-text="thisData.qmyrzxfdwsbdkse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">其中：按照税法规定不允许抵扣</td>
                         <td class="center">28</td>
-                        <td class="center" :contenteditable="thisData.azsfgdbyxdkfs.columnEdit==1" @blur="unfocus('table3','fs','','azsfgdbyxdkfs',$event,'','')" v-text="thisData.azsfgdbyxdkfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.azsfgdbyxdkje.columnEdit==1" @blur="unfocus('table3','je','','azsfgdbyxdkje',$event,'','')" v-text="thisData.azsfgdbyxdkje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.azsfgdbyxdkse.columnEdit==1" @blur="unfocus('table3','se','','azsfgdbyxdkse',$event,'','')" v-text="thisData.azsfgdbyxdkse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.azsfgdbyxdkfs.columnEdit==1" @blur="unfocus('table3','fs','','azsfgdbyxdkfs',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','azsfgdbyxdkfs',$event,'','')})"  v-text="thisData.azsfgdbyxdkfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.azsfgdbyxdkje.columnEdit==1" @blur="unfocus('table3','je','','azsfgdbyxdkje',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','je','','azsfgdbyxdkje',$event,'','')})"  v-text="thisData.azsfgdbyxdkje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.azsfgdbyxdkse.columnEdit==1" @blur="unfocus('table3','se','','azsfgdbyxdkse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','azsfgdbyxdkse',$event,'','')})"  v-text="thisData.azsfgdbyxdkse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>（二）其他扣税凭证</td>
                         <td class="center">29=30至33之和</td>
-                        <td class="center" :contenteditable="thisData.qtkspzddkjxsefs.columnEdit==1" @blur="unfocus('table3','fs','','qtkspzddkjxsefs',$event,'','')" v-text="thisData.qtkspzddkjxsefs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qtkspzddkjxseje.columnEdit==1" @blur="unfocus('table3','je','','qtkspzddkjxseje',$event,'','')" v-text="thisData.qtkspzddkjxseje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qtkspzddkjxsese.columnEdit==1" @blur="unfocus('table3','se','','qtkspzddkjxsese',$event,'','')" v-text="thisData.qtkspzddkjxsese.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtkspzddkjxsefs.columnEdit==1" @blur="unfocus('table3','fs','','qtkspzddkjxsefs',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','qtkspzddkjxsefs',$event,'','')})"  v-text="thisData.qtkspzddkjxsefs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtkspzddkjxseje.columnEdit==1" @blur="unfocus('table3','je','','qtkspzddkjxseje',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','je','','qtkspzddkjxseje',$event,'','')})"  v-text="thisData.qtkspzddkjxseje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtkspzddkjxsese.columnEdit==1" @blur="unfocus('table3','se','','qtkspzddkjxsese',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','qtkspzddkjxsese',$event,'','')})"  v-text="thisData.qtkspzddkjxsese.columnValue"></td>
                     </tr>
                     <tr>
                         <td>其中：海关进口增值税专用缴款书</td>
                         <td class="center">30</td>
-                        <td class="center" :contenteditable="thisData.hgjkzzszyxsfpfs.columnEdit==1" @blur="unfocus('table3','fs','','hgjkzzszyxsfpfs',$event,'qtkspzddkjxse','')" v-text="thisData.hgjkzzszyxsfpfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.hgjkzzszyxsfpje.columnEdit==1" @blur="unfocus('table3','je','','hgjkzzszyxsfpje',$event,'qtkspzddkjxse','')" v-text="thisData.hgjkzzszyxsfpje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.hgjkzzszyxsfpse.columnEdit==1" @blur="unfocus('table3','se','','hgjkzzszyxsfpse',$event,'qtkspzddkjxse','')" v-text="thisData.hgjkzzszyxsfpse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hgjkzzszyxsfpfs.columnEdit==1" @blur="unfocus('table3','fs','','hgjkzzszyxsfpfs',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','hgjkzzszyxsfpfs',$event,'qtkspzddkjxse','')})"  v-text="thisData.hgjkzzszyxsfpfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hgjkzzszyxsfpje.columnEdit==1" @blur="unfocus('table3','je','','hgjkzzszyxsfpje',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','je','','hgjkzzszyxsfpje',$event,'qtkspzddkjxse','')})"  v-text="thisData.hgjkzzszyxsfpje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.hgjkzzszyxsfpse.columnEdit==1" @blur="unfocus('table3','se','','hgjkzzszyxsfpse',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','se','','hgjkzzszyxsfpse',$event,'qtkspzddkjxse','')})"  v-text="thisData.hgjkzzszyxsfpse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>农产品收购发票或者销售发票</td>
                         <td class="center">31</td>
-                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpddkfs.columnEdit==1" @blur="unfocus('table3','fs','','ncpsgfphzxsfpddkfs',$event,'qtkspzddkjxse','')" v-text="thisData.ncpsgfphzxsfpddkfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpddkje.columnEdit==1" @blur="unfocus('table3','je','','ncpsgfphzxsfpddkje',$event,'qtkspzddkjxse','')" v-text="thisData.ncpsgfphzxsfpddkje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpse.columnEdit==1" @blur="unfocus('table3','se','','ncpsgfphzxsfpse',$event,'qtkspzddkjxse','')" v-text="thisData.ncpsgfphzxsfpse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpddkfs.columnEdit==1" @blur="unfocus('table3','fs','','ncpsgfphzxsfpddkfs',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','ncpsgfphzxsfpddkfs',$event,'qtkspzddkjxse','')})"  v-text="thisData.ncpsgfphzxsfpddkfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpddkje.columnEdit==1" @blur="unfocus('table3','je','','ncpsgfphzxsfpddkje',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','je','','ncpsgfphzxsfpddkje',$event,'qtkspzddkjxse','')})"  v-text="thisData.ncpsgfphzxsfpddkje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ncpsgfphzxsfpse.columnEdit==1" @blur="unfocus('table3','se','','ncpsgfphzxsfpse',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','se','','ncpsgfphzxsfpse',$event,'qtkspzddkjxse','')})"  v-text="thisData.ncpsgfphzxsfpse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>代扣代缴税收缴款凭证</td>
                         <td class="center">32</td>
-                        <td class="center" :contenteditable="thisData.ddkdkdjskpzfs.columnEdit==1" @blur="unfocus('table3','fs','','ddkdkdjskpzfs',$event,'qtkspzddkjxse','')" v-text="thisData.ddkdkdjskpzfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ddkdkdjskpzfs.columnEdit==1" @blur="unfocus('table3','fs','','ddkdkdjskpzfs',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','ddkdkdjskpzfs',$event,'qtkspzddkjxse','')})"  v-text="thisData.ddkdkdjskpzfs.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.ddkdkdjskpzse.columnEdit==1" @blur="unfocus('table3','se','','ddkdkdjskpzse',$event,'qtkspzddkjxse','')" v-text="thisData.ddkdkdjskpzse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ddkdkdjskpzse.columnEdit==1" @blur="unfocus('table3','se','','ddkdkdjskpzse',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','se','','ddkdkdjskpzse',$event,'qtkspzddkjxse','')})"  v-text="thisData.ddkdkdjskpzse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>其他</td>
                         <td class="center">33</td>
-                        <td class="center" :contenteditable="thisData.ddkjxseqtkkpzqtfs.columnEdit==1" @blur="unfocus('table3','fs','','ddkjxseqtkkpzqtfs',$event,'qtkspzddkjxse','')" v-text="thisData.ddkjxseqtkkpzqtfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ddkjxseqtkkpzqtje.columnEdit==1" @blur="unfocus('table3','je','','ddkjxseqtkkpzqtje',$event,'qtkspzddkjxse','')" v-text="thisData.ddkjxseqtkkpzqtje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ddkjxseqtkkpzqtse.columnEdit==1" @blur="unfocus('table3','se','','ddkjxseqtkkpzqtse',$event,'qtkspzddkjxse','')" v-text="thisData.ddkjxseqtkkpzqtse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ddkjxseqtkkpzqtfs.columnEdit==1" @blur="unfocus('table3','fs','','ddkjxseqtkkpzqtfs',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','ddkjxseqtkkpzqtfs',$event,'qtkspzddkjxse','')})"  v-text="thisData.ddkjxseqtkkpzqtfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ddkjxseqtkkpzqtje.columnEdit==1" @blur="unfocus('table3','je','','ddkjxseqtkkpzqtje',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','je','','ddkjxseqtkkpzqtje',$event,'qtkspzddkjxse','')})"  v-text="thisData.ddkjxseqtkkpzqtje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ddkjxseqtkkpzqtse.columnEdit==1" @blur="unfocus('table3','se','','ddkjxseqtkkpzqtse',$event,'qtkspzddkjxse','')" @keydown.enter="(($event)=>{unfocus('table3','se','','ddkjxseqtkkpzqtse',$event,'qtkspzddkjxse','')})"  v-text="thisData.ddkjxseqtkkpzqtse.columnValue"></td>
                     </tr>
                     <tr>
                         <td class=""></td>
@@ -1332,16 +1332,16 @@
                     <tr>
                         <td>本期认证相符的增值税专用发票</td>
                         <td class="center">35</td>
-                        <td class="center" :contenteditable="thisData.bqrzxfdskzzszyfpfs.columnEdit==1" @blur="unfocus('table3','fs','','bqrzxfdskzzszyfpfs',$event,'','')" v-text="thisData.bqrzxfdskzzszyfpfs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqrzxfdskzzszyfpje.columnEdit==1" @blur="unfocus('table3','je','','bqrzxfdskzzszyfpje',$event,'','')" v-text="thisData.bqrzxfdskzzszyfpje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqrzxfdskzzszyfpse.columnEdit==1" @blur="unfocus('table3','se','','bqrzxfdskzzszyfpse',$event,'','')" v-text="thisData.bqrzxfdskzzszyfpse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqrzxfdskzzszyfpfs.columnEdit==1" @blur="unfocus('table3','fs','','bqrzxfdskzzszyfpfs',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','fs','','bqrzxfdskzzszyfpfs',$event,'','')})"  v-text="thisData.bqrzxfdskzzszyfpfs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqrzxfdskzzszyfpje.columnEdit==1" @blur="unfocus('table3','je','','bqrzxfdskzzszyfpje',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','je','','bqrzxfdskzzszyfpje',$event,'','')})"  v-text="thisData.bqrzxfdskzzszyfpje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqrzxfdskzzszyfpse.columnEdit==1" @blur="unfocus('table3','se','','bqrzxfdskzzszyfpse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','bqrzxfdskzzszyfpse',$event,'','')})"  v-text="thisData.bqrzxfdskzzszyfpse.columnValue"></td>
                     </tr>
                     <tr>
                         <td>代扣代缴税额</td>
                         <td class="center">36</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.dkdjsese.columnEdit==1" @blur="unfocus('table3','se','','dkdjsese',$event,'','')" v-text="thisData.dkdjsese.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dkdjsese.columnEdit==1" @blur="unfocus('table3','se','','dkdjsese',$event,'','')" @keydown.enter="(($event)=>{unfocus('table3','se','','dkdjsese',$event,'','')})"  v-text="thisData.dkdjsese.columnValue"></td>
                     </tr>
                 </table>
             </div>
@@ -1370,82 +1370,82 @@
                     <tr>
                         <td class="center">13%税率的项目</td>
                         <td class="center">1</td>
-                        <td class="center" :contenteditable="thisData.bfz13sldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmhje',$event,'','bfz13sldxm')" v-text="thisData.bfz13sldxmhje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13sldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmqcye',$event,'calchj','bfz13sldxm')" v-text="thisData.bfz13sldxmqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13sldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmbqfse',$event,'calchj','bfz13sldxm')" v-text="thisData.bfz13sldxmbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13sldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmbqykcje',$event,'calchj','bfz13sldxm')" v-text="thisData.bfz13sldxmbqykcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13sldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmbqsjkcje',$event,'calchj','bfz13sldxm')" v-text="thisData.bfz13sldxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz13sldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmqmye',$event,'','bfz13sldxm')" v-text="thisData.bfz13sldxmqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13sldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmhje',$event,'','bfz13sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz13sldxmhje',$event,'','bfz13sldxm')})"  v-text="thisData.bfz13sldxmhje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13sldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmqcye',$event,'calchj','bfz13sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz13sldxmqcye',$event,'calchj','bfz13sldxm')})"  v-text="thisData.bfz13sldxmqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13sldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmbqfse',$event,'calchj','bfz13sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz13sldxmbqfse',$event,'calchj','bfz13sldxm')})"  v-text="thisData.bfz13sldxmbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13sldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmbqykcje',$event,'calchj','bfz13sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz13sldxmbqykcje',$event,'calchj','bfz13sldxm')})"  v-text="thisData.bfz13sldxmbqykcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13sldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmbqsjkcje',$event,'calchj','bfz13sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz13sldxmbqsjkcje',$event,'calchj','bfz13sldxm')})"  v-text="thisData.bfz13sldxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz13sldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz13sldxmqmye',$event,'','bfz13sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz13sldxmqmye',$event,'','bfz13sldxm')})"  v-text="thisData.bfz13sldxmqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">9%税率的项目</td>
                         <td class="center">2</td>
-                        <td class="center" :contenteditable="thisData.bfz9sldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmhje',$event,'','bfz9sldxm')" v-text="thisData.bfz9sldxmhje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9sldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmqcye',$event,'calchj','bfz9sldxm')" v-text="thisData.bfz9sldxmqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9sldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmbqfse',$event,'calchj','bfz9sldxm')" v-text="thisData.bfz9sldxmbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9sldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmbqykcje',$event,'calchj','bfz9sldxm')" v-text="thisData.bfz9sldxmbqykcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9sldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmbqsjkcje',$event,'calchj','bfz9sldxm')" v-text="thisData.bfz9sldxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz9sldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmqmye',$event,'','bfz9sldxm')" v-text="thisData.bfz9sldxmqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9sldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmhje',$event,'','bfz9sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz9sldxmhje',$event,'','bfz9sldxm')})"  v-text="thisData.bfz9sldxmhje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9sldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmqcye',$event,'calchj','bfz9sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz9sldxmqcye',$event,'calchj','bfz9sldxm')})"  v-text="thisData.bfz9sldxmqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9sldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmbqfse',$event,'calchj','bfz9sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz9sldxmbqfse',$event,'calchj','bfz9sldxm')})"  v-text="thisData.bfz9sldxmbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9sldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmbqykcje',$event,'calchj','bfz9sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz9sldxmbqykcje',$event,'calchj','bfz9sldxm')})"  v-text="thisData.bfz9sldxmbqykcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9sldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmbqsjkcje',$event,'calchj','bfz9sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz9sldxmbqsjkcje',$event,'calchj','bfz9sldxm')})"  v-text="thisData.bfz9sldxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz9sldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz9sldxmqmye',$event,'','bfz9sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz9sldxmqmye',$event,'','bfz9sldxm')})"  v-text="thisData.bfz9sldxmqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">6%税率的项目（不含金融商品转让）</td>
                         <td class="center">3</td>
-                        <td class="center" :contenteditable="thisData.bfz6sldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmhje',$event,'','bfz6sldxm')" v-text="thisData.bfz6sldxmhje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmqcye',$event,'calchj','bfz6sldxm')" v-text="thisData.bfz6sldxmqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmbqfse',$event,'calchj','bfz6sldxm')" v-text="thisData.bfz6sldxmbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmbqykcje',$event,'calchj','bfz6sldxm')" v-text="thisData.bfz6sldxmbqykcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmbqsjkcje',$event,'calchj','bfz6sldxm')" v-text="thisData.bfz6sldxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmqmye',$event,'','bfz6sldxm')" v-text="thisData.bfz6sldxmqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmhje',$event,'','bfz6sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldxmhje',$event,'','bfz6sldxm')})"   v-text="thisData.bfz6sldxmhje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmqcye',$event,'calchj','bfz6sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldxmqcye',$event,'calchj','bfz6sldxm')})"  v-text="thisData.bfz6sldxmqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmbqfse',$event,'calchj','bfz6sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldxmbqfse',$event,'calchj','bfz6sldxm')})"  v-text="thisData.bfz6sldxmbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmbqykcje',$event,'calchj','bfz6sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldxmbqykcje',$event,'calchj','bfz6sldxm')})"  v-text="thisData.bfz6sldxmbqykcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmbqsjkcje',$event,'calchj','bfz6sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldxmbqsjkcje',$event,'calchj','bfz6sldxm')})"  v-text="thisData.bfz6sldxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz6sldxmqmye',$event,'','bfz6sldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldxmqmye',$event,'','bfz6sldxm')})"  v-text="thisData.bfz6sldxmqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">6%税率的金融商品转让项目</td>
                         <td class="center">4</td>
-                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmhje',$event,'','bfz6sldjrspzrxm')" v-text="thisData.bfz6sldjrspzrxmhje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmqcye',$event,'calchj','bfz6sldjrspzrxm')" v-text="thisData.bfz6sldjrspzrxmqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmbqfse',$event,'calchj','bfz6sldjrspzrxm')" v-text="thisData.bfz6sldjrspzrxmbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmbqykcje',$event,'calchj','bfz6sldjrspzrxm')" v-text="thisData.bfz6sldjrspzrxmbqykcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmbqsjkcje',$event,'calchj','bfz6sldjrspzrxm')" v-text="thisData.bfz6sldjrspzrxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmqmye',$event,'','bfz6sldjrspzrxm')" v-text="thisData.bfz6sldjrspzrxmqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmhje',$event,'','bfz6sldjrspzrxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldjrspzrxmhje',$event,'','bfz6sldjrspzrxm')})"  v-text="thisData.bfz6sldjrspzrxmhje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmqcye',$event,'calchj','bfz6sldjrspzrxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldjrspzrxmqcye',$event,'calchj','bfz6sldjrspzrxm')})"  v-text="thisData.bfz6sldjrspzrxmqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmbqfse',$event,'calchj','bfz6sldjrspzrxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldjrspzrxmbqfse',$event,'calchj','bfz6sldjrspzrxm')})"  v-text="thisData.bfz6sldjrspzrxmbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmbqykcje',$event,'calchj','bfz6sldjrspzrxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldjrspzrxmbqykcje',$event,'calchj','bfz6sldjrspzrxm')})"  v-text="thisData.bfz6sldjrspzrxmbqykcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmbqsjkcje',$event,'calchj','bfz6sldjrspzrxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldjrspzrxmbqsjkcje',$event,'calchj','bfz6sldjrspzrxm')})"  v-text="thisData.bfz6sldjrspzrxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz6sldjrspzrxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz6sldjrspzrxmqmye',$event,'','bfz6sldjrspzrxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz6sldjrspzrxmqmye',$event,'','bfz6sldjrspzrxm')})"  v-text="thisData.bfz6sldjrspzrxmqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">5%征收率的项目</td>
                         <td class="center">5</td>
-                        <td class="center" :contenteditable="thisData.bfz5zsldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmhje',$event,'','bfz5zsldxm')" v-text="thisData.bfz5zsldxmhje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmqcye',$event,'calchj','bfz5zsldxm')" v-text="thisData.bfz5zsldxmqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmbqfse',$event,'calchj','bfz5zsldxm')" v-text="thisData.bfz5zsldxmbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmbqykcje',$event,'calchj','bfz5zsldxm')" v-text="thisData.bfz5zsldxmbqykcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmbqsjkcje',$event,'calchj','bfz5zsldxm')" v-text="thisData.bfz5zsldxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz5zsldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmqmye',$event,'','bfz5zsldxm')" v-text="thisData.bfz5zsldxmqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmhje',$event,'','bfz5zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz5zsldxmhje',$event,'','bfz5zsldxm')})"  v-text="thisData.bfz5zsldxmhje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmqcye',$event,'calchj','bfz5zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz5zsldxmqcye',$event,'calchj','bfz5zsldxm')})"  v-text="thisData.bfz5zsldxmqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmbqfse',$event,'calchj','bfz5zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz5zsldxmbqfse',$event,'calchj','bfz5zsldxm')})"  v-text="thisData.bfz5zsldxmbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmbqykcje',$event,'calchj','bfz5zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz5zsldxmbqykcje',$event,'calchj','bfz5zsldxm')})"  v-text="thisData.bfz5zsldxmbqykcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmbqsjkcje',$event,'calchj','bfz5zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz5zsldxmbqsjkcje',$event,'calchj','bfz5zsldxm')})"  v-text="thisData.bfz5zsldxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz5zsldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz5zsldxmqmye',$event,'','bfz5zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz5zsldxmqmye',$event,'','bfz5zsldxm')})"  v-text="thisData.bfz5zsldxmqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">3%征收率的项目</td>
                         <td class="center">6</td>
-                        <td class="center" :contenteditable="thisData.bfz3zsldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmhje',$event,'','bfz3zsldxm')" v-text="thisData.bfz3zsldxmhje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3zsldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmqcye',$event,'calchj','bfz3zsldxm')" v-text="thisData.bfz3zsldxmqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3zsldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmbqfse',$event,'calchj','bfz3zsldxm')" v-text="thisData.bfz3zsldxmbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3zsldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmbqykcje',$event,'calchj','bfz3zsldxm')" v-text="thisData.bfz3zsldxmbqykcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3zsldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmbqsjkcje',$event,'calchj','bfz3zsldxm')" v-text="thisData.bfz3zsldxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bfz3zsldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmqmye',$event,'','bfz3zsldxm')" v-text="thisData.bfz3zsldxmqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3zsldxmhje.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmhje',$event,'','bfz3zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz3zsldxmhje',$event,'','bfz3zsldxm')})"  v-text="thisData.bfz3zsldxmhje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3zsldxmqcye.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmqcye',$event,'calchj','bfz3zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz3zsldxmqcye',$event,'calchj','bfz3zsldxm')})"  v-text="thisData.bfz3zsldxmqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3zsldxmbqfse.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmbqfse',$event,'calchj','bfz3zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz3zsldxmbqfse',$event,'calchj','bfz3zsldxm')})"  v-text="thisData.bfz3zsldxmbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3zsldxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmbqykcje',$event,'calchj','bfz3zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz3zsldxmbqykcje',$event,'calchj','bfz3zsldxm')})"  v-text="thisData.bfz3zsldxmbqykcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3zsldxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmbqsjkcje',$event,'calchj','bfz3zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz3zsldxmbqsjkcje',$event,'calchj','bfz3zsldxm')})"  v-text="thisData.bfz3zsldxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bfz3zsldxmqmye.columnEdit==1" @blur="unfocus('table7','','','bfz3zsldxmqmye',$event,'','bfz3zsldxm')" @keydown.enter="(($event)=>{unfocus('table7','','','bfz3zsldxmqmye',$event,'','bfz3zsldxm')})"  v-text="thisData.bfz3zsldxmqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">免抵退税的项目</td>
                         <td class="center">7</td>
-                        <td class="center" :contenteditable="thisData.mdtsdxmhje.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmhje',$event,'','mdtsdxm')" v-text="thisData.mdtsdxmhje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.mdtsdxmqcye.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmqcye',$event,'calchj','mdtsdxm')" v-text="thisData.mdtsdxmqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.mdtsdxmbqfse.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmbqfse',$event,'calchj','mdtsdxm')" v-text="thisData.mdtsdxmbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.mdtsdxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmbqykcje',$event,'calchj','mdtsdxm')" v-text="thisData.mdtsdxmbqykcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.mdtsdxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmbqsjkcje',$event,'calchj','mdtsdxm')" v-text="thisData.mdtsdxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.mdtsdxmqmye.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmqmye',$event,'','mdtsdxm')" v-text="thisData.mdtsdxmqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.mdtsdxmhje.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmhje',$event,'','mdtsdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','mdtsdxmhje',$event,'','mdtsdxm')})"  v-text="thisData.mdtsdxmhje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.mdtsdxmqcye.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmqcye',$event,'calchj','mdtsdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','mdtsdxmqcye',$event,'calchj','mdtsdxm')})"  v-text="thisData.mdtsdxmqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.mdtsdxmbqfse.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmbqfse',$event,'calchj','mdtsdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','mdtsdxmbqfse',$event,'calchj','mdtsdxm')})"  v-text="thisData.mdtsdxmbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.mdtsdxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmbqykcje',$event,'calchj','mdtsdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','mdtsdxmbqykcje',$event,'calchj','mdtsdxm')})"  v-text="thisData.mdtsdxmbqykcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.mdtsdxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmbqsjkcje',$event,'calchj','mdtsdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','mdtsdxmbqsjkcje',$event,'calchj','mdtsdxm')})"  v-text="thisData.mdtsdxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.mdtsdxmqmye.columnEdit==1" @blur="unfocus('table7','','','mdtsdxmqmye',$event,'','mdtsdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','mdtsdxmqmye',$event,'','mdtsdxm')})"  v-text="thisData.mdtsdxmqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">免税的项目</td>
                         <td class="center">8</td>
-                        <td class="center" :contenteditable="thisData.msdxmhje.columnEdit==1" @blur="unfocus('table7','','','msdxmhje',$event,'','msdxm')" v-text="thisData.msdxmhje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.msdxmqcye.columnEdit==1" @blur="unfocus('table7','','','msdxmqcye',$event,'calchj','msdxm')" v-text="thisData.msdxmqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.msdxmbqfse.columnEdit==1" @blur="unfocus('table7','','','msdxmbqfse',$event,'calchj','msdxm')" v-text="thisData.msdxmbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.msdxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','msdxmbqykcje',$event,'calchj','msdxm')" v-text="thisData.msdxmbqykcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.msdxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','msdxmbqsjkcje',$event,'calchj','msdxm')" v-text="thisData.msdxmbqsjkcje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.msdxmqmye.columnEdit==1" @blur="unfocus('table7','','','msdxmqmye',$event,'','mdtsdxm')" v-text="thisData.msdxmqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msdxmhje.columnEdit==1" @blur="unfocus('table7','','','msdxmhje',$event,'','msdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','msdxmhje',$event,'','msdxm')})"  v-text="thisData.msdxmhje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msdxmqcye.columnEdit==1" @blur="unfocus('table7','','','msdxmqcye',$event,'calchj','msdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','msdxmqcye',$event,'calchj','msdxm')})"  v-text="thisData.msdxmqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msdxmbqfse.columnEdit==1" @blur="unfocus('table7','','','msdxmbqfse',$event,'calchj','msdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','msdxmbqfse',$event,'calchj','msdxm')})"  v-text="thisData.msdxmbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msdxmbqykcje.columnEdit==1" @blur="unfocus('table7','','','msdxmbqykcje',$event,'calchj','msdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','msdxmbqykcje',$event,'calchj','msdxm')})"  v-text="thisData.msdxmbqykcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msdxmbqsjkcje.columnEdit==1" @blur="unfocus('table7','','','msdxmbqsjkcje',$event,'calchj','msdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','msdxmbqsjkcje',$event,'calchj','msdxm')})"  v-text="thisData.msdxmbqsjkcje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msdxmqmye.columnEdit==1" @blur="unfocus('table7','','','msdxmqmye',$event,'','mdtsdxm')" @keydown.enter="(($event)=>{unfocus('table7','','','msdxmqmye',$event,'','mdtsdxm')})"  v-text="thisData.msdxmqmye.columnValue"></td>
                     </tr>
                 </table>
             </div>
@@ -1473,29 +1473,29 @@
                     <tr>
                         <td class="center">1</td>
                         <td class="">增值税税控系统专用设备费及技术维护费</td>
-                        <td class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfqcye.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfqcye',$event,'calchj','zzsskxtzysbfjjswhf')" v-text="thisData.zzsskxtzysbfjjswhfqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfbqfse.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfbqfse',$event,'calchj','zzsskxtzysbfjjswhf')" v-text="thisData.zzsskxtzysbfjjswhfbqfse.columnValue"></td>
-                        <td colspan="2" class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfbqydjse.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfbqydjse',$event,'calchj','zzsskxtzysbfjjswhf')" v-text="thisData.zzsskxtzysbfjjswhfbqydjse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfbqsjdjse.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfbqsjdjse',$event,'calchj','zzsskxtzysbfjjswhf')" v-text="thisData.zzsskxtzysbfjjswhfbqsjdjse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfqmye.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfqmye',$event,'','zzsskxtzysbfjjswhf')" v-text="thisData.zzsskxtzysbfjjswhfqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfqcye.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfqcye',$event,'calchj','zzsskxtzysbfjjswhf')" @keydown.enter="(($event)=>{unfocus('table8','','1','zzsskxtzysbfjjswhfqcye',$event,'calchj','zzsskxtzysbfjjswhf')})"  v-text="thisData.zzsskxtzysbfjjswhfqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfbqfse.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfbqfse',$event,'calchj','zzsskxtzysbfjjswhf')" @keydown.enter="(($event)=>{unfocus('table8','','1','zzsskxtzysbfjjswhfbqfse',$event,'calchj','zzsskxtzysbfjjswhf')})"  v-text="thisData.zzsskxtzysbfjjswhfbqfse.columnValue"></td>
+                        <td colspan="2" class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfbqydjse.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfbqydjse',$event,'calchj','zzsskxtzysbfjjswhf')" @keydown.enter="(($event)=>{unfocus('table8','','1','zzsskxtzysbfjjswhfbqydjse',$event,'calchj','zzsskxtzysbfjjswhf')})"  v-text="thisData.zzsskxtzysbfjjswhfbqydjse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfbqsjdjse.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfbqsjdjse',$event,'calchj','zzsskxtzysbfjjswhf')" @keydown.enter="(($event)=>{unfocus('table8','','1','zzsskxtzysbfjjswhfbqsjdjse',$event,'calchj','zzsskxtzysbfjjswhf')})"  v-text="thisData.zzsskxtzysbfjjswhfbqsjdjse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.zzsskxtzysbfjjswhfqmye.columnEdit==1" @blur="unfocus('table8','','1','zzsskxtzysbfjjswhfqmye',$event,'','zzsskxtzysbfjjswhf')" @keydown.enter="(($event)=>{unfocus('table8','','1','zzsskxtzysbfjjswhfqmye',$event,'','zzsskxtzysbfjjswhf')})"  v-text="thisData.zzsskxtzysbfjjswhfqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">2</td>
                         <td class="">分支机构预征缴纳税款</td>
-                        <td class="center" :contenteditable="thisData.fzjgyzsjnskqcye.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskqcye',$event,'calchj','fzjgyzsjnsk')" v-text="thisData.fzjgyzsjnskqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.fzjgyzsjnskbqfse.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskbqfse',$event,'calchj','fzjgyzsjnsk')" v-text="thisData.fzjgyzsjnskbqfse.columnValue"></td>
-                        <td colspan="2" class="center" :contenteditable="thisData.fzjgyzsjnskbqydjse.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskbqydjse',$event,'calchj','fzjgyzsjnsk')" v-text="thisData.fzjgyzsjnskbqydjse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.fzjgyzsjnskbqsjdjse.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskbqsjdjse',$event,'calchj','fzjgyzsjnsk')" v-text="thisData.fzjgyzsjnskbqsjdjse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.fzjgyzsjnskqmye.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskqmye',$event,'calchj','fzjgyzsjnsk')" v-text="thisData.fzjgyzsjnskqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fzjgyzsjnskqcye.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskqcye',$event,'calchj','fzjgyzsjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','fzjgyzsjnskqcye',$event,'calchj','fzjgyzsjnsk')})"  v-text="thisData.fzjgyzsjnskqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fzjgyzsjnskbqfse.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskbqfse',$event,'calchj','fzjgyzsjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','fzjgyzsjnskbqfse',$event,'calchj','fzjgyzsjnsk')})"  v-text="thisData.fzjgyzsjnskbqfse.columnValue"></td>
+                        <td colspan="2" class="center" :contenteditable="thisData.fzjgyzsjnskbqydjse.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskbqydjse',$event,'calchj','fzjgyzsjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','fzjgyzsjnskbqydjse',$event,'calchj','fzjgyzsjnsk')})"  v-text="thisData.fzjgyzsjnskbqydjse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fzjgyzsjnskbqsjdjse.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskbqsjdjse',$event,'calchj','fzjgyzsjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','fzjgyzsjnskbqsjdjse',$event,'calchj','fzjgyzsjnsk')})"  v-text="thisData.fzjgyzsjnskbqsjdjse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.fzjgyzsjnskqmye.columnEdit==1" @blur="unfocus('table8','','1','fzjgyzsjnskqmye',$event,'calchj','fzjgyzsjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','fzjgyzsjnskqmye',$event,'calchj','fzjgyzsjnsk')})"  v-text="thisData.fzjgyzsjnskqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">3</td>
                         <td class="">建筑服务预征缴纳税款</td>
-                        <td class="center" :contenteditable="thisData.jzfwyzjnskqcye.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskqcye',$event,'calchj','jzfwyzjnsk')" v-text="thisData.jzfwyzjnskqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzfwyzjnskbqfse.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskbqfse',$event,'calchj','jzfwyzjnsk')" v-text="thisData.jzfwyzjnskbqfse.columnValue"></td>
-                        <td colspan="2" class="center" :contenteditable="thisData.jzfwyzjnskbqydjse.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskbqydjse',$event,'calchj','jzfwyzjnsk')" v-text="thisData.jzfwyzjnskbqydjse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzfwyzjnskbqsjdjse.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskbqsjdjse',$event,'calchj','jzfwyzjnsk')" v-text="thisData.jzfwyzjnskbqsjdjse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzfwyzjnskqmye.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskqmye',$event,'calchj','jzfwyzjnsk')" v-text="thisData.jzfwyzjnskqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzfwyzjnskqcye.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskqcye',$event,'calchj','jzfwyzjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','jzfwyzjnskqcye',$event,'calchj','jzfwyzjnsk')})"  v-text="thisData.jzfwyzjnskqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzfwyzjnskbqfse.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskbqfse',$event,'calchj','jzfwyzjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','jzfwyzjnskbqfse',$event,'calchj','jzfwyzjnsk')})"  v-text="thisData.jzfwyzjnskbqfse.columnValue"></td>
+                        <td colspan="2" class="center" :contenteditable="thisData.jzfwyzjnskbqydjse.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskbqydjse',$event,'calchj','jzfwyzjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','jzfwyzjnskbqydjse',$event,'calchj','jzfwyzjnsk')})"  v-text="thisData.jzfwyzjnskbqydjse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzfwyzjnskbqsjdjse.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskbqsjdjse',$event,'calchj','jzfwyzjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','jzfwyzjnskbqsjdjse',$event,'calchj','jzfwyzjnsk')})"  v-text="thisData.jzfwyzjnskbqsjdjse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzfwyzjnskqmye.columnEdit==1" @blur="unfocus('table8','','1','jzfwyzjnskqmye',$event,'calchj','jzfwyzjnsk')" @keydown.enter="(($event)=>{unfocus('table8','','1','jzfwyzjnskqmye',$event,'calchj','jzfwyzjnsk')})"   v-text="thisData.jzfwyzjnskqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">4</td>
@@ -1539,22 +1539,22 @@
                     <tr>
                         <td class="center">6</td>
                         <td class="">一般项目加计抵减额计算</td>
-                        <td class="center" :contenteditable="thisData.ybxmjjdjejsqcye.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsqcye',$event,'calchj','ybxmjjdjejs')" v-text="thisData.ybxmjjdjejsqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ybxmjjdjejsbqfse.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsbqfse',$event,'calchj','ybxmjjdjejs')" v-text="thisData.ybxmjjdjejsbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ybxmjjdjejsbqtje.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsbqtje',$event,'calchj','ybxmjjdjejs')" v-text="thisData.ybxmjjdjejsbqtje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ybxmjjdjejsbqkdje.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsbqkdje',$event,'calchj','ybxmjjdjejs')" v-text="thisData.ybxmjjdjejsbqkdje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ybxmjjdjejsbqsjdje.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsbqsjdje',$event,'calchj','ybxmjjdjejs')" v-text="thisData.ybxmjjdjejsbqsjdje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ybxmjjdjejsqmye.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsqmye',$event,'','ybxmjjdjejs')" v-text="thisData.ybxmjjdjejsqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ybxmjjdjejsqcye.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsqcye',$event,'calchj','ybxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','ybxmjjdjejsqcye',$event,'calchj','ybxmjjdjejs')})"  v-text="thisData.ybxmjjdjejsqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ybxmjjdjejsbqfse.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsbqfse',$event,'calchj','ybxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','ybxmjjdjejsbqfse',$event,'calchj','ybxmjjdjejs')})"  v-text="thisData.ybxmjjdjejsbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ybxmjjdjejsbqtje.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsbqtje',$event,'calchj','ybxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','ybxmjjdjejsbqtje',$event,'calchj','ybxmjjdjejs')})"  v-text="thisData.ybxmjjdjejsbqtje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ybxmjjdjejsbqkdje.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsbqkdje',$event,'calchj','ybxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','ybxmjjdjejsbqkdje',$event,'calchj','ybxmjjdjejs')})"  v-text="thisData.ybxmjjdjejsbqkdje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ybxmjjdjejsbqsjdje.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsbqsjdje',$event,'calchj','ybxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','ybxmjjdjejsbqsjdje',$event,'calchj','ybxmjjdjejs')})"  v-text="thisData.ybxmjjdjejsbqsjdje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ybxmjjdjejsqmye.columnEdit==1" @blur="unfocus('table8','','2','ybxmjjdjejsqmye',$event,'','ybxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','ybxmjjdjejsqmye',$event,'','ybxmjjdjejs')})"  v-text="thisData.ybxmjjdjejsqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">7</td>
                         <td class="">即征即退项目加计抵减额计算</td>
-                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsqcye.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsqcye',$event,'calchj','jzjtxmjjdjejs')" v-text="thisData.jzjtxmjjdjejsqcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsbqfse.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsbqfse',$event,'calchj','jzjtxmjjdjejs')" v-text="thisData.jzjtxmjjdjejsbqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsbqtje.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsbqtje',$event,'calchj','jzjtxmjjdjejs')" v-text="thisData.jzjtxmjjdjejsbqtje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsbqkdje.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsbqkdje',$event,'calchj','jzjtxmjjdjejs')" v-text="thisData.jzjtxmjjdjejsbqkdje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsbqsjdje.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsbqsjdje',$event,'calchj','jzjtxmjjdjejs')" v-text="thisData.jzjtxmjjdjejsbqsjdje.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsqmye.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsqmye',$event,'calchj','jzjtxmjjdjejs')" v-text="thisData.jzjtxmjjdjejsqmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsqcye.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsqcye',$event,'calchj','jzjtxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','jzjtxmjjdjejsqcye',$event,'calchj','jzjtxmjjdjejs')})"  v-text="thisData.jzjtxmjjdjejsqcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsbqfse.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsbqfse',$event,'calchj','jzjtxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','jzjtxmjjdjejsbqfse',$event,'calchj','jzjtxmjjdjejs')})"  v-text="thisData.jzjtxmjjdjejsbqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsbqtje.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsbqtje',$event,'calchj','jzjtxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','jzjtxmjjdjejsbqtje',$event,'calchj','jzjtxmjjdjejs')})"  v-text="thisData.jzjtxmjjdjejsbqtje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsbqkdje.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsbqkdje',$event,'calchj','jzjtxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','jzjtxmjjdjejsbqkdje',$event,'calchj','jzjtxmjjdjejs')})"  v-text="thisData.jzjtxmjjdjejsbqkdje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsbqsjdje.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsbqsjdje',$event,'calchj','jzjtxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','jzjtxmjjdjejsbqsjdje',$event,'calchj','jzjtxmjjdjejs')})"  v-text="thisData.jzjtxmjjdjejsbqsjdje.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.jzjtxmjjdjejsqmye.columnEdit==1" @blur="unfocus('table8','','2','jzjtxmjjdjejsqmye',$event,'calchj','jzjtxmjjdjejs')" @keydown.enter="(($event)=>{unfocus('table8','','2','jzjtxmjjdjejsqmye',$event,'calchj','jzjtxmjjdjejs')})"  v-text="thisData.jzjtxmjjdjejsqmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center">8</td>
@@ -1586,177 +1586,177 @@
                     <tr>
                         <td class="">（一）应征增值税不含税销售额</td>
                         <td class="center">1</td>
-                        <td class="center" :contenteditable="thisData.yzzzsbhshwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','yzzzsbhshwlw',$event,'','')" v-text="thisData.yzzzsbhshwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yzzzsbhsfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','yzzzsbhsfwbdc',$event,'','')" v-text="thisData.yzzzsbhsfwbdcbqs.columnValue">1882605.33</td>
-                        <td class="center" :contenteditable="thisData.yzzzsbhshwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','yzzzsbhshwlw',$event,'','')" v-text="thisData.yzzzsbhshwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.yzzzsbhsfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','yzzzsbhsfwbdc',$event,'','')" v-text="thisData.yzzzsbhsfwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yzzzsbhshwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','yzzzsbhshwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','yzzzsbhshwlw',$event,'','')})"  v-text="thisData.yzzzsbhshwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yzzzsbhsfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','yzzzsbhsfwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','yzzzsbhsfwbdc',$event,'','')})"  v-text="thisData.yzzzsbhsfwbdcbqs.columnValue">1882605.33</td>
+                        <td class="center" :contenteditable="thisData.yzzzsbhshwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','yzzzsbhshwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','yzzzsbhshwlw',$event,'','')})"  v-text="thisData.yzzzsbhshwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.yzzzsbhsfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','yzzzsbhsfwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','yzzzsbhsfwbdc',$event,'','')})"  v-text="thisData.yzzzsbhsfwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">税务机关代开的增值税专用发票不含税销售额</td>
                         <td class="center">2</td>
-                        <td class="center" :contenteditable="thisData.dkzzsfpbhshwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','dkzzsfpbhshwlw',$event,'','')" v-text="thisData.dkzzsfpbhshwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.dkzzsfpbhsfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','dkzzsfpbhsfwbdc',$event,'','')" v-text="thisData.dkzzsfpbhsfwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.dkzzsfpbhshwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','dkzzsfpbhshwlw',$event,'','')" v-text="thisData.dkzzsfpbhshwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.dkzzsfpbhsfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','dkzzsfpbhsfwbdc',$event,'','')" v-text="thisData.dkzzsfpbhsfwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dkzzsfpbhshwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','dkzzsfpbhshwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','dkzzsfpbhshwlw',$event,'','')})"  v-text="thisData.dkzzsfpbhshwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dkzzsfpbhsfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','dkzzsfpbhsfwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','dkzzsfpbhsfwbdc',$event,'','')})"  v-text="thisData.dkzzsfpbhsfwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dkzzsfpbhshwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','dkzzsfpbhshwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','dkzzsfpbhshwlw',$event,'','')})"  v-text="thisData.dkzzsfpbhshwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.dkzzsfpbhsfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','dkzzsfpbhsfwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','dkzzsfpbhsfwbdc',$event,'','')})"  v-text="thisData.dkzzsfpbhsfwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">税控器具开具的普通发票不含税销售额</td>
                         <td class="center">3</td>
-                        <td class="center" :contenteditable="thisData.skqjfpbhshwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','skqjfpbhshwlw',$event,'','')" v-text="thisData.skqjfpbhshwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.skqjfpbhsfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','skqjfpbhsfwbdc',$event,'','')" v-text="thisData.skqjfpbhsfwbdcbqs.columnValue">1882605.33</td>
-                        <td class="center" :contenteditable="thisData.skqjfpbhshwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','skqjfpbhshwlw',$event,'','')" v-text="thisData.skqjfpbhshwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.skqjfpbhsfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','skqjfpbhsfwbdc',$event,'','')" v-text="thisData.skqjfpbhsfwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.skqjfpbhshwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','skqjfpbhshwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','skqjfpbhshwlw',$event,'','')})"  v-text="thisData.skqjfpbhshwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.skqjfpbhsfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','skqjfpbhsfwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','skqjfpbhsfwbdc',$event,'','')})"  v-text="thisData.skqjfpbhsfwbdcbqs.columnValue">1882605.33</td>
+                        <td class="center" :contenteditable="thisData.skqjfpbhshwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','skqjfpbhshwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','skqjfpbhshwlw',$event,'','')})"  v-text="thisData.skqjfpbhshwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.skqjfpbhsfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','skqjfpbhsfwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','skqjfpbhsfwbdc',$event,'','')})"  v-text="thisData.skqjfpbhsfwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="">（二）销售、出租不动产不含税销售额</td>
                         <td class="center">4</td>
-                        <td class="center" :contenteditable="thisData.xsczbdcbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xsczbdcbhsxsehwlw',$event,'','')" v-text="thisData.xsczbdcbhsxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xsczbdcbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xsczbdcbhsxsefwbdc',$event,'','')" v-text="thisData.xsczbdcbhsxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xsczbdcbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xsczbdcbhsxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','xsczbdcbhsxsehwlw',$event,'','')})"  v-text="thisData.xsczbdcbhsxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xsczbdcbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xsczbdcbhsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','xsczbdcbhsxsefwbdc',$event,'','')})"  v-text="thisData.xsczbdcbhsxsefwbdcbqs.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.xsczbdcbhsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xsczbdcbhsxsefwbdc',$event,'','')" v-text="thisData.xsczbdcbhsxsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xsczbdcbhsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xsczbdcbhsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','xsczbdcbhsxsefwbdc',$event,'','')})"  v-text="thisData.xsczbdcbhsxsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">税务机关代开的增值税专用发票不含税销售额</td>
                         <td class="center">5</td>
-                        <td class="center" :contenteditable="thisData.bdcdkzzsfpbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bdcdkzzsfpbhsxsehwlw',$event,'','')" v-text="thisData.bdcdkzzsfpbhsxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bdcdkzzsfpbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bdcdkzzsfpbhsxsefwbdc',$event,'','')" v-text="thisData.bdcdkzzsfpbhsxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bdcdkzzsfpbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bdcdkzzsfpbhsxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bdcdkzzsfpbhsxsehwlw',$event,'','')})"  v-text="thisData.bdcdkzzsfpbhsxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bdcdkzzsfpbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bdcdkzzsfpbhsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bdcdkzzsfpbhsxsefwbdc',$event,'','')})"  v-text="thisData.bdcdkzzsfpbhsxsefwbdcbqs.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.bdcdkzzsfpbhsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bdcdkzzsfpbhsxsefwbdc',$event,'','')" v-text="thisData.bdcdkzzsfpbhsxsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bdcdkzzsfpbhsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bdcdkzzsfpbhsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','bdcdkzzsfpbhsxsefwbdc',$event,'','')})"  v-text="thisData.bdcdkzzsfpbhsxsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">税控器具开具的普通发票不含税销售额</td>
                         <td class="center">6</td>
-                        <td class="center" :contenteditable="thisData.bdcskqjfpbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bdcskqjfpbhsxsehwlw',$event,'','')" v-text="thisData.bdcskqjfpbhsxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bdcskqjfpbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bdcskqjfpbhsxsefwbdc',$event,'','')" v-text="thisData.bdcskqjfpbhsxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bdcskqjfpbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bdcskqjfpbhsxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bdcskqjfpbhsxsehwlw',$event,'','')})"  v-text="thisData.bdcskqjfpbhsxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bdcskqjfpbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bdcskqjfpbhsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bdcskqjfpbhsxsefwbdc',$event,'','')})"  v-text="thisData.bdcskqjfpbhsxsefwbdcbqs.columnValue"></td>
                         <td class="center">——</td>
-                        <td class="center" :contenteditable="thisData.bdcskqjfpbhsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bdcskqjfpbhsxsefwbdc',$event,'','')" v-text="thisData.bdcskqjfpbhsxsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bdcskqjfpbhsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bdcskqjfpbhsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','bdcskqjfpbhsxsefwbdc',$event,'','')})"  v-text="thisData.bdcskqjfpbhsxsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="">（三）销售使用过的固定资产不含税销售额</td>
                         <td class="center">7(7≥8)</td>
-                        <td class="center" :contenteditable="thisData.xssygdgdzcbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xssygdgdzcbhsxsehwlw',$event,'','')" v-text="thisData.xssygdgdzcbhsxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xssygdgdzcbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xssygdgdzcbhsxsefwbdc',$event,'','')" v-text="thisData.xssygdgdzcbhsxsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xssygdgdzcbhsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xssygdgdzcbhsxsehwlw',$event,'','')" v-text="thisData.xssygdgdzcbhsxsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xssygdgdzcbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xssygdgdzcbhsxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','xssygdgdzcbhsxsehwlw',$event,'','')})"  v-text="thisData.xssygdgdzcbhsxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xssygdgdzcbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xssygdgdzcbhsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','xssygdgdzcbhsxsefwbdc',$event,'','')})"  v-text="thisData.xssygdgdzcbhsxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xssygdgdzcbhsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xssygdgdzcbhsxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','xssygdgdzcbhsxsehwlw',$event,'','')})"  v-text="thisData.xssygdgdzcbhsxsehwlwbnlj.columnValue"></td>
                         <td class="center">——</td>
                     </tr>
                     <tr>
                         <td class="">其中：税控器具开具的普通发票不含税销售额</td>
                         <td class="center">8</td>
-                        <td class="center" :contenteditable="thisData.gdzcskqjfpbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','gdzcskqjfpbhsxsehwlw',$event,'','')" v-text="thisData.gdzcskqjfpbhsxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.gdzcskqjfpbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','gdzcskqjfpbhsxsefwbdc',$event,'','')" v-text="thisData.gdzcskqjfpbhsxsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.gdzcskqjfpbhsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','gdzcskqjfpbhsxsehwlw',$event,'','')" v-text="thisData.gdzcskqjfpbhsxsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.gdzcskqjfpbhsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','gdzcskqjfpbhsxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','gdzcskqjfpbhsxsehwlw',$event,'','')})"  v-text="thisData.gdzcskqjfpbhsxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.gdzcskqjfpbhsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','gdzcskqjfpbhsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','gdzcskqjfpbhsxsefwbdc',$event,'','')})"  v-text="thisData.gdzcskqjfpbhsxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.gdzcskqjfpbhsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','gdzcskqjfpbhsxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','gdzcskqjfpbhsxsehwlw',$event,'','')})"  v-text="thisData.gdzcskqjfpbhsxsehwlwbnlj.columnValue"></td>
                         <td class="center">——</td>
                     </tr>
                     <tr>
                         <td class="">（四）免税销售额</td>
                         <td class="center">9=10+11+12</td>
-                        <td class="center" :contenteditable="thisData.msxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','msxsehwlw',$event,'','')" v-text="thisData.msxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.msxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','msxsefwbdc',$event,'','')" v-text="thisData.msxsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.msxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','msxsehwlw',$event,'','')" v-text="thisData.msxsehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.msxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','msxsefwbdc',$event,'','')" v-text="thisData.msxsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','msxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','msxsehwlw',$event,'','')})"  v-text="thisData.msxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','msxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','msxsefwbdc',$event,'','')})"  v-text="thisData.msxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','msxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','msxsehwlw',$event,'','')})"  v-text="thisData.msxsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.msxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','msxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','msxsefwbdc',$event,'','')})"  v-text="thisData.msxsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="">其中：小微企业免税销售额</td>
                         <td class="center">10</td>
-                        <td class="center" :contenteditable="thisData.xwqymsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xwqymsxsehwlw',$event,'msxse','')" v-text="thisData.xwqymsxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xwqymsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xwqymsxsefwbdc',$event,'msxse','')" v-text="thisData.xwqymsxsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xwqymsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xwqymsxsehwlw',$event,'msxse','')" v-text="thisData.xwqymsxsehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xwqymsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xwqymsxsefwbdc',$event,'msxse','')" v-text="thisData.xwqymsxsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xwqymsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xwqymsxsehwlw',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','xwqymsxsehwlw',$event,'msxse','')})"  v-text="thisData.xwqymsxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xwqymsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xwqymsxsefwbdc',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','xwqymsxsefwbdc',$event,'msxse','')})"  v-text="thisData.xwqymsxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xwqymsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xwqymsxsehwlw',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','xwqymsxsehwlw',$event,'msxse','')})"  v-text="thisData.xwqymsxsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xwqymsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xwqymsxsefwbdc',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','xwqymsxsefwbdc',$event,'msxse','')})"  v-text="thisData.xwqymsxsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">未达起征点销售额</td>
                         <td class="center">11</td>
-                        <td class="center" :contenteditable="thisData.wdqzdxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','wdqzdxsehwlw',$event,'msxse','')" v-text="thisData.wdqzdxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.wdqzdxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','wdqzdxsefwbdc',$event,'msxse','')" v-text="thisData.wdqzdxsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.wdqzdxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','wdqzdxsehwlw',$event,'msxse','')" v-text="thisData.wdqzdxsehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.wdqzdxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','wdqzdxsefwbdc',$event,'msxse','')" v-text="thisData.wdqzdxsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.wdqzdxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','wdqzdxsehwlw',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','wdqzdxsehwlw',$event,'msxse','')})"  v-text="thisData.wdqzdxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.wdqzdxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','wdqzdxsefwbdc',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','wdqzdxsefwbdc',$event,'msxse','')})"  v-text="thisData.wdqzdxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.wdqzdxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','wdqzdxsehwlw',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','wdqzdxsehwlw',$event,'msxse','')})"  v-text="thisData.wdqzdxsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.wdqzdxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','wdqzdxsefwbdc',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','wdqzdxsefwbdc',$event,'msxse','')})"  v-text="thisData.wdqzdxsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">其他免税销售额</td>
                         <td class="center">12</td>
-                        <td class="center" :contenteditable="thisData.qtmsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','qtmsxsehwlw',$event,'msxse','')" v-text="thisData.qtmsxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qtmsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','qtmsxsefwbdc',$event,'msxse','')" v-text="thisData.qtmsxsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qtmsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','qtmsxsehwlw',$event,'msxse','')" v-text="thisData.qtmsxsehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.qtmsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','qtmsxsefwbdc',$event,'msxse','')" v-text="thisData.qtmsxsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtmsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','qtmsxsehwlw',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','qtmsxsehwlw',$event,'msxse','')})"  v-text="thisData.qtmsxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtmsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','qtmsxsefwbdc',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','qtmsxsefwbdc',$event,'msxse','')})"  v-text="thisData.qtmsxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtmsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','qtmsxsehwlw',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','qtmsxsehwlw',$event,'msxse','')})"  v-text="thisData.qtmsxsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.qtmsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','qtmsxsefwbdc',$event,'msxse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','qtmsxsefwbdc',$event,'msxse','')})"  v-text="thisData.qtmsxsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="">（五）出口免税销售额</td>
                         <td class="center">13(13≥14)</td>
-                        <td class="center" :contenteditable="thisData.ckmsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ckmsxsehwlw',$event,'','')" v-text="thisData.ckmsxsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ckmsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ckmsxsefwbdc',$event,'','')" v-text="thisData.ckmsxsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ckmsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ckmsxsehwlw',$event,'','')" v-text="thisData.ckmsxsehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ckmsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ckmsxsefwbdc',$event,'','')" v-text="thisData.ckmsxsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ckmsxsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ckmsxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','ckmsxsehwlw',$event,'','')})"  v-text="thisData.ckmsxsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ckmsxsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ckmsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','ckmsxsefwbdc',$event,'','')})"  v-text="thisData.ckmsxsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ckmsxsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ckmsxsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','ckmsxsehwlw',$event,'','')})"  v-text="thisData.ckmsxsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ckmsxsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ckmsxsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','ckmsxsefwbdc',$event,'','')})"  v-text="thisData.ckmsxsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class=""> 其中：税控器具开具的普通发票销售额</td>
                         <td class="center">14</td>
-                        <td class="center" :contenteditable="thisData.ckmsskqjfphwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ckmsskqjfphwlw',$event,'','')" v-text="thisData.ckmsskqjfphwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ckmsskqjfpfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ckmsskqjfpfwbdc',$event,'','')" v-text="thisData.ckmsskqjfpfwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ckmsskqjfphwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ckmsskqjfphwlw',$event,'','')" v-text="thisData.ckmsskqjfphwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ckmsskqjfpfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ckmsskqjfpfwbdc',$event,'','')" v-text="thisData.ckmsskqjfpfwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ckmsskqjfphwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ckmsskqjfphwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','ckmsskqjfphwlw',$event,'','')})"  v-text="thisData.ckmsskqjfphwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ckmsskqjfpfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ckmsskqjfpfwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','ckmsskqjfpfwbdc',$event,'','')})"  v-text="thisData.ckmsskqjfpfwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ckmsskqjfphwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ckmsskqjfphwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','ckmsskqjfphwlw',$event,'','')})"  v-text="thisData.ckmsskqjfphwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ckmsskqjfpfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ckmsskqjfpfwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','ckmsskqjfpfwbdc',$event,'','')})"  v-text="thisData.ckmsskqjfpfwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="center" rowspan="8"> 二、税款计算</td>
                         <td class=""> 本期应纳税额</td>
                         <td class="center"> 15</td>
-                        <td class="center" :contenteditable="thisData.bqynsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqynsehwlw',$event,'ynse','')" v-text="thisData.bqynsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqynsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqynsefwbdc',$event,'ynse','')" v-text="thisData.bqynsefwbdcbqs.columnValue"> 56478.16</td>
-                        <td class="center" :contenteditable="thisData.bqynsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqynsehwlw',$event,'ynse','')" v-text="thisData.bqynsehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqynsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqynsefwbdc',$event,'ynse','')" v-text="thisData.bqynsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqynsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqynsehwlw',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bqynsehwlw',$event,'ynse','')})"  v-text="thisData.bqynsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqynsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqynsefwbdc',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bqynsefwbdc',$event,'ynse','')})"  v-text="thisData.bqynsefwbdcbqs.columnValue"> 56478.16</td>
+                        <td class="center" :contenteditable="thisData.bqynsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqynsehwlw',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','bqynsehwlw',$event,'ynse','')})"  v-text="thisData.bqynsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqynsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqynsefwbdc',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','bqynsefwbdc',$event,'ynse','')})"  v-text="thisData.bqynsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="">本期应纳税额减征额</td>
                         <td class="center"> 16</td>
-                        <td class="center" :contenteditable="thisData.bqynsejzehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqynsejzehwlw',$event,'ynse','')" v-text="thisData.bqynsejzehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqynsejzefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqynsejzefwbdc',$event,'ynse','')" v-text="thisData.bqynsejzefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqynsejzehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqynsejzehwlw',$event,'ynse','')" v-text="thisData.bqynsejzehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqynsejzefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqynsejzefwbdc',$event,'ynse','')" v-text="thisData.bqynsejzefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqynsejzehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqynsejzehwlw',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bqynsejzehwlw',$event,'ynse','')})"  v-text="thisData.bqynsejzehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqynsejzefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqynsejzefwbdc',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bqynsejzefwbdc',$event,'ynse','')})"  v-text="thisData.bqynsejzefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqynsejzehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqynsejzehwlw',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','bqynsejzehwlw',$event,'ynse','')})"  v-text="thisData.bqynsejzehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqynsejzefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqynsejzefwbdc',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','bqynsejzefwbdc',$event,'ynse','')})"  v-text="thisData.bqynsejzefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="">本期免税额</td>
                         <td class="center"> 17</td>
-                        <td class="center" :contenteditable="thisData.bqmsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqmsehwlw',$event,'','')" v-text="thisData.bqmsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqmsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqmsefwbdc',$event,'','')" v-text="thisData.bqmsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqmsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqmsehwlw',$event,'','')" v-text="thisData.bqmsehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqmsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqmsefwbdc',$event,'','')" v-text="thisData.bqmsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqmsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqmsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bqmsehwlw',$event,'','')})"  v-text="thisData.bqmsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqmsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqmsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bqmsefwbdc',$event,'','')})"  v-text="thisData.bqmsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqmsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqmsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','bqmsehwlw',$event,'','')})"  v-text="thisData.bqmsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqmsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','bqmsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','bqmsefwbdc',$event,'','')})"  v-text="thisData.bqmsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="">其中：小微企业免税额</td>
                         <td class="center">18</td>
-                        <td class="center" :contenteditable="thisData.xwqymsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xwqymsehwlw',$event,'','')" v-text="thisData.xwqymsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xwqymsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xwqymsefwbdc',$event,'','')" v-text="thisData.xwqymsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xwqymsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xwqymsehwlw',$event,'','')" v-text="thisData.xwqymsehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xwqymsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xwqymsefwbdc',$event,'','')" v-text="thisData.xwqymsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xwqymsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xwqymsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','xwqymsehwlw',$event,'','')})"  v-text="thisData.xwqymsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xwqymsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','xwqymsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','xwqymsefwbdc',$event,'','')})"  v-text="thisData.xwqymsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xwqymsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xwqymsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','xwqymsehwlw',$event,'','')})"  v-text="thisData.xwqymsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xwqymsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','xwqymsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','xwqymsefwbdc',$event,'','')})"  v-text="thisData.xwqymsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="padL">未达起征点免税额</td>
                         <td class="center">19</td>
-                        <td class="center" :contenteditable="thisData.wdqzdmsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','wdqzdmsehwlw',$event,'','')" v-text="thisData.wdqzdmsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.wdqzdmsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','wdqzdmsefwbdc',$event,'','')" v-text="thisData.wdqzdmsefwbdcbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.wdqzdmsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','wdqzdmsehwlw',$event,'','')" v-text="thisData.wdqzdmsehwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.wdqzdmsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','wdqzdmsefwbdc',$event,'','')" v-text="thisData.wdqzdmsefwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.wdqzdmsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','wdqzdmsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','wdqzdmsehwlw',$event,'','')})"  v-text="thisData.wdqzdmsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.wdqzdmsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','wdqzdmsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','wdqzdmsefwbdc',$event,'','')})"  v-text="thisData.wdqzdmsefwbdcbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.wdqzdmsehwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','wdqzdmsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','wdqzdmsehwlw',$event,'','')})"  v-text="thisData.wdqzdmsehwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.wdqzdmsefwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','wdqzdmsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','wdqzdmsefwbdc',$event,'','')})"  v-text="thisData.wdqzdmsefwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="">应纳税额合计</td>
                         <td class="center">20=15-16</td>
-                        <td class="center" :contenteditable="thisData.ynsehjhwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ynsehjhwlw',$event,'ynse','')" v-text="thisData.ynsehjhwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ynsehjfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ynsehjfwbdc',$event,'ynse','')" v-text="thisData.ynsehjfwbdcbqs.columnValue">56478.16</td>
-                        <td class="center" :contenteditable="thisData.ynsehjhwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ynsehjhwlw',$event,'ynse','')" v-text="thisData.ynsehjhwlwbnlj.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.ynsehjfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ynsehjfwbdc',$event,'ynse','')" v-text="thisData.ynsehjfwbdcbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ynsehjhwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ynsehjhwlw',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','ynsehjhwlw',$event,'ynse','')})"  v-text="thisData.ynsehjhwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ynsehjfwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','ynsehjfwbdc',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','ynsehjfwbdc',$event,'ynse','')})"  v-text="thisData.ynsehjfwbdcbqs.columnValue">56478.16</td>
+                        <td class="center" :contenteditable="thisData.ynsehjhwlwbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ynsehjhwlw',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','ynsehjhwlw',$event,'ynse','')})"  v-text="thisData.ynsehjhwlwbnlj.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.ynsehjfwbdcbnlj.columnEdit==1" @blur="unfocus('table5','','bnlj','ynsehjfwbdc',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bnlj','ynsehjfwbdc',$event,'ynse','')})"  v-text="thisData.ynsehjfwbdcbnlj.columnValue"></td>
                     </tr>
                     <tr>
                         <td class="">本期预缴税额</td>
                         <td class="center">21</td>
-                        <td class="center" :contenteditable="thisData.bqyjsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqyjsehwlw',$event,'ynse','')" v-text="thisData.bqyjsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqyjsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqyjsefwbdc',$event,'ynse','')" v-text="thisData.bqyjsefwbdcbqs.columnValue">56478.16</td>
+                        <td class="center" :contenteditable="thisData.bqyjsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqyjsehwlw',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bqyjsehwlw',$event,'ynse','')})"  v-text="thisData.bqyjsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqyjsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','bqs','bqyjsefwbdc',$event,'ynse','')" @keydown.enter="(($event)=>{unfocus('table5','','bqs','bqyjsefwbdc',$event,'ynse','')})"  v-text="thisData.bqyjsefwbdcbqs.columnValue">56478.16</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                     </tr>
                     <tr>
                         <td class="">本期应补（退）税额</td>
                         <td class="center">22=20-21</td>
-                        <td class="center" :contenteditable="thisData.bqybtsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','','bqybtsehwlw',$event,'','')" v-text="thisData.bqybtsehwlwbqs.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.bqybtsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','','bqybtsefwbdc',$event,'','')" v-text="thisData.bqybtsefwbdcbqs.columnValue">0</td>
+                        <td class="center" :contenteditable="thisData.bqybtsehwlwbqs.columnEdit==1" @blur="unfocus('table5','','','bqybtsehwlw',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','','bqybtsehwlw',$event,'','')})"  v-text="thisData.bqybtsehwlwbqs.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.bqybtsefwbdcbqs.columnEdit==1" @blur="unfocus('table5','','','bqybtsefwbdc',$event,'','')" @keydown.enter="(($event)=>{unfocus('table5','','','bqybtsefwbdc',$event,'','')})"  v-text="thisData.bqybtsefwbdcbqs.columnValue">0</td>
                         <td class="center">——</td>
                         <td class="center">——</td>
                     </tr>
@@ -1803,10 +1803,10 @@
                         <td class="center">4＝1＋2－3</td>
                     </tr>
                     <tr>
-                        <td class="center" :contenteditable="thisData.kce3qcye.columnEdit==1" @blur="unfocus('table6','','','kce3qcye',$event,'calchj','')" v-text="thisData.kce3qcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.kce3bqfse.columnEdit==1" @blur="unfocus('table6','','','kce3bqfse',$event,'calchj','')" v-text="thisData.kce3bqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.kce3bqkce.columnEdit==1" @blur="unfocus('table6','','','kce3bqkce',$event,'calchj','')" v-text="thisData.kce3bqkce.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.kce3qmye.columnEdit==1" @blur="unfocus('table6','','','kce3qmye',$event,'','')" v-text="thisData.kce3qmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.kce3qcye.columnEdit==1" @blur="unfocus('table6','','','kce3qcye',$event,'calchj','')" @keydown.enter="(($event)=>{unfocus('table6','','','kce3qcye',$event,'calchj','')})"  v-text="thisData.kce3qcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.kce3bqfse.columnEdit==1" @blur="unfocus('table6','','','kce3bqfse',$event,'calchj','')" @keydown.enter="(($event)=>{unfocus('table6','','','kce3bqfse',$event,'calchj','')})"  v-text="thisData.kce3bqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.kce3bqkce.columnEdit==1" @blur="unfocus('table6','','','kce3bqkce',$event,'calchj','')" @keydown.enter="(($event)=>{unfocus('table6','','','kce3bqkce',$event,'calchj','')})"  v-text="thisData.kce3bqkce.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.kce3qmye.columnEdit==1" @blur="unfocus('table6','','','kce3qmye',$event,'','')" @keydown.enter="(($event)=>{unfocus('table6','','','kce3qmye',$event,'','')})"  v-text="thisData.kce3qmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td colspan="4" class="center" style="font-weight: bold;padding: 0.05rem;"> 应税行为（3%征收率）计税销售额计算</td>
@@ -1824,10 +1824,10 @@
                         <td class="center">8=7/1.03</td>
                     </tr>
                     <tr>
-                        <td class="center" :contenteditable="thisData.xse3qbhssr.columnEdit==1" @blur="unfocus('table6','','','xse3qbhssr',$event,'calchj','')" v-text="thisData.xse3qbhssr.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xse3bqkce.columnEdit==1" @blur="unfocus('table6','','','xse3bqkce',$event,'calchj','')" v-text="thisData.xse3bqkce.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xse3hsxse.columnEdit==1" @blur="unfocus('table6','','','xse3hsxse',$event,'calchj','')" v-text="thisData.xse3hsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xse3bhsxse.columnEdit==1" @blur="unfocus('table6','','','xse3bhsxse',$event,'','')" v-text="thisData.xse3bhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xse3qbhssr.columnEdit==1" @blur="unfocus('table6','','','xse3qbhssr',$event,'calchj','')" @keydown.enter="(($event)=>{unfocus('table6','','','xse3qbhssr',$event,'calchj','')})"  v-text="thisData.xse3qbhssr.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xse3bqkce.columnEdit==1" @blur="unfocus('table6','','','xse3bqkce',$event,'calchj','')" @keydown.enter="(($event)=>{unfocus('table6','','','xse3bqkce',$event,'calchj','')})"  v-text="thisData.xse3bqkce.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xse3hsxse.columnEdit==1" @blur="unfocus('table6','','','xse3hsxse',$event,'calchj','')" @keydown.enter="(($event)=>{unfocus('table6','','','xse3hsxse',$event,'calchj','')})"  v-text="thisData.xse3hsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xse3bhsxse.columnEdit==1" @blur="unfocus('table6','','','xse3bhsxse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table6','','','xse3bhsxse',$event,'','')})"  v-text="thisData.xse3bhsxse.columnValue"></td>
                     </tr>
                     <tr>
                         <td colspan="4" class="center" style="font-weight: bold;padding: 0.05rem;"> 应税行为（5%征收率）扣除额计算</td>
@@ -1845,10 +1845,10 @@
                         <td class="center">12＝9＋10－11</td>
                     </tr>
                     <tr>
-                        <td class="center" :contenteditable="thisData.kce5qcye.columnEdit==1" @blur="unfocus('table6','','','kce5qcye',$event,'calchj5','')" v-text="thisData.kce5qcye.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.kce5bqfse.columnEdit==1" @blur="unfocus('table6','','','kce5bqfse',$event,'calchj5','')" v-text="thisData.kce5bqfse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.kce5bqkce.columnEdit==1" @blur="unfocus('table6','','','kce5bqkce',$event,'calchj5','')" v-text="thisData.kce5bqkce.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.kce5qmye.columnEdit==1" @blur="unfocus('table6','','','kce5qmye',$event,'','')" v-text="thisData.kce5qmye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.kce5qcye.columnEdit==1" @blur="unfocus('table6','','','kce5qcye',$event,'calchj5','')" @keydown.enter="(($event)=>{unfocus('table6','','','kce5qcye',$event,'calchj5','')})"  v-text="thisData.kce5qcye.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.kce5bqfse.columnEdit==1" @blur="unfocus('table6','','','kce5bqfse',$event,'calchj5','')" @keydown.enter="(($event)=>{unfocus('table6','','','kce5bqfse',$event,'calchj5','')})"  v-text="thisData.kce5bqfse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.kce5bqkce.columnEdit==1" @blur="unfocus('table6','','','kce5bqkce',$event,'calchj5','')" @keydown.enter="(($event)=>{unfocus('table6','','','kce5bqkce',$event,'calchj5','')})"  v-text="thisData.kce5bqkce.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.kce5qmye.columnEdit==1" @blur="unfocus('table6','','','kce5qmye',$event,'','')" @keydown.enter="(($event)=>{unfocus('table6','','','kce5qmye',$event,'','')})"  v-text="thisData.kce5qmye.columnValue"></td>
                     </tr>
                     <tr>
                         <td colspan="4" class="center" style="font-weight: bold;padding: 0.05rem;"> 应税行为（5%征收率）计税销售额计算</td>
@@ -1866,10 +1866,10 @@
                         <td class="center">16=15/1.05</td>
                     </tr>
                     <tr>
-                        <td class="center" :contenteditable="thisData.xse5qbhssr.columnEdit==1" @blur="unfocus('table6','','','xse5qbhssr',$event,'calchj5','')" v-text="thisData.xse5qbhssr.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xse5bqkce.columnEdit==1" @blur="unfocus('table6','','','xse5bqkce',$event,'calchj5','')" v-text="thisData.xse5bqkce.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xse5hsxse.columnEdit==1" @blur="unfocus('table6','','','xse5hsxse',$event,'calchj5','')" v-text="thisData.xse5hsxse.columnValue"></td>
-                        <td class="center" :contenteditable="thisData.xse5bhsxse.columnEdit==1" @blur="unfocus('table6','','','xse5bhsxse',$event,'','')" v-text="thisData.xse5bhsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xse5qbhssr.columnEdit==1" @blur="unfocus('table6','','','xse5qbhssr',$event,'calchj5','')" @keydown.enter="(($event)=>{unfocus('table6','','','xse5qbhssr',$event,'calchj5','')})"  v-text="thisData.xse5qbhssr.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xse5bqkce.columnEdit==1" @blur="unfocus('table6','','','xse5bqkce',$event,'calchj5','')" @keydown.enter="(($event)=>{unfocus('table6','','','xse5bqkce',$event,'calchj5','')})"  v-text="thisData.xse5bqkce.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xse5hsxse.columnEdit==1" @blur="unfocus('table6','','','xse5hsxse',$event,'calchj5','')" @keydown.enter="(($event)=>{unfocus('table6','','','xse5hsxse',$event,'calchj5','')})"  v-text="thisData.xse5hsxse.columnValue"></td>
+                        <td class="center" :contenteditable="thisData.xse5bhsxse.columnEdit==1" @blur="unfocus('table6','','','xse5bhsxse',$event,'','')" @keydown.enter="(($event)=>{unfocus('table6','','','xse5bhsxse',$event,'','')})"  v-text="thisData.xse5bhsxse.columnValue"></td>
                     </tr>
                 </table>
             </div>
@@ -1916,25 +1916,25 @@
                         <td class="center">{{item.xm}}</td>
                         <td class="center" v-if="item.xm!='合计'">{{item.pm}}</td>
                         <td class="center" v-if="item.xm=='合计'"></td>
-                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jsybzzeje.columnEdit==1" @blur="unfocus('table4','','','jsybzzeje',$event,'jshjje','','',index)" v-text="item.jsybzzeje.columnValue"></td>
+                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jsybzzeje.columnEdit==1" @blur="unfocus('table4','','','jsybzzeje',$event,'jshjje','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','jsybzzeje',$event,'jshjje','','',index)})"  v-text="item.jsybzzeje.columnValue"></td>
                         <td class="center" v-if="item.xm=='合计'"></td>
-                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jsmdseje.columnEdit==1" @blur="unfocus('table4','','','jsmdseje',$event,'jshjje','','',index)" v-text="item.jsmdseje.columnValue"></td>
+                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jsmdseje.columnEdit==1" @blur="unfocus('table4','','','jsmdseje',$event,'jshjje','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','jsmdseje',$event,'jshjje','','',index)})"  v-text="item.jsmdseje.columnValue"></td>
                         <td class="center" v-if="item.xm=='合计'"></td>
-                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jsxfsje.columnEdit==1" @blur="unfocus('table4','','','jsxfsje',$event,'jshjje','','',index)" v-text="item.jsxfsje.columnValue"></td>
+                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jsxfsje.columnEdit==1" @blur="unfocus('table4','','','jsxfsje',$event,'jshjje','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','jsxfsje',$event,'jshjje','','',index)})"  v-text="item.jsxfsje.columnValue"></td>
                         <td class="center" v-if="item.xm=='合计'"></td>
-                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jsyysje.columnEdit==1" @blur="unfocus('table4','','','jsyysje',$event,'jshjje','','',index)" v-text="item.jsyysje.columnValue"></td>
+                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jsyysje.columnEdit==1" @blur="unfocus('table4','','','jsyysje',$event,'jshjje','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','jsyysje',$event,'jshjje','','',index)})"  v-text="item.jsyysje.columnValue"></td>
                         <td class="center" v-if="item.xm=='合计'"></td>
-                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jshjje.columnEdit==1" @blur="unfocus('table4','','','jshjje',$event,'jshjje','','',index)" v-text="item.jshjje.columnValue"></td>
+                        <td class="center" v-if="item.xm!='合计'" :contenteditable="item.jshjje.columnEdit==1" @blur="unfocus('table4','','','jshjje',$event,'jshjje','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','jshjje',$event,'jshjje','','',index)})"  v-text="item.jshjje.columnValue"></td>
                         <td class="center" v-if="item.xm=='合计'"></td>
                         <td class="center" v-if="item.xm!='合计'">{{item.rate}}</td>
                         <td class="center" v-if="item.xm=='合计'">——</td>
-                        <td class="center" :contenteditable="item.xm=='合计'?false:item.ynseje.columnEdit==1" @blur="unfocus('table4','','','ynseje',$event,'jshjje','','',index)">{{item.ynseje.columnValue}}</td>
-                        <td class="center" :contenteditable="item.xm=='合计'?false:item.jmxzdm.columnEdit==1" @blur="unfocus('table4','','','jmxzdm',$event,'','','',index)" v-if="item.xm!='合计'">{{item.jmxzdm.columnValue}}</td>
+                        <td class="center" :contenteditable="item.xm=='合计'?false:item.ynseje.columnEdit==1" @blur="unfocus('table4','','','ynseje',$event,'jshjje','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','ynseje',$event,'jshjje','','',index)})" >{{item.ynseje.columnValue}}</td>
+                        <td class="center" :contenteditable="item.xm=='合计'?false:item.jmxzdm.columnEdit==1" @blur="unfocus('table4','','','jmxzdm',$event,'','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','jmxzdm',$event,'','','',index)})"  v-if="item.xm!='合计'">{{item.jmxzdm.columnValue}}</td>
                         <td class="center" v-if="item.xm=='合计'">——</td>
-                        <td class="center" :contenteditable="item.xm=='合计'?false:item.jmseje.columnEdit==1" @blur="unfocus('table4','','','jmseje',$event,'jshjje','','',index)">{{item.jmseje.columnValue}}</td>
-                        <td class="center" :contenteditable="item.xm=='合计'?false:item.xgmjze.columnEdit==1" @blur="unfocus('table4','','','xgmjze',$event,'jshjje','','',index)">{{item.xgmjze.columnValue}}</td>
-                        <td class="center" :contenteditable="item.xm=='合计'?false:item.yjseje.columnEdit==1" @blur="unfocus('table4','','','yjseje',$event,'jshjje','','',index)">{{item.yjseje.columnValue}}</td>
-                        <td class="center" :contenteditable="item.xm=='合计'?false:item.ybtseje.columnEdit==1" @blur="unfocus('table4','','','ybtseje',$event,'','','',index)">{{item.ybtseje.columnValue}}</td>
+                        <td class="center" :contenteditable="item.xm=='合计'?false:item.jmseje.columnEdit==1" @blur="unfocus('table4','','','jmseje',$event,'jshjje','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','jmseje',$event,'jshjje','','',index)})" >{{item.jmseje.columnValue}}</td>
+                        <td class="center" :contenteditable="item.xm=='合计'?false:item.xgmjze.columnEdit==1" @blur="unfocus('table4','','','xgmjze',$event,'jshjje','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','xgmjze',$event,'jshjje','','',index)})" >{{item.xgmjze.columnValue}}</td>
+                        <td class="center" :contenteditable="item.xm=='合计'?false:item.yjseje.columnEdit==1" @blur="unfocus('table4','','','yjseje',$event,'jshjje','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','yjseje',$event,'jshjje','','',index)})" >{{item.yjseje.columnValue}}</td>
+                        <td class="center" :contenteditable="item.xm=='合计'?false:item.ybtseje.columnEdit==1" @blur="unfocus('table4','','','ybtseje',$event,'','','',index)" @keydown.enter="(($event)=>{unfocus('table4','','','ybtseje',$event,'','','',index)})" >{{item.ybtseje.columnValue}}</td>
                     </tr>
                     <tr>
                         <td class="center" colspan="2">计税依据修改原因</td>
@@ -2585,6 +2585,11 @@ export default {
       rate,
       index
     ) {
+         if (e.keyCode === 13) {
+                // this.send() // 发送文本
+                console.log('tijiaole ')
+                e.preventDefault() // 阻止浏览器默认换行操作
+            }
       var reg = /^(-)?\d{1,10}(\.\d{1,2})?$/;
       if (!reg.test(Number(e.target.innerText))) {
         this.$message({
