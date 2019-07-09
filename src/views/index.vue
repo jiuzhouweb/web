@@ -33,7 +33,7 @@
 </template>
 									<el-menu-item-group>
 										<el-menu-item index="/index/personalIncomeIndex">首页</el-menu-item>
-										<el-menu-item index="/index/incomeTaxCalculate">个税计算</el-menu-item>
+										<el-menu-item index="/index/incomeTaxCalculate">个税计算器</el-menu-item>
 										<el-menu-item index="/index/initialSheet">初始导入</el-menu-item>
 										<el-menu-item index="/index/paySheet">工资表导入</el-menu-item>
 										<!-- <el-menu-item index="/index/reportForms">报表查看</el-menu-item> -->

@@ -25,7 +25,7 @@
 			listModule
 		},
 		mounted() {
-			this.drawLine();
+			// this.drawLine();
 		},
 		methods: {
 			drawLine() {

@@ -7,7 +7,7 @@
 					<el-form-item label="员工姓名:">
 						<el-select v-model='formInline.customId' filterable>
 							<el-option label="全部" value="">全部</el-option>
-							<el-option v-for='item in userList' :label="item.userNickName" :value="item.userId"></el-option>
+							<el-option v-for='item in userList' :label="item.userNickName" :value="item.userName"></el-option>
 						</el-select>
 						<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
 								 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
@@ -27,8 +27,8 @@
 					</el-form-item>
 				</el-form>
 			</div>
-			<div class="contain_body clearfix">
-				<div v-show='detail.length > 0' id='myChart' class='left' style="width: 500px;height: 500px;"></div>
+			<div class="contain_body clearfix" ref='contain_body'>
+				<div v-show='detail.length > 0' id='myChart' class='left' style="width: 500px;height: 100%;" ref='chart'></div>
 				<div v-show='detail.length <= 0' class='left' style="width: 500px;height: 500px;text-align: center;line-height: 500px; border: 1px solid #efefef;box-sizing: border-box;margin-right: 20px;">
 					暂无图表
 				</div>
@@ -66,7 +66,7 @@
 					customId: "",
 					period: "",
 					stepName: "",
-					customerName: ""
+					customerName: "",
 				},
 				stepList: ["发票录入", "做账", "大额审核", "税款审核", "申报"],
 				detail: [],
@@ -84,7 +84,8 @@
 						message: "请选择账期",
 						trigger: "change"
 					}]
-				}
+				},
+				myChart: ''
 			};
 		},
 		components: {},
@@ -192,8 +193,17 @@
 					});
 			},
 			drawLine() {
+
+				// 引入 ECharts 主模块
+				var echarts = require('echarts/lib/echarts');
+				// 引入柱状图
+				require('echarts/lib/chart/bar');
+				// 引入提示框和标题组件
+				require('echarts/lib/component/tooltip');
+				require('echarts/lib/component/title');
+
 				// 基于准备好的dom，初始化echarts实例
-				let myChart = this.$echarts.init(document.getElementById("myChart"));
+				this.myChart = echarts.init(document.getElementById("myChart"));
 				this.echarts1_option = {
 					color: ["#ed878e", "#ffb980", "#43b3db"],
 					title: {
@@ -261,12 +271,21 @@
 					]
 				};
 				// 绘制图表
-				myChart.setOption(this.echarts1_option);
+				this.myChart.setOption(this.echarts1_option);
+				window.addEventListener("resize", this.resizeHandle)
+			},
+			resizeHandle() {
+				this.$refs.chart.style.height = this.$refs.contain_body.height;
+				this.myChart.resize()
 			}
 		},
 		mounted() {
 			// this.cust = this.$store.state.cust
+			this.$refs.chart.style.height = this.$refs.contain_body.height;
 			this.findUserRoleList();
+		},
+		destroyed() {
+			window.removeEventListener("resize", this.resizeHandle)
 		}
 	};
 </script>
@@ -277,10 +296,12 @@
 		height: 100%;
 		padding: 20px;
 		box-sizing: border-box;
+
 		.left_contain {
 			height: 100%;
 		}
 	}
+
 	.contain_header {
 		height: 2rem;
 		padding: 0px 30px;
@@ -288,28 +309,34 @@
 		background-size: cover;
 		border-top-left-radius: 0.06rem;
 		border-top-right-radius: 0.06rem;
+
 		.title {
 			font-size: 0.24rem;
 			height: 1rem;
 			line-height: 1.24rem;
 			color: #fff;
 		}
+
 		/deep/ .el-form-item--medium .el-form-item__label {
 			color: #fff;
 		}
+
 		/deep/ .el-form {
 			margin-top: 0.1rem;
 		}
 	}
+
 	.contain_body {
 		height: calc(100% - 2rem);
 		box-sizing: border-box;
 		padding: 0.2rem 0.2rem;
 		background: #fff;
+
 		.contain_body_div {
 			align-items: center;
 			display: flex;
 			position: relative;
+
 			i {
 				background: pink;
 				display: inline-block;
@@ -317,6 +344,7 @@
 				height: 0.4rem;
 				border-radius: 0.2rem;
 			}
+
 			.circle {
 				display: inline-block;
 				width: 0.1rem;
@@ -326,40 +354,50 @@
 				margin-right: 0.06rem;
 			}
 		}
+
 		/deep/ .el-table__header tr,
 		.el-table__header th {
 			padding: 0;
 			height: 40px;
 		}
+
 		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
 			background: #ebf6fb;
 		}
+
 		/deep/ .el-table th {
 			background-color: #ebf6fb;
 		}
+
 		/deep/ .el-table td {
 			padding: 6px 0;
 		}
+
 		/deep/ .el-table__body tr,
 		.el-table__body td {
 			padding: 0;
 			height: 40px;
 			background-color: #fff7f1;
 		}
+
 		/deep/ .el-table__body tr.el-table__row--striped {
 			background-color: #ebf6fb;
 		}
+
 		/deep/ .el-table thead {
 			color: #343434;
 		}
+
 		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
 			background-color: #efe9e5;
 		}
+
 		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
 			border-bottom-color: #fff;
 			background: #ebf6fb;
 		}
 	}
+
 	/deep/ .el-pagination {
 		text-align: right;
 		margin-top: 0.1rem;

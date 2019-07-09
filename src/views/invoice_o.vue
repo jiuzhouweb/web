@@ -1246,8 +1246,16 @@ export default {
       );
     },
     drawLine() {
+			// 引入 ECharts 主模块
+			var echarts = require('echarts/lib/echarts');
+			// 引入柱状图
+			require('echarts/lib/chart/pie');
+			// 引入提示框和标题组件
+			require('echarts/lib/component/tooltip');
+			require('echarts/lib/component/title');
+			require('echarts/lib/component/legend');
       // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById("myChart"));
+      let myChart = echarts.init(document.getElementById("myChart"));
       this.echarts1_option = {
         tooltip: {
           trigger: "item",
