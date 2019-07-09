@@ -311,10 +311,10 @@
 						if (res.data.code == 200) {
 							this.total = res.data.data.total;
 							this.invoiceList = res.data.data.list;
-							this.$message({
-								message: res.data.msg,
-								type: 'success'
-							});
+							// this.$message({
+							// 	message: res.data.msg,
+							// 	type: 'success'
+							// });
 							// this.total = 
 						} else {
 							let type;
@@ -590,10 +590,12 @@
 		flex-wrap: wrap
 	}
 	/deep/ .el-form-item__content {
-		width: 180px;
+		width: 1.8rem;
+		min-width: 1.8rem;
 	}
 	/deep/ .el-date-editor.el-input {
-		width: 180px;
+		width: 1.8rem;
+		min-width: 1.8rem;
 	}
 	/deep/ .el-table__body tr,
 	.el-table__body td {

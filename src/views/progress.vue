@@ -21,7 +21,7 @@
 				</el-form>
 			</div>
 			<div class="contain_body clearfix">
-				<div class="contain_body_div left clearfix" v-for='(item,index) in historyList'>
+				<div class="contain_body_div left clearfix" v-for='(item,index) in historyList' :style="{width:(index==historyList.length - 1?'150px':'')}">
 					<div v-show='item.stepName =="发票录入"' class="date1">{{item.startTime?item.startTime.split(" ")[0]:''}}</div>
 					<img v-show='item.stepName =="做账"' src="../assets/img/notice.png" alt="">
 					<img v-show='item.stepName =="大额审核"' src="../assets/img/users.png" alt="">
@@ -171,6 +171,8 @@
 		padding: 0.2rem 0.2rem;
 		background: #fff;
 		.contain_body_div {
+			height: 170px;
+			min-height: 2rem;
 			align-items: center;
 			display: flex;
 			position: relative;
