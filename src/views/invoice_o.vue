@@ -207,7 +207,7 @@
     <div class="right_contain">
       <div class="charts">
         <p class="chartsTitle">收入合计</p>
-        <div id="myChart" :style="{width: '100%', height: '2rem'}"></div>
+        <div id="myChart" :style="{width: '100%', height: '170px'}"></div>
         <!-- <div v-if="tableData.length<=0" style="width:100%;height:2rem;text-align:center;line-height:1.6rem">暂无图表</div> -->
       </div>
       <div class="chartsTable">
@@ -1258,8 +1258,8 @@ export default {
           left: "40%", //图例距离左的距离
           top: "10%",
           padding: [0, 0, 60, 30],
-          // y: 'center', //图例上下居中
-          x: "center", //图例水平居中
+          y: 'center', //图例上下居中
+          // x: "center", //图例水平居中
           // 图标大小,宽和高
           itemWidth: 10,
           itemHeight: 10,
@@ -2396,9 +2396,12 @@ export default {
 }
 .smallNextDialog .el-input,
 .dataContent .el-input {
-  width: 0.8rem;
+  width: 0.9rem;
   float: right;
   font-size: 0.12rem;
+}
+.rightSelect .el-input__suffix,.taxRate .el-input__suffix{
+  right: -3px;
 }
 .smallNextDialog .el-form-item {
   margin-bottom: 0.11rem;
@@ -2451,9 +2454,9 @@ export default {
   font-size: 0.18rem;
   color: #4fb8dd;
 }
-.chartsTable {
-  margin-top: -0.36rem;
-}
+// .chartsTable {
+//   margin-top: -0.36rem;
+// }
 .tableSquare {
   width: 0.09rem;
   height: 0.09rem;
@@ -2589,12 +2592,13 @@ div.search_contain {
   color: #fff;
 }
 .dataContent {
-  height: 1.3rem;
+  height: 1.5rem;
   overflow-y: hidden;
   padding: 0.15rem 0.2rem;
   padding-bottom: 0;
 }
 .lineData {
+  height: 0.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

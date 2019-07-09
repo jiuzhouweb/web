@@ -20,7 +20,7 @@
 				<div class='info clearfix'>
 					<span class='large'>公式配备</span>
 					<!-- <span class='mini'>查看已配备公式>></span> -->
-					<el-button type="primary" @click='downLoad'>下载资料</el-button>
+					<el-button type="primary" size="medium" @click='downLoad'>下载资料</el-button>
 				</div>
 			</div>
 			<div class="contain_body">
@@ -1077,7 +1077,7 @@
 					background: #fff;
 					color: @button;
 					width: 1.3rem;
-					height: 0.4rem;
+					// height: 0.4rem;
 					border-color: #fff
 				}
 				.large {
@@ -1143,7 +1143,7 @@
 			}
 		}
 		/deep/ .el-input__inner {
-			width: 1.2rem;
+			width: 150px;
 		}
 		p {
 			color: @pcolor;
@@ -1179,7 +1179,7 @@
 			border-top-right-radius: 0.06rem;
 			/deep/ .el-select__caret {
 				color: #fff;
-				line-height: 0.4rem;
+				line-height:-0.5rem;
 			}
 			/deep/ .el-input__inner {
 				border: 0.01rem solid #fff; // line-height: 0.4rem;
@@ -1240,7 +1240,7 @@
 			border: 0.01rem solid #fff;
 			background: transparent;
 			color: #fff;
-			width: 1.5rem
+			width: 150px
 		}
 	}
 	.contain_body {

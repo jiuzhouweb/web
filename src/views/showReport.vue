@@ -51,7 +51,7 @@
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="line1">
                         <el-form-item label="税款所属时间：" class="leftWidth3">
-                            <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
+                            <el-date-picker style="width:280px" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item class="tianbiaoDate" label="填表日期：" style="margin-left: -2.5rem;">
@@ -138,7 +138,7 @@
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="line1">
                         <el-form-item label="税款所属时间：" class="leftWidth">
-                            <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
+                            <el-date-picker style="width:280px" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
                     </div>
@@ -159,7 +159,7 @@
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="line1">
                         <el-form-item label="税款所属期限：" class="leftWidth2">
-                            <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
+                            <el-date-picker style="width:280px" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
                     </div>
@@ -225,7 +225,7 @@
                     </div>
                     <div class="line3">
                         <el-form-item label="税款所属时间：" class="leftWidth">
-                            <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd" value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
+                            <el-date-picker style="width:280px" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd" value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item class="tianbiaoDate" label="填表日期：">
@@ -239,7 +239,7 @@
                 <el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small">
                     <div class="Infobox4line1">
                         <el-form-item label="税款所属期限：" class="leftWidth">
-                            <el-date-picker style="width:2.8rem" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
+                            <el-date-picker style="width:280px" v-model="uploadData.shuikuanDate" type="daterange" range-separator="至" format="yyyy-MM-dd " value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期"> clearable>
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item class="tianbiaoDate" label="填表日期：">
@@ -3549,33 +3549,33 @@ export default {
 </script>
 <style>
 .line3 .input1 .el-input {
-  width: 2rem;
+  width: 200px;
 }
 .line3 .input1 .el-input__inner {
-  width: 2rem;
+  width: 200px;
 }
 .line3 .input2 .el-input {
-  width: 1rem;
+  width: 100px;
 }
 .line3 .input3 .el-input {
-  width: 1.5rem;
+  width: 150px;
 }
 .line3 .input4 .el-input {
-  width: 1.5rem;
+  width: 150px;
 }
 .tianbiaoDate .el-date-editor {
-  width: 2rem;
+  width: 200px;
 }
 .leftWidth .el-form-item__label {
-  width: 1.2rem;
+  width: 120px;
   text-align: left;
 }
 .leftWidth2 .el-form-item__label {
-  width: 2.6rem;
+  width:260px;
   text-align: left;
 }
 .leftWidth3 .el-form-item__label {
-  width: 1.3rem;
+  width: 130px;
   text-align: left;
 }
 </style>
