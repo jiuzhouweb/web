@@ -3,11 +3,14 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>完成情况统计</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" :rules="rules" ref='form'>
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium" :rules="rules" ref='form'>
 					<el-form-item label="员工姓名:">
 						<el-select v-model='formInline.customId' filterable>
-							<el-option label="全部" value="">全部</el-option>
-							<el-option v-for='item in userList' :label="item.userNickName" :value="item.userName"></el-option>
+							<el-option label="全部" value="" v-if='$store.state.user.isJzcollectAdmin == 1'>全部</el-option>
+							<el-option v-for='item in userList' :label="item.userNickName" :value="item.userName" v-if='$store.state.user.isJzcollectAdmin == 1 || ($store.state.user.isJzcollectAdmin != 1 && item.userName == $store.state.user.phone)'></el-option>
+							<!-- <el-option :label="item.userNickName" :value="item.userName" v-if='$store.state.user.isJzcollectAdmin != 1'></el-option> -->
+							
+							
 						</el-select>
 						<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
 								 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
@@ -23,7 +26,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button @click='search("form")' size="mini">查询</el-button>
+						<el-button @click='search("form")'>查询</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -318,7 +321,7 @@
 			color: #fff;
 		}
 
-		/deep/ .el-form-item--mini .el-form-item__label {
+		/deep/ .el-form-item--medium .el-form-item__label {
 			color: #fff;
 		}
 
