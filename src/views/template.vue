@@ -381,12 +381,7 @@
 				line-height: 1.24rem;
 				color: #fff;
 			}
-<<<<<<< HEAD
-
-			/deep/ .el-form-item--medium .el-form-item__label {
-=======
 			/deep/ .el-form-item--mini .el-form-item__label {
->>>>>>> 12e850ea5d6cd709911950a9f7e716b4cc4d6c36
 				color: #fff;
 			}
 
