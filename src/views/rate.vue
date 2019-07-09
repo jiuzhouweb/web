@@ -3,7 +3,7 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<span class='title'>税率配置</span>
-				<el-button class='right' @click='addRate'>新增税率</el-button>
+				<el-button class='right' @click='addRate' size="mini">新增税率</el-button>
 			</div>
 			<div class="contain_body">
 				<el-table :data="rateList" style="width: 100%" stripe border>
@@ -18,7 +18,7 @@
 		</div>
 		<div class="right_contain">
 			<div class="contain_header">
-				<el-input placeholder="搜索" prefix-icon="el-icon-search" v-model='filter' v-on:keyup.enter.native="submit"></el-input>
+				<el-input placeholder="搜索" prefix-icon="el-icon-search" v-model='filter' v-on:keyup.enter.native="submit" size="mini"></el-input>
 				<span class='title'>发票税率关联配置</span>
 			</div>
 			<div class="contain_body">
@@ -44,7 +44,7 @@
 				</el-pagination>
 			</div>
 		</div>
-		<el-dialog title="新增税率" :visible.sync="dialogVisible" width="4rem">
+		<el-dialog title="新增税率" :visible.sync="dialogVisible" width="4rem" style="min-width:250px">
 			<el-form :model="form" size="mini" label-width="100px" :rules='rules' ref="ruleForm">
 				<el-form-item label="税费标题" prop="taxesTitle">
 					<el-input v-model="form.taxesTitle"></el-input>
@@ -511,8 +511,15 @@
 		float: right;
 		/deep/ .el-input {
 			width: 2rem;
+			height: 28px;
 			display: block;
 			top: 1rem;
+		}
+		/deep/ .el-input__inner {
+			height: 28px;
+		}
+		/deep/ .el-input__icon {
+			line-height: 28px;
 		}
 		.contain_header {
 			height: 2rem; // line-height: 2rem;

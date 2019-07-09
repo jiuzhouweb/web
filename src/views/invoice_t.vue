@@ -2,7 +2,7 @@
   <div class="main_contain">
     <div class="left_contain">
       <div class='search_contain'>
-        <el-form :inline="true" :model="searchList" class="demo-form-inline" size="medium" :rules="rulesSearch" ref='formSearch'>
+        <el-form :inline="true" :model="searchList" class="demo-form-inline" size="mini" :rules="rulesSearch" ref='formSearch'>
 					<el-form-item label="客户名称:" prop="value">
             <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
               <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
@@ -219,7 +219,7 @@
     <div class="right_contain">
       <div class="charts">
         <p class="chartsTitle">收入合计</p>
-        <div id="myChart" :style="{width: '100%', height: '170px'}"></div>
+        <div id="myChart" :style="{width: '100%', height: '170px'}" ref="chart"></div>
         <!-- <div v-if="tableData.length<=0" style="width:100%;height:2rem;text-align:center;line-height:1.6rem">暂无图表</div> -->
       </div>
       <div class="chartsTable">
@@ -460,7 +460,8 @@ export default {
             trigger: "change"
           }
         ]
-      }
+      },
+      myChart: ''
     };
   },
   components: {
@@ -487,7 +488,11 @@ export default {
     // this.getNowMonth();
     // this.getTaxCalcMethod();
     this.findInvoiceType();
+  this.$refs.chart.style.height = "170px";
   },
+  destroyed() {
+			window.removeEventListener("resize", this.resizeHandle)
+		},
   methods: {
     // 删除
     deleteInvoice(item) {
@@ -1364,7 +1369,7 @@ export default {
 			require('echarts/lib/component/title');
 			require('echarts/lib/component/legend');
       // 基于准备好的dom，初始化echarts实例
-      let myChart = echarts.init(document.getElementById("myChart"));
+      this.myChart = echarts.init(document.getElementById("myChart"));
       this.echarts1_option = {
         tooltip: {
           trigger: "item",
@@ -1372,9 +1377,9 @@ export default {
         },
         legend: {
           orient: "vertical",
-          right: "10%", //图例距离右的距离
+          left: "40%", //图例距离左的距离
           top: "10%",
-          // padding: [0, 0, 60, 30],
+          padding: [0, 0, 60, 30],
           y: 'center', //图例上下居中
           // x: "center", //图例水平居中
           // 图标大小,宽和高
@@ -1416,10 +1421,15 @@ export default {
         ]
       };
       // 先清空
-      myChart.clear();
+      this.myChart.clear();
       // 绘制图表
-      myChart.setOption(this.echarts1_option);
+      this.myChart.setOption(this.echarts1_option);
+      window.addEventListener("resize", this.resizeHandle)
     },
+    resizeHandle() {
+      this.$refs.chart.style.height = "170px";
+			this.myChart.resize()
+		},
     goImport() {
       this.$router.push({
         path: "/index/paySheet",

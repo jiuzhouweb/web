@@ -9,7 +9,7 @@
 				<span>工资表上传 请上传多家公司</span>
 			</div>
 			<div>
-				<el-button type="primary" @click='selectExcel' size="small">选择Excel</el-button>
+				<el-button type="primary" @click='selectExcel' size="mini">选择Excel</el-button>
 			</div>
 		</div>
 		<div class='main_contain'>

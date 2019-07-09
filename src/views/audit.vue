@@ -18,7 +18,7 @@
 					</el-date-picker>
 				</div>
 				<div class="searchButton" @click="search()">查询</div> -->
-			<el-form :inline="true" :model="searchList" class="demo-form-inline" :rules="rules" ref='form' size="small">
+			<el-form :inline="true" :model="searchList" class="demo-form-inline" :rules="rules" ref='form' size="mini">
 				<el-form-item label="客户名称:" prop="customerId">
 					<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
 						 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
