@@ -2,7 +2,7 @@
   <div class="main_contain">
     <div class="left_contain">
       <div class='search_contain'>
-        <el-form :inline="true" :model="searchList" class="demo-form-inline" size="medium" :rules="rulesSearch" ref='formSearch'>
+        <el-form :inline="true" :model="searchList" class="demo-form-inline" size="mini" :rules="rulesSearch" ref='formSearch'>
 					<el-form-item label="客户名称:" prop="value">
             <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
               <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
