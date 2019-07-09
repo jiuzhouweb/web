@@ -385,8 +385,9 @@
 			border-top-right-radius: 0.06rem;
 			.title {
 				font-size: 0.24rem;
-				height: 1rem;
-				line-height: 1.24rem;
+				padding-top:0.2rem;
+				// height: 1rem;
+				// line-height: 1.24rem;
 				color: #fff;
 			}
 			/deep/ .el-form-item--medium .el-form-item__label {
@@ -437,7 +438,7 @@
 			}
 		}
 		/deep/ .el-input__inner {
-			width: 1.2rem;
+			width: 180px;
 			background: transparent;
 			color: #fff;
 			border: 1px solid #fff;

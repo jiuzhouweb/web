@@ -2538,7 +2538,7 @@ export default {
   float: right;
   font-size: 0.12rem;
 }
-.rightSelect .el-input__suffix{
+.rightSelect .el-input__suffix,.taxRate .el-input__suffix{
   right: -3px;
 }
 .smallNextDialog .el-form-item {
@@ -2658,7 +2658,7 @@ div.search_contain {
 }
 .eachCard {
   width: 24.25%;
-  height: 2.53rem;
+  height: 2.7rem;
   border-radius: 0.05rem;
   margin-top: 0.2rem;
   background: #fff;
@@ -2730,12 +2730,13 @@ div.search_contain {
   color: #fff;
 }
 .dataContent {
-  height: 1.3rem;
+  height: 1.5rem;
   overflow-y: hidden;
   padding: 0.15rem 0.2rem;
   padding-bottom: 0;
 }
 .lineData {
+  height: 0.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
