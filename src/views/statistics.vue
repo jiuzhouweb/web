@@ -223,7 +223,8 @@
 						top: "40",
 						right: "80",
 						bottom: "40",
-						left: "80"
+						left: "0",
+						containLabel :true
 					},
 					xAxis: {
 						name: "完成情况",

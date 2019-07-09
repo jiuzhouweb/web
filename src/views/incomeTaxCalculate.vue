@@ -81,6 +81,10 @@
 				<el-form-item label="【合并核算】税后工资" prop="name" v-if='!isShow'>
 					<el-input v-model="calResult.comAfterTaxIncome" disabled :class='calResult.sepAfterTaxIncome < calResult.comAfterTaxIncome?"red":""'></el-input>
 				</el-form-item>
+				<el-form-item  v-if='!isShow'>
+					<span style="color: #f56c6c;">【提示】 年终奖筹划方案有效期：2019年1月1号--2021年12月31号</span>
+				</el-form-item>
+				
 			</el-form>
 		</div>
 	</div>
