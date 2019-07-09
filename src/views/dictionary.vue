@@ -38,7 +38,7 @@
 				</el-pagination> -->
 			</div>
 		</div>
-		<el-dialog title="新增" :visible.sync="dialogTableVisible" width="4rem" style="min-width:250px">
+		<el-dialog class="addDictionary" title="新增" :visible.sync="dialogTableVisible" width="4rem" style="min-width:250px">
 			<el-form :model="form" size="mini" label-width="50px" :rules="rules" ref="ruleForm">
 				<el-form-item label="名称" prop="dicName">
 					<el-input v-model="form.dicName"></el-input>
@@ -406,6 +406,11 @@
 		}
 	}
 </script>
+<style>
+.addDictionary .el-dialog{
+	min-width: 250px;
+}
+</style>
 
 <style scoped lang="less">
 	.main_contain {

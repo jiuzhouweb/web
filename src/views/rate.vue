@@ -623,4 +623,7 @@
 		border-bottom-color: #fff;
 		background: #ebf6fb;
 	}
+	/deep/ .el-dialog{
+		min-width: 250px;
+	}
 </style>
