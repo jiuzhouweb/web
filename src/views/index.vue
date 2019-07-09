@@ -23,20 +23,33 @@
 				<el-aside width="2.2rem">
 					<el-row class="tac">
 						<el-col>
-							<el-menu v-if='menu.indexOf("易点个税") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+							<el-menu v-if='menu.indexOf("易点个税") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
+							 @open="handleOpen" @close="handleClose">
 								<!-- <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
 								  @close="handleClose"> -->
 								<el-submenu index="1">
 									<template slot="title">
-											<i class="el-icon-geshui"></i>
-											<span>工资表</span>
-</template>
+										<i class="el-icon-geshui"></i>
+										<span>工资表</span>
+									</template>
 									<el-menu-item-group>
 										<el-menu-item index="/index/personalIncomeIndex">首页</el-menu-item>
 										<el-menu-item index="/index/incomeTaxCalculate">个税计算器</el-menu-item>
 										<el-menu-item index="/index/initialSheet">初始导入</el-menu-item>
 										<el-menu-item index="/index/paySheet">工资表导入</el-menu-item>
 										<!-- <el-menu-item index="/index/reportForms">报表查看</el-menu-item> -->
+										<el-submenu index="b" v-if='menu.indexOf("税务平台") < 0'>
+											<template slot="title">
+												<i class="el-icon-declare"></i>
+												<span>申报处理</span>
+											</template>
+											<el-submenu index="b-1">
+												<template slot="title">
+													查看报表
+												</template>
+												<el-menu-item index="/index/reportForms">工资表报表</el-menu-item>
+											</el-submenu>
+										</el-submenu>
 										<el-menu-item index="/index/payEdit" v-if='userTypeId == 1'>工资表变更</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
@@ -64,13 +77,13 @@
 							</el-menu>
 							<el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
 							 @open="handleOpen" @close="handleClose">
-							<!-- <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
+								<!-- <el-menu router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen"
 							 @close="handleClose"> -->
 								<el-submenu index="1">
-<template slot="title">
-	<i class="el-icon-financial"></i>
-	<span>收账</span>
-</template>
+									<template slot="title">
+										<i class="el-icon-financial"></i>
+										<span>收账</span>
+									</template>
 									<el-menu-item-group>
 										<!-- <el-menu-item index="/index/customer">客户查询</el-menu-item> -->
 										<el-menu-item index="/index/invoice_o">发票录入</el-menu-item>
@@ -78,10 +91,10 @@
 									</el-menu-item-group>
 								</el-submenu>
 								<el-submenu index="2">
-<template slot="title">
-	<i class="el-icon-deal"></i>
-	<span>税务处理</span>
-</template>
+									<template slot="title">
+										<i class="el-icon-deal"></i>
+										<span>税务处理</span>
+									</template>
 									<el-menu-item-group>
 										<el-menu-item index="/index/invoice_t">会计做账</el-menu-item>
 										<el-menu-item index="/index/audit">税款审核</el-menu-item>
@@ -96,14 +109,14 @@
 									<span slot="title">申报处理</span>
 								</el-menu-item> -->
 								<el-submenu index="4">
-<template slot="title">
-	<i class="el-icon-declare"></i>
-	<span>申报处理</span>
-</template>
+									<template slot="title">
+										<i class="el-icon-declare"></i>
+										<span>申报处理</span>
+									</template>
 									<el-submenu index="4-1">
-<template slot="title">
-	查看报表
-</template>
+										<template slot="title">
+											查看报表
+										</template>
 										<el-menu-item index="/index/reportForms">工资表报表</el-menu-item>
 										<el-menu-item index="/index/showReport">税务报表</el-menu-item>
 									</el-submenu>
@@ -113,20 +126,20 @@
 								</el-menu-item-group> -->
 								</el-submenu>
 								<el-submenu index="5">
-<template slot="title">
-	<i class="el-icon-his"></i>
-	<span>历史查询</span>
-</template>
+									<template slot="title">
+										<i class="el-icon-his"></i>
+										<span>历史查询</span>
+									</template>
 									<el-menu-item-group>
 										<el-menu-item index="/index/progress">历史操作记录</el-menu-item>
 										<el-menu-item index="/index/statistics">统计查询</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
 								<el-submenu index="6">
-<template slot="title">
-	<i class="el-icon-set"></i>
-	<span>系统配置</span>
-</template>
+									<template slot="title">
+										<i class="el-icon-set"></i>
+										<span>系统配置</span>
+									</template>
 									<el-menu-item-group>
 										<el-menu-item index="/index/formula">税务公式配置</el-menu-item>
 										<el-menu-item index="/index/template">发票模版配置</el-menu-item>
@@ -136,7 +149,7 @@
 									</el-menu-item-group>
 								</el-submenu>
 							</el-menu>
-							
+
 						</el-col>
 					</el-row>
 				</el-aside>
@@ -161,10 +174,12 @@
 <style lang="less" scoped>
 	@bgcolor: #e9ebf5;
 	@hcolor: #707070;
+
 	.home,
 	.el-container {
 		height: 100%;
 	}
+
 	#app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
@@ -172,68 +187,83 @@
 		color: #2c3e50;
 		height: 100%;
 	}
+
 	.el-menu {
 		border: none
 	}
+
 	.el-aside {
 		background: #fff
 	}
+
 	.el-icon-financial {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-financial-n.png) no-repeat center center;
 	}
+
 	.el-icon-deal {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-deal-n.png) no-repeat center center;
 	}
+
 	.el-icon-declare {
-		width:16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
 	}
+
 	.el-icon-declare {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
 	}
+
 	.el-icon-his {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-his-n.png) no-repeat center center;
 	}
+
 	.el-icon-set {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-set-n.png) no-repeat center center;
 	}
+
 	.el-icon-geshui {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-geshui-n.png) no-repeat center center;
 	}
+
 	.tac.el-row,
 	.el-col,
 	.el-menu {
 		// height: 100%;
 	}
+
 	.el-main {
 		padding: 0rem;
 	}
+
 	.el-header {
 		background-color: #fff;
 		padding: 0rem;
+
 		i {
 			font-size: 0.20rem;
 			margin-left: 0.10rem
 		}
 	}
+
 	.el-footer {
 		line-height: 0.44rem;
 		background-color: #fff;
 		text-align: center
 	}
+
 	h1 {
 		height: 100%;
 		line-height: 0.88rem;
@@ -243,21 +273,26 @@
 		color: @hcolor;
 		padding-left: 0.86rem;
 	}
+
 	/*滚动条样式*/
 	::-webkit-scrollbar {
 		width: 0.04rem;
 		height: 0.04rem;
 	}
+
 	::-webkit-scrollbar-thumb {
 		border-radius: 0.10rem;
 		-webkit-box-shadow: inset 0 0 0.05rem rgba(0, 0, 0, 0.2);
 		background: rgba(0, 0, 0, 0.2);
 	}
+
 	::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 0.05rem rgba(0, 0, 0, 0.2);
 		border-radius: 0;
 		background: rgba(0, 0, 0, 0.1);
-	} //
+	}
+
+	//
 </style>
 <script>
 	import axios from 'axios'
