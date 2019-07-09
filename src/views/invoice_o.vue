@@ -1268,7 +1268,8 @@ export default {
         },
         legend: {
           orient: "vertical",
-          right: '10%', //图例距离左的距离
+          left: this.nameData.length<=3?'40%':'', //图例距离左的距离
+          right: this.nameData.length>3?'10%':'', //图例距离右的距离
           top: "12%",
           padding: [0, 0, 60, 30],
           y: 'center', //图例上下居中
