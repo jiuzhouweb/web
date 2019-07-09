@@ -1372,9 +1372,9 @@ export default {
         },
         legend: {
           orient: "vertical",
-          left: "40%", //图例距离左的距离
+          right: "10%", //图例距离右的距离
           top: "10%",
-          padding: [0, 0, 60, 30],
+          // padding: [0, 0, 60, 30],
           y: 'center', //图例上下居中
           // x: "center", //图例水平居中
           // 图标大小,宽和高
