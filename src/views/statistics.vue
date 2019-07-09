@@ -275,13 +275,13 @@
 				window.addEventListener("resize", this.resizeHandle)
 			},
 			resizeHandle() {
-				this.$refs.chart.style.height = this.$refs.contain_body.height;
+				this.$refs.chart.style.height = "calc(" + this.$refs.contain_body.offsetHeight + "px - 0.4rem)";
 				this.myChart.resize()
 			}
 		},
 		mounted() {
 			// this.cust = this.$store.state.cust
-			this.$refs.chart.style.height = this.$refs.contain_body.height;
+			this.$refs.chart.style.height = "calc(" + this.$refs.contain_body.offsetHeight + "px - 0.4rem)";
 			this.findUserRoleList();
 		},
 		destroyed() {
