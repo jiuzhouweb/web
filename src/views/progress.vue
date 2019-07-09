@@ -173,7 +173,7 @@
 		.contain_body_div {
 			height: 170px;
 			min-height: 2rem;
-			align-items: center;
+			// align-items: center;
 			display: flex;
 			position: relative;
 			img {
