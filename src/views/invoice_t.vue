@@ -1377,7 +1377,7 @@ export default {
         },
         legend: {
           orient: "vertical",
-          left: "40%", //图例距离左的距离
+          right: '10%', //图例距离左的距离
           top: "10%",
           padding: [0, 0, 60, 30],
           y: 'center', //图例上下居中
@@ -2487,10 +2487,10 @@ export default {
 };
 </script>
 <style>
-.search_contain .el-select,
+/* .search_contain .el-select,
 .search_contain .el-input__inner {
   height: 36px;
-}
+} */
 .search_contain .el-date-editor.el-input,
 .el-date-editor.el-input__inner {
   width: 1.6rem;

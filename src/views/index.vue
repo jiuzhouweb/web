@@ -179,38 +179,38 @@
 		background: #fff
 	}
 	.el-icon-financial {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-financial-n.png) no-repeat center center;
 	}
 	.el-icon-deal {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-deal-n.png) no-repeat center center;
 	}
 	.el-icon-declare {
-		width: 0.16rem;
-		height: 0.16rem;
+		width:16px;
+		height: 16px;
 		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
 	}
 	.el-icon-declare {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
 	}
 	.el-icon-his {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-his-n.png) no-repeat center center;
 	}
 	.el-icon-set {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-set-n.png) no-repeat center center;
 	}
 	.el-icon-geshui {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-geshui-n.png) no-repeat center center;
 	}
 	.tac.el-row,

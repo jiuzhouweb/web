@@ -7,7 +7,7 @@
 		<div class='search'>
 			<div class="title">报表查看</div>
 			<div class='search_contain'>
-        <el-form :inline="true" :model="searchList" class="demo-form-inline" size="medium" :rules="rulesSearch" ref='formSearch'>
+        <el-form :inline="true" :model="searchList" class="demo-form-inline" size="mini" :rules="rulesSearch" ref='formSearch'>
 					<el-form-item label="公司:" prop="value">
             <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
               <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
@@ -19,13 +19,13 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="状态:">
-          <el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
+          <el-select v-model="searchList.statusVaule" placeholder="请选择" size="mini">
 						<el-option v-for="item in searchList.status" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
         </el-form-item>
         <el-form-item style="margin-bottom:0">
-          <el-button type="primary" @click="search('formSearch')" style="margin-left:20px" size="medium">查看</el-button>
+          <el-button type="primary" @click="search('formSearch')" style="margin-left:20px" size="mini">查看</el-button>
         </el-form-item>
 				</el-form>
 			</div>

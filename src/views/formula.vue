@@ -1045,7 +1045,7 @@
 			border-top-right-radius: 0.06rem;
 			/deep/ .el-select__caret {
 				color: #fff;
-				line-height: 0.4rem;
+				// line-height: 0.4rem;
 			}
 			/deep/ .el-button {
 				background: #fff;
