@@ -3,7 +3,7 @@
         <div class='search'>
             <!-- <div class="title">报表查看</div> -->
             <div class='search_contain'>
-                <el-form :inline="true" :model="searchList" class="demo-form-inline" size="medium" :rules="rulesSearch" ref='formSearch'>
+                <el-form :inline="true" :model="searchList" class="demo-form-inline" size="mini" :rules="rulesSearch" ref='formSearch'>
 					<el-form-item label="公司:" prop="value">
                         <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
                         <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
@@ -32,10 +32,10 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item style="margin-bottom:0">
-                        <el-button type="primary" @click="search('formSearch')" style="margin-left:20px" size="medium">查询</el-button>
+                        <el-button type="primary" @click="search('formSearch')" style="margin-left:20px" size="mini">查询</el-button>
                     </el-form-item>
                     <el-form-item style="margin-bottom:0">
-                        <el-button @click="outputFile('formSearch')" size="medium">一键导出</el-button>
+                        <el-button @click="outputFile('formSearch')" size="mini">一键导出</el-button>
                        
                     </el-form-item>
 				</el-form>

@@ -3,7 +3,7 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>历史操作记录</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" :rules="rules" ref='form'>
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" :rules="rules" ref='form' size="mini">
 					<el-form-item label="客户名称:" prop="customId">
 						<!-- <el-autocomplete class="inline-input" v-model="formInline.customerName" :fetch-suggestions="querySearch"
 							 placeholder="请输入客户名称" @select="handleSelect"></el-autocomplete> -->
@@ -16,7 +16,7 @@
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item>
-						<el-button @click='search("form")'>查询</el-button>
+						<el-button @click='search("form")' size="mini">查询</el-button>
 					</el-form-item>
 				</el-form>
 			</div>

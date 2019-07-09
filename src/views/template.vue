@@ -3,7 +3,7 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>发票模板配置</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" label-width="80px">
 					<el-form-item label="模板名称:">
 						<el-select v-model='formInline.tmplName' clearable filterable>
 							<el-option v-for='item in tableList' :label="item.tmplName" :value="item.tmplName"></el-option>
@@ -16,7 +16,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button @click='search'>查询</el-button>
+						<el-button @click='search' size="mini">查询</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -390,7 +390,7 @@
 				// line-height: 1.24rem;
 				color: #fff;
 			}
-			/deep/ .el-form-item--medium .el-form-item__label {
+			/deep/ .el-form-item--mini .el-form-item__label {
 				color: #fff;
 			}
 			/deep/ .el-form {

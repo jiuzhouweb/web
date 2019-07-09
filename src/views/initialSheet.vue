@@ -14,7 +14,7 @@
 				<a href="初始累计表模板.xls" download="模板">点击下载模板</a>
 			</div>
 			<div>
-				<el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small" :rules="rules" ref='formName'>
+				<el-form :inline="true" :model="uploadData" class="demo-form-inline" size="mini" :rules="rules" ref='formName'>
 					<el-form-item label="账期" prop="accountPeriod">
 						<el-date-picker v-model="uploadData.accountPeriod" type="month" placeholder="选择账期" clearable value-format='yyyy-MM'>
 						</el-date-picker>
@@ -26,7 +26,7 @@
 							<el-option v-for="item in $store.state.cust" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
-					<el-button type="primary" @click='selectExcel("formName")' size="small">选择Excel</el-button>
+					<el-button type="primary" @click='selectExcel("formName")' size="mini">选择Excel</el-button>
 					<!-- <el-button type="primary" @click='selectExcel'>上传</el-button> -->
 					<!-- <el-form-item>
 								<el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-preview="handlePreview"
@@ -40,7 +40,7 @@
 		<div class='main_contain'>
 			<h5>录入企业表详情</h5>
 			<div>
-				<el-form :inline="true" :model='search' class="demo-form-inline" size="small" :rules="rules1" ref='formName1'>
+				<el-form :inline="true" :model='search' class="demo-form-inline" size="mini" :rules="rules1" ref='formName1'>
 					<el-form-item label="账期" prop="accountPeriod">
 						<el-date-picker v-model="search.accountPeriod" type="month" placeholder="选择月" clearable value-format='yyyy-MM'>
 						</el-date-picker>
@@ -52,7 +52,7 @@
 							<el-option v-for="item in $store.state.cust" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 					</el-form-item>
-					<el-button type="primary" size="small" @click='searchSheet("formName1")'>搜索</el-button>
+					<el-button type="primary" size="mini" @click='searchSheet("formName1")'>搜索</el-button>
 					<!-- <el-button type="primary" @click='selectExcel'>重置</el-button> -->
 				</el-form>
 			</div>
