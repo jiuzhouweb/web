@@ -1269,7 +1269,7 @@ export default {
         legend: {
           orient: "vertical",
           right: '10%', //图例距离左的距离
-          top: "10%",
+          top: "12%",
           padding: [0, 0, 60, 30],
           y: 'center', //图例上下居中
           // x: "center", //图例水平居中
@@ -2466,6 +2466,7 @@ export default {
   background: #fff;
   overflow-y: auto;
   overflow-x: hidden;
+  min-width: 320px;
 }
 .chartsTitle {
   padding: 0.2rem 0.2rem 0 0.2rem;
