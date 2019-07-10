@@ -2244,7 +2244,7 @@ export default {
             type: "warning"
           })
             .then(() => {
-              this.insertReport("form");
+              this.insertReport("formSearch");
               let sums, nextStepName;
 
               console.log("sums", this.sums);
