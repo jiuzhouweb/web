@@ -2180,7 +2180,7 @@ export default {
             .post("/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId=" +this.taxinfoid)
             .then(res => {
               if(res.data.code==200){
-                  table1=res.data.data;
+                  table1=res.data.thisData;
               } else {
                 let type;
                 if (res.data.code == 0) {
@@ -2284,6 +2284,12 @@ export default {
                 });
               }
             })
+            console.log('111',table1)
+            console.log('111',table2)
+            console.log('111',table3)
+            console.log('111',table4)
+            console.log('111',table5)
+            console.log('111',table6)
             if(JSON.stringify(table1) == "{}"){
               this.$message({
                   message: '一般纳税人主表暂无数据，请重新生成报表',
@@ -2383,13 +2389,15 @@ export default {
               "&difangRate=" +
               params.difangRate;
           } else if (this.userobj.reportTaxType == 232) {
-            let table1={},table2={},table3={};
+            let table1={}
+            let table2={}
+            let table3={};
             // 判断3个表格是否都有数据
             this.axios
             .post("/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId=" +this.taxinfoid)
             .then(res => {
               if(res.data.code==200){
-                  table1=res.data.data;
+                  table1=res.data.thisData;
               } else {
                 let type;
                 if (res.data.code == 0) {
@@ -2439,6 +2447,9 @@ export default {
                 });
               }
             })
+            console.log('111',table1)
+            console.log('111',table2)
+            console.log('111',table3)
             
             if(JSON.stringify(table1) == "{}"){
               this.$message({
