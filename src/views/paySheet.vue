@@ -1140,7 +1140,14 @@
 					.post("/perTaxToolTwo/initialMonCom/queryPage", params)
 					.then(res => {
 						if (res.data.code == 200) {
-							this.operateId = res.data.data[0].operateId;
+							if(res.data.data.length>0){
+                                this.operateId = res.data.data[0].operateId;
+                            }else{
+                                this.$message({
+                                    message: '该账期下暂未导入数据',
+                                    type: "warning"
+                                });
+                            }
 						} else {
 							let type;
 							if (res.data.code == 0) {
