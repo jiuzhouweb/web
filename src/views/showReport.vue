@@ -2174,342 +2174,150 @@ export default {
           let url = "";
           console.log("this.taxinfoid", this.taxinfoid);
           if (this.userobj.reportTaxType == 233) {
-            let table1={},table2={},table3={},table4={},table5={},table6={};
-            // 判断6个表格是否都有数据
+            // 判断表格是否都有数据
             this.axios
-            .post("/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId=" +this.taxinfoid)
-            .then(res => {
-              if(res.data.code==200){
-                  table1=res.data.data.thisData;
-              } else {
-                let type;
-                if (res.data.code == 0) {
-                  type = "warning";
-                } else if (res.data.code == 500) {
-                  type = "error";
+              .post(
+                "/perTaxToolTwo/e9zReportSb/checkYbExport?taxInfoId=" +
+                  this.taxinfoid
+              )
+              .then(res => {
+                if (res.data.code == 200) {
+                  //   一般纳税人
+                  params = {
+                    taxInfoId: this.taxinfoid,
+                    taxStartdate: this.uploadData.shuikuanDate
+                      ? this.uploadData.shuikuanDate[0]
+                      : "",
+                    taxEnddate: this.uploadData.shuikuanDate
+                      ? this.uploadData.shuikuanDate[1]
+                      : "",
+                    inputdate: this.uploadData.tianbiaoDate,
+                    taxPayerId: this.userobj.taxPayerId,
+                    trade: this.uploadData.trade,
+                    taxname: this.uploadData.taxerName,
+                    legalname: this.uploadData.legalName,
+                    registerAddress: this.uploadData.registerAddress,
+                    runAddress: this.uploadData.runAddress,
+                    bank: this.uploadData.bank,
+                    registerType: this.uploadData.registerType,
+                    phone: this.uploadData.phone,
+                    isReduce: this.uploadData.isReduce,
+                    chengshiRate: this.uploadData.chengshiRate,
+                    jiaoyuRate: this.uploadData.jiaoyuRate,
+                    difangRate: this.uploadData.difangRate
+                  };
+                  url = "/perTaxToolTwo/e9zReportSb/export";
+                  window.location.href =
+                    url +
+                    "?taxInfoId=" +
+                    params.taxInfoId +
+                    "&taxStartdate=" +
+                    params.taxStartdate +
+                    "&taxEnddate=" +
+                    params.taxEnddate +
+                    "&inputdate=" +
+                    params.inputdate +
+                    "&taxPayerId=" +
+                    params.taxPayerId +
+                    "&trade=" +
+                    params.trade +
+                    "&taxname=" +
+                    params.taxname +
+                    "&legalname=" +
+                    params.legalname +
+                    "&registerAddress=" +
+                    params.registerAddress +
+                    "&runAddress=" +
+                    params.runAddress +
+                    "&bank=" +
+                    params.bank +
+                    "&registerType=" +
+                    params.registerType +
+                    "&phone=" +
+                    params.phone +
+                    "&isReduce=" +
+                    params.isReduce +
+                    "&chengshiRate=" +
+                    params.chengshiRate +
+                    "&jiaoyuRate=" +
+                    params.jiaoyuRate +
+                    "&difangRate=" +
+                    params.difangRate;
+                } else {
+                  let type;
+                  if (res.data.code == 0) {
+                    type = "warning";
+                  } else if (res.data.code == 500) {
+                    type = "error";
+                  }
+                  this.$message({
+                    message: res.data.msg,
+                    type: type
+                  });
                 }
-                this.$message({
-                  message: res.data.msg,
-                  type: type
-                });
-              }
-            })
-            this.axios
-            .post("/perTaxToolTwo/e9zReportSb/showReportSb2?taxInfoId=" +this.taxinfoid)
-            .then(res => {
-              if(res.data.code==200){
-                  table2=res.data.data;
-              } else {
-                let type;
-                if (res.data.code == 0) {
-                  type = "warning";
-                } else if (res.data.code == 500) {
-                  type = "error";
-                }
-                this.$message({
-                  message: res.data.msg,
-                  type: type
-                });
-              }
-            })
-            this.axios
-            .post("/perTaxToolTwo/e9zReportSb/showReportSb3?taxInfoId=" +this.taxinfoid)
-            .then(res => {
-              if(res.data.code==200){
-                  table3=res.data.data;
-              } else {
-                let type;
-                if (res.data.code == 0) {
-                  type = "warning";
-                } else if (res.data.code == 500) {
-                  type = "error";
-                }
-                this.$message({
-                  message: res.data.msg,
-                  type: type
-                });
-              }
-            })
-            this.axios
-            .post("/perTaxToolTwo/e9zReportSb/showReportSb4?taxInfoId=" +this.taxinfoid)
-            .then(res => {
-              if(res.data.code==200){
-                  table4=res.data.data;
-              } else {
-                let type;
-                if (res.data.code == 0) {
-                  type = "warning";
-                } else if (res.data.code == 500) {
-                  type = "error";
-                }
-                this.$message({
-                  message: res.data.msg,
-                  type: type
-                });
-              }
-            })
-            this.axios
-            .post("/perTaxToolTwo/e9zReportSb/showReportSb5?taxInfoId=" +this.taxinfoid)
-            .then(res => {
-              if(res.data.code==200){
-                  table5=res.data.data;
-              } else {
-                let type;
-                if (res.data.code == 0) {
-                  type = "warning";
-                } else if (res.data.code == 500) {
-                  type = "error";
-                }
-                this.$message({
-                  message: res.data.msg,
-                  type: type
-                });
-              }
-            })
-            this.axios
-            .post("/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId=" +this.taxinfoid)
-            .then(res => {
-              if(res.data.code==200){
-                  table6=res.data.data;
-              } else {
-                let type;
-                if (res.data.code == 0) {
-                  type = "warning";
-                } else if (res.data.code == 500) {
-                  type = "error";
-                }
-                this.$message({
-                  message: res.data.msg,
-                  type: "warning"
-                });
-              }
-            })
-            console.log('111',table1)
-            console.log('111',table2)
-            console.log('111',table3)
-            console.log('111',table4)
-            console.log('111',table5)
-            console.log('111',table6)
-            if(JSON.stringify(table1) == "{}"){
-              this.$message({
-                  message: '一般纳税人主表暂无数据，请重新生成报表',
-                  type: "warning"
-                });
-                return;
-            }else if(JSON.stringify(table2) == "{}"){
-              this.$message({
-                  message: '一般纳税人附表一暂无数据，请重新生成报表',
-                  type: "warning"
-                });
-                return;
-            }else if(JSON.stringify(table3) == "{}"){
-              this.$message({
-                  message: '一般纳税人附表二暂无数据，请重新生成报表',
-                  type: "warning"
-                });
-                return;
-            }else if(JSON.stringify(table4) == "{}"){
-              this.$message({
-                  message: '一般纳税人附表三暂无数据，请重新生成报表',
-                  type: "warning"
-                });
-                return;
-            }else if(JSON.stringify(table5) == "{}"){
-              this.$message({
-                  message: '一般纳税人附表四暂无数据，请重新生成报表',
-                  type: "warning"
-                });
-                return;
-            }else if(JSON.stringify(table6) == "{}"){
-              this.$message({
-                  message: '城市维护建设税、教育费附加、地方教育附加申报表暂无数据，请重新生成报表',
-                  type: "warning"
-                });
-                return;
-            }
-            //   一般纳税人
-            params = {
-              taxInfoId: this.taxinfoid,
-              taxStartdate: this.uploadData.shuikuanDate
-                ? this.uploadData.shuikuanDate[0]
-                : "",
-              taxEnddate: this.uploadData.shuikuanDate
-                ? this.uploadData.shuikuanDate[1]
-                : "",
-              inputdate: this.uploadData.tianbiaoDate,
-              taxPayerId: this.userobj.taxPayerId,
-              trade: this.uploadData.trade,
-              taxname: this.uploadData.taxerName,
-              legalname: this.uploadData.legalName,
-              registerAddress: this.uploadData.registerAddress,
-              runAddress: this.uploadData.runAddress,
-              bank: this.uploadData.bank,
-              registerType: this.uploadData.registerType,
-              phone: this.uploadData.phone,
-              isReduce: this.uploadData.isReduce,
-              chengshiRate: this.uploadData.chengshiRate,
-              jiaoyuRate: this.uploadData.jiaoyuRate,
-              difangRate: this.uploadData.difangRate
-            };
-            url = "/perTaxToolTwo/e9zReportSb/export";
-            window.location.href =
-              url +
-              "?taxInfoId=" +
-              params.taxInfoId +
-              "&taxStartdate=" +
-              params.taxStartdate +
-              "&taxEnddate=" +
-              params.taxEnddate +
-              "&inputdate=" +
-              params.inputdate +
-              "&taxPayerId=" +
-              params.taxPayerId +
-              "&trade=" +
-              params.trade +
-              "&taxname=" +
-              params.taxname +
-              "&legalname=" +
-              params.legalname +
-              "&registerAddress=" +
-              params.registerAddress +
-              "&runAddress=" +
-              params.runAddress +
-              "&bank=" +
-              params.bank +
-              "&registerType=" +
-              params.registerType +
-              "&phone=" +
-              params.phone +
-              "&isReduce=" +
-              params.isReduce +
-              "&chengshiRate=" +
-              params.chengshiRate +
-              "&jiaoyuRate=" +
-              params.jiaoyuRate +
-              "&difangRate=" +
-              params.difangRate;
+              });
           } else if (this.userobj.reportTaxType == 232) {
-            let table1={}
-            let table2={}
-            let table3={};
-            // 判断3个表格是否都有数据
+            // 判断表格是否都有数据
             this.axios
-            .post("/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId=" +this.taxinfoid)
-            .then(res => {
-              if(res.data.code==200){
-                  table1=res.data.data.thisData;
-              } else {
-                let type;
-                if (res.data.code == 0) {
-                  type = "warning";
-                } else if (res.data.code == 500) {
-                  type = "error";
+              .post(
+                "/perTaxToolTwo/e9zReportSb/checkXgmExport?taxInfoId=" +
+                  this.taxinfoid
+              )
+              .then(res => {
+                if (res.data.code == 200) {
+                  params = {
+                    taxInfoId: this.taxinfoid,
+                    taxStartdate: this.uploadData.shuikuanDate
+                      ? this.uploadData.shuikuanDate[0]
+                      : "",
+                    taxEnddate: this.uploadData.shuikuanDate
+                      ? this.uploadData.shuikuanDate[1]
+                      : "",
+                    inputdate: this.uploadData.tianbiaoDate,
+                    taxPayerId: this.userobj.taxPayerId,
+                    taxname: this.uploadData.taxerName,
+                    isReduce: this.uploadData.isReduce,
+                    chengshiRate: this.uploadData.chengshiRate,
+                    jiaoyuRate: this.uploadData.jiaoyuRate,
+                    difangRate: this.uploadData.difangRate
+                  };
+                  url = "/perTaxToolTwo/e9zReportSb/xgmexport";
+                  console.log("params", params);
+                  window.location.href =
+                    url +
+                    "?taxInfoId=" +
+                    params.taxInfoId +
+                    "&taxStartdate=" +
+                    params.taxStartdate +
+                    "&taxEnddate=" +
+                    params.taxEnddate +
+                    "&inputdate=" +
+                    params.inputdate +
+                    "&taxPayerId=" +
+                    params.taxPayerId +
+                    "&taxname=" +
+                    params.taxname +
+                    "&isReduce=" +
+                    params.isReduce +
+                    "&chengshiRate=" +
+                    params.chengshiRate +
+                    "&jiaoyuRate=" +
+                    params.jiaoyuRate +
+                    "&difangRate=" +
+                    params.difangRate;
+                } else {
+                  let type;
+                  if (res.data.code == 0) {
+                    type = "warning";
+                  } else if (res.data.code == 500) {
+                    type = "error";
+                  }
+                  this.$message({
+                    message: res.data.msg,
+                    type: type
+                  });
                 }
-                this.$message({
-                  message: res.data.msg,
-                  type: type
-                });
-              }
-            })
-            this.axios
-            .post("/perTaxToolTwo/e9zReportSb/showReportXgmSb2?taxInfoId=" +this.taxinfoid)
-            .then(res => {
-              if(res.data.code==200){
-                  table2=res.data.data;
-              } else {
-                let type;
-                if (res.data.code == 0) {
-                  type = "warning";
-                } else if (res.data.code == 500) {
-                  type = "error";
-                }
-                this.$message({
-                  message: res.data.msg,
-                  type: type
-                });
-              }
-            })
-            this.axios
-            .post("/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId=" +this.taxinfoid)
-            .then(res => {
-              if(res.data.code==200){
-                  table3=res.data.data;
-              } else {
-                let type;
-                if (res.data.code == 0) {
-                  type = "warning";
-                } else if (res.data.code == 500) {
-                  type = "error";
-                }
-                this.$message({
-                  message: res.data.msg,
-                  type: type
-                });
-              }
-            })
-            console.log('111',table1)
-            console.log('111',table2)
-            console.log('111',table3)
-            
-            if(JSON.stringify(table1) == "{}"){
-              this.$message({
-                  message: '小规模纳税人主表暂无数据，请重新生成报表',
-                  type: "warning"
-                });
-                return;
-            }else if(JSON.stringify(table2) == "{}"){
-              this.$message({
-                  message: '小规模纳税人附列资料暂无数据，请重新生成报表',
-                  type: "warning"
-                });
-                return;
-            }else if(JSON.stringify(table3) == "{}"){
-              this.$message({
-                  message: '城市维护建设税、教育费附加、地方教育附加申报表暂无数据，请重新生成报表',
-                  type: "warning"
-                });
-                return;
-            }
-            params = {
-              taxInfoId: this.taxinfoid,
-              taxStartdate: this.uploadData.shuikuanDate
-                ? this.uploadData.shuikuanDate[0]
-                : "",
-              taxEnddate: this.uploadData.shuikuanDate
-                ? this.uploadData.shuikuanDate[1]
-                : "",
-              inputdate: this.uploadData.tianbiaoDate,
-              taxPayerId: this.userobj.taxPayerId,
-              taxname: this.uploadData.taxerName,
-              isReduce: this.uploadData.isReduce,
-              chengshiRate: this.uploadData.chengshiRate,
-              jiaoyuRate: this.uploadData.jiaoyuRate,
-              difangRate: this.uploadData.difangRate
-            };
-            url = "/perTaxToolTwo/e9zReportSb/xgmexport";
-            console.log("params", params);
-            window.location.href =
-              url +
-              "?taxInfoId=" +
-              params.taxInfoId +
-              "&taxStartdate=" +
-              params.taxStartdate +
-              "&taxEnddate=" +
-              params.taxEnddate +
-              "&inputdate=" +
-              params.inputdate +
-              "&taxPayerId=" +
-              params.taxPayerId +
-              "&taxname=" +
-              params.taxname +
-              "&isReduce=" +
-              params.isReduce +
-              "&chengshiRate=" +
-              params.chengshiRate +
-              "&jiaoyuRate=" +
-              params.jiaoyuRate +
-              "&difangRate=" +
-              params.difangRate;
+              });
           }
         } else {
           console.log("error submit!!");
@@ -3805,7 +3613,7 @@ export default {
   text-align: left;
 }
 .leftWidth2 .el-form-item__label {
-  width:260px;
+  width: 260px;
   text-align: left;
 }
 .leftWidth3 .el-form-item__label {
