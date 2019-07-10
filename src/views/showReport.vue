@@ -15,7 +15,7 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="报表类型:" v-if="userobj.reportTaxType==233">
-                        <el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
+                        <el-select v-model="searchList.statusVaule" placeholder="请选择">
                             <el-option label="一般纳税人主表" value="一般纳税人主表"></el-option>
                             <el-option label="一般纳税人附表一" value="一般纳税人附表一"></el-option>
                             <el-option label="一般纳税人附表二" value="一般纳税人附表二"></el-option>
@@ -25,7 +25,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="报表类型:" v-if="userobj.reportTaxType==232">
-                        <el-select v-model="searchList.statusVaule" placeholder="请选择" size="small">
+                        <el-select v-model="searchList.statusVaule" placeholder="请选择">
                             <el-option label="小规模纳税人主表" value="小规模纳税人主表"></el-option>
                             <el-option label="小规模纳税人附列资料" value="小规模纳税人附列资料"></el-option>
                             <el-option label="城市维护建设税、教育费附加、地方教育附加申报表" value="城市维护建设税、教育费附加、地方教育附加申报表"></el-option>
