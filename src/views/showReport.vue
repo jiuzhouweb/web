@@ -2280,44 +2280,44 @@ export default {
                 }
                 this.$message({
                   message: res.data.msg,
-                  type: type
+                  type: "warning"
                 });
               }
             })
             if(JSON.stringify(table1) == "{}"){
               this.$message({
                   message: '一般纳税人主表暂无数据，请重新生成报表',
-                  type: type
+                  type: "warning"
                 });
                 return;
             }else if(JSON.stringify(table2) == "{}"){
               this.$message({
                   message: '一般纳税人附表一暂无数据，请重新生成报表',
-                  type: type
+                  type: "warning"
                 });
                 return;
             }else if(JSON.stringify(table3) == "{}"){
               this.$message({
                   message: '一般纳税人附表二暂无数据，请重新生成报表',
-                  type: type
+                  type: "warning"
                 });
                 return;
             }else if(JSON.stringify(table4) == "{}"){
               this.$message({
                   message: '一般纳税人附表三暂无数据，请重新生成报表',
-                  type: type
+                  type: "warning"
                 });
                 return;
             }else if(JSON.stringify(table5) == "{}"){
               this.$message({
                   message: '一般纳税人附表四暂无数据，请重新生成报表',
-                  type: type
+                  type: "warning"
                 });
                 return;
             }else if(JSON.stringify(table6) == "{}"){
               this.$message({
                   message: '城市维护建设税、教育费附加、地方教育附加申报表暂无数据，请重新生成报表',
-                  type: type
+                  type: "warning"
                 });
                 return;
             }
@@ -2443,19 +2443,19 @@ export default {
             if(JSON.stringify(table1) == "{}"){
               this.$message({
                   message: '小规模纳税人主表暂无数据，请重新生成报表',
-                  type: type
+                  type: "warning"
                 });
                 return;
             }else if(JSON.stringify(table2) == "{}"){
               this.$message({
                   message: '小规模纳税人附列资料暂无数据，请重新生成报表',
-                  type: type
+                  type: "warning"
                 });
                 return;
             }else if(JSON.stringify(table3) == "{}"){
               this.$message({
                   message: '城市维护建设税、教育费附加、地方教育附加申报表暂无数据，请重新生成报表',
-                  type: type
+                  type: "warning"
                 });
                 return;
             }
