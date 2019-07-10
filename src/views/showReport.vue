@@ -2174,6 +2174,153 @@ export default {
           let url = "";
           console.log("this.taxinfoid", this.taxinfoid);
           if (this.userobj.reportTaxType == 233) {
+            let table1={},table2={},table3={},table4={},table5={},table6={};
+            // 判断6个表格是否都有数据
+            this.axios
+            .post("/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId=" +this.taxinfoid)
+            .then(res => {
+              if(res.data.code==200){
+                  table1=res.data.data;
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            this.axios
+            .post("/perTaxToolTwo/e9zReportSb/showReportSb2?taxInfoId=" +this.taxinfoid)
+            .then(res => {
+              if(res.data.code==200){
+                  table2=res.data.data;
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            this.axios
+            .post("/perTaxToolTwo/e9zReportSb/showReportSb3?taxInfoId=" +this.taxinfoid)
+            .then(res => {
+              if(res.data.code==200){
+                  table3=res.data.data;
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            this.axios
+            .post("/perTaxToolTwo/e9zReportSb/showReportSb4?taxInfoId=" +this.taxinfoid)
+            .then(res => {
+              if(res.data.code==200){
+                  table4=res.data.data;
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            this.axios
+            .post("/perTaxToolTwo/e9zReportSb/showReportSb5?taxInfoId=" +this.taxinfoid)
+            .then(res => {
+              if(res.data.code==200){
+                  table5=res.data.data;
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            this.axios
+            .post("/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId=" +this.taxinfoid)
+            .then(res => {
+              if(res.data.code==200){
+                  table6=res.data.data;
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            if(JSON.stringify(table1) == "{}"){
+              this.$message({
+                  message: '一般纳税人主表暂无数据，请重新生成报表',
+                  type: type
+                });
+                return;
+            }else if(JSON.stringify(table2) == "{}"){
+              this.$message({
+                  message: '一般纳税人附表一暂无数据，请重新生成报表',
+                  type: type
+                });
+                return;
+            }else if(JSON.stringify(table3) == "{}"){
+              this.$message({
+                  message: '一般纳税人附表二暂无数据，请重新生成报表',
+                  type: type
+                });
+                return;
+            }else if(JSON.stringify(table4) == "{}"){
+              this.$message({
+                  message: '一般纳税人附表三暂无数据，请重新生成报表',
+                  type: type
+                });
+                return;
+            }else if(JSON.stringify(table5) == "{}"){
+              this.$message({
+                  message: '一般纳税人附表四暂无数据，请重新生成报表',
+                  type: type
+                });
+                return;
+            }else if(JSON.stringify(table6) == "{}"){
+              this.$message({
+                  message: '城市维护建设税、教育费附加、地方教育附加申报表暂无数据，请重新生成报表',
+                  type: type
+                });
+                return;
+            }
             //   一般纳税人
             params = {
               taxInfoId: this.taxinfoid,
@@ -2236,6 +2383,82 @@ export default {
               "&difangRate=" +
               params.difangRate;
           } else if (this.userobj.reportTaxType == 232) {
+            let table1={},table2={},table3={};
+            // 判断3个表格是否都有数据
+            this.axios
+            .post("/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId=" +this.taxinfoid)
+            .then(res => {
+              if(res.data.code==200){
+                  table1=res.data.data;
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            this.axios
+            .post("/perTaxToolTwo/e9zReportSb/showReportXgmSb2?taxInfoId=" +this.taxinfoid)
+            .then(res => {
+              if(res.data.code==200){
+                  table2=res.data.data;
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            this.axios
+            .post("/perTaxToolTwo/e9zReportSb/showReport50002?taxInfoId=" +this.taxinfoid)
+            .then(res => {
+              if(res.data.code==200){
+                  table3=res.data.data;
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            
+            if(JSON.stringify(table1) == "{}"){
+              this.$message({
+                  message: '小规模纳税人主表暂无数据，请重新生成报表',
+                  type: type
+                });
+                return;
+            }else if(JSON.stringify(table2) == "{}"){
+              this.$message({
+                  message: '小规模纳税人附列资料暂无数据，请重新生成报表',
+                  type: type
+                });
+                return;
+            }else if(JSON.stringify(table3) == "{}"){
+              this.$message({
+                  message: '城市维护建设税、教育费附加、地方教育附加申报表暂无数据，请重新生成报表',
+                  type: type
+                });
+                return;
+            }
             params = {
               taxInfoId: this.taxinfoid,
               taxStartdate: this.uploadData.shuikuanDate
