@@ -88,7 +88,7 @@
         <!-- <div v-if="invoicePanelList.length==0" class="noData">暂无数据</div> -->
         <!-- 新增弹窗 -->
         <el-dialog class="smallDialog" :close-on-click-modal="false" :visible.sync="addDialogVisible">
-          <el-form ref="form" :rules="rules" :model="form" label-width="1.1rem">
+          <el-form ref="form" :rules="rules" :model="form" label-width="110px">
             <el-form-item label="票面张数：" prop="name">
               <el-input v-model="form.name"></el-input>
             </el-form-item>
@@ -2379,6 +2379,10 @@ export default {
 .smallDialog .el-dialog,
 .smallNextDialog .el-dialog {
   width: 3.6rem;
+  min-width: 360px;
+}
+.smallDialog .el-form-item__content{
+  margin-left: 110px;
 }
 .detailDialog .el-dialog {
   width: 5.6rem;
@@ -2401,7 +2405,7 @@ export default {
 }
 .smallDialog .el-form-item__label {
   width: 1rem;
-  font-size: 0.14rem;
+  font-size: 14px;
   padding: 0 0.12rem 0 0;
 }
 .smallNextDialog .el-form-item__content {

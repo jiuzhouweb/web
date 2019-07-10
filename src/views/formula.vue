@@ -958,7 +958,7 @@
 					float: right;
 					background: #fff;
 					color: @button;
-					width: 1.3rem;
+					// width: 1.3rem;
 					// height: 0.4rem;
 					border-color: #fff
 				}
@@ -1183,7 +1183,7 @@
 		}
 
 		li {
-			font-size: 0.14rem;
+			font-size: 14px;
 			height: 0.28rem;
 			line-height: 0.28rem;
 			color: #454545;
