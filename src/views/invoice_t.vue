@@ -208,8 +208,9 @@
             </div>
           </div>
           <div class="detailFooter">
-            <div class="nextStep" @click="edit()">提交</div>
-            <div class="cancel" @click="closeDetail()">关闭</div>
+            <div class="nextStep" v-if="!issubmit" @click="edit()">提交</div>
+            <div class="cancel"  v-if="!issubmit" @click="closeDetail()">关闭</div>
+            <div class="cancel"  v-if="issubmit" @click="detailDialogVisible = false;">关闭</div>
           </div>
         </el-dialog>
       </div>
