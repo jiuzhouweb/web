@@ -454,8 +454,9 @@
 			 * */
 			getE9zConfigInvoice(value) {
 				this.e9zConfigInvoiceColumnList = value.e9zConfigInvoiceColumnList;
-				this.e9zConfigInvoiceTaxesList = value.e9zConfigInvoiceTaxesList;
-				this.e9zConcat = this.e9zConfigInvoiceColumnList.concat(this.e9zConfigInvoiceTaxesList);
+				// this.e9zConfigInvoiceTaxesList = value.e9zConfigInvoiceTaxesList;
+				// this.e9zConcat = this.e9zConfigInvoiceColumnList.concat(this.e9zConfigInvoiceTaxesList);
+				this.e9zConcat = this.e9zConfigInvoiceColumnList;
 				this.e9zConcat.forEach((item, index) => {
 					item.tag = index;
 				})

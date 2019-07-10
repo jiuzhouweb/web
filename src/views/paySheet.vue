@@ -1439,7 +1439,8 @@
 									this.pageNum1 = '1';
 									this.searchData.customerId = this.uploadData.customerId;
 									this.searchData.accountPeriod = this.uploadData.accountPeriod;
-									this.getOperatorId();
+									// this.getOperatorId();
+									this.operateId = res.data.data;
 									this.calcFlag = true;
 									this.getTableData1();
 									this.pageNum2 = '1';
