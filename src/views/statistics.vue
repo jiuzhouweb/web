@@ -26,7 +26,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button @click='search("form")' size="mini"查询</el-button>
+						<el-button @click='search("form")' size="mini">查询</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -321,7 +321,7 @@
 			color: #fff;
 		}
 
-		/deep/ .el-form-item--medium .el-form-item__label {
+		/deep/ .el-form-item--mini .el-form-item__label {
 			color: #fff;
 		}
 
