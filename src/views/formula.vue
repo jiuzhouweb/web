@@ -2,7 +2,7 @@
 	<div class="main_contain">
 		<div class="left_contain">
 			<div class="contain_header">
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
 					<el-form-item label="省份选择:">
 						<el-select v-model="division" @change='getArea'>
 							<el-option v-for='item in divisionList' :label="item.divisionName" :value="item.divisionName"></el-option>
@@ -15,18 +15,18 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button type="primary" size="medium" @click='setArea'>确认城市</el-button>
+						<el-button type="primary" size="mini" @click='setArea'>确认城市</el-button>
 					</el-form-item>
 				</el-form>
 				<div class='info clearfix'>
 					<span class='large'>公式配备</span>
 					<!-- <span class='mini'>查看已配备公式>></span> -->
-					<el-button type="primary" @click='downLoad'>下载资料</el-button>
+					<el-button type="primary" @click='downLoad' size="mini">下载资料</el-button>
 				</div>
 			</div>
 			<div class="contain_body">
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-position='left' :rules="rules" ref="ruleForm"
-				 size="medium">
+				 size="mini">
 					<el-form-item label="纳税人类型:" class='short' prop="taxesTaxType">
 						<el-select clearable v-model="formInline.taxesTaxType">
 							<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
@@ -102,7 +102,7 @@
 		</div>
 		<div class="right_contain">
 			<div class="contain_header">
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
 					<!-- <el-form-item label="省份选择:">
 						<el-select clearable v-model="formInline.province">
 							<el-option label="区域一" value="shanghai"></el-option>
@@ -918,13 +918,13 @@
 
 			/deep/ .el-select__caret {
 				color: #fff;
-				line-height: 0.4rem;
+				// line-height: 0.4rem;
 			}
 
 			/deep/ .el-button {
 				background: #fff;
 				color: @button;
-				width: 1.3rem;
+				// width: 1.3rem;
 				// height: 0.40rem;
 				// line-height: 0;
 				border-color: #fff
@@ -958,7 +958,7 @@
 					background: #fff;
 					color: @button;
 					width: 1.3rem;
-					height: 0.4rem;
+					// height: 0.4rem;
 					border-color: #fff
 				}
 
@@ -1043,7 +1043,7 @@
 		}
 
 		/deep/ .el-input__inner {
-			width: 1.2rem;
+			width: 150px;
 		}
 
 		p {
@@ -1086,7 +1086,7 @@
 
 			/deep/ .el-select__caret {
 				color: #fff;
-				line-height: 0.4rem;
+				// line-height: 0.4rem;
 			}
 
 			/deep/ .el-input__inner {
@@ -1160,7 +1160,7 @@
 			border: 0.01rem solid #fff;
 			background: transparent;
 			color: #fff;
-			width: 1.5rem
+			width: 150px
 		}
 	}
 
