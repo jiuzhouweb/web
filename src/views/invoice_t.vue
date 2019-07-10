@@ -917,6 +917,7 @@ export default {
           this.statusVaule = this.searchList.statusVaule;
           this.taxationId = "";
           this.taxInfoId = "";
+          this.gsskhj='';
           console.log("this.searchList", this.searchList);
           this.showsum = true;
           this.statPerTaxation();

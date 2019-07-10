@@ -3,7 +3,7 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>完成情况统计</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium" :rules="rules" ref='form'>
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" :rules="rules" ref='form'>
 					<el-form-item label="员工姓名:">
 						<el-select v-model='formInline.customId' filterable>
 							<el-option label="全部" value="" v-if='$store.state.user.isJzcollectAdmin == 1'>全部</el-option>
@@ -26,7 +26,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button @click='search("form")'>查询</el-button>
+						<el-button @click='search("form")' size="mini"查询</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
