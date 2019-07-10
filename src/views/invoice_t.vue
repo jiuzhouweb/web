@@ -461,7 +461,8 @@ export default {
           }
         ]
       },
-      myChart: ''
+      myChart: '',
+      sums:'',
     };
   },
   components: {
@@ -1351,7 +1352,7 @@ export default {
           sums[index] = "--";
         }
       });
-
+      this.sums=sums;
       return sums;
     },
     // 二维数组转一位数组

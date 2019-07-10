@@ -2180,7 +2180,7 @@ export default {
             .post("/perTaxToolTwo/e9zReportSb/showReportSb1?taxInfoId=" +this.taxinfoid)
             .then(res => {
               if(res.data.code==200){
-                  table1=res.data.thisData;
+                  table1=res.data.data.thisData;
               } else {
                 let type;
                 if (res.data.code == 0) {
@@ -2397,7 +2397,7 @@ export default {
             .post("/perTaxToolTwo/e9zReportSb/showReportXgmSb1?taxInfoId=" +this.taxinfoid)
             .then(res => {
               if(res.data.code==200){
-                  table1=res.data.thisData;
+                  table1=res.data.data.thisData;
               } else {
                 let type;
                 if (res.data.code == 0) {
