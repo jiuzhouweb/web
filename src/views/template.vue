@@ -438,7 +438,7 @@
 			}
 		}
 		/deep/ .el-input__inner {
-			width: 180px;
+			width: 200px;
 			background: transparent;
 			color: #fff;
 			border: 1px solid #fff;

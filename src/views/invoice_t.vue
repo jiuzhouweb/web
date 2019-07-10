@@ -2249,7 +2249,7 @@ export default {
               let sums, nextStepName;
 
               console.log("sums", this.sums);
-              sums = Number(this.sums[4]) + Number(this.gsskhj);
+              sums = Number(this.sums[3]) + Number(this.gsskhj);
               console.log("111sums", sums);
               if (sums > 200000) {
                 nextStepName = "大额审核";
