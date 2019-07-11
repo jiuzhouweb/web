@@ -1268,8 +1268,8 @@ export default {
           orient: "vertical",
           // left: this.nameData.length<=3?'40%':'', //图例距离左的距离
           right: this.nameData.length > 3 ? "10%" : "30%", //图例距离右的距离
-          top: "12%",
-          padding: [0, 0, 60, 30],
+          top: "14%",
+          padding: [0, 0, 30, 30],
           y: "center", //图例上下居中
           // x: "center", //图例水平居中
           // 图标大小,宽和高
