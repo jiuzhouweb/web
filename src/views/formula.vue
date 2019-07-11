@@ -81,7 +81,7 @@
 
 					<el-form-item v-if="formInline.e9z && formInline.tmplShowType == '0' || formInline.columnTitle && formInline.tmplShowType == '1'">
 						<div>
-							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in formulaTitleList' @click='createFormula(item.column_title)'>{{item.column_title}}</el-button>
+							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in formulaTitleList' @click='createFormula(item.columnTitle)'>{{item.columnTitle}}</el-button>
 
 						</div>
 
