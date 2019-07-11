@@ -197,44 +197,44 @@
 	}
 
 	.el-icon-financial {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-financial-n.png) no-repeat center center;
 	}
 
 	.el-icon-deal {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-deal-n.png) no-repeat center center;
 	}
 
 	.el-icon-declare {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
 	}
 
 	.el-icon-declare {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
 	}
 
 	.el-icon-his {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-his-n.png) no-repeat center center;
 	}
 
 	.el-icon-set {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-set-n.png) no-repeat center center;
 	}
 
 	.el-icon-geshui {
-		width: 16px;
-		height: 16px;
+		width: 0.16rem;
+		height: 0.16rem;
 		background: url(../assets/img/icon-geshui-n.png) no-repeat center center;
 	}
 
@@ -376,8 +376,8 @@
 						.then(res => {
 							// if (res.data == 1) {
 							// 	
-							this.clearCookie();
-							window.location = res.data;
+							this.clearCookie(res.data);
+							// window.location = res.data;
 							// console.log(document.cookie);
 							// document.cookie = "JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 							// console.log(document.cookie);
@@ -391,14 +391,15 @@
 						})
 				}
 			},
-			clearCookie() {
+			clearCookie(data) {
 				var date = new Date();
 				date.setTime(date.getTime() - 10000);
 				var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
 				if (keys) {
 					for (var i = keys.length; i--;)
 						document.cookie = keys[i] + "=0; expire=" + date.toGMTString() + "; path=/";
-				}
+				};
+				window.location = data;
 			},
 			//删除cookie
 			delCookie(name) {

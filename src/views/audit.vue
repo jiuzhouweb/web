@@ -453,7 +453,7 @@
 				padding-left: 0.2rem;
 				color: #fff;
 				padding-top: 0.3rem;
-				background: url(../assets/img/list-bg1.png) no-repeat;
+				background: url(../assets/img/list-bg1.png) no-repeat center center;
 				p:nth-of-type(1) {
 					font-size: 0.18rem;
 					height: 0.36rem;
@@ -566,6 +566,7 @@
 		text-align: center;
 		margin-top: 0.26rem;
 		border-radius: 4px;
+		cursor: pointer;
 	}
 	.redo {
 		width: 2.4rem;
@@ -576,6 +577,7 @@
 		display: inline-block;
 		text-align: center;
 		border-radius: 4px;
+		cursor: pointer;
 	}
 	.searchButton {
 		background: #ffb980;

@@ -160,7 +160,7 @@
 			<div class="contain_body">
 				<h3>税种公式<span>{{areaName}}</span></h3>
 				<ul>
-					<li v-for="item in formulaList">
+					<li v-for="item in formulaList" @click='clickFormula(item)'>
 						<span class='formula span1' :title="item.tmpl_name">{{item.tmpl_name}}</span>
 						<span class='formula span1' :title="item.invoice_name + item.invoice_category + item.invoice_type">{{item.invoice_name}}
 							{{item.invoice_category}} {{item.invoice_type}}</span>
@@ -761,6 +761,16 @@
 				this.currentPage = val;
 				this.queryFormulaList();
 				console.log(`当前页: ${val}`);
+			},
+			clickFormula(item){
+				console.log(item);
+				this.formInline.taxesTaxType = item.taxes_tax_type;
+				this.formInline.tmplShowType = item.tmpl_show_type;
+				this.formInline.taxCalcType = item.tax_calc_type;
+				this.formInline.invoiceName = item.invoice_name;
+				this.formInline.e9z  = item.column_title || item.column_title;
+				this.formInline.tmplName = item.tmpl_name;
+				this.formInline.columnTitle = item.column_title;
 			}
 		},
 		watch: {
