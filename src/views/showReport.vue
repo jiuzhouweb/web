@@ -8,6 +8,8 @@
                         <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
                         <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
                         </el-option>
+                        <!-- <el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+                        </el-option> -->
                         </el-select>
                     </el-form-item>
                     <el-form-item label="账期:" prop="nowDate">
@@ -38,6 +40,11 @@
                         <el-button @click="outputFile('formSearch')" size="mini">一键导出</el-button>
                        
                     </el-form-item>
+                    <el-form-item style="margin-bottom:0">
+                        <el-button @click="downLoad('formSearch')" size="mini">下载报表模板</el-button>
+                       
+                    </el-form-item>
+                    
 				</el-form>
             </div>
         </div>
@@ -2045,7 +2052,7 @@ export default {
   watch: {},
   computed: {},
   mounted() {
-    this.searchList.options = this.$store.state.cust;
+    // this.searchList.options = this.$store.state.cust;
     // this.searchList.options = [{
     //     customerId: "jz3779",
     //     customerName: "九洲APP测试专用",
@@ -2157,6 +2164,20 @@ export default {
             type: "error"
           });
         });
+    },
+    downLoad(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          if (this.userobj.reportTaxType == 233) {
+            window.location.href='《增值税纳税申报表模板（一般纳税人适用）》.xls'
+          }else if (this.userobj.reportTaxType == 232) {
+            window.location.href='《增值税纳税申报表模板（小规模纳税人适用）》.xls'
+          }
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
     outputFile(formName) {
       this.$refs[formName].validate(valid => {
@@ -2698,10 +2719,10 @@ export default {
         console.log("tijiaole ");
         e.preventDefault(); // 阻止浏览器默认换行操作
       }
-      var reg = /^(-)?\d{1,10}(\.\d{1,2})?$/;
+      var reg = /^(-)?\d{1,14}(\.\d{1,2})?$/;
       if (!reg.test(Number(e.target.innerText))) {
         this.$message({
-          message: "请输入数字，小数点后最多两位",
+          message: "请输入数字，整数最多14位，小数最多2位",
           type: "warning"
         });
         return;
