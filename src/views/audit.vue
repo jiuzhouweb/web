@@ -630,7 +630,7 @@
 		}
 
 		/deep/ .el-select {
-			width:80px;
+			width:100px;
 		}
 
 		/deep/ .el-input__inner {
