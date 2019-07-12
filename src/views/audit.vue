@@ -79,15 +79,14 @@
 				<div>账期：{{info.accountPeriod}}</div>
 				<div>申报纳税种类：{{fplrList.declarationType == 1?'一般纳税人':'小规模纳税人'}}</div>
 			</div>
-			<!-- <div>增值税率</div>
-				<div>印花税率</div>
-				<div>城市维护建设税税率</div>
-				<div>教育费附加税率</div>
-				<div>地方教育费附加税率</div> -->
 			<div class='clearfix'>
 				<div class='left' style='width: calc(50% - 10px)'>
 					<h5>发票录入：</h5>
 					<ul>
+						<li v-for='item in fplrList.e9zConfigInvoiceTaxesList' :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
+							<span class='left'>{{item.taxesTitle}}</span>
+							<span class='right'>{{item.taxesValue}}</span>
+						</li>
 						<li v-for='item in fplrList.e9zConfigInvoiceColumnList' v-if="item.columnShow==1" :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
 							<span class='left'>{{item.columnTitle}}</span>
 							<span class='right'>{{item.columnValue}}</span>
@@ -97,9 +96,18 @@
 				<div class='right' style='width: calc(50% - 10px)'>
 					<h5>做账：</h5>
 					<ul>
+						<li v-for='(item,index) in zzList.e9zConfigInvoiceTaxesList' :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
+							<span class='left'>{{item.taxesTitle}}</span>
+							<span class='right'>
+								<el-select v-model='item.taxesValue' @change='setTaxesValue(item)'>
+									<el-option v-for="lib in item.e9zConfigInvoiceTaxesRateList" :label='lib.taxesRate' :value='lib.taxesRate'></el-option>
+								</el-select>
+							</span>
+						</li>
 						<li v-for='(item,index) in zzList.e9zConfigInvoiceColumnList' v-if="item.columnShow==1" :class='["clearfix",item.columnRemark1 == "1"?"mark":""]'>
 							<span class='left'>{{item.columnTitle}}</span>
-							<span class='right' :contenteditable='item.columnRemark1 == "1"' @blur='setLine($event,index,"columnValue")' v-text='item.columnValue'></span>
+							<span class='right' style="height: 18px;line-height: 18px;" :contenteditable='item.columnRemark1 == "1"' @blur='setLine($event,index,"columnValue")'
+							 v-text='item.columnValue'></span>
 						</li>
 					</ul>
 				</div>
@@ -142,7 +150,16 @@
 						message: '请选择账期',
 						trigger: 'change'
 					}]
-				}
+				},
+				zengzhiValue: '',
+				yinhuaValue: '',
+				chengjianValue: '',
+				xiaofeiValue: '',
+
+				zengzhiValue1: '',
+				yinhuaValue1: '',
+				chengjianValue1: '',
+				xiaofeiValue1: '',
 			}
 		},
 		methods: {
@@ -310,6 +327,7 @@
 				this.dialogVisible = true;
 				this.info = obj;
 				let params = {
+					"taxesTaxType": this.declarationType,
 					"fplrTaxationId": item.fplrTaxationId,
 					"fplrTaxInfoId": item.fplrTaxInfoId,
 					"zzTaxInfoId": item.zzTaxInfoId,
@@ -319,6 +337,50 @@
 						if (res.data.code == 200) {
 							this.fplrList = res.data.data[0].fplr;
 							this.zzList = res.data.data[0].zz;
+							this.fplrList.e9zConfigInvoiceColumnList.forEach((item, index) => {
+								if (item.columnTitle == "增值税税率") {
+									this.zengzhiValue1 = parseFloat(item.columnValue);
+								} else if (item.columnTitle == "印花税税率") {
+									this.yinhuaValue1 = parseFloat(item.columnValue);
+								} else if (item.columnTitle == "城建税税率") {
+									this.chengjianValue1 = parseFloat(item.columnValue);
+								} else if (item.columnName == "verified_rate") {
+									this.xiaofeiValue1 = parseFloat(item.columnValue);
+								}
+							})
+							this.fplrList.e9zConfigInvoiceTaxesList.forEach((item, index) => {
+								if (item.taxesTitle == "增值税") {
+									item.taxesValue = this.zengzhiValue1;
+								} else if (item.taxesTitle == "印花税") {
+									item.taxesValue = this.yinhuaValue1;
+								} else if (item.taxesTitle == "城市维护建设税") {
+									item.taxesValue = this.chengjianValue1;
+								} else if (item.taxesTitle == "消费税") {
+									item.taxesValue = this.xiaofeiValue1;
+								}
+							})
+							this.zzList.e9zConfigInvoiceColumnList.forEach((item, index) => {
+								if (item.columnTitle == "增值税税率") {
+									this.zengzhiValue = parseFloat(item.columnValue);
+								} else if (item.columnTitle == "印花税税率") {
+									this.yinhuaValue = parseFloat(item.columnValue);
+								} else if (item.columnTitle == "城建税税率") {
+									this.chengjianValue = parseFloat(item.columnValue);
+								} else if (item.columnName == "verified_rate") {
+									this.xiaofeiValue = parseFloat(item.columnValue);
+								}
+							})
+							this.zzList.e9zConfigInvoiceTaxesList.forEach((item, index) => {
+								if (item.taxesTitle == "增值税") {
+									item.taxesValue = this.zengzhiValue;
+								} else if (item.taxesTitle == "印花税") {
+									item.taxesValue = this.yinhuaValue;
+								} else if (item.taxesTitle == "城市维护建设税") {
+									item.taxesValue = this.chengjianValue;
+								} else if (item.taxesTitle == "消费税") {
+									item.taxesValue = this.xiaofeiValue;
+								}
+							})
 						} else {
 							let type;
 							if (res.data.code == 0) {
@@ -338,6 +400,25 @@
 							type: "error"
 						});
 					});
+			},
+			setTaxesValue(item){
+				if(item.taxesTitle == '增值税'){
+					this.zzList.e9zConfigInvoiceColumnList.find((item) => {
+						return item.columnTitle == '增值税税率'
+					}).columnValue = item.taxesValue
+				}else if(item.taxesTitle == '印花税'){
+					this.zzList.e9zConfigInvoiceColumnList.find((item) => {
+						return item.columnTitle == '印花税税率'
+					}).columnValue = item.taxesValue
+				}else if(item.taxesTitle == '城市维护建设税'){
+					this.zzList.e9zConfigInvoiceColumnList.find((item) => {
+						return item.columnTitle == '城建税税率'
+					}).columnValue = item.taxesValue
+				}else if(item.taxesTitle == '消费税'){
+					this.zzList.e9zConfigInvoiceColumnList.find((item) => {
+						return item.columnName == 'verified_rate'
+					}).columnValue = item.taxesValue
+				}
 			},
 			commitDialog(detailData) {
 				let params = {
@@ -401,11 +482,12 @@
 			},
 			setLine(event, index, type) {
 				this.zzList.e9zConfigInvoiceColumnList[index][type] = event.target.innerText;
-			}
+			},
+			
+			
 		},
 		components: {},
-		created() {
-		}
+		created() {}
 	}
 </script>
 
@@ -414,6 +496,7 @@
 		height: 100%;
 		margin: 20px;
 	}
+
 	div.search_contain {
 		/* width: 1180rem; */
 		/* height: 78rem; */
@@ -425,6 +508,7 @@
 		border-top-right-radius: 0.05rem;
 		background: #fff;
 		padding: 0.20rem 0.20rem;
+
 		.el-button--small {
 			background: #ffb980;
 			color: #fff;
@@ -434,12 +518,14 @@
 			padding: .12rem .35rem;
 		}
 	}
+
 	div.body_contain {
 		margin-top: .2rem;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: start;
+
 		.card {
 			width: calc((100% - 0.8rem) / 5);
 			margin-right: .2rem;
@@ -447,6 +533,7 @@
 			background: #fff;
 			height: 4.85rem;
 			border-top-right-radius: 4px;
+
 			.card_head {
 				height: 2rem;
 				box-sizing: border-box;
@@ -454,29 +541,35 @@
 				color: #fff;
 				padding-top: 0.3rem;
 				background: url(../assets/img/list-bg1.png) no-repeat center center;
+
 				p:nth-of-type(1) {
 					font-size: 0.18rem;
 					height: 0.36rem;
 					line-height: 0.36rem;
 				}
+
 				p:nth-of-type(2) {
 					font-size: 0.12rem;
 					height: 0.3rem;
 					line-height: 0.3rem;
 				}
+
 				p:nth-of-type(3) {
 					font-size: 0.16rem;
 					height: 0.34rem;
 					line-height: 0.34rem;
 				}
+
 				p:nth-of-type(4) {
 					font-size: 0.16rem;
 					height: 0.38rem;
 					line-height: 0.38rem;
 				}
 			}
+
 			.card_body {
 				margin: 0.2rem 0;
+
 				p {
 					height: 0.3rem;
 					line-height: 0.3rem;
@@ -484,15 +577,20 @@
 					padding-left: 0.2rem;
 					color: #666
 				}
+
 				p:nth-of-type(1) {}
+
 				p:nth-of-type(2) {}
+
 				p:nth-of-type(3) {}
 			}
 		}
+
 		.card:nth-of-type(5n) {
 			margin-right: 0rem;
 		}
 	}
+
 	.dialog {
 		.title {
 			height: 0.4rem;
@@ -500,6 +598,7 @@
 			font-size: 0.16rem;
 			color: #333;
 		}
+
 		.line {
 			display: flex;
 			flex-wrap: nowrap;
@@ -510,6 +609,7 @@
 			align-items: center;
 			margin-bottom: 20px;
 		}
+
 		ul {
 			background: #f8f8f8;
 			padding-left: 0.24rem;
@@ -518,19 +618,39 @@
 			height: 3.5rem;
 			overflow-y: auto;
 			margin-top: 0.1rem;
+
 			li {
 				height: 0.24rem;
 				font-size: 0.12rem;
 			}
 		}
+
 		.mark {
 			color: #ed878e;
 		}
+
+		/deep/ .el-select {
+			width:80px;
+		}
+
+		/deep/ .el-input__inner {
+			height: 18px;
+			line-height: 18px;
+		}
+
+		/deep/ .el-input__icon {
+			height: 100%;
+			width: 25px;
+			text-align: center;
+			line-height: 18px;
+		}
 	}
+
 	.btn_contain {
 		text-align: center;
 		margin-top: 0.36rem;
 	}
+
 	.commit {
 		width: 2.4rem;
 		height: 0.4rem;
@@ -542,6 +662,7 @@
 		margin-right: 0.4rem;
 		border-radius: 4px;
 	}
+
 	.close {
 		width: 2.4rem;
 		height: 0.4rem;
@@ -552,10 +673,12 @@
 		text-align: center;
 		border-radius: 4px;
 	}
+
 	.card_btn {
 		text-align: center;
 		margin-top: 0.36rem;
 	}
+
 	.pass {
 		width: 2.4rem;
 		height: 0.4rem;
@@ -568,6 +691,7 @@
 		border-radius: 4px;
 		cursor: pointer;
 	}
+
 	.redo {
 		width: 2.4rem;
 		height: 0.4rem;
@@ -579,6 +703,7 @@
 		border-radius: 4px;
 		cursor: pointer;
 	}
+
 	.searchButton {
 		background: #ffb980;
 		color: #fff;

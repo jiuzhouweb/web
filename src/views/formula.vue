@@ -54,8 +54,8 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item label="税种及相关列类型:" prop="e9z" v-show='formInline.tmplShowType=="0"' class='long'>
-						<el-select clearable v-model="formInline.e9z" @change='setFormula' value-key='tag'>
-							<el-option v-for='item in e9zConcat' :label="item.columnTitle || item.taxesTitle" :value="item"></el-option>
+						<el-select clearable v-model="formInline.e9z" @change='setFormula' value-key='columnId'>
+							<el-option v-for='item in e9zConcat' :label="item.columnTitle" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="模板名称:" prop="tmplName" v-show='formInline.tmplShowType=="1"'>
@@ -65,7 +65,7 @@
 					</el-form-item>
 					<el-form-item label="相关列类型:" prop="columnTitle" v-show='formInline.tmplShowType=="1"'>
 						<el-select clearable v-model="formInline.columnTitle" @change='setFormula' value-key='tag'>
-							<el-option v-for='item in e9zConfigInvoiceColumn' :label="item.columnTitle" :value="item"></el-option>
+							<el-option v-for='item in e9zConfigInvoiceColumn'  :label="item.columnTitle" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="计算公式" class='line'>
@@ -538,12 +538,13 @@
 					});
 					if (this.formInline.tmplShowType == '0') {
 						var params = {
-							invoiceTaxesId: this.formInline.e9z.columnId || this.formInline.e9z.invoiceTaxesId,
+							// invoiceTaxesId: this.formInline.e9z.columnId || this.formInline.e9z.invoiceTaxesId,
+							invoiceTaxesId: this.formInline.e9z.columnId,
 							formulaId: this.formInline.e9z.formulaId,
 							taxesTaxType: this.formInline.taxesTaxType,
 							formula: this.formInline.formula,
-							type: this.formInline.e9z.columnId ? 2 : 1,
-							taxesTitle: this.formInline.e9z.taxesTitle,
+							// type: this.formInline.e9z.columnId ? 2 : 1,
+							// taxesTitle: this.formInline.e9z.taxesTitle,
 						};
 					} else {
 						var params = {
@@ -551,7 +552,7 @@
 							formulaId: this.formInline.columnTitle.formulaId,
 							taxesTaxType: this.formInline.taxesTaxType,
 							formula: this.formInline.formula,
-							type: 2
+							// type: 2
 						};
 					}
 
@@ -765,12 +766,34 @@
 			clickFormula(item){
 				console.log(item);
 				this.formInline.taxesTaxType = item.taxes_tax_type;
-				this.formInline.tmplShowType = item.tmpl_show_type;
+				this.formInline.tmplShowType = item.tmpl_show_type.toString();
 				this.formInline.taxCalcType = item.tax_calc_type;
 				this.formInline.invoiceName = item.invoice_name;
-				this.formInline.e9z  = item.column_title || item.column_title;
+				this.formInline.invoiceType = item;
+				// this.formInline.e9z  = item.column_title || item.taxesTitle;
+				this.formInline.e9z  = item;
 				this.formInline.tmplName = item.tmpl_name;
-				this.formInline.columnTitle = item.column_title;
+				// this.formInline.columnTitle = item.column_title;
+				this.formInline.formula = item.formula;
+				
+				
+				if(this.formInline.tmplShowType == '0'){
+					this.formInline.e9z  = item;
+					this.formInline.e9z.columnTitle = item.column_title;
+					this.formInline.e9z.columnId = item.column_id;
+					this.formInline.e9z.formulaId = item.formula_id;
+				
+				}else if(this.formInline.tmplShowType == '1'){
+					this.formInline.columnTitle = item;
+					this.formInline.columnTitle.columnId = item.column_id;
+					this.formInline.columnTitle.formulaId = item.formula_id;
+				}
+				// invoiceTaxesId: this.formInline.e9z.columnId || this.formInline.e9z.invoiceTaxesId,
+				// formulaId: this.formInline.e9z.formulaId,
+				// taxesTaxType: this.formInline.taxesTaxType,
+				// formula: this.formInline.formula,
+				// type: this.formInline.e9z.columnId ? 2 : 1,
+				// taxesTitle: this.formInline.e9z.taxesTitle,
 			}
 		},
 		watch: {
