@@ -74,6 +74,9 @@
               <div v-if="item.invoiceId" class="line2" style="position:absolute;top:0.6rem">
                 <p>{{item.invoiceName}}</p>
               </div>
+              <div v-if="item.temType" class="line2" style="position:absolute;top:0.6rem">
+                <p>{{item.temType}}</p>
+              </div>
             </div>
             <div class="dataContent">
               <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList" :key="ind">
@@ -1099,13 +1102,33 @@ export default {
             }
             this.invoicePanelList = this.flatten(arr);
 
+            let arr1=[];let arr2=[];
             this.invoicePanelList.forEach(item => {
               this.$set(item, "isdelete", false);
               item.e9zConfigInvoiceColumnList.forEach(v => {
                 this.$set(v, "isEdit", false);
                 this.$set(item, "errInfo", "");
               });
+              // 防伪税控留底表模板 区分是一般还是即征即退
+              if(item.tmplId==1){
+                arr1.push(item);
+              }
+              if(item.tmplId==6){
+                arr2.push(item);
+              }
             });
+            console.log('arr1',arr1,arr2)
+            if(arr1.length>1||arr2.length>1){
+              this.invoicePanelList.forEach(item => {
+                  item.e9zConfigInvoiceColumnList.forEach(v => {
+                    if(v.columnTitle=='发票项目类型'){
+                      item.temType=v.columnValue=='1'?'一般':'即征即退'
+                    }
+                  });
+              });
+            }
+
+            console.log("this.invoicePanelList", this.invoicePanelList);
           } else {
             let type;
             if (res.data.code == 0) {

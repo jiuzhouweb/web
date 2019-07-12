@@ -58,6 +58,10 @@
               <div v-if="item.invoiceId" class="line2" style="position:absolute;top:0.6rem">
                 <p>{{item.invoiceName}}</p>
               </div>
+              <div v-if="item.temType" class="line2" style="position:absolute;top:0.6rem">
+                <p>{{item.temType}}</p>
+              </div>
+              
               <!-- <div v-if="!item.tmplId" class="line2" style="position:relative"> -->
                 <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
                 <!-- <p>{{item.invoiceCategory}}</p>
@@ -470,7 +474,7 @@ export default {
     //     taxPayerId: "11111111111111111111"
     //   },
     //   {
-    //     customerId: "jz331",
+    //     customerId: "jz333",
     //     customerName: "44",
     //     reportTaxPeriod: null,
     //     reportTaxType: 233,
@@ -984,14 +988,31 @@ export default {
               }
             }
             this.invoicePanelList = this.flatten(arr);
-
+            let arr1=[];let arr2=[];
             this.invoicePanelList.forEach(item => {
               this.$set(item, "isdelete", false);
               item.e9zConfigInvoiceColumnList.forEach(v => {
                 this.$set(v, "isEdit", false);
                 this.$set(item, "errInfo", "");
               });
+              // 防伪税控留底表模板 区分是一般还是即征即退
+              if(item.tmplId==1){
+                arr1.push(item);
+              }
+              if(item.tmplId==6){
+                arr2.push(item);
+              }
             });
+            console.log('arr1',arr1,arr2)
+            if(arr1.length>1||arr2.length>1){
+              this.invoicePanelList.forEach(item => {
+                  item.e9zConfigInvoiceColumnList.forEach(v => {
+                    if(v.columnTitle=='发票项目类型'){
+                      item.temType=v.columnValue=='1'?'一般':'即征即退'
+                    }
+                  });
+              });
+            }
 
             console.log("this.invoicePanelList", this.invoicePanelList);
           } else {
@@ -1008,6 +1029,7 @@ export default {
           }
         })
         .catch(err => {
+          console.log(err)
           this.$message({
             message: "系统繁忙，请稍后重试",
             type: "error"
