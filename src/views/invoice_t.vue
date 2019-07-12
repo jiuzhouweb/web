@@ -7,6 +7,9 @@
             <el-select v-model="searchList.value" @change="selectGet" placeholder="请选择" filterable>
               <el-option v-for="item in $store.state.cust" :key="item.customerId" :label="item.customerName" :value="item.customerId">
               </el-option>
+              <!-- <el-option v-for="item in searchList.options" :key="item.customerId" :label="item.customerName" :value="item.customerId">
+              </el-option> -->
+              
             </el-select>
           </el-form-item>
           <el-form-item label="账期:" prop="nowDate">
@@ -68,12 +71,9 @@
                 <p class="smallTitle" @click="showDetail(item)">详情</p>
                 <p v-if="!issubmit&&item.invoiceId" class="smallTitle" @click="deleteInvoice(item)">删除</p>
               </div>
-              <!-- <div v-if="!item.tmplId" class="line2" style="position:relative"> -->
-                <!-- <p v-if="item.tmplId">{{item.tmplName}}</p> -->
-                <!-- <p>{{item.invoiceCategory}}</p>
-                <p style="margin-left:0.15rem;">{{item.invoiceType}}</p>
-                <p class="smallTitle" style="position:absolute;top:0rem;right:0.2rem;font-size:0.12rem" @click="showDetail(item)">详情</p> -->
-              <!-- </div> -->
+              <div v-if="item.invoiceId" class="line2" style="position:relative">
+                <p>{{item.invoiceName}}</p>
+              </div>
             </div>
             <div class="dataContent">
               <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList" :key="ind">
@@ -220,10 +220,10 @@
     <div class="right_contain">
       <div class="charts">
         <p class="chartsTitle">收入合计</p>
-        <div id="myChart" :style="{width: '100%', height: '170px'}" ref="chart"></div>
+        <div v-show="nameData.length>0" id="myChart" style="width:100%;height:170px;" ref="chart"></div>
         <!-- <div v-if="tableData.length<=0" style="width:100%;height:2rem;text-align:center;line-height:1.6rem">暂无图表</div> -->
       </div>
-      <div class="chartsTable">
+      <div class="chartsTable" :style="{marginTop:nameData.length>0?'0':'0.2rem'}">
         <el-table :data="tableData" show-summary :summary-method="getSummariesCharts" border style="width: 90%;margin-left:5%">
           <el-table-column label="税种" width="50" align="center" :resizable="false">
             <template slot-scope="scope">
@@ -481,7 +481,7 @@ export default {
     //     reportTaxType: 232,
     //     taxPayerId: "11111111111111111111",
     // },{
-    //     customerId: "jz3774",
+    //     customerId: "jz331",
     //     customerName: "44",
     //     reportTaxPeriod: null,
     //     reportTaxType: 233,
@@ -490,7 +490,7 @@ export default {
     // this.getNowMonth();
     // this.getTaxCalcMethod();
     this.findInvoiceType();
-  this.$refs.chart.style.height = "170px";
+  // this.$refs.chart.style.height = "140px";
   },
   destroyed() {
 			window.removeEventListener("resize", this.resizeHandle)
@@ -745,10 +745,11 @@ export default {
                   if (item.columnTitle == "负数冲减") {
                     this.$set(item, "columnValue", this.fscj);
                     this.$set(item, "defaultValue", this.fscj);
-                  } else if (item.columnTitle == "应税服务抵扣成本") {
-                    this.$set(item, "columnValue", this.ysfwdkcb);
-                    this.$set(item, "defaultValue", this.ysfwdkcb);
                   }
+                  //  else if (item.columnTitle == "应税服务抵扣成本") {
+                  //   this.$set(item, "columnValue", this.ysfwdkcb);
+                  //   this.$set(item, "defaultValue", this.ysfwdkcb);
+                  // }
                 });
               }
             }
@@ -791,10 +792,11 @@ export default {
                 this.ysfwdkcb = res.data.data[0].crdLocalLeaveD;
                 console.log("this.ysfwdkcb", this.ysfwdkcb);
                 this.nextStepList.forEach(item => {
-                  if (item.columnTitle == "负数冲减") {
-                    this.$set(item, "columnValue", this.fscj);
-                    this.$set(item, "defaultValue", this.fscj);
-                  } else if (item.columnTitle == "应税服务抵扣成本") {
+                  // if (item.columnTitle == "负数冲减") {
+                  //   this.$set(item, "columnValue", this.fscj);
+                  //   this.$set(item, "defaultValue", this.fscj);
+                  // } else
+                   if (item.columnTitle == "应税服务抵扣成本") {
                     this.$set(item, "columnValue", this.ysfwdkcb);
                     this.$set(item, "defaultValue", this.ysfwdkcb);
                   }
@@ -1370,9 +1372,13 @@ export default {
 			// 引入提示框和标题组件
 			require('echarts/lib/component/tooltip');
 			require('echarts/lib/component/title');
-			require('echarts/lib/component/legend');
+      require('echarts/lib/component/legend');
+      console.log('dra888',this.nameData)
       // 基于准备好的dom，初始化echarts实例
-      this.myChart = echarts.init(document.getElementById("myChart"));
+      var myChartDiv=document.getElementById("myChart");
+      // console.log('width',document.getElementsByClassName('right_contain')[0].offsetWidth)
+      myChartDiv.style.width=document.getElementsByClassName('right_contain')[0].offsetWidth+'px';
+      this.myChart = echarts.init(myChartDiv);
       this.echarts1_option = {
         tooltip: {
           trigger: "item",
@@ -1382,8 +1388,8 @@ export default {
           orient: "vertical",
           // left: this.nameData.length<=3?'40%':'', //图例距离左的距离
           right: this.nameData.length>3?'10%':'30%', //图例距离右的距离
-          top: "12%",
-          padding: [0, 0, 60, 30],
+          top: "14%",
+          padding: [0, 0, 30, 30],
           y: 'center', //图例上下居中
           // x: "center", //图例水平居中
           // 图标大小,宽和高
@@ -1423,14 +1429,17 @@ export default {
             //  data: []
           }
         ]
+        
       };
       // 先清空
       this.myChart.clear();
       // 绘制图表
       this.myChart.setOption(this.echarts1_option);
       window.addEventListener("resize", this.resizeHandle)
+      
     },
     resizeHandle() {
+      this.$refs.chart.style.width = document.getElementsByClassName('right_contain')[0].offsetWidth+'px';
       this.$refs.chart.style.height = "170px";
 			this.myChart.resize()
 		},
