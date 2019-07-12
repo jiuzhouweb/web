@@ -55,7 +55,7 @@
                 <p class="smallTitle" @click="showDetail(item)">详情</p>
                 <p v-if="!issubmit&&item.invoiceId" class="smallTitle" @click="deleteInvoice(item)">删除</p>
               </div>
-              <div v-if="item.invoiceId" class="line2" style="position:relative">
+              <div v-if="item.invoiceId" class="line2" style="position:absolute;top:0.6rem">
                 <p>{{item.invoiceName}}</p>
               </div>
               <!-- <div v-if="!item.tmplId" class="line2" style="position:relative"> -->
@@ -1275,7 +1275,7 @@ export default {
         legend: {
           orient: "vertical",
           // left: this.nameData.length<=3?'40%':'', //图例距离左的距离
-          right: this.nameData.length>3?'10%':'30%', //图例距离右的距离
+          right: this.nameData.length>4?'10%':'30%', //图例距离右的距离
           top: "14%",
           padding: [0, 0, 30, 30],
           y: 'center', //图例上下居中
