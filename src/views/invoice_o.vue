@@ -988,7 +988,7 @@ export default {
               }
             }
             this.invoicePanelList = this.flatten(arr);
-            let arr1=[];let arr2=[];
+            let arr1=[];let arr2=[];let arr3=[];
             this.invoicePanelList.forEach(item => {
               this.$set(item, "isdelete", false);
               item.e9zConfigInvoiceColumnList.forEach(v => {
@@ -999,12 +999,17 @@ export default {
               if(item.tmplId==1){
                 arr1.push(item);
               }
+              // 增值税
               if(item.tmplId==6){
                 arr2.push(item);
               }
+              // 负数
+              if(item.tmplId==4){
+                arr3.push(item);
+              }
             });
-            console.log('arr1',arr1,arr2)
-            if(arr1.length>1||arr2.length>1){
+            console.log('arr1',arr1,arr2,arr3)
+            if(arr1.length>1||arr2.length>1||arr3.length>1){
               this.invoicePanelList.forEach(item => {
                 if(item.tmplId){
                   item.e9zConfigInvoiceColumnList.forEach(v => {
@@ -1013,7 +1018,6 @@ export default {
                     }
                   });
                 }
-                  
               });
             }
 
