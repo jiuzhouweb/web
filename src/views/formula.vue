@@ -237,7 +237,7 @@
 			<div class="contain_body">
 				<h3>税种公式<span>{{areaName}}</span></h3>
 				<ul>
-					<li v-for="item in formulaList" @click='clickFormula(item,$event)'>
+					<li v-for="(item,index) in formulaList" @click='clickFormula(item,index)' :class="{active : active == index}" >
 						<span class='formula span1' :title="item.tmpl_name">{{item.tmpl_name}}</span>
 						<span class='formula span1' :title="item.invoice_name + item.invoice_category + item.invoice_type">{{item.invoice_name}}
 							{{item.invoice_category}} {{item.invoice_type}}</span>
@@ -310,7 +310,7 @@
 				// canInput: true,
 				canCommit: false,
 
-
+				active:-1,
 				dicNameList: [],
 				taxCalcTypeList: [],
 				invoiceTypeList: [{
@@ -904,12 +904,13 @@
 			 * 无
 			 * */
 			handleCurrentChange(val) {
+				this.active = -1;
 				this.currentPage = val;
 				this.queryFormulaList();
 				console.log(`当前页: ${val}`);
 			},
-			clickFormula(item,event){
-				console.log(event);
+			clickFormula(item,index){
+				this.active = index;
 				if(item.formula_id){
 					this.isEdit = true;
 					this.formInline1.taxesTaxType = item.taxes_tax_type == 233?"一般纳税人":"小规模纳税人";
@@ -1406,6 +1407,9 @@
 		}
 		li:hover{
 			background:#f9f9f9;
+		}
+		li.active{
+			background:#f2f2f2;
 		}
 		span.blue {
 			float: left;
