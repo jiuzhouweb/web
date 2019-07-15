@@ -1902,10 +1902,10 @@ export default {
             }
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "负数冲减") {
-            obj.columnValue = this.fscj ? this.fscj : 0;
+            obj.columnValue = this.fscj ? this.fscj : '0';
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "应税服务抵扣成本") {
-            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : 0;
+            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : '0';
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "增值税税率") {
             obj.columnValue = zengzhiValue;
@@ -2236,10 +2236,10 @@ export default {
             obj.columnValue = xiaofeiValue;
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "负数冲减") {
-            obj.columnValue = this.fscj ? this.fscj : 0;
+            obj.columnValue = this.fscj ? this.fscj : '0';
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "应税服务抵扣成本") {
-            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : 0;
+            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : '0';
             invoiceColumns.push(obj);
           } else {
             obj.columnValue = item.defaultValue;
