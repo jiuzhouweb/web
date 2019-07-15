@@ -746,8 +746,8 @@ export default {
                 console.log("this.fscj", this.fscj);
                 this.nextStepList.forEach(item => {
                   if (item.columnTitle == "负数冲减") {
-                    this.$set(item, "columnValue", this.fscj);
-                    this.$set(item, "defaultValue", this.fscj);
+                    this.$set(item, "columnValue", this.fscj.toString());
+                    this.$set(item, "defaultValue", this.fscj.toString());
                   }
                   //  else if (item.columnTitle == "应税服务抵扣成本") {
                   //   this.$set(item, "columnValue", this.ysfwdkcb);
@@ -800,8 +800,8 @@ export default {
                   //   this.$set(item, "defaultValue", this.fscj);
                   // } else
                    if (item.columnTitle == "应税服务抵扣成本") {
-                    this.$set(item, "columnValue", this.ysfwdkcb);
-                    this.$set(item, "defaultValue", this.ysfwdkcb);
+                    this.$set(item, "columnValue", this.ysfwdkcb.toString());
+                    this.$set(item, "defaultValue", this.ysfwdkcb.toString());
                   }
                 });
               }
@@ -2063,10 +2063,11 @@ export default {
             this.$set(item, "errInfo", "");
           }
         } else {
-          console.log(item.columnShow, item.columnEdit, item.columnRequire);
+          // console.log(item.columnShow, item.columnEdit, item.columnRequire);
           if (item.columnEdit == 1) {
             if (item.columnRequire == 1) {
               if (item.defaultValue == null || item.defaultValue == "") {
+                onsole.log('空',item)
                 this.$set(item, "errInfo", "必填项不可为空");
               } else if (item.columnEditRule == 1) {
                 if (!float2reg.test(item.defaultValue)) {
