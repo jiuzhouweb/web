@@ -675,6 +675,7 @@ export default {
     // 	};
     // },
     search(formName) {
+			this.historyTem = [];
       this.$refs[formName].validate(valid => {
         if (valid) {
           let params = this.formInline;

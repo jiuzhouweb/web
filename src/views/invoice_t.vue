@@ -1120,11 +1120,13 @@ export default {
             console.log('arr1',arr1,arr2)
             if(arr1.length>1||arr2.length>1){
               this.invoicePanelList.forEach(item => {
+                if(item.tmplId){
                   item.e9zConfigInvoiceColumnList.forEach(v => {
                     if(v.columnTitle=='发票项目类型'){
                       item.temType=v.columnValue=='1'?'一般':'即征即退'
                     }
                   });
+                }
               });
             }
 

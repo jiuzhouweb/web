@@ -53,7 +53,7 @@
 							<el-option v-for='item in invoiceNameList' :label="item.invoiceName" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="税种及相关列类型:" prop="e9z" v-show='formInline.tmplShowType=="0"' class='long'>
+					<el-form-item label="相关列类型:" prop="e9z" v-show='formInline.tmplShowType=="0"' class='long'>
 						<el-select clearable v-model="formInline.e9z" @change='setFormula' value-key='columnId'>
 							<el-option v-for='item in e9zConcat' :label="item.columnTitle" :value="item"></el-option>
 						</el-select>
@@ -106,7 +106,7 @@
 					<el-form-item label="发票名称:" prop="invoiceName" v-show='formInline1.tmplShowType==0'>
 						<el-input disabled v-model='formInline1.invoiceName'></el-input>
 					</el-form-item>
-					<el-form-item label="税种及相关列类型:" prop="e9z" v-show='formInline1.tmplShowType==0' class='long'>
+					<el-form-item label="相关列类型:" prop="e9z" v-show='formInline1.tmplShowType==0' class='long'>
 						<el-input disabled v-model='formInline1.columnTitle'></el-input>
 					</el-form-item>
 					<el-form-item label="模板名称:" prop="tmplName" v-show='formInline1.tmplShowType==1'>
@@ -223,7 +223,7 @@
 							<el-option v-for='item in templateListSearchList' :label="item.tmplName" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="税种类型:" v-if="searchTmplShowType == '0'">
+					<el-form-item label="相关列类型:" v-if="searchTmplShowType == '0'">
 						<el-input v-model="searchColumnTitle">
 						</el-input>
 					</el-form-item>
@@ -237,7 +237,7 @@
 			<div class="contain_body">
 				<h3>税种公式<span>{{areaName}}</span></h3>
 				<ul>
-					<li v-for="item in formulaList" @click='clickFormula(item)'>
+					<li v-for="item in formulaList" @click='clickFormula(item,$event)'>
 						<span class='formula span1' :title="item.tmpl_name">{{item.tmpl_name}}</span>
 						<span class='formula span1' :title="item.invoice_name + item.invoice_category + item.invoice_type">{{item.invoice_name}}
 							{{item.invoice_category}} {{item.invoice_type}}</span>
@@ -908,23 +908,26 @@
 				this.queryFormulaList();
 				console.log(`当前页: ${val}`);
 			},
-			clickFormula(item){
-				console.log(item);
-				this.isEdit = true;
-				this.formInline1.taxesTaxType = item.taxes_tax_type == 233?"一般纳税人":"小规模纳税人";
-				this.formInline1.tmplShowTitle = item.tmpl_show_type == 0?"发票":'其他模板';
-				this.formInline1.tmplShowType = item.tmpl_show_type;
-				this.formInline1.taxCalcType = item.tax_calc_type == 1?'一般计税':'简易征收计税';
-				this.formInline1.invoiceType = item.typeString;
+			clickFormula(item,event){
+				console.log(event);
+				if(item.formula_id){
+					this.isEdit = true;
+					this.formInline1.taxesTaxType = item.taxes_tax_type == 233?"一般纳税人":"小规模纳税人";
+					this.formInline1.tmplShowTitle = item.tmpl_show_type == 0?"发票":'其他模板';
+					this.formInline1.tmplShowType = item.tmpl_show_type;
+					this.formInline1.taxCalcType = item.tax_calc_type == 1?'一般计税':'简易征收计税';
+					this.formInline1.invoiceType = item.typeString;
+					
+					this.formInline1.invoiceName = item.invoice_name;
+					this.formInline1.columnTitle = item.column_title;
+					this.formInline1.tmplName = item.tmpl_name;
+					this.formInline1.formula = item.formula;
+					this.formInline1.formulaId = item.formula_id;
+					
+					
+					this.queryFormulaTitleList(item);
+				}
 				
-				this.formInline1.invoiceName = item.invoice_name;
-				this.formInline1.columnTitle = item.column_title;
-				this.formInline1.tmplName = item.tmpl_name;
-				this.formInline1.formula = item.formula;
-				this.formInline1.formulaId = item.formula_id;
-				
-				
-				this.queryFormulaTitleList(item);
 			},
 			queryFormulaTitleList(item){
 				let params = {
@@ -1378,7 +1381,7 @@
 			line-height: 0.28rem;
 			color: #454545;
 			padding-left: 0.30rem;
-
+			cursor: pointer;
 			span.span1 {
 
 				width: 1.60rem;
@@ -1401,7 +1404,9 @@
 				text-overflow: ellipsis;
 			}
 		}
-
+		li:hover{
+			background:#f9f9f9;
+		}
 		span.blue {
 			float: left;
 			font-size: 0.14rem;
