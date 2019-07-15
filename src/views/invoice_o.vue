@@ -733,8 +733,8 @@ export default {
                 console.log("this.fscj", this.fscj);
                 this.nextStepList.forEach(item => {
                   if (item.columnTitle == "负数冲减") {
-                    this.$set(item, "columnValue", this.fscj);
-                    this.$set(item, "defaultValue", this.fscj);
+                    this.$set(item, "columnValue", this.fscj.toString());
+                    this.$set(item, "defaultValue", this.fscj.toString());
                   }
                   //  else if (item.columnTitle == "应税服务抵扣成本") {
                   //   this.$set(item, "columnValue", this.ysfwdkcb);
@@ -787,8 +787,8 @@ export default {
                   //   this.$set(item, "defaultValue", this.fscj);
                   // } else
                    if (item.columnTitle == "应税服务抵扣成本") {
-                    this.$set(item, "columnValue", this.ysfwdkcb);
-                    this.$set(item, "defaultValue", this.ysfwdkcb);
+                    this.$set(item, "columnValue", this.ysfwdkcb.toString());
+                    this.$set(item, "defaultValue", this.ysfwdkcb.toString());
                   }
                 });
               }
@@ -1789,10 +1789,10 @@ export default {
             }
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "负数冲减") {
-            obj.columnValue = this.fscj ? this.fscj : 0;
+            obj.columnValue = this.fscj ? this.fscj : '0';
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "应税服务抵扣成本") {
-            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : 0;
+            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : '0';
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "增值税税率") {
             obj.columnValue = zengzhiValue;
@@ -1950,10 +1950,12 @@ export default {
             this.$set(item, "errInfo", "");
           }
         } else {
-          console.log(item.columnShow, item.columnEdit, item.columnRequire);
+          // console.log(item.columnShow, item.columnEdit, item.columnRequire);
           if (item.columnEdit == 1) {
             if (item.columnRequire == 1) {
+              // console.log(item.columnName)
               if (item.defaultValue == null || item.defaultValue == "") {
+                console.log('空',item)
                 this.$set(item, "errInfo", "必填项不可为空");
               } else if (item.columnEditRule == 1) {
                 if (!float2reg.test(item.defaultValue)) {
@@ -2122,10 +2124,10 @@ export default {
             obj.columnValue = xiaofeiValue;
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "负数冲减") {
-            obj.columnValue = this.fscj ? this.fscj : 0;
+            obj.columnValue = this.fscj ? this.fscj : '0';
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "应税服务抵扣成本") {
-            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : 0;
+            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : '0';
             invoiceColumns.push(obj);
           } else {
             obj.columnValue = item.defaultValue;
