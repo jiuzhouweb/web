@@ -18,7 +18,7 @@
 		</div>
 		<div class="right_contain">
 			<div class="contain_header">
-				<el-input placeholder="搜索" prefix-icon="el-icon-search" v-model='filter' v-on:keyup.enter.native="submit" size="mini"></el-input>
+				<el-input placeholder="搜索发票" prefix-icon="el-icon-search" v-model='filter' v-on:keyup.enter.native="submit" size="mini"></el-input>
 				<span class='title'>发票税率关联配置</span>
 			</div>
 			<div class="contain_body">

@@ -44,7 +44,7 @@
 					<el-input v-model="form.dicName"></el-input>
 				</el-form-item>
 				<el-form-item label="数值" prop="dicValue">
-					<el-input v-model="form.dicValue"></el-input>
+					<el-input type='number' v-model="form.dicValue"></el-input>
 				</el-form-item>
 			</el-form>
 			<div class='btn_contain clearfix'>
@@ -58,10 +58,10 @@
 					<el-input v-model="form.editdicName"></el-input>
 				</el-form-item>
 				<el-form-item label="数值" prop="editdicValue">
-					<el-input v-model="form.editdicValue"></el-input>
+					<el-input  type='number' v-model="form.editdicValue"></el-input>
 				</el-form-item>
 				<el-form-item label="排序" prop="editsort">
-					<el-input v-model="form.editsort"></el-input>
+					<el-input  type='number' v-model="form.editsort"></el-input>
 				</el-form-item>
 			</el-form>
 			<div class='btn_contain clearfix'>
