@@ -481,7 +481,7 @@ export default {
     //     taxPayerId: "11111111111111111111"
     //   },
     //   {
-    //     customerId: "jz333",
+    //     customerId: "jz344",
     //     customerName: "44",
     //     reportTaxPeriod: null,
     //     reportTaxType: 233,
@@ -1761,13 +1761,15 @@ export default {
             obj.columnValue = this.taxationId;
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "发票项目类型") {
-            if(item.columnValue == "一般" || item.columnValue == "1"){
-              obj.columnValue = "1";
-            }else if(item.columnValue == "即征即退" ||item.columnValue == "2"){
-              obj.columnValue = "2";
-            }else{
-              obj.columnValue = item.defaultValue;
-            }
+            item.columnValue=item.columnValue?item.columnValue:item.defaultValue;
+              if(item.columnValue == "一般" || item.columnValue == "1"){
+                obj.columnValue = "1";
+              }else if(item.columnValue == "即征即退" ||item.columnValue == "2"){
+                obj.columnValue = "2";
+              }else{
+                obj.columnValue = '';
+              }
+            
 
             // if (item.defaultValue) {
             //   obj.columnValue = item.defaultValue;
@@ -1785,6 +1787,7 @@ export default {
             // }
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "应税类型") {
+            item.columnValue=item.columnValue?item.columnValue:item.defaultValue;
             if(item.columnValue == "应税货物" || item.columnValue == "1"){
               obj.columnValue = "1";
             }else if(item.columnValue == "应税劳务" ||item.columnValue == "2"){
@@ -1792,7 +1795,7 @@ export default {
             }else if(item.columnValue == "应税服务" ||item.columnValue == "3"){
               obj.columnValue = "3";
             }else{
-              obj.columnValue = item.defaultValue;
+              obj.columnValue = '';
             }
 
             // if (item.defaultValue) {
@@ -1816,6 +1819,7 @@ export default {
             // }
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "是否是辅导期") {
+            item.columnValue=item.columnValue?item.columnValue:item.defaultValue;
             if(item.columnValue == "是" || item.columnValue == "1"){
               obj.columnValue = "1";
             }else if(item.columnValue == "否" ||item.columnValue == "2"){
@@ -2339,6 +2343,7 @@ export default {
           item.pages = parseInt(v.columnValue);
         }
         if (v.columnTitle == "发票项目类型") {
+          v.columnValue=v.columnValue?v.columnValue:v.defaultValue;
           if (v.columnValue == "1" || v.columnValue == "一般") {
             v.columnValue = "一般";
           } else if (v.columnValue == "2" || v.columnValue == "即征即退") {
@@ -2346,8 +2351,10 @@ export default {
           } else {
             v.columnValue = "";
           }
+          console.log('应税类型',v.columnValue)
         }
         if (v.columnTitle == "应税类型") {
+          v.columnValue=v.columnValue?v.columnValue:v.defaultValue;
           if (v.columnValue == "1" || v.columnValue == "应税货物") {
             v.columnValue = "应税货物";
           } else if (v.columnValue == "2" || v.columnValue == "应税劳务") {
@@ -2357,8 +2364,10 @@ export default {
           } else {
             v.columnValue = "";
           }
+          console.log('应税类型',v.columnValue)
         }
         if (v.columnTitle == "是否是辅导期") {
+          v.columnValue=v.columnValue?v.columnValue:v.defaultValue;
           if (v.columnValue == "1" || v.columnValue == "是") {
             v.columnValue = "是";
           } else if (v.columnValue == "2" || v.columnValue == "否") {
@@ -2366,11 +2375,14 @@ export default {
           } else {
             v.columnValue = "";
           }
+          console.log('是否是辅导期',v.columnValue)
         }
         if (v.columnShow == 1) {
-          v.columnValue = v.columnValue
+          if(v.columnTitle != "是否是辅导期"||v.columnTitle != "应税类型"||v.columnTitle != "发票项目类型"){
+            v.columnValue = v.columnValue
             ? this.fomatFloat(v.columnValue, 2)
             : this.fomatFloat(v.defaultValue, 2);
+          }
           item.invoiceColumnList.push(v);
         }
         if (v.columnTitle == "增值税税率") {
@@ -2400,7 +2412,12 @@ export default {
           "item.e9zConfigInvoiceTaxesList",
           item.e9zConfigInvoiceTaxesList
         );
+        
       }
+      console.log(
+          "item.invoiceColumnList",
+          item.invoiceColumnList
+        );
 
       this.detailData = item;
     },
@@ -2548,6 +2565,7 @@ export default {
             item.pages = parseInt(v.columnValue);
           }
           if (v.columnTitle == "发票项目类型") {
+            v.columnValue=v.columnValue?v.columnValue:v.defaultValue;
             if (v.columnValue == "1" || v.columnValue == "一般") {
               v.columnValue = "一般";
             } else if (v.columnValue == "2" || v.columnValue == "即征即退") {
@@ -2557,6 +2575,7 @@ export default {
             }
           }
           if (v.columnTitle == "应税类型") {
+            v.columnValue=v.columnValue?v.columnValue:v.defaultValue;
             if (v.columnValue == "1" || v.columnValue == "应税货物") {
               v.columnValue = "应税货物";
             } else if (v.columnValue == "2" || v.columnValue == "应税劳务") {
@@ -2568,6 +2587,7 @@ export default {
             }
           }
           if (v.columnTitle == "是否是辅导期") {
+            v.columnValue=v.columnValue?v.columnValue:v.defaultValue;
             if (v.columnValue == "1" || v.columnValue == "是") {
               v.columnValue = "是";
             } else if (v.columnValue == "2" || v.columnValue == "否") {
