@@ -168,6 +168,13 @@
                 <p class="value">{{detailData.invoiceName}}</p>
               </div>
             </div>
+            <div class="invoice" v-if="detailData.tmplName">
+              <div class="left">
+                <p class="label">模板名称：</p>
+                <p class="value">{{detailData.tmplName}}</p>
+                <p v-if="detailData.temType" class="pages">{{detailData.temType}}</p>
+              </div>
+            </div>
             <div class="date">
               <div class="left">
                 <p class="label">账期：</p>
@@ -995,14 +1002,21 @@ export default {
                 this.$set(v, "isEdit", false);
                 this.$set(item, "errInfo", "");
               });
-              // 模板 区分是一般还是即征即退
-              if(item.tmplId){
+              // 模板 一般纳税人 区分是一般还是即征即退
+              if(this.userobj.reportTaxType == 233){
+                if(item.tmplId){
                   item.e9zConfigInvoiceColumnList.forEach(v => {
                     if(v.columnTitle=='发票项目类型'){
-                      item.temType=v.defaultValue=='1'||v.columnValue=='1'?'一般':'即征即退'
+                      if(v.columnValue){
+                        item.temType=v.columnValue=='1'?'一般':'即征即退'
+                      }else{
+                        item.temType=v.defaultValue=='1'?'一般':'即征即退'
+                      }
+                      
                     }
                   });
                 }
+              }
               // // 防伪税控留底表模板 区分是一般还是即征即退
               // if(item.tmplId==1){
               //   arr1.push(item);
@@ -1747,54 +1761,79 @@ export default {
             obj.columnValue = this.taxationId;
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "发票项目类型") {
-            if (item.defaultValue) {
+            if(item.columnValue == "一般" || item.columnValue == "1"){
+              obj.columnValue = "1";
+            }else if(item.columnValue == "即征即退" ||item.columnValue == "2"){
+              obj.columnValue = "2";
+            }else{
               obj.columnValue = item.defaultValue;
-            } else {
-              if (item.columnValue == "一般" || item.columnValue == "1") {
-                obj.columnValue = "1";
-              } else if (
-                item.columnValue == "即征即退" ||
-                item.columnValue == "2"
-              ) {
-                obj.columnValue = "2";
-              } else {
-                obj.columnValue = "";
-              }
             }
+
+            // if (item.defaultValue) {
+            //   obj.columnValue = item.defaultValue;
+            // } else {
+            //   if (item.columnValue == "一般" || item.columnValue == "1") {
+            //     obj.columnValue = "1";
+            //   } else if (
+            //     item.columnValue == "即征即退" ||
+            //     item.columnValue == "2"
+            //   ) {
+            //     obj.columnValue = "2";
+            //   } else {
+            //     obj.columnValue = "";
+            //   }
+            // }
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "应税类型") {
-            if (item.defaultValue) {
+            if(item.columnValue == "应税货物" || item.columnValue == "1"){
+              obj.columnValue = "1";
+            }else if(item.columnValue == "应税劳务" ||item.columnValue == "2"){
+              obj.columnValue = "2";
+            }else if(item.columnValue == "应税服务" ||item.columnValue == "3"){
+              obj.columnValue = "3";
+            }else{
               obj.columnValue = item.defaultValue;
-            } else {
-              if (item.columnValue == "应税货物" || item.columnValue == "1") {
-                obj.columnValue = "1";
-              } else if (
-                item.columnValue == "应税劳务" ||
-                item.columnValue == "2"
-              ) {
-                obj.columnValue = "2";
-              } else if (
-                item.columnValue == "应税服务" ||
-                item.columnValue == "3"
-              ) {
-                obj.columnValue = "3";
-              } else {
-                obj.columnValue = "";
-              }
             }
+
+            // if (item.defaultValue) {
+            //   obj.columnValue = item.defaultValue;
+            // } else {
+            //   if (item.columnValue == "应税货物" || item.columnValue == "1") {
+            //     obj.columnValue = "1";
+            //   } else if (
+            //     item.columnValue == "应税劳务" ||
+            //     item.columnValue == "2"
+            //   ) {
+            //     obj.columnValue = "2";
+            //   } else if (
+            //     item.columnValue == "应税服务" ||
+            //     item.columnValue == "3"
+            //   ) {
+            //     obj.columnValue = "3";
+            //   } else {
+            //     obj.columnValue = "";
+            //   }
+            // }
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "是否是辅导期") {
-            if (item.defaultValue) {
+            if(item.columnValue == "是" || item.columnValue == "1"){
+              obj.columnValue = "1";
+            }else if(item.columnValue == "否" ||item.columnValue == "2"){
+              obj.columnValue = "2";
+            }else{
               obj.columnValue = item.defaultValue;
-            } else {
-              if (item.columnValue == "是" || item.columnValue == "1") {
-                obj.columnValue = "1";
-              } else if (item.columnValue == "否" || item.columnValue == "2") {
-                obj.columnValue = "2";
-              } else {
-                obj.columnValue = "";
-              }
             }
+            // if (item.defaultValue) {
+            //   obj.columnValue = item.defaultValue;
+            // } else {
+            //   if (item.columnValue == "是" || item.columnValue == "1") {
+            //     obj.columnValue = "1";
+            //   } else if (item.columnValue == "否" || item.columnValue == "2") {
+            //     obj.columnValue = "2";
+            //   } else {
+            //     obj.columnValue = "";
+            //   }
+            // }
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "负数冲减") {
             obj.columnValue = this.fscj ? this.fscj : '0';
