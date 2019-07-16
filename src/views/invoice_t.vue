@@ -1109,31 +1109,39 @@ export default {
                 this.$set(v, "isEdit", false);
                 this.$set(item, "errInfo", "");
               });
-              // 防伪税控留底表模板 区分是一般还是即征即退
-              if(item.tmplId==1){
-                arr1.push(item);
-              }
-              // 增值税
-              if(item.tmplId==6){
-                arr2.push(item);
-              }
-              // 负数
-              if(item.tmplId==4){
-                arr3.push(item);
-              }
-            });
-            console.log('arr1',arr1,arr2,arr3)
-            if(arr1.length>1||arr2.length>1||arr3.length>1){
-              this.invoicePanelList.forEach(item => {
-                if(item.tmplId){
+              // 模板 区分是一般还是即征即退
+              if(item.tmplId){
                   item.e9zConfigInvoiceColumnList.forEach(v => {
                     if(v.columnTitle=='发票项目类型'){
-                      item.temType=v.columnValue=='1'?'一般':'即征即退'
+                      item.temType=v.defaultValue=='1'||v.columnValue=='1'?'一般':'即征即退'
                     }
                   });
                 }
-              });
-            }
+              // // 防伪税控留底表模板 区分是一般还是即征即退
+              // if(item.tmplId==1){
+              //   arr1.push(item);
+              // }
+              // // 增值税
+              // if(item.tmplId==6){
+              //   arr2.push(item);
+              // }
+              // // 负数
+              // if(item.tmplId==4){
+              //   arr3.push(item);
+              // }
+            });
+            // console.log('arr1',arr1,arr2,arr3)
+            // if(arr1.length>1||arr2.length>1||arr3.length>1){
+              // this.invoicePanelList.forEach(item => {
+              //   if(item.tmplId){
+              //     item.e9zConfigInvoiceColumnList.forEach(v => {
+              //       if(v.columnTitle=='发票项目类型'){
+              //         item.temType=v.defaultValue=='1'?'一般':'即征即退'
+              //       }
+              //     });
+              //   }
+              // });
+            // }
 
             console.log("this.invoicePanelList", this.invoicePanelList);
           } else {
