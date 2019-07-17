@@ -2012,7 +2012,8 @@ export default {
           taxesTaxType: this.userobj.reportTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
           type: this.detailData.type, //对应列/税费下拉框 1-列 2-税费
           declarationType: declarationType, //1：小规模，2一般纳税人
-          e9zConfigInvoiceColumnList: invoiceColumns
+          e9zConfigInvoiceColumnList: invoiceColumns,
+          taxationId:this.taxationId
         };
         // 修改模板时新增3个字段
         let invoiceTaxableType = "",
@@ -2340,7 +2341,8 @@ export default {
           taxesTaxType: this.userobj.reportTaxType, //税务类型：0：通用；232：小规模；233：一般纳税人
           type: this.nextStepRes.type, //对应列/税费下拉框 1-列 2-税费
           declarationType: declarationType, //申报类型 1：小规模，2一般纳税人
-          e9zConfigInvoiceColumnList: invoiceColumns
+          e9zConfigInvoiceColumnList: invoiceColumns,
+          taxationId:this.taxationId
         };
         console.log("params", params);
         axios
