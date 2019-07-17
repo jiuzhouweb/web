@@ -140,7 +140,7 @@
 										this.completed.push(item.completed);
 										this.incomplete.push(item.incomplete);
 										this.con.push(item.incomplete + item.completed);
-										this.nameList.push(item.executeUserName);
+										this.nameList.push(item.executeUserName + "(" + item.stepName + ")");
 									});
 									this.drawLine();
 								} else {
@@ -258,19 +258,22 @@
 							name: "合计",
 							type: "bar",
 							data: this.con,
-							barWidth: 20
+							barMaxWidth: 20,
+							// label:{
+							// 	formatter:
+							// }
 						},
 						{
 							name: "已完成",
 							type: "bar",
 							data: this.completed,
-							barWidth: 20
+							barMaxWidth: 20
 						},
 						{
 							name: "未完成",
 							type: "bar",
 							data: this.incomplete,
-							barWidth: 20
+							barMaxWidth: 20
 						}
 					]
 				};
