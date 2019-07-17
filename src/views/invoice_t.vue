@@ -2293,6 +2293,12 @@ export default {
           } else if (item.columnTitle == "应税服务抵扣成本") {
             obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : '0';
             invoiceColumns.push(obj);
+          } else if (item.columnTitle == "发票项目类型") {
+            obj.columnValue = this.nextStepRes.invoiceName=='即征即退'?'2':'1';
+            invoiceColumns.push(obj);
+          } else if (item.columnTitle == "应税类型") {
+            obj.columnValue = this.nextStepRes.invoiceTaxableType;
+            invoiceColumns.push(obj);
           } else {
             obj.columnValue = item.defaultValue;
             // if (item.columnShow == 1 && item.columnEdit == 1) {
