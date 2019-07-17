@@ -1883,6 +1883,7 @@ export default {
               }else{
                 obj.columnValue = '';
               }
+              console.log('发票项目类型',obj.columnValue)
             
 
             // if (item.defaultValue) {
@@ -1911,6 +1912,7 @@ export default {
             }else{
               obj.columnValue = '';
             }
+            console.log('应税类型',obj.columnValue)
 
             // if (item.defaultValue) {
             //   obj.columnValue = item.defaultValue;
@@ -1941,6 +1943,7 @@ export default {
             }else{
               obj.columnValue = item.defaultValue;
             }
+            console.log('是否是辅导期',obj.columnValue)
             // if (item.defaultValue) {
             //   obj.columnValue = item.defaultValue;
             // } else {
@@ -2501,16 +2504,16 @@ export default {
           } else {
             v.columnValue = "";
           }
-          console.log('发票项目类型',v.columnValue)
+          console.log('应税类型',v.columnValue)
         }
         if (v.columnTitle == "应税类型") {
           v.columnValue=v.columnValue?v.columnValue:v.defaultValue;
           if (v.columnValue == "1" || v.columnValue == "应税货物") {
             v.columnValue = "应税货物";
           } else if (v.columnValue == "2" || v.columnValue == "应税劳务") {
-            v.columnValue = " 应税劳务";
+            v.columnValue = "应税劳务";
           } else if (v.columnValue == "3" || v.columnValue == "应税服务") {
-            v.columnValue = " 应税服务";
+            v.columnValue = "应税服务";
           } else {
             v.columnValue = "";
           }
@@ -2729,9 +2732,9 @@ export default {
             if (v.columnValue == "1" || v.columnValue == "应税货物") {
               v.columnValue = "应税货物";
             } else if (v.columnValue == "2" || v.columnValue == "应税劳务") {
-              v.columnValue = " 应税劳务";
+              v.columnValue = "应税劳务";
             } else if (v.columnValue == "3" || v.columnValue == "应税服务") {
-              v.columnValue = " 应税服务";
+              v.columnValue = "应税服务";
             } else {
               v.columnValue = "";
             }
