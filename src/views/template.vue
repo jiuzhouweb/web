@@ -41,7 +41,7 @@
 				<!-- <el-table-column align="center" type="selection" width="50"></el-table-column> -->
 				<el-table-column align="center" label="字段名" :resizable="false" fixed="left">
 					<template slot-scope="scope">
-						<div contenteditable='true' v-text='scope.row.columnTitle' @blur="setLine($event,scope.row,'columnTitle')">
+						<div v-text='scope.row.columnTitle' @blur="setLine($event,scope.row,'columnTitle')">
 						</div>
 					</template>
 				</el-table-column>
@@ -54,7 +54,7 @@
 				</el-table-column>
 				<el-table-column align="center" label="计算优先级" :resizable="false">
 					<template slot-scope="scope">
-						<div contenteditable='true' v-text='scope.row.columnCalcIndex' @blur="setLine($event,scope.row,'columnCalcIndex')">
+						<div v-text='scope.row.columnCalcIndex' @blur="setLine($event,scope.row,'columnCalcIndex')">
 						</div>
 					</template>
 				</el-table-column>
