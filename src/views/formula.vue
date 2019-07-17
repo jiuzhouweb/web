@@ -28,7 +28,7 @@
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-position='left' :rules="rules" ref="ruleForm"
 				 size="mini" v-show='!isEdit'>
 					<el-form-item label="纳税人类型:" class='short' prop="taxesTaxType">
-						<el-select clearable v-model="formInline.taxesTaxType">
+						<el-select clearable v-model="formInline.taxesTaxType" @change='queryRateMethods(formInline.taxesTaxType)'>
 							<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
 						</el-select>
 					</el-form-item>
@@ -502,8 +502,19 @@
 			 * 无
 			 * 一般计税，简易计税
 			 * */
-			queryRateMethods() {
-				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法').then(res => {
+			// queryRateMethods() {
+			// 	this.axios.post('/perTaxToolTwo/e9z/configDictionary/findDictionayList?dicName=计税方法').then(res => {
+			// 		this.taxCalcTypeList = res.data.data;
+			// 	}).catch(function(err) {
+			// 		this.$message({
+			// 			message: '获取计税方法失败',
+			// 			type: 'error'
+			// 		});
+			// 	})
+			// },
+			queryRateMethods(taxesTaxType) {
+				
+				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findInvoiceTaxCalcType?dicName=计税方法&taxesTaxType=' + taxesTaxType).then(res => {
 					this.taxCalcTypeList = res.data.data;
 				}).catch(function(err) {
 					this.$message({
@@ -512,7 +523,6 @@
 					});
 				})
 			},
-
 			/*
 			 * 获取公式字符下拉列表
 			 * {params}
@@ -1036,7 +1046,7 @@
 		computed: {},
 		created() {
 			this.queryDicName();
-			this.queryRateMethods();
+			// this.queryRateMethods();
 			this.queryFormulaList();
 			this.queryCalSymbol();
 			this.queryInvoiceType();
