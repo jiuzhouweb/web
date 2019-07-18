@@ -1,5 +1,5 @@
 <template>
-  <div class="main_contain">
+  <div class="main_contain" v-loading="loadingInsertReport" element-loading-text="报表生成中，请稍等...">
     <div class="left_contain">
       <div class='search_contain'>
         <el-form :inline="true" :model="searchList" class="demo-form-inline" size="mini" :rules="rulesSearch" ref='formSearch'>
@@ -474,6 +474,7 @@ export default {
       },
       myChart: '',
       sums:'',
+      loadingInsertReport:false,
     };
   },
   components: {
@@ -889,6 +890,7 @@ export default {
           } else if (this.userobj.reportTaxType == 232) {
             url = "/perTaxToolTwo/e9zCalculate/insertXgmReport";
           }
+          this.loadingInsertReport=true;
           let params = {
             taxationId: this.taxationId,
             taxInfoId: this.taxInfoId,
@@ -898,6 +900,7 @@ export default {
             .post(url, params)
             .then(res => {
               if (res.data.code == 200) {
+                this.loadingInsertReport=false;
                 this.$message({
                   message: "生成报表成功",
                   type: "success"

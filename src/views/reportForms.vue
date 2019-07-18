@@ -407,7 +407,7 @@ export default {
           console.log("获取表格数据", res);
           setTimeout(() => {
             this.loading = false;
-          }, 2000);
+          }, 1000);
           if (res.data.code == 200) {
             this.tableTabs.forEach(item => {
               if (name == item.name) {
