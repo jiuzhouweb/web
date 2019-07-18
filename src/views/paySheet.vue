@@ -10,7 +10,7 @@
 				<a href="月度工资表模板.xlsx" download="月度工资表模板">点击下载工资表模板</a>
 			</div>
 			<div>
-				<el-form :inline="true" :model="uploadData" class="demo-form-inline" size="small" :rules="rulesf" ref='formName'>
+				<el-form :inline="true" :model="uploadData" class="demo-form-inline" size="mini" :rules="rulesf" ref='formName'>
 					<el-form-item label="账期" prop="accountPeriod">
 						<el-date-picker v-model="uploadData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM"
 						 placeholder="选择账期" clearable>
@@ -26,15 +26,15 @@
 					<el-form-item label="证件号导入">
 						<el-switch v-model="switchvalue"></el-switch>
 					</el-form-item>
-					<el-button type="primary" @click='selectExcel("formName")' size="small">选择Excel</el-button>
-					<el-button type="primary" @click='continueExcel("formName")' size="small">沿用上月</el-button>
+					<el-button type="primary" @click='selectExcel("formName")' size="mini">选择Excel</el-button>
+					<el-button type="primary" @click='continueExcel("formName")' size="mini">沿用上月</el-button>
 				</el-form>
 			</div>
 		</div>
 		<div class='main_contain'>
 			<h5>月度录入表</h5>
 			<div>
-				<el-form :inline="true" :model="searchData" class="demo-form-inline" size="small" :rules="ruless" ref='formName1'>
+				<el-form :inline="true" :model="searchData" class="demo-form-inline" size="mini" :rules="ruless" ref='formName1'>
 					<el-form-item label="账期" prop="accountPeriod">
 						<el-date-picker v-model="searchData.accountPeriod" type="month" format="yyyy-MM " value-format="yyyy-MM"
 						 placeholder="选择月" clearable>
@@ -53,8 +53,8 @@
 							<el-option label="未提交" value="0"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-button type="primary" @click='search("formName1")' size="small">搜索</el-button>
-					<el-button type="primary" @click='addUser' v-if="calcFlag" size="small">新增员工</el-button>
+					<el-button type="primary" @click='search("formName1")' size="mini">搜索</el-button>
+					<el-button type="primary" @click='addUser' v-if="calcFlag" size="mini">新增员工</el-button>
 					<!-- <el-button type="primary" @click='selectExcel'>重置</el-button> -->
 				</el-form>
 			</div>
@@ -149,7 +149,7 @@
 			<span class="title">累计工资薪金汇算表【不包括劳务报酬、稿酬及其他非工资薪金，如需查看请点击</span><span @click="goReportForms" class="title reportFrom">报表查看</span><span
 			 class="title"> 】</span>
 			<div>
-				<el-button type="primary" @click='submitAll' v-if="calcFlag" size="small">提交</el-button>
+				<el-button type="primary" @click='submitAll' v-if="calcFlag" size="mini">提交</el-button>
 			</div>
 			<el-table :data="tableData2" style="width: 100%;margin-top: 20px;" stripe>
 				<el-table-column align="center" label="序号" type='index' width="50" :resizable="false"></el-table-column>
@@ -655,6 +655,16 @@
 					callback();
 				}
 			};
+			var validateCard = (rule, value, callback) => {
+				var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+				if (value === "") {
+					callback();
+				} else if (!reg.test(value)) {
+					callback(new Error("身份证输入不合法"));
+				} else {
+					callback();
+				}
+			};
 			return {
 				dialogVisible: false,
 				uploadData: {
@@ -787,7 +797,10 @@
 						required: true,
 						message: "请输入证件号码",
 						trigger: "blur"
-					}],
+					},{
+							validator: validateCard,
+							trigger: "blur"
+						}],
 					employmentDate: [{
 						type: "string",
 						required: true,
@@ -1030,7 +1043,10 @@
 						required: true,
 						message: "请输入证件号码",
 						trigger: "blur"
-					}]
+					},{
+							validator: validateCard,
+							trigger: "blur"
+						}]
 				},
 				dialogVisibleCalc: false,
 				calcData: {},
