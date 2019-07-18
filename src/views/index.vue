@@ -1,5 +1,5 @@
 <template>
-	<div class='home'>
+	<div class='home' v-loading.fullscreen.lock="loading">
 		<el-container>
 			<el-header class='header' height='0.88rem'>
 				<h1 class='left'>财务系统</h1>
@@ -302,7 +302,8 @@
 				userName: '15651965271',
 				userId: "",
 				menu: [],
-				userTypeId: ''
+				userTypeId: '',
+				loading:false
 			}
 		},
 		methods: {
@@ -313,6 +314,7 @@
 				console.log(key, keyPath);
 			},
 			queryUser() {
+				this.loading = true;
 				this.axios.get('/perTaxToolTwo/api/user/getLoginUserInfo.do')
 					.then(res => {
 						if (res.data.code == 200) {
@@ -410,8 +412,14 @@
 					document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 			},
 		},
+		beforeCreate() {
+			
+		},
 		created() {
 			this.queryUser()
+		},
+		mounted() {
+			this.loading = false;
 		}
 	}
 </script>

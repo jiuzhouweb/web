@@ -668,7 +668,7 @@
 							this.queryFormulaList();
 						} else {
 							this.$message({
-								message: res.data.data,
+								message: res.data.msg,
 								type: 'error'
 							});
 						}
@@ -707,7 +707,7 @@
 							this.queryFormulaList();
 						} else {
 							this.$message({
-								message: res.data.data,
+								message: res.data.msg,
 								type: 'error'
 							});
 						}
@@ -936,7 +936,7 @@
 					this.formInline1.formula = item.formula;
 					this.formInline1.formulaId = item.formula_id;
 					
-					
+					this.resetSelect();
 					this.queryFormulaTitleList(item);
 				}
 				

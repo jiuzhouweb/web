@@ -45,16 +45,16 @@
 			</div>
 		</div>
 		<el-dialog title="新增税率" :visible.sync="dialogVisible" width="4rem" style="min-width:250px">
-			<el-form :model="form" size="mini" label-width="100px" :rules='rules' ref="ruleForm">
-				<el-form-item label="税费标题" prop="taxesTitle">
+			<el-form :model="form" size="mini" label-width="120px" :rules='rules' ref="ruleForm">
+				<el-form-item label="税费标题" prop="taxesName">
 					<!-- <el-input v-model="form.taxesTitle"></el-input> -->
-					<el-select v-model="form.taxesTitle" placeholder="请选择">
-						<el-option v-for="item in taxesList" :key="item.value" :label="item.taxesTitle" :value="item.taxesName">
+					<el-select v-model="form.tem" placeholder="请选择" @change='setTaxesTitle' value-key="taxesName">
+						<el-option v-for="item in taxesList" :key="item.value" :label="item.taxesTitle" :value="item">
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="税率显示名称" prop="taxesName">
-					<el-input v-model="form.taxesName"></el-input>
+				<el-form-item label="税率显示名称" prop="ratesShowName">
+					<el-input v-model="form.ratesShowName"></el-input>
 				</el-form-item>
 				<el-form-item label="税率" prop="taxesRate">
 					<el-input v-model="form.taxesRate"></el-input>
@@ -71,7 +71,7 @@
 					<el-table :data="rateList" row-key='ratesId' border stripe @selection-change="((val)=>{handleSelectionChange(val,index)})"
 					 ref='multipleTable'>
 						<el-table-column align="center" type="selection" width="55"></el-table-column>
-						<el-table-column align="center" property="taxesTitle" label="税率名称"></el-table-column>
+						<el-table-column align="center" property="ratesShowName" label="税率显示名称"></el-table-column>
 						<el-table-column align="center" property="taxesRate" label="税率"></el-table-column>
 					</el-table>
 				</el-tab-pane>
@@ -115,9 +115,11 @@
 				dialogVisible: false,
 				dialogTableVisible: false,
 				form: {
+					ratesShowName:'',
 					taxesName: '',
 					taxesTitle: '',
-					taxesRate: ''
+					taxesRate: '',
+					tem:''
 				},
 				filter: '',
 				invoiceList: [],
@@ -127,20 +129,20 @@
 				url: '',
 				invoiceId: '',
 				rules: {
-					taxesTitle: [{
-						required: true,
-						message: '请输入税费标题',
-						trigger: 'blur'
-					}, ],
 					taxesName: [{
 						required: true,
-						message: '请输入税费名称',
-						trigger: 'blur'
+						message: '请选择税费标题',
+						trigger: 'change'
 					}],
 					taxesRate: [{
 						validator: validatePass2,
 						trigger: 'blur',
 						required: true,
+					}],
+					ratesShowName:[{
+						required: true,
+						message: '请输入税率显示名称',
+						trigger: 'blur'
 					}],
 				},
 				taxesList:[]
@@ -204,7 +206,13 @@
 				this.dialogVisible = true;
 				this.queryTaxesList();
 			},
+			setTaxesTitle(value){
+				console.log(value);
+				this.form.taxesTitle = value.taxesTitle;
+				this.form.taxesName = value.taxesName;
+			},
 			queryTaxesList(){
+				let params = {};
 				this.axios.post('/perTaxToolTwo/e9z/configTaxes/selectAllTaxesTitle', params)
 					.then(res => {
 						if (res.data.code == 200) {
@@ -236,7 +244,9 @@
 				this.form = {
 					taxesName: '',
 					taxesTitle: '',
-					taxesRate: ''
+					taxesRate: '',
+					ratesShowName:'',
+					tem:''
 				}
 			},
 			commitDialog(formName) {
@@ -249,7 +259,9 @@
 								this.form = {
 									taxesName: '',
 									taxesTitle: '',
-									taxesRate: ''
+									taxesRate: '',
+									ratesShowName:'',
+									tem:''
 								}
 								if (res.data.code == 200) {
 									this.queryRate();
@@ -275,7 +287,9 @@
 								this.form = {
 									taxesName: '',
 									taxesTitle: '',
-									taxesRate: ''
+									taxesRate: '',
+									ratesShowName:'',
+									tem:''
 								}
 								this.$message({
 									message: "系统繁忙，请稍后重试",
