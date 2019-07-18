@@ -1017,34 +1017,38 @@ export default {
                   });
                 }
               }
-              // // 防伪税控留底表模板 区分是一般还是即征即退
-              // if(item.tmplId==1){
-              //   arr1.push(item);
-              // }
-              // // 增值税
-              // if(item.tmplId==6){
-              //   arr2.push(item);
-              // }
-              // // 负数
-              // if(item.tmplId==4){
-              //   arr3.push(item);
-              // }
+              // 模板 小规模纳税人 区分是应税类型
+              if(this.userobj.reportTaxType == 232){
+                if(item.tmplId){
+                  item.e9zConfigInvoiceColumnList.forEach(v => {
+                    if(v.columnTitle=='应税类型'){
+                      if(v.columnValue){
+                        if(v.columnValue=='1'){
+                          item.temType='应税货物'
+                        }else if(v.columnValue=='2'){
+                          item.temType='应税劳务'
+                        }else if(v.columnValue=='3'){
+                          item.temType='应税服务'
+                        }
+                      }else{
+                        if(v.defaultValue=='1'){
+                          item.temType='应税货物'
+                        }else if(v.defaultValue=='2'){
+                          item.temType='应税劳务'
+                        }else if(v.defaultValue=='3'){
+                          item.temType='应税服务'
+                        }
+                      }
+                      
+                    }
+                  });
+                }
+              }
+              
             });
-            // console.log('arr1',arr1,arr2,arr3)
-            // if(arr1.length>1||arr2.length>1||arr3.length>1){
-            //   this.invoicePanelList.forEach(item => {
-            //     if(item.tmplId){
-            //       item.e9zConfigInvoiceColumnList.forEach(v => {
-            //         if(v.columnTitle=='发票项目类型'){
-            //           item.temType=v.defaultValue=='1'?'一般':'即征即退'
-            //         }
-            //       });
-            //     }
-            //   });
-            // }
-
             console.log("this.invoicePanelList", this.invoicePanelList);
           } else {
+            this.loadingCard = false;
             let type;
             if (res.data.code == 0) {
               type = "warning";
@@ -1058,6 +1062,7 @@ export default {
           }
         })
         .catch(err => {
+          this.loadingCard = false;
           console.log(err)
           this.$message({
             message: "系统繁忙，请稍后重试",

@@ -906,6 +906,7 @@ export default {
                   type: "success"
                 });
               } else {
+                this.loadingInsertReport=false;
                 this.$message({
                   message: res.data.msg,
                   type: "error"
@@ -913,6 +914,7 @@ export default {
               }
             })
             .catch(err => {
+              this.loadingInsertReport=false;
               console.log("生成报表失败");
             });
         } else {
@@ -1134,6 +1136,34 @@ export default {
                   });
                 }
               }
+
+              // 模板 小规模纳税人 区分是应税类型
+              if(this.userobj.reportTaxType == 232){
+                if(item.tmplId){
+                  item.e9zConfigInvoiceColumnList.forEach(v => {
+                    if(v.columnTitle=='应税类型'){
+                      if(v.columnValue){
+                        if(v.columnValue=='1'){
+                          item.temType='应税货物'
+                        }else if(v.columnValue=='2'){
+                          item.temType='应税劳务'
+                        }else if(v.columnValue=='3'){
+                          item.temType='应税服务'
+                        }
+                      }else{
+                        if(v.defaultValue=='1'){
+                          item.temType='应税货物'
+                        }else if(v.defaultValue=='2'){
+                          item.temType='应税劳务'
+                        }else if(v.defaultValue=='3'){
+                          item.temType='应税服务'
+                        }
+                      }
+                      
+                    }
+                  });
+                }
+              }
               
               // // 防伪税控留底表模板 区分是一般还是即征即退
               // if(item.tmplId==1){
@@ -1163,6 +1193,7 @@ export default {
 
             console.log("this.invoicePanelList", this.invoicePanelList);
           } else {
+            this.loadingCard = false;
             let type;
             if (res.data.code == 0) {
               type = "warning";
@@ -1176,6 +1207,7 @@ export default {
           }
         })
         .catch(err => {
+          this.loadingCard = false;
           this.$message({
             message: "系统繁忙，请稍后重试",
             type: "error"
