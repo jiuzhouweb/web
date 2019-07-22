@@ -46,7 +46,7 @@
           <div v-if="tmplList.length>0&&!isexpandTmpl" class="eachCard addBtn" @click="changeStatus()">
             <img src="../assets/img/expand.png" style="width:100%;height:100%" alt="">
           </div>
-          <div class="eachCard" v-for="(item,index) in tmplList" :key="index" v-if="!item.ishideTemp&&isexpandTmpl">
+          <div class="eachCard" v-for="(item,index) in tmplList" :key="index" v-if="isexpandTmpl">
             <!-- <div class="circle"> -->
               <img v-if="!issubmit&&!item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/noselect.png" class="circle" alt="">
               <img v-if="!issubmit&&item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/select.png" class="circle" alt="">
@@ -903,6 +903,7 @@ export default {
           this.statusVaule = this.searchList.statusVaule;
           this.taxationId = "";
           this.taxInfoId = "";
+          this.isexpandTmpl=false;
           console.log("this.searchList", this.searchList);
           let params = {
             accountPeriod: this.accountPeriod, //账期
@@ -1034,7 +1035,6 @@ export default {
     },
     //获取列表数据
     getInvoiceLeaveShowList(loadingFlag) {
-      this.isexpandTmpl=false;
       this.loadingCard = loadingFlag;
       let invoiceType = "",
         invoiceCategory = "";
@@ -1054,22 +1054,15 @@ export default {
         .post("/perTaxToolTwo/e9zCalculate/invoiceLeaveShow", params)
         .then(res => {
           this.loadingCard = false;
-          console.log("获取列表数据", res);
           if (res.data.code == 200) {
             let obj = res.data.data[0];
             let arr = [];
             for (var i in obj) {
               if (obj[i].length > 0) {
-                if (i !== "taxesList") {
-                  arr.push(obj[i]);
-                } else {
-                  this.taxesList = obj[i];
-                }
+                arr.push(obj[i]);
               }
             }
             this.invoicePanelList = this.flatten(arr);
-            
-            // 
 
             let arr1=[];let arr2=[];let arr3=[];
             this.invoicePanelList.forEach(item => {
@@ -1099,10 +1092,10 @@ export default {
                 }
               });
               // 判断数组的所有元素全都相等
-              if(item.tmplId!=1||item.tmplId!=5||item.tmplId!=6){
+              if(item.tmplId!=1&&item.tmplId!=5&&item.tmplId!=6){
+                console.log('111')
                 this.$set(item, "ishideTemp", new Set(item.arrValue).size === 1);
               }
-              
               // 模板 一般纳税人 区分是一般还是即征即退
               if(this.userobj.reportTaxType == 233){
                 if(item.tmplId){
@@ -1141,7 +1134,6 @@ export default {
                           item.temType='应税服务'
                         }
                       }
-                      
                     }
                   });
                 }
@@ -1152,7 +1144,7 @@ export default {
             this.tmplList=[];
             this.invoiceRecordList=[];
             this.invoicePanelList.forEach(item=>{
-              if(item.tmplId){
+              if(item.tmplId&&!item.ishideTemp){
                 this.tmplList.push(item)
               }else{
                 this.invoiceRecordList.push(item)
@@ -1795,7 +1787,7 @@ export default {
               } else if (item.columnEditRule == 1) {
                 if(item.columnTitle=='负数冲减'){
                     var reg = /^((-\d{1,14}(\.\d{1,2})?)|0|0.00|0.0)$/;
-                    if (!reg.test(item.defaultValue)) {
+                    if (!reg.test(item.columnValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
                       this.$set(item, "errInfo", "");
@@ -1825,7 +1817,7 @@ export default {
                 if (item.columnEditRule == 1) {
                   if(item.columnTitle=='负数冲减'){
                     var reg = /^((-\d{1,14}(\.\d{1,2})?)|0|0.00|0.0)$/;
-                    if (!reg.test(item.defaultValue)) {
+                    if (!reg.test(item.columnValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
                       this.$set(item, "errInfo", "");
@@ -1984,13 +1976,7 @@ export default {
             //   }
             // }
             invoiceColumns.push(obj);
-          } else if (item.columnTitle == "负数冲减") {
-            obj.columnValue = this.fscj ? this.fscj : '0';
-            invoiceColumns.push(obj);
-          } else if (item.columnTitle == "应税服务抵扣成本") {
-            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : '0';
-            invoiceColumns.push(obj);
-          } else if (item.columnTitle == "增值税税率") {
+          }else if (item.columnTitle == "增值税税率") {
             obj.columnValue = zengzhiValue;
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "印花税税率") {
@@ -2151,7 +2137,7 @@ export default {
           if (item.columnEdit == 1) {
             if (item.columnRequire == 1) {
               if (item.defaultValue == null || item.defaultValue == "") {
-                onsole.log('空',item)
+                console.log('空',item)
                 this.$set(item, "errInfo", "必填项不可为空");
               } else if (item.columnEditRule == 1) {
                 if(item.columnTitle=='负数冲减'){
@@ -2339,13 +2325,7 @@ export default {
             obj.columnValue = xiaofeiValue;
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "核定征收率") {
-            obj.columnValue = this.authorizedLevyRate;
-            invoiceColumns.push(obj);
-          } else if (item.columnTitle == "负数冲减") {
-            obj.columnValue = this.fscj ? this.fscj : '0';
-            invoiceColumns.push(obj);
-          } else if (item.columnTitle == "应税服务抵扣成本") {
-            obj.columnValue = this.ysfwdkcb ? this.ysfwdkcb : '0';
+            obj.columnValue = this.authorizedLevyRate?this.authorizedLevyRate:'0';
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "发票项目类型") {
             obj.columnValue = this.nextStepRes.invoiceName=='即征即退'?'2':'1';
