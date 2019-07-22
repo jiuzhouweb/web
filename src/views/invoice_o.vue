@@ -40,7 +40,7 @@
       </div>
       <div class="invoice_oListModule">
         <div class="cardBox" v-loading="loadingCard">
-          <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index">
+          <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index" v-if="!item.ishideTemp">
             <!-- <div class="circle"> -->
               <img v-if="!issubmit&&!item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/noselect.png" class="circle" alt="">
               <img v-if="!issubmit&&item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/select.png" class="circle" alt="">
@@ -156,6 +156,12 @@
               <p class="label">客户名称：</p>
               <p class="value">{{userobj.customerName}}</p>
               <p class="pages" v-if="detailData.pages">{{detailData.pages}}张</p>
+            </div>
+            <div class="invoice" v-if="detailData.taxCalcTypeName">
+              <div class="left">
+                <p class="label">计税方法：</p>
+                <p class="value">{{detailData.taxCalcTypeName}}</p>
+              </div>
             </div>
             <div class="invoice" v-if="detailData.invoiceCategory">
               <div class="left">
@@ -995,13 +1001,38 @@ export default {
               }
             }
             this.invoicePanelList = this.flatten(arr);
+            
+            // 
+
             let arr1=[];let arr2=[];let arr3=[];
             this.invoicePanelList.forEach(item => {
+              item.arrValue=[];
               this.$set(item, "isdelete", false);
+              this.$set(item, "ishideTemp", false);
               item.e9zConfigInvoiceColumnList.forEach(v => {
                 this.$set(v, "isEdit", false);
                 this.$set(item, "errInfo", "");
+                
+                // 模板，如果每个值都是0，则不展示
+                if(item.tmplId){
+                  if(v.columnShow==1){
+                    this.$set(v, "showValue", v.columnValue?parseFloat(v.columnValue):parseFloat(v.defaultValue));
+                    if(item.tmplId==8){
+                      if(v.columnTitle!='税率'){
+                        item.arrValue.push(v.showValue)
+                      }
+                    }else if(item.tmplId==5){
+                      if(v.columnTitle!='是否是辅导期'){
+                        item.arrValue.push(v.showValue)
+                      }
+                    }else{
+                      item.arrValue.push(v.showValue)
+                    }
+                  }
+                }
               });
+              // 判断数组的所有元素全都相等
+              this.$set(item, "ishideTemp", new Set(item.arrValue).size === 1);
               // 模板 一般纳税人 区分是一般还是即征即退
               if(this.userobj.reportTaxType == 233){
                 if(item.tmplId){
@@ -1017,7 +1048,8 @@ export default {
                   });
                 }
               }
-              // 模板 小规模纳税人 区分是应税类型
+
+              // 模板 小规模纳税人 区分应税类型
               if(this.userobj.reportTaxType == 232){
                 if(item.tmplId){
                   item.e9zConfigInvoiceColumnList.forEach(v => {
@@ -1044,8 +1076,8 @@ export default {
                   });
                 }
               }
-              
             });
+
             console.log("this.invoicePanelList", this.invoicePanelList);
           } else {
             this.loadingCard = false;
@@ -1062,8 +1094,8 @@ export default {
           }
         })
         .catch(err => {
+          console.log('err',err)
           this.loadingCard = false;
-          console.log(err)
           this.$message({
             message: "系统繁忙，请稍后重试",
             type: "error"
@@ -1433,23 +1465,23 @@ export default {
           console.log("获取计税方法", res);
           if (res.data.code == 200) {
             this.taxCalcMethodOptions = res.data.data;
-            // 小规模，计税方法只展示一般计税
-            if (this.userobj.reportTaxType == 232) {
-              this.taxCalcMethodOptions = [
-                {
-                  dicId: 5,
-                  dicLevel: 2,
-                  dicName: "一般计税",
-                  dicValue: 1,
-                  operateDate: "2019-05-29 08:49:37",
-                  operateUserId: "0",
-                  operateUserName: null,
-                  parentLevel: null,
-                  remark: null,
-                  state: 1
-                }
-              ];
-            }
+            // // 小规模，计税方法只展示一般计税
+            // if (this.userobj.reportTaxType == 232) {
+            //   this.taxCalcMethodOptions = [
+            //     {
+            //       dicId: 5,
+            //       dicLevel: 2,
+            //       dicName: "一般计税",
+            //       dicValue: 1,
+            //       operateDate: "2019-05-29 08:49:37",
+            //       operateUserId: "0",
+            //       operateUserName: null,
+            //       parentLevel: null,
+            //       remark: null,
+            //       state: 1
+            //     }
+            //   ];
+            // }
           } else {
             let type;
             if (res.data.code == 0) {
@@ -2346,9 +2378,16 @@ export default {
       } else if (this.userobj.reportTaxType == 232) {
         this.sbnszl = "小规模纳税人";
       }
+      if (item.taxCalcType == 1) {
+        this.$set(item, "taxCalcTypeName", '一般计税');
+      } else if (item.taxCalcType == 2) {
+        this.$set(item, "taxCalcTypeName", '简易征收计税');
+      } else if (item.taxCalcType == 3) {
+        this.$set(item, "taxCalcTypeName", '免税计税');
+      }
 
       this.detailDialogVisible = true;
-      console.log("item,", item);
+      
       item.invoiceColumnList = [];
       item.taxColumnList = [];
       let zengzhiValue, yinhuaValue, chengjianValue, xiaofeiValue;
@@ -2436,6 +2475,7 @@ export default {
         );
 
       this.detailData = item;
+      console.log("item,", item);
     },
     editPanel(item, child) {
       console.log("item,,,", item);
