@@ -1033,6 +1033,7 @@ export default {
     },
     //获取列表数据
     getInvoiceLeaveShowList(loadingFlag) {
+      this.isexpandTmpl=false;
       this.loadingCard = loadingFlag;
       let invoiceType = "",
         invoiceCategory = "";
@@ -1783,7 +1784,7 @@ export default {
                 this.$set(item, "errInfo", "必填项不可为空");
               } else if (item.columnEditRule == 1) {
                 if(item.columnTitle=='负数冲减'){
-                    var reg = /^\d+(\.{0,2}\d+){0,2}$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
                     if (!reg.test(item.defaultValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
@@ -1813,7 +1814,7 @@ export default {
               if (item.columnValue != null) {
                 if (item.columnEditRule == 1) {
                   if(item.columnTitle=='负数冲减'){
-                    var reg = /^\d+(\.{0,2}\d+){0,2}$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
                     if (!reg.test(item.defaultValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
@@ -2144,7 +2145,7 @@ export default {
                 this.$set(item, "errInfo", "必填项不可为空");
               } else if (item.columnEditRule == 1) {
                 if(item.columnTitle=='负数冲减'){
-                    var reg = /^\d+(\.{0,2}\d+){0,2}$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
                     if (!reg.test(item.defaultValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
@@ -2174,7 +2175,7 @@ export default {
               if (item.defaultValue != null) {
                 if (item.columnEditRule == 1) {
                   if(item.columnTitle=='负数冲减'){
-                    var reg = /^\d+(\.{0,2}\d+){0,2}$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
                     if (!reg.test(item.defaultValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
@@ -2654,8 +2655,10 @@ export default {
               });
             } else if (child.columnEditRule == 1) {
               if(child.columnTitle=='负数冲减'){
-                    var reg = /^\d+(\.{0,2}\d+){0,2}$/;
-                    if (!reg.test(child.defaultValue)) {
+                console.log('jinjin')
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    if (!reg.test(child.columnValue)) {
+                      this.$set(child, "errInfo", "只能填负数，小数最多2位");
                       this.$message({
                         message: "只能填负数，小数最多2位",
                         type: "warning"
@@ -2695,8 +2698,9 @@ export default {
             if (child.columnValue != null) {
               if (child.columnEditRule == 1) {
                 if(child.columnTitle=='负数冲减'){
-                    var reg = /^\d+(\.{0,2}\d+){0,2}$/;
-                    if (!reg.test(child.defaultValue)) {
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    if (!reg.test(child.columnValue)) {
+                      this.$set(child, "errInfo", "只能填负数，小数最多2位");
                       this.$message({
                         message: "只能填负数，小数最多2位",
                         type: "warning"
