@@ -1080,7 +1080,7 @@ export default {
                 this.$set(v, "isEdit", false);
                 this.$set(item, "errInfo", "");
                 
-                // 模板，如果每个值都是0，则不展示
+                // 模板，如果每个值都是0，则不展示 除了防伪税控，增值税，进项税
                 if(item.tmplId){
                   if(v.columnShow==1){
                     this.$set(v, "showValue", v.columnValue?parseFloat(v.columnValue):parseFloat(v.defaultValue));
@@ -1099,7 +1099,10 @@ export default {
                 }
               });
               // 判断数组的所有元素全都相等
-              this.$set(item, "ishideTemp", new Set(item.arrValue).size === 1);
+              if(item.tmplId!=1||item.tmplId!=5||item.tmplId!=6){
+                this.$set(item, "ishideTemp", new Set(item.arrValue).size === 1);
+              }
+              
               // 模板 一般纳税人 区分是一般还是即征即退
               if(this.userobj.reportTaxType == 233){
                 if(item.tmplId){
@@ -1708,6 +1711,12 @@ export default {
                     // }
                   }
                 );
+                this.nextStepList.forEach(item => {
+                  if (item.columnTitle == "核定征收率") {
+                    this.$set(item, "columnValue", this.authorizedLevyRate.toString());
+                    this.$set(item, "defaultValue", this.authorizedLevyRate.toString());
+                  }
+                });
                 // e9zConfigInvoiceTaxesList
                 if (res.data.data.e9zConfigInvoiceTaxesList) {
                   res.data.data.e9zConfigInvoiceTaxesList.forEach(
@@ -1785,7 +1794,7 @@ export default {
                 this.$set(item, "errInfo", "必填项不可为空");
               } else if (item.columnEditRule == 1) {
                 if(item.columnTitle=='负数冲减'){
-                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2})?)|0|0.00|0.0)$/;
                     if (!reg.test(item.defaultValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
@@ -1815,7 +1824,7 @@ export default {
               if (item.columnValue != null) {
                 if (item.columnEditRule == 1) {
                   if(item.columnTitle=='负数冲减'){
-                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2})?)|0|0.00|0.0)$/;
                     if (!reg.test(item.defaultValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
@@ -2146,7 +2155,7 @@ export default {
                 this.$set(item, "errInfo", "必填项不可为空");
               } else if (item.columnEditRule == 1) {
                 if(item.columnTitle=='负数冲减'){
-                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2})?)|0|0.00|0.0)$/;
                     if (!reg.test(item.defaultValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
@@ -2176,7 +2185,7 @@ export default {
               if (item.defaultValue != null) {
                 if (item.columnEditRule == 1) {
                   if(item.columnTitle=='负数冲减'){
-                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2})?)|0|0.00|0.0)$/;
                     if (!reg.test(item.defaultValue)) {
                       this.$set(item, "errInfo", "只能填负数，小数最多2位");
                     } else {
@@ -2656,8 +2665,7 @@ export default {
               });
             } else if (child.columnEditRule == 1) {
               if(child.columnTitle=='负数冲减'){
-                console.log('jinjin')
-                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2})?)|0|0.00|0.0)$/;
                     if (!reg.test(child.columnValue)) {
                       this.$set(child, "errInfo", "只能填负数，小数最多2位");
                       this.$message({
@@ -2699,7 +2707,7 @@ export default {
             if (child.columnValue != null) {
               if (child.columnEditRule == 1) {
                 if(child.columnTitle=='负数冲减'){
-                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    var reg = /^((-\d{1,14}(\.\d{1,2})?)|0|0.00|0.0)$/;
                     if (!reg.test(child.columnValue)) {
                       this.$set(child, "errInfo", "只能填负数，小数最多2位");
                       this.$message({
