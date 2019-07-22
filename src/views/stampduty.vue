@@ -121,7 +121,7 @@
 				dialogFileVisible:false,
 				fileList:[],
 				formInline: {
-					customerId: ""
+					customerId: "0"
 				},
 				form: {
 					customerId: '',
