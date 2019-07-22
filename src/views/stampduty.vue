@@ -3,28 +3,41 @@
 		<div class="left_contain">
 			<div class="contain_header">
 				<div class='title'>印花税核定征收率配置</div>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" label-width="86px">
-					<el-form-item label="客户名称:">
+				<el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" label-width="86px" :rules='filrules'
+				 ref='form'>
+					<el-form-item label="客户名称:" prop="customerId">
 
 						<el-select v-model="formInline.customerId" placeholder="请选择客户名称" clearable filterable>
+							<el-option label="全部" value='0'></el-option>
 							<el-option v-for="item in $store.state.cust" :label="item.customerName" :value='item.customerId'></el-option>
 						</el-select>
 						<!-- <el-input v-model='formInline.tmplName'></el-input> -->
 					</el-form-item>
 
 					<el-form-item>
-						<el-button @click='search' size="mini">查询</el-button>
+						<el-button @click='search("form")' size="mini">查询</el-button>
+					</el-form-item>
+					<!-- <el-form-item>
+						<el-button @click='add("form")' size="mini">新增</el-button>
+					</el-form-item> -->
+					<el-form-item>
+						<el-button @click='exportExcel' size="mini">导出模板</el-button>
 					</el-form-item>
 					<el-form-item>
-						<el-button @click='search' size="mini">新增</el-button>
+						<el-button @click='importExcel' size="mini">导入Excel</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
 			<div class="contain_body">
+				<el-button class='muldel' type="danger" size='mini' icon="el-icon-delete" :disabled="canEidt" @click='deleteMulti' style='margin-bottom: 0.2rem;'>批量删除</el-button>
 				<el-table :data="tableList" style="width: 100%" stripe border @selection-change="handleSelectionChange" v-loading='loading'>
 					<el-table-column align="center" type="selection" width="50"></el-table-column>
 					<el-table-column align="center" label="客户名称" prop="customerName" :resizable="false"></el-table-column>
-					<el-table-column align="center" label="印花税核定征收税率" prop="rate" :resizable="false"></el-table-column>
+					<el-table-column align="center" label="印花税核定征收税率" :resizable="false">
+						<template slot-scope="scope">
+							<span>{{ scope.row.rate }}</span>
+						</template>
+					</el-table-column>
 					<el-table-column align="center" width="260" :resizable="false">
 						<template slot="header" slot-scope="scope">
 							<span>操作</span>
@@ -35,11 +48,28 @@
 						</template>
 					</el-table-column>
 				</el-table>
+				<el-pagination background layout="prev, pager, next" :total="total" :page-size=pageSize @current-change='handleCurrentChange'
+				 :current-page="currentPage">
+				</el-pagination>
 				<!-- <el-pagination background style="margin-top:10px;" @current-change="((val)=>{handleCurrentChange(val, '4')})"
 				 :current-page="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
 				</el-pagination> -->
 			</div>
 		</div>
+		<!-- <el-dialog title="新增" :visible.sync="dialogAddVisible" width="4rem">
+			<el-form :model="form" size="mini" label-width="80px" :rules="rules" ref="ruleForm1">
+				<el-form-item label="客户名称" prop="customerName">
+					<el-input v-model="form.customerName" disabled></el-input>
+				</el-form-item>
+				<el-form-item label="税率" prop="rate">
+					<el-input type='text' v-model="form.rate"></el-input>
+				</el-form-item>
+			</el-form>
+			<div class='btn_contain clearfix'>
+				<span class='commit' @click='commitEditDialog("ruleForm1")'>完成</span>
+				<span class='close' @click='hideEditDialog("ruleForm1")'>关闭</span>
+			</div>
+		</el-dialog> -->
 		<el-dialog title="编辑" :visible.sync="dialogVisible" width="4rem">
 			<el-form :model="form" size="mini" label-width="80px" :rules="rules" ref="ruleForm1">
 				<el-form-item label="客户名称" prop="customerName">
@@ -54,6 +84,19 @@
 				<span class='close' @click='hideEditDialog("ruleForm1")'>关闭</span>
 			</div>
 		</el-dialog>
+		
+		<el-dialog title="选择Excel" :visible.sync="dialogFileVisible" width="30%" @close="cancelUpload">
+			<el-upload class="upload-demo" action="/perTaxToolTwo/e9z/authorizedLevyRate/importExcel" :on-preview="handlePreview" ref='upload'
+			 :on-change="onChange" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :on-exceed="handleExceed" :file-list="fileList"
+			 :on-success="handleSuccess" :on-error="handleError" :auto-upload="false" :data='uploadData' accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+				<el-button size="small" type="primary" slot="trigger">选择Excel</el-button>
+		
+			</el-upload>
+			<span slot="footer" class="dialog-footer">
+				<el-button size="small" @click="cancelUpload">取 消</el-button>
+				<el-button size="small" type="primary" @click="submitUpload">上传</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -63,24 +106,30 @@
 		data() {
 			return {
 				loading: false,
+				total:0,
+				currentPage:1,
+				pageSize:10,
 				message: "12334456",
-				customerId:'',
+				customerId: '',
 				tableList: [{
 					employeeName: "zhangsan",
 					incomeAmount: "zhangsan",
 					yearAwards: "zhangsan"
 				}, ],
-				dialogTableVisible: false,
+				dialogAddVisible: false,
 				dialogVisible: false,
+				dialogFileVisible:false,
+				fileList:[],
 				formInline: {
 					customerId: ""
 				},
-				form:{
-					customerId:'',
-					
-					customerName:'',
-					rate:''
+				form: {
+					customerId: '',
+
+					customerName: '',
+					rate: ''
 				},
+				canEidt:true,
 				tag: 0,
 				row: {},
 				editRow: {},
@@ -96,16 +145,101 @@
 						message: '请输入数值',
 						trigger: 'blur'
 					}],
+				},
+				filrules: {
+					customerId: [{
+						required: true,
+						message: '请选择客户名称',
+						trigger: 'change'
+					}]
 				}
 			}
 		},
 		components: {},
 		methods: {
+			search(formName) {
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						this.customerId = this.formInline.customerId;
+						this.getList()
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				})
+
+			},
+			add(formName) {
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						this.customerId = this.formInline.customerId;
+						this.getList()
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				})
+			
+			},
+			exportExcel(){
+				window.location.href = '/perTaxToolTwo/e9z/authorizedLevyRate/exportExcel';
+			},
+			importExcel(){
+				this.dialogFileVisible = true;
+			},
+			
+			submitUpload() {
+				this.$refs.upload.submit();
+			},
+			cancelUpload() {
+				this.fileList = [];
+				this.dialogVisible = false;
+			},
+			
+			onChange(file, fileList) { //这里做一些文件控制，注意：就算一次选取多个文件，这里依旧会执行多次
+				let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name)
+				if (existFile) {
+					this.$message.error('当前文件已经存在!');
+					fileList.pop()
+				}
+				this.fileList = fileList
+			},
+			handleSuccess(response) {
+				if (response.code == 200) {
+					this.fileList = [];
+					this.$message({
+						message: response.msg,
+						type: 'success'
+					});
+					this.dialogFileVisible = false;
+					this.customerId = '';
+					this.getList()
+				} else {
+					this.fileList = [];
+					this.$message({
+						message: response.msg || "上传文件失败！",
+						type: 'error'
+					});
+				}
+			},
+			handleError(err) {
+				this.fileList = [];
+				this.$message({
+					message: "上传文件失败！",
+					type: 'error'
+				});
+			},
+			handleRemove(file, fileList) {
+				console.log(file, fileList);
+			},
+			handlePreview(file) {
+				console.log(file);
+			},
 			/*获取字典列表*/
 			getList() {
 				let params = {
-					"page": 1,
-					"row": 10,
+					"page": this.currentPage,
+					"row": this.pageSize,
 					"data": {
 						"customerId": this.customerId
 					}
@@ -115,6 +249,7 @@
 						this.loading = false;
 						if (res.data.code == 200) {
 							this.tableList = res.data.data;
+							this.total = res.data.count;
 							// this.total = 
 						} else {
 							let type;
@@ -137,7 +272,7 @@
 						});
 					});
 			},
-			
+
 			/*
 			* 新增子条目
 			* params
@@ -152,7 +287,7 @@
 			}
 			* 
 			* */
-			
+
 			hideDialog(formName) {
 				this.$refs[formName].resetFields();
 				this.dialogTableVisible = false
@@ -162,13 +297,13 @@
 				this.dialogVisible = false
 			},
 			showDialog(row) {
-				
+
 				this.$confirm('确定删除此条税率?', '删除', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					let params = [row.ratesId];
+					let params = [row.rateId];
 					this.axios.post('/perTaxToolTwo/e9z/authorizedLevyRate/delete', params)
 						.then(res => {
 							if (res.data.code == 200) {
@@ -197,43 +332,23 @@
 								type: "error"
 							});
 						});
-				
+
 				}).catch(() => {
 					this.$message({
 						type: 'info',
 						message: '已取消删除'
 					});
 				});
-				
-				
+
+
 			},
-			commitDialog(formName) {
-				if (this.tag == 1) {
-					this.$refs[formName].validate((valid) => {
-						if (valid) {
-							this.addFirstMenu()
-						} else {
-							console.log('error submit!!');
-							return false;
-						}
-					});
-				} else if (this.tag == 2) {
-					this.$refs[formName].validate((valid) => {
-						if (valid) {
-							this.addChildMenu()
-						} else {
-							console.log('error submit!!');
-							return false;
-						}
-					});
-				}
-			},
+			
 			commitEditDialog(formName) {
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						let params = {
 							rate: this.form.rate,
-							rateId:this.form.rateId,
+							rateId: this.form.rateId,
 							customerId: this.form.customerId,
 						};
 						this.axios.post('/perTaxToolTwo/e9z/authorizedLevyRate/update', params)
@@ -281,53 +396,78 @@
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
-			deleteDic() {
+			deleteMulti() {
 				if (this.multipleSelection.length > 0) {
-					let params = this.multipleSelection;
-					this.axios.post('/perTaxToolTwo/e9z/configDictionary/delBatch', params)
-						.then(res => {
-							if (res.data.code == 200) {
-								this.getList();
-								this.$message({
-									message: res.data.msg,
-									type: 'success'
-								});
-								// this.total = 
-							} else {
-								let type;
-								if (res.data.code == 0) {
-									type = "warning";
-								} else if (res.data.code == 500) {
-									type = "error";
-								}
-								this.$message({
-									message: res.data.msg,
-									type: type
-								});
-							}
+					this.$confirm('确定删除此条税率?', '删除', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'warning'
+					}).then(() => {
+						var params = [];
+						this.multipleSelection.forEach((item) => {
+							params.push(item.rateId)
 						})
-						.catch(err => {
-							this.$message({
-								message: "系统繁忙，请稍后重试",
-								type: "error"
+						// let params = this.multipleSelection;
+						this.axios.post('/perTaxToolTwo/e9z/authorizedLevyRate/delete', params)
+							.then(res => {
+								if (res.data.code == 200) {
+									this.getList();
+									this.$message({
+										message: res.data.msg,
+										type: 'success'
+									});
+								} else {
+									let type;
+									if (res.data.code == 0) {
+										type = "warning";
+									} else if (res.data.code == 500) {
+										type = "error";
+									}
+									this.$message({
+										message: res.data.msg,
+										type: type
+									});
+								}
+							})
+							.catch(err => {
+								this.$message({
+									message: "系统繁忙，请稍后重试",
+									type: "error"
+								});
 							});
+					}).catch(() => {
+						this.$message({
+							type: 'info',
+							message: '已取消删除'
 						});
-				} else {
+					});
+				}else{
 					this.$message({
 						message: '请至少选择一条数据',
 						type: 'error'
 					});
 				}
 			},
-			refresh() {
-				this.loading = true;
-				this.getList()
+			
+			handleCurrentChange(val){
+				this.currentPage = val;
+				this.getList();
+			}
+		},
+		watch: {
+			multipleSelection(newValue, oldValue) {
+				if(newValue.length == 0){
+					this.canEidt = true;
+				}else{
+					this.canEidt = false;
+				}
 			}
 		},
 		created() {
 			this.loading = true;
 			this.getList()
-		}
+		},
+		
 	}
 </script>
 <style>
@@ -445,9 +585,9 @@
 		flex-wrap: wrap
 	}
 
-	/deep/ .el-form-item__content {
-		width: 180px;
-	}
+	// /deep/ .el-form-item__content {
+	// 	width: 180px;
+	// }
 
 	/deep/ .el-date-editor.el-input {
 		width: 180px;
