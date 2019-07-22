@@ -56,7 +56,13 @@
               <div class="importButton" @click="goImport()">导入</div>
             </div>
           </div>
-          <div class="eachCard" v-for="(item,index) in invoicePanelList" :key="index" v-if="!item.ishideTemp">
+          <div v-if="tmplList.length>0&&isexpandTmpl" class="eachCard addBtn" @click="changeStatus()">
+            <img src="../assets/img/small.png" style="width:100%;height:100%" alt="">
+          </div>
+          <div v-if="tmplList.length>0&&!isexpandTmpl" class="eachCard addBtn" @click="changeStatus()">
+            <img src="../assets/img/expand.png" style="width:100%;height:100%" alt="">
+          </div>
+          <div class="eachCard" v-for="(item,index) in tmplList" :key="index" v-if="!item.ishideTemp&&isexpandTmpl">
             <!-- <div class="circle"> -->
               <img v-if="!issubmit&&!item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/noselect.png" class="circle" alt="">
               <img v-if="!issubmit&&item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/select.png" class="circle" alt="">
@@ -97,11 +103,44 @@
               <img src="../assets/img/btn-detail.png" alt="">
             </div>
           </div>
+          <div class="eachCard" v-for="(item,index) in invoiceRecordList" :key="index" v-if="!item.ishideTemp">
+            <img v-if="!issubmit&&!item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/noselect.png" class="circle" alt="">
+            <img v-if="!issubmit&&item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/select.png" class="circle" alt="">
+            
+            <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
+              <div class="line1">
+                <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
+                <p v-if="item.invoiceId" class="bigTitle">{{item.invoiceCategory}} {{item.invoiceType}}</p>
+                <p class="smallTitle" @click="showDetail(item)">详情</p>
+                <p v-if="!issubmit&&item.invoiceId" class="smallTitle" @click="deleteInvoice(item)">删除</p>
+              </div>
+              <div v-if="item.invoiceId" class="line2" style="position:absolute;top:0.6rem">
+                <p>{{item.invoiceName}}</p>
+              </div>
+              <div v-if="item.temType" class="line2" style="position:absolute;top:0.6rem">
+                <p>{{item.temType}}</p>
+              </div>
+            </div>
+            <div class="dataContent">
+              <div v-if="child.columnShow==1" class="lineData" v-for="(child,ind) in item.e9zConfigInvoiceColumnList" :key="ind">
+                <p>{{child.columnTitle}}</p>
+                <p v-if="child.columnTitle=='发票项目类型'&&(child.columnValue=='1'||child.columnValue=='一般')">一般</p>
+                <p v-if="child.columnTitle=='发票项目类型'&&(child.columnValue=='2'||child.columnValue=='即征即退')">即征即退</p>
+                <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='1'||child.columnValue=='应税货物')">应税货物</p>
+                <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='2'||child.columnValue=='应税劳务')">应税劳务</p>
+                <p v-if="child.columnTitle=='应税类型'&&(child.columnValue=='3'||child.columnValue=='应税服务')">应税服务</p>
+                <p v-if="child.columnTitle!='发票项目类型'&&child.columnTitle!='应税类型'" v-show="!child.isEdit" @dblclick="editPanel(item,child)">{{child.columnValue?fomatFloat(child.columnValue,2):fomatFloat(child.defaultValue,2)}}</p>
+                <el-input v-show="child.isEdit" v-model="child.columnValue" @blur="unfocusedPanel(item,child)"></el-input>
+              </div>
+            </div>
+            <div class="footerContent" @click="showDetail(item)">
+              <img src="../assets/img/btn-detail.png" alt="">
+            </div>
+          </div>
           <div v-if="addbtnflag" class="eachCard addBtn" @click="addDialog()">
             <img src="../assets/img/list-add.png" style="width:100%;height:100%" alt="">
           </div>
         </div>
-        <!-- <div v-if="invoicePanelList.length==0" class="noData">暂无数据</div> -->
          <!-- 新增弹窗 -->
         <el-dialog class="smallDialog" :close-on-click-modal="false" :visible.sync="addDialogVisible">
           <el-form ref="form" :rules="rules" :model="form" label-width="110px">
@@ -230,8 +269,6 @@
           </div>
         </el-dialog>
       </div>
-      <!-- <searchModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList" @getShowSumIncome="getShowSumIncome" @getShowSumDeduct="getShowSumDeduct" @getShowSumTaxPayable="getShowSumTaxPayable"></searchModule> -->
-      <!-- <listModule @getInvoiceLeaveShowList="getInvoiceLeaveShowList" :invoicePanelList="invoicePanelList" :taxesList="taxesList" :taxationId="taxationId" :taxInfoId="taxInfoId" :searchList="searchList" :loadingCard="loadingCard"></listModule> -->
     </div>
     <div class="right_contain">
       <div class="charts">
@@ -481,6 +518,10 @@ export default {
       myChart: '',
       sums:'',
       loadingInsertReport:false,
+      tmplList:[],
+      invoiceRecordList:[],
+      authorizedLevyRate:'',
+      isexpandTmpl:false,
     };
   },
   components: {
@@ -498,7 +539,7 @@ export default {
     //     reportTaxType: 232,
     //     taxPayerId: "11111111111111111111",
     // },{
-    //     customerId: "jz331",
+    //     customerId: "jz33",
     //     customerName: "44",
     //     reportTaxPeriod: null,
     //     reportTaxType: 233,
@@ -513,6 +554,10 @@ export default {
 			window.removeEventListener("resize", this.resizeHandle)
 		},
   methods: {
+    // 改变模板状态
+    changeStatus(){
+      this.isexpandTmpl=!this.isexpandTmpl
+    },
     // 删除
     deleteInvoice(item) {
       console.log(item);
@@ -540,7 +585,7 @@ export default {
     },
     deleteMoreInvoice() {
       let deleteArr = [];
-      this.invoicePanelList.forEach(item => {
+      this.invoiceRecordList.forEach(item => {
         item.e9zConfigInvoiceColumnList.forEach(v => {
           if (v.columnName == "id") {
             item.id = v.columnValue;
@@ -671,9 +716,6 @@ export default {
     },
     selectDelete(item) {
       this.$set(item, "isdelete", !item.isdelete);
-      // this.invoicePanelList.forEach(v=>{
-      //   if(item)
-      // })
     },
     setData(event, child, item) {
       console.log("item,,,", child);
@@ -961,6 +1003,7 @@ export default {
                   this.taxationId = res.data.data.taxation_id;
                   this.taxInfoId = res.data.data.tax_info_id;
                   this.isSubmitMethod();
+                  this.getRateByCustomerId();
                   this.getInvoiceLeaveShowList(true);
                   this.getShowSumIncome();
                   this.getShowSumDeduct();
@@ -972,6 +1015,8 @@ export default {
                   });
                   this.addbtnflag = false;
                   this.invoicePanelList = [];
+                  this.tmplList = [];
+                  this.invoiceRecordList = [];
                   this.tableData = [];
                   this.tableDeductData = [];
                   this.tableTaxData = [];
@@ -1003,6 +1048,33 @@ export default {
           return false;
         }
       });
+    },
+    // 根据客户id查询核定征收率
+    getRateByCustomerId(){
+      axios
+        .get("/perTaxToolTwo/e9z/authorizedLevyRate/getRateByCustomerId?customerId="+this.customerId)
+        .then(res => {
+          if (res.data.code == 200) {
+            this.authorizedLevyRate=res.data.data?res.data.data:'0';
+          } else {
+            let type;
+            if (res.data.code == 0) {
+              type = "warning";
+            } else if (res.data.code == 500) {
+              type = "error";
+            }
+            this.$message({
+              message: res.data.msg,
+              type: type
+            });
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: "系统繁忙，请稍后重试",
+            type: "error"
+          });
+        });
     },
     // 判断当前发票数据是否审批
     isSubmitMethod() {
@@ -1086,6 +1158,7 @@ export default {
     },
     //获取列表数据
     getInvoiceLeaveShowList(loadingFlag) {
+      this.isexpandTmpl=false;
       this.loadingCard = loadingFlag;
       let invoiceType = "",
         invoiceCategory = "";
@@ -1108,16 +1181,16 @@ export default {
           console.log("获取列表数据", res);
           if (res.data.code == 200) {
             let obj = res.data.data[0];
+            console.log('obj',obj)
             let arr = [];
             for (var i in obj) {
               if (obj[i].length > 0) {
-                if (i !== "taxesList") {
-                  arr.push(obj[i]);
-                } else {
-                  this.taxesList = obj[i];
-                }
+                console.log('obj[i]',obj[i])
+                arr.push(obj[i]);
               }
             }
+
+            console.log('arr',arr)
             this.invoicePanelList = this.flatten(arr);
             
             // 
@@ -1189,7 +1262,6 @@ export default {
                           item.temType='应税服务'
                         }
                       }
-                      
                     }
                   });
                 }
@@ -1197,6 +1269,15 @@ export default {
             });
 
             console.log("this.invoicePanelList", this.invoicePanelList);
+            this.tmplList=[];
+            this.invoiceRecordList=[];
+            this.invoicePanelList.forEach(item=>{
+              if(item.tmplId){
+                this.tmplList.push(item)
+              }else{
+                this.invoiceRecordList.push(item)
+              }
+            })
           } else {
             this.loadingCard = false;
             let type;
@@ -1826,11 +1907,21 @@ export default {
               if (item.columnValue == null || item.columnValue == "") {
                 this.$set(item, "errInfo", "必填项不可为空");
               } else if (item.columnEditRule == 1) {
-                if (!float2reg.test(item.columnValue)) {
-                  this.$set(item, "errInfo", "整数最多14位，小数最多2位");
-                } else {
-                  this.$set(item, "errInfo", "");
+                if(item.columnTitle=='负数冲减'){
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    if (!reg.test(item.defaultValue)) {
+                      this.$set(item, "errInfo", "只能填负数，小数最多2位");
+                    } else {
+                      this.$set(item, "errInfo", "");
+                    }
+                }else{
+                  if (!float2reg.test(item.columnValue)) {
+                    this.$set(item, "errInfo", "整数最多14位，小数最多2位");
+                  } else {
+                    this.$set(item, "errInfo", "");
+                  }
                 }
+                
               } else if (
                 item.columnEditRule == 0 ||
                 item.columnEditRule == null
@@ -1846,11 +1937,21 @@ export default {
             } else {
               if (item.columnValue != null) {
                 if (item.columnEditRule == 1) {
+                  if(item.columnTitle=='负数冲减'){
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    if (!reg.test(item.defaultValue)) {
+                      this.$set(item, "errInfo", "只能填负数，小数最多2位");
+                    } else {
+                      this.$set(item, "errInfo", "");
+                    }
+                }else{
                   if (!float2reg.test(item.columnValue)) {
                     this.$set(item, "errInfo", "整数最多14位，小数最多2位");
                   } else {
                     this.$set(item, "errInfo", "");
                   }
+                }
+                  
                 } else if (
                   item.columnEditRule == 0 ||
                   item.columnEditRule == null
@@ -2012,7 +2113,7 @@ export default {
           } else if (item.columnTitle == "城建税税率") {
             obj.columnValue = chengjianValue;
             invoiceColumns.push(obj);
-          } else if (item.columnName == "verified_rate") {
+          } else if (item.columnTitle == "消费税税率") {
             obj.columnValue = xiaofeiValue;
             invoiceColumns.push(obj);
           } else {
@@ -2167,10 +2268,20 @@ export default {
                 onsole.log('空',item)
                 this.$set(item, "errInfo", "必填项不可为空");
               } else if (item.columnEditRule == 1) {
-                if (!float2reg.test(item.defaultValue)) {
-                  this.$set(item, "errInfo", "整数最多14位，小数最多2位");
-                } else {
-                  this.$set(item, "errInfo", "");
+                if(item.columnTitle=='负数冲减'){
+                  console.log('负数冲减')
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    if (!reg.test(item.defaultValue)) {
+                      this.$set(item, "errInfo", "只能填负数，小数最多2位");
+                    } else {
+                      this.$set(item, "errInfo", "");
+                    }
+                }else{
+                  if (!float2reg.test(item.defaultValue)) {
+                    this.$set(item, "errInfo", "整数最多14位，小数最多2位");
+                  } else {
+                    this.$set(item, "errInfo", "");
+                  }
                 }
               } else if (
                 item.columnEditRule == 0 ||
@@ -2184,13 +2295,23 @@ export default {
               } else {
                 this.$set(item, "errInfo", "");
               }
+              
             } else {
               if (item.defaultValue != null) {
                 if (item.columnEditRule == 1) {
-                  if (!float2reg.test(item.defaultValue)) {
-                    this.$set(item, "errInfo", "整数最多14位，小数最多2位");
-                  } else {
-                    this.$set(item, "errInfo", "");
+                  if(item.columnTitle=='负数冲减'){
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    if (!reg.test(item.defaultValue)) {
+                      this.$set(item, "errInfo", "只能填负数，小数最多2位");
+                    } else {
+                      this.$set(item, "errInfo", "");
+                    }
+                  }else{
+                    if (!float2reg.test(item.defaultValue)) {
+                      this.$set(item, "errInfo", "整数最多14位，小数最多2位");
+                    } else {
+                      this.$set(item, "errInfo", "");
+                    }
                   }
                 } else if (
                   item.columnEditRule == 0 ||
@@ -2329,8 +2450,11 @@ export default {
           } else if (item.columnTitle == "城建税税率") {
             obj.columnValue = chengjianValue;
             invoiceColumns.push(obj);
-          } else if (item.columnName == "verified_rate") {
+          } else if (item.columnTitle == "消费税税率") {
             obj.columnValue = xiaofeiValue;
+            invoiceColumns.push(obj);
+          } else if (item.columnTitle == "核定征收率") {
+            obj.columnValue = this.authorizedLevyRate;
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "负数冲减") {
             obj.columnValue = this.fscj ? this.fscj : '0';
@@ -2594,7 +2718,7 @@ export default {
           yinhuaValue = parseFloat(v.columnValue);
         } else if (v.columnTitle == "城建税税率") {
           chengjianValue = parseFloat(v.columnValue);
-        } else if (v.columnName == "verified_rate") {
+        } else if (v.columnTitle == "消费税税率") {        
           xiaofeiValue = parseFloat(v.columnValue);
         }
       });
@@ -2686,15 +2810,29 @@ export default {
                 type: "warning"
               });
             } else if (child.columnEditRule == 1) {
-              if (!float2reg.test(child.columnValue)) {
-                this.$set(child, "errInfo", "整数最多14位，小数最多2位");
-                this.$message({
-                  message: "该列整数最多14位，小数最多2位",
-                  type: "warning"
-                });
-              } else {
-                this.$set(child, "errInfo", "");
-              }
+              if(child.columnTitle=='负数冲减'){
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    if (!reg.test(child.defaultValue)) {
+                      this.$set(child, "errInfo", "只能填负数，小数最多2位");
+                      this.$message({
+                        message: "只能填负数，小数最多2位",
+                        type: "warning"
+                      });
+                    } else {
+                      this.$set(child, "errInfo", "");
+                    }
+                }else{
+                  if (!float2reg.test(child.columnValue)) {
+                    this.$set(child, "errInfo", "整数最多14位，小数最多2位");
+                    this.$message({
+                      message: "该列整数最多14位，小数最多2位",
+                      type: "warning"
+                    });
+                  } else {
+                    this.$set(child, "errInfo", "");
+                  }
+                }
+              
             } else if (
               child.columnEditRule == 0 ||
               child.columnEditRule == null
@@ -2714,7 +2852,19 @@ export default {
           } else {
             if (child.columnValue != null) {
               if (child.columnEditRule == 1) {
-                if (!float2reg.test(child.columnValue)) {
+                if(child.columnTitle=='负数冲减'){
+                    var reg = /^((-\d{1,14}(\.\d{1,2}))|0|0.00|0.0)?$/;
+                    if (!reg.test(child.defaultValue)) {
+                      this.$set(child, "errInfo", "只能填负数，小数最多2位");
+                      this.$message({
+                        message: "只能填负数，小数最多2位",
+                        type: "warning"
+                      });
+                    } else {
+                      this.$set(child, "errInfo", "");
+                    }
+                }else{
+                  if (!float2reg.test(child.columnValue)) {
                   this.$set(child, "errInfo", "整数最多14位，小数最多2位");
                   this.$message({
                     message: "该列整数最多14位，小数最多2位",
@@ -2723,6 +2873,8 @@ export default {
                 } else {
                   this.$set(child, "errInfo", "");
                 }
+                } 
+                
               } else if (
                 child.columnEditRule == 0 ||
                 child.columnEditRule == null
@@ -2812,7 +2964,7 @@ export default {
             yinhuaValue = parseFloat(v.columnValue);
           } else if (v.columnTitle == "城建税税率") {
             chengjianValue = parseFloat(v.columnValue);
-          } else if (v.columnName == "verified_rate") {
+          } else if (v.columnTitle == "消费税税率") {
             xiaofeiValue = parseFloat(v.columnValue);
           }
         });
