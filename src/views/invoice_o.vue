@@ -919,6 +919,7 @@ export default {
                   this.taxationId = res.data.data.taxation_id;
                   this.taxInfoId = res.data.data.tax_info_id;
                   this.isSubmitMethod();
+                  this.getRateByCustomerId();
                   this.getInvoiceLeaveShowList(true);
                   this.getShowSumIncome();
                   this.getShowSumDeduct();
@@ -1050,7 +1051,7 @@ export default {
         invoiceType: invoiceType
       };
       axios
-        .post("/api/perTaxToolTwo/e9zCalculate/invoiceLeaveShow", params)
+        .post("/perTaxToolTwo/e9zCalculate/invoiceLeaveShow", params)
         .then(res => {
           this.loadingCard = false;
           console.log("获取列表数据", res);
