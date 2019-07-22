@@ -100,6 +100,11 @@ export default new Router({
 					component: () => import( /* webpackChunkName: "about" */ './views/template.vue')
 				},
 				{
+					path: 'stampduty',
+					name: 'stampduty',
+					component: () => import( /* webpackChunkName: "about" */ './views/stampduty.vue')
+				},
+				{
 					path: 'rate',
 					name: 'rate',
 					component: () => import( /* webpackChunkName: "about" */ './views/rate.vue')

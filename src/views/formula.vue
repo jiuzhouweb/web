@@ -28,7 +28,7 @@
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-position='left' :rules="rules" ref="ruleForm"
 				 size="mini" v-show='!isEdit'>
 					<el-form-item label="纳税人类型:" class='short' prop="taxesTaxType">
-						<el-select clearable v-model="formInline.taxesTaxType" @change='queryRateMethods(formInline.taxesTaxType)'>
+						<el-select clearable v-model="formInline.taxesTaxType">
 							<el-option v-for='item in dicNameList' :label="item.dicName" :value="item.dicValue"></el-option>
 						</el-select>
 					</el-form-item>
@@ -44,7 +44,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item label="发票类型:" prop="invoiceType" v-show='formInline.tmplShowType=="0"'>
-						<el-select clearable v-model="formInline.invoiceType" @change='getInvoiceName' value-key='typeString'>
+						<el-select clearable v-model="formInline.invoiceType" @change='getInvoiceName' value-key='typeString' filterable>
 							<el-option v-for='item in invoiceTypeList[0].list' :label="item.typeString" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
@@ -65,7 +65,7 @@
 					</el-form-item>
 					<el-form-item label="相关列类型:" prop="columnTitle" v-show='formInline.tmplShowType=="1"'>
 						<el-select clearable v-model="formInline.columnTitle" @change='setFormula' value-key='tag'>
-							<el-option v-for='item in e9zConfigInvoiceColumn'  :label="item.columnTitle" :value="item"></el-option>
+							<el-option v-for='item in e9zConfigInvoiceColumn' :label="item.columnTitle" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="计算公式" class='line'>
@@ -94,14 +94,14 @@
 					</el-form-item>
 					<el-form-item label="公式类型:" prop="tmplShowType">
 						<el-input disabled v-model='formInline1.tmplShowTitle'></el-input>
-						
+
 					</el-form-item>
 					<el-form-item label="计税方法:" prop="taxCalcType" v-show='formInline1.tmplShowType==0' class='long'>
 						<el-input disabled v-model='formInline1.taxCalcType'></el-input>
 					</el-form-item>
 					<el-form-item label="发票类型:" prop="invoiceType" v-show='formInline1.tmplShowType==0'>
 						<el-input disabled v-model='formInline1.invoiceType'></el-input>
-						
+
 					</el-form-item>
 					<el-form-item label="发票名称:" prop="invoiceName" v-show='formInline1.tmplShowType==0'>
 						<el-input disabled v-model='formInline1.invoiceName'></el-input>
@@ -114,7 +114,7 @@
 					</el-form-item>
 					<el-form-item label="相关列类型:" prop="columnTitle" v-show='formInline1.tmplShowType==1'>
 						<el-input disabled v-model='formInline1.columnTitle'></el-input>
-						
+
 					</el-form-item>
 					<el-form-item label="计算公式" class='line'>
 						<el-input v-model='formInline1.formula' ref='inp' disabled></el-input>
@@ -124,33 +124,33 @@
 						<div>
 							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in cal' @click='createFormula(item.dicName)'>{{item.dicName}}</el-button>
 						</div>
-				
+
 					</el-form-item>
-				
+
 					<el-form-item v-if="formInline.e9z && formInline.tmplShowType == '0' || formInline.columnTitle && formInline.tmplShowType == '1'">
 						<div>
 							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in formulaTitleList' @click='createFormula(item.columnTitle)'>{{item.columnTitle}}</el-button>
-				
+
 						</div>
-				
+
 					</el-form-item>
-					
+
 					<el-form-item style='margin-bottom: 0.10rem;' v-if="isEdit && formInline1.formulaId">
 						<div>
 							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in cal' @click='createFormula1(item.dicName)'>{{item.dicName}}</el-button>
 						</div>
-									
+
 					</el-form-item>
 					<el-form-item v-if="isEdit && formInline1.formulaId">
 						<div>
 							<el-button style='margin-left: 0rem;margin-right: 0.10rem;' type='mini' v-for='item in formulaTitleList1' @click='createFormula1(item.columnTitle)'>{{item.columnTitle}}</el-button>
-									
+
 						</div>
-									
+
 					</el-form-item>
-					
+
 				</el-form>
-				
+
 				<!-- <div v-if='showCommitBtn'> -->
 				<div v-show="formInline.e9z && formInline.tmplShowType == '0'">
 					<p>我们将根据您输入的 <span>'发票类型' '税种类型'</span> 还有 <span>'税种公式'</span> ，及时的做出相应的计算公式反馈。</p>
@@ -159,7 +159,7 @@
 				</div>
 				<div v-show="isEdit && formInline1.tmplShowType == 0 && formInline1.formulaId">
 					<p>我们将根据您输入的 <span>'发票类型' '税种类型'</span> 还有 <span>'税种公式'</span> ，及时的做出相应的计算公式反馈。</p>
-				
+
 					<p>公式：{{formInline1.formula}}</p>
 				</div>
 				<div v-show="formInline.columnTitle && formInline.tmplShowType == '1'">
@@ -172,7 +172,8 @@
 				</div>
 				<el-button v-show="formInline.e9z || formInline.columnTitle" type="danger" class='confirm' @click='judgeRegExp("ruleForm")'>确认并添加</el-button>
 				<div class='btn_contain' style="text-align: center;">
-					<el-button v-show="isEdit" type="danger" class='confirm' style='display: inline-block;margin-right: 0.2rem;' @click='cancelModify'>取消修改</el-button>
+					<el-button v-show="isEdit" type="danger" class='confirm' style='display: inline-block;margin-right: 0.2rem;'
+					 @click='cancelModify'>取消修改</el-button>
 					<el-button v-show="isEdit" type="primary" class='confirm' style='display: inline-block;' @click='judgeRegExp1("ruleForm")'>确认并修改</el-button>
 				</div>
 			</div>
@@ -236,7 +237,7 @@
 			</div>
 			<div class="contain_body">
 				<h3>税种公式<span>{{areaName}}</span></h3>
-				<ul>
+				<!-- <ul>
 					<li v-for="(item,index) in formulaList" @click='clickFormula(item,index)' :class="{active : active == index}" >
 						<span class='formula span1' :title="item.tmpl_name">{{item.tmpl_name}}</span>
 						<span class='formula span1' :title="item.invoice_name + item.invoice_category + item.invoice_type">{{item.invoice_name}}
@@ -244,9 +245,36 @@
 
 						<span class='formula span2' :title='item.column_title'>{{item.column_title}}</span>
 						<span class='formula span3' :title='item.formula'>{{item.formula}}</span>
-						<!-- <span class='blue' v-if='item.formula'>查看</span> -->
 					</li>
-				</ul>
+				</ul> -->
+
+				<el-table :data="formulaList" style="width: calc(100% - 0.4rem);margin: 0px 0.2rem;box-sizing: border-box;" stripe
+				 border ref="table" highlight-current-row @row-click='clickFormula' :row-class-name="tableRowClassName">
+					<el-table-column align="center" label="发票/模板名称" prop="show_name" :resizable="false"></el-table-column>
+					<!-- <el-table-column align="center" label="税率" :resizable="false">
+						<template slot-scope="scope">
+							<span>{{item.invoice_name?item.invoice_name:''}}{{item.invoice_category}} {{item.invoice_type}}</span>
+						</template>
+					</el-table-column> -->
+					<el-table-column align="center" label="相关列类型" prop="column_title" :resizable="false"></el-table-column>
+					<el-table-column align="center" label="公式" :resizable="false">
+						<template slot-scope="scope">
+							<el-popover trigger="hover" placement="top" width="200">
+								<p>{{ scope.row.formula }}</p>
+								<div slot="reference" class="name-wrapper">
+									<el-tag size="medium">{{ scope.row.formula }}</el-tag>
+								</div>
+							</el-popover>
+						</template>
+					</el-table-column>
+					<!-- <el-table-column align="center" label="操作" :resizable="false">
+						<template slot-scope="scope">
+							<el-button @click="deleteRow(scope.row)" type="text" size="small">
+								删除
+							</el-button>
+						</template>
+					</el-table-column> -->
+				</el-table>
 
 
 				<el-pagination background layout="prev, pager, next" :total="total" :page-size=15 @current-change='handleCurrentChange'
@@ -293,27 +321,27 @@
 					tmplName: '',
 					columnTitle: '',
 				},
-				formInline1:{
+				formInline1: {
 					taxesTaxType: '',
 					taxCalcType: '',
 					tmplShowType: '',
-					tmplShowTitle:'',
+					tmplShowTitle: '',
 					invoiceType: "",
 					invoiceName: '',
 					formula: "",
 					columnTitle: '',
 				},
 				currentPage: 1,
-				pageSize: 13,
+				pageSize: 10,
 				total: 0,
 				showCommitBtn: false,
 				// canInput: true,
 				canCommit: false,
 
-				active:-1,
+				active: -1,
 				dicNameList: [],
 				taxCalcTypeList: [],
-				taxCalcTypeListRight:[],
+				taxCalcTypeListRight: [],
 				invoiceTypeList: [{
 					list: "",
 				}],
@@ -384,7 +412,7 @@
 						trigger: 'change'
 					}],
 				},
-				isEdit:false,
+				isEdit: false,
 				cal: ["+", "-", "*", "/", "(", ")", ",", "if", "<", ">", "="]
 
 			}
@@ -515,7 +543,7 @@
 			},
 			queryRateMethods(taxesTaxType) {
 				this.resetSelect();
-				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findInvoiceTaxCalcType?dicName=计税方法&taxesTaxType=' + taxesTaxType).then(res => {
+				this.axios.post('/perTaxToolTwo/e9z/configDictionary/findInvoiceTaxCalcType?dicName=计税方法').then(res => {
 					this.taxCalcTypeList = res.data.data;
 				}).catch(function(err) {
 					this.$message({
@@ -685,18 +713,18 @@
 					// this.showCommitBtn = false;
 				}
 			},
-			
+
 			judgeRegExp1(formName) {
 				if (this.regExpUtil.formulaRegExp(this.formInline1.formula).type == 'success') {
 					this.$message({
 						message: this.regExpUtil.formulaRegExp(this.formInline1.formula).msg,
 						type: 'success'
 					});
-						var params = {
-							formulaId: this.formInline1.formulaId,
-							formula: this.formInline1.formula,
-						};
-			
+					var params = {
+						formulaId: this.formInline1.formulaId,
+						formula: this.formInline1.formula,
+					};
+
 					this.axios.post('/perTaxToolTwo/e9z/configInvoiceFormula/updateInvoiceFormulaById', params).then(res => {
 						if (res.data.code == 200) {
 							this.$message({
@@ -711,7 +739,7 @@
 								type: 'error'
 							});
 						}
-			
+
 					}).catch(function(err) {
 						this.$message({
 							message: '公式添加失败',
@@ -749,7 +777,7 @@
 				this.formInline1.tmplShowType = '';
 				this.formInline1.taxCalcType = '';
 				this.formInline1.invoiceType = '';
-				
+
 				this.formInline1.invoiceName = '';
 				this.formInline1.columnTitle = '';
 				this.formInline1.tmplName = '';
@@ -920,28 +948,44 @@
 				this.queryFormulaList();
 				console.log(`当前页: ${val}`);
 			},
-			clickFormula(item,index){
-				this.active = index;
-				if(item.formula_id){
-					this.isEdit = true;
-					this.formInline1.taxesTaxType = item.taxes_tax_type == 233?"一般纳税人":"小规模纳税人";
-					this.formInline1.tmplShowTitle = item.tmpl_show_type == 0?"发票":'其他模板';
-					this.formInline1.tmplShowType = item.tmpl_show_type;
-					this.formInline1.taxCalcType = item.tax_calc_type == 1?'一般计税':'简易征收计税';
-					this.formInline1.invoiceType = item.typeString;
-					
-					this.formInline1.invoiceName = item.invoice_name;
-					this.formInline1.columnTitle = item.column_title;
-					this.formInline1.tmplName = item.tmpl_name;
-					this.formInline1.formula = item.formula;
-					this.formInline1.formulaId = item.formula_id;
-					
-					this.resetSelect();
-					this.queryFormulaTitleList(item);
-				}
-				
+			tableRowClassName({row,rowIndex}) {
+				row.index = rowIndex;
 			},
-			queryFormulaTitleList(item){
+			clickFormula(row) {
+				this.active = row.index;
+				if (row.formula_id) {
+					this.isEdit = true;
+					this.formInline1.taxesTaxType = row.taxes_tax_type == 233 ? "一般纳税人" : "小规模纳税人";
+					this.formInline1.tmplShowTitle = row.tmpl_show_type == 0 ? "发票" : '其他模板';
+					this.formInline1.tmplShowType = row.tmpl_show_type;
+					switch (row.tax_calc_type){
+						case 1:
+							this.formInline1.taxCalcType = '一般计税';
+							break;
+						case 2:
+							this.formInline1.taxCalcType = '简易征收计税';
+							break;
+						case 3:
+							this.formInline1.taxCalcType = '免税计税';
+							break;
+						default:
+							break;
+					}
+					// this.formInline1.taxCalcType = row.tax_calc_type == 1 ? '一般计税' : '简易征收计税';
+					this.formInline1.invoiceType = row.typeString;
+
+					this.formInline1.invoiceName = row.invoice_name;
+					this.formInline1.columnTitle = row.column_title;
+					this.formInline1.tmplName = row.tmpl_name;
+					this.formInline1.formula = row.formula;
+					this.formInline1.formulaId = row.formula_id;
+
+					this.resetSelect();
+					this.queryFormulaTitleList(row);
+				}
+
+			},
+			queryFormulaTitleList(item) {
 				let params = {
 					"taxesTaxType": item.taxes_tax_type,
 					"tmplShowType": item.tmpl_show_type,
@@ -956,7 +1000,7 @@
 					});
 				})
 			},
-			cancelModify(){
+			cancelModify() {
 				this.isEdit = false;
 				this.resetSelect1()
 			}
@@ -991,10 +1035,10 @@
 					};
 					this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
 						this.invoiceTypeList = res.data.data;
-						this.invoiceNameList = this.invoiceTypeList[0].list.find((arg)=>{
+						this.invoiceNameList = this.invoiceTypeList[0].list.find((arg) => {
 							return arg.typeString == this.formInline.invoiceType.typeString
 						}).invoiceList;
-						console.log('发票名称',this.invoiceNameList)
+						console.log('发票名称', this.invoiceNameList)
 					}).catch(function(err) {
 						this.$message({
 							message: '获取发票/模板公式失败',
@@ -1048,6 +1092,7 @@
 		created() {
 			this.queryDicName();
 			this.queryRate();
+			this.queryRateMethods();
 			this.queryFormulaList();
 			this.queryCalSymbol();
 			this.queryInvoiceType();
@@ -1111,7 +1156,7 @@
 		background: #fff;
 		border-radius: 0.06rem;
 		float: left;
-		height: 100%;
+		min-height: 100%;
 
 		.contain_header {
 			height: 2rem;
@@ -1194,7 +1239,7 @@
 			padding: 0.2rem 0.2rem 0rem;
 			height: calc(100% - 2rem);
 			box-sizing: border-box;
-			overflow-y: scroll;
+			/* overflow-y: scroll; */
 		}
 
 		/deep/ .el-form {
@@ -1273,7 +1318,7 @@
 
 	.right_contain {
 		width: calc(50% - 0.15rem);
-		height: 100%;
+		min-height: 100%;
 		float: right;
 		background: #fff;
 		border-radius: 0.06rem;
@@ -1370,9 +1415,17 @@
 		}
 	}
 
+	/deep/ .el-tag {
+		width: 100%;
+		display: inherit;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
 	.contain_body {
 		h3 {
-			margin-top: 0.24rem;
+			/* margin-top: 0.24rem; */
 			height: 0.60rem;
 			line-height: 0.60rem;
 			font-size: 0.18rem;
@@ -1394,6 +1447,7 @@
 			color: #454545;
 			padding-left: 0.30rem;
 			cursor: pointer;
+
 			span.span1 {
 
 				width: 1.60rem;
@@ -1416,12 +1470,15 @@
 				text-overflow: ellipsis;
 			}
 		}
-		li:hover{
-			background:#f9f9f9;
+
+		li:hover {
+			background: #f9f9f9;
 		}
-		li.active{
-			background:#f2f2f2;
+
+		li.active {
+			background: #f2f2f2;
 		}
+
 		span.blue {
 			float: left;
 			font-size: 0.14rem;
@@ -1431,6 +1488,78 @@
 		/deep/ .el-pagination {
 			text-align: right;
 			margin-top: 0.10rem;
+		}
+
+		/deep/ .el-pagination {
+			text-align: right;
+			margin-top: 0.10rem;
+		}
+
+		/deep/ .el-table__header tr,
+		.el-table__header th {
+			padding: 0;
+			height: 40px;
+		}
+
+		/deep/ .el-table__body tr,
+		.el-table__body td {
+			padding: 0;
+			height: 40px;
+		}
+
+		/deep/ .el-table td {
+			padding: 6px 0;
+		}
+
+		/deep/ .el-table th {
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
+			background: #ebf6fb;
+		}
+
+		.el-dialog .el-form {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			flex-wrap: wrap
+		}
+
+		/deep/ .el-date-editor.el-input {
+			width: 180px;
+		}
+
+		/deep/ .el-table__body tr,
+		.el-table__body td {
+			padding: 0;
+			height: 40px;
+			background-color: #fff7f1;
+		}
+
+		/deep/.el-table__body tr.current-row>td {
+			background-color: #efe9e5;
+		}
+
+		/deep/ .el-table--striped .el-table__body tr.el-table__row--striped.current-row td {
+			background: #efe9e5;
+		}
+
+		/deep/ .el-table__body tr.el-table__row--striped {
+			background-color: #ebf6fb;
+		}
+
+		/deep/ .el-table thead {
+			color: #343434;
+		}
+
+		/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td {
+			background-color: #efe9e5;
+		}
+
+		/deep/ .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+			border-bottom-color: #fff;
+			background: #ebf6fb;
 		}
 	}
 </style>

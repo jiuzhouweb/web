@@ -53,27 +53,7 @@
 										<el-menu-item index="/index/payEdit" v-if='userTypeId == 1'>工资表变更</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
-								<!-- <el-menu-item index="/index/incomeTaxCalculate">
-									<i class="el-icon-menu"></i>
-									<span slot="title">个税计算</span>
-								</el-menu-item>
-								<el-menu-item index="/index/initialSheet">
-									<i class="el-icon-menu"></i>
-									<span slot="title">初始导入</span>
-								</el-menu-item>
-								<el-menu-item index="/index/paySheet">
-									<i class="el-icon-menu"></i>
-									<span slot="title">工资表导入</span>
-								</el-menu-item>
-							
-								<el-menu-item index="/index/reportForms">
-									<i class="el-icon-menu"></i>
-									<span slot="title">报表查看</span>
-								</el-menu-item>
-								<el-menu-item index="/index/payEdit">
-									<i class="el-icon-menu"></i>
-									<span slot="title">工资表变更</span>
-								</el-menu-item> -->
+								
 							</el-menu>
 							<el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
 							 @open="handleOpen" @close="handleClose">
@@ -144,6 +124,7 @@
 										<el-menu-item index="/index/formula">税务公式配置</el-menu-item>
 										<el-menu-item index="/index/template">发票模版配置</el-menu-item>
 										<el-menu-item index="/index/rate">税率配置</el-menu-item>
+										<el-menu-item index="/index/stampduty">印花税核定征收率</el-menu-item>
 										<el-menu-item index="/index/dictionary">字典表配置</el-menu-item>
 										<el-menu-item index="/index/taxnotice">人员角色分配</el-menu-item>
 									</el-menu-item-group>
@@ -166,8 +147,6 @@
 				</el-container>
 			</el-container>
 		</el-container>
-		<!-- <img alt="Vue logo" src="../assets/logo.png">
-			<HelloWorld msg="Welcome to Your Vue.js App" /> -->
 	</div>
 </template>
 
