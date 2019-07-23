@@ -851,7 +851,7 @@ export default {
                   //   this.$set(item, "columnValue", this.fscj);
                   //   this.$set(item, "defaultValue", this.fscj);
                   // } else
-                   if (item.columnTitle == "应税服务抵扣成本") {
+                   if (item.columnTitle == "本期实际扣除金额") {
                     this.$set(item, "columnValue", this.ysfwdkcb.toString());
                     this.$set(item, "defaultValue", this.ysfwdkcb.toString());
                   }
