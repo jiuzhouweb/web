@@ -104,6 +104,15 @@
 	export default {
 		name: "customer",
 		data() {
+			var validatePass2 = (rule, value, callback) => {
+				if (value === '') {
+					callback(new Error('请输入税率'));
+				} else if (/^(0\.\d+|0|1)$/.test(value) == false) {
+					callback(new Error('税率在0-1之间!'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				loading: false,
 				total:0,
@@ -141,10 +150,15 @@
 						trigger: 'blur'
 					}],
 					rate: [{
+						validator: validatePass2,
+						trigger: 'blur',
 						required: true,
-						message: '请输入数值',
-						trigger: 'blur'
 					}],
+					// rate: [{
+					// 	required: true,
+					// 	message: '请输入数值',
+					// 	trigger: 'blur'
+					// }],
 				},
 				filrules: {
 					customerId: [{
