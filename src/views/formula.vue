@@ -48,8 +48,8 @@
 							<el-option v-for='item in invoiceTypeList[0].list' :label="item.typeString" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="发票名称:" prop="invoiceName" v-show='formInline.tmplShowType=="0"' filterable>
-						<el-select clearable v-model="formInline.invoiceName" @change='getE9zConfigInvoice' value-key='invoiceId'>
+					<el-form-item label="发票名称:" prop="invoiceName" v-show='formInline.tmplShowType=="0"'>
+						<el-select clearable v-model="formInline.invoiceName" @change='getE9zConfigInvoice' value-key='invoiceId' filterable>
 							<el-option v-for='item in invoiceNameList' :label="item.invoiceName" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
