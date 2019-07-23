@@ -53,7 +53,7 @@
             <!-- </div> -->
             <!-- <i v-if="item.isdelete&&item.invoiceId" @click="selectDelete(item)" class="el-icon-success" style="cursor:pointer;position: absolute;right: -0.1rem;top:-0.1rem;font-size: 0.26rem;color: #409EFF;"></i> -->
             <!-- :class="{ 'class-a': isA, 'class-b': isB}" -->
-            <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
+            <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==8, 'color5': item.tmplId==7, 'color6': item.tmplId==6, 'color7': item.tmplId==5, 'color8': item.tmplId==4, 'color9': item.tmplId==3, 'color10': item.tmplId==1}">
               <div class="line1">
                 <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
                 <p v-if="item.invoiceId" class="bigTitle">{{item.invoiceCategory}} {{item.invoiceType}}</p>
@@ -91,7 +91,7 @@
             <img v-if="!issubmit&&!item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/noselect.png" class="circle" alt="">
             <img v-if="!issubmit&&item.isdelete&&item.invoiceId" @click="selectDelete(item)" src="../assets/img/select.png" class="circle" alt="">
             
-            <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==7, 'color5': item.tmplId==6, 'color6': item.tmplId==5, 'color7': item.tmplId==4, 'color8': item.tmplId==1}">
+            <div class="topContent color1" :class="{ 'color1': item.invoiceId, 'color2': item.tmplId==10, 'color3': item.tmplId==9, 'color4': item.tmplId==8, 'color5': item.tmplId==7, 'color6': item.tmplId==6, 'color7': item.tmplId==5, 'color8': item.tmplId==4, 'color9': item.tmplId==3, 'color10': item.tmplId==1}">
               <div class="line1">
                 <p v-if="item.tmplId" class="bigTitle">{{item.tmplName}}</p>
                 <p v-if="item.invoiceId" class="bigTitle">{{item.invoiceCategory}} {{item.invoiceType}}</p>
@@ -1093,7 +1093,6 @@ export default {
               });
               // 判断数组的所有元素全都相等
               if(item.tmplId!=1&&item.tmplId!=5&&item.tmplId!=6){
-                console.log('111')
                 this.$set(item, "ishideTemp", new Set(item.arrValue).size === 1);
               }
               // 模板 一般纳税人 区分是一般还是即征即退
@@ -1704,7 +1703,7 @@ export default {
                   }
                 );
                 this.nextStepList.forEach(item => {
-                  if (item.columnTitle == "核定征收率") {
+                  if (item.columnTitle == "印花税核定征收率") {
                     this.$set(item, "columnValue", this.authorizedLevyRate.toString());
                     this.$set(item, "defaultValue", this.authorizedLevyRate.toString());
                   }
@@ -2324,7 +2323,7 @@ export default {
           } else if (item.columnTitle == "消费税税率") {
             obj.columnValue = xiaofeiValue;
             invoiceColumns.push(obj);
-          } else if (item.columnTitle == "核定征收率") {
+          } else if (item.columnTitle == "印花税核定征收率") {
             obj.columnValue = this.authorizedLevyRate?this.authorizedLevyRate:'0';
             invoiceColumns.push(obj);
           } else if (item.columnTitle == "发票项目类型") {
@@ -3074,6 +3073,12 @@ div.search_contain {
 }
 .color9 {
   background: #8e8ec5;
+}
+.color10 {
+  background: #ec6969;
+}
+.color11 {
+  background: #f39f72;
 }
 .hjColor {
   background: #ffb980;
