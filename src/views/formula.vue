@@ -68,6 +68,9 @@
 							<el-option v-for='item in e9zConfigInvoiceColumn' :label="item.columnTitle" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
+					<el-form-item label="原计算公式" class='line'>
+						<el-input v-model='formInline.originformula' disabled></el-input>
+					</el-form-item>
 					<el-form-item label="计算公式" class='line'>
 						<el-input v-model='formInline.formula' ref='inp' disabled></el-input>
 						<el-button type='warning' :disabled='canCommit' @click='resetFormula'>清空</el-button>
@@ -115,6 +118,9 @@
 					<el-form-item label="相关列类型:" prop="columnTitle" v-show='formInline1.tmplShowType==1'>
 						<el-input disabled v-model='formInline1.columnTitle'></el-input>
 
+					</el-form-item>
+					<el-form-item label="原计算公式" class='line'>
+						<el-input v-model='formInline1.originformula' ref='inp' disabled></el-input>
 					</el-form-item>
 					<el-form-item label="计算公式" class='line'>
 						<el-input v-model='formInline1.formula' ref='inp' disabled></el-input>
@@ -317,7 +323,7 @@
 					invoiceName: '',
 					e9z: "",
 					formula: "",
-
+					originformula:'',
 					tmplName: '',
 					columnTitle: '',
 				},
@@ -329,6 +335,7 @@
 					invoiceType: "",
 					invoiceName: '',
 					formula: "",
+					originformula:'',
 					columnTitle: '',
 				},
 				currentPage: 1,
@@ -603,6 +610,7 @@
 			 * */
 			setFormula(value) {
 				console.log(value)
+				this.formInline.originformula = value.formula ? value.formula : '';
 				this.formInline.formula = value.formula ? value.formula : '';
 			},
 			/*
@@ -978,6 +986,7 @@
 					this.formInline1.columnTitle = row.column_title;
 					this.formInline1.tmplName = row.tmpl_name;
 					this.formInline1.formula = row.formula;
+					this.formInline1.originformula = row.formula;
 					this.formInline1.formulaId = row.formula_id;
 
 					this.resetSelect();
