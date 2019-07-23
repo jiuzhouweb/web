@@ -294,6 +294,9 @@
 					<el-table-column prop="name" align="left" header-align="center"  :resizable="false">
 					</el-table-column>
 					<el-table-column prop="value" align="center" header-align="center" :resizable="false" >
+            <template slot-scope="scope">
+              <span>{{ fomatFloat(scope.row.value,2) }}</span>
+            </template>
 					</el-table-column>
 				</el-table>
 			</div>
@@ -1092,7 +1095,7 @@ export default {
                 }
               });
               // 判断数组的所有元素全都相等
-              if(item.tmplId!=1&&item.tmplId!=5&&item.tmplId!=6){
+              if(item.tmplId!=1&&item.tmplId!=5&&item.tmplId!=6&&item.tmplId!=10){
                 this.$set(item, "ishideTemp", new Set(item.arrValue).size === 1);
               }
               // 模板 一般纳税人 区分是一般还是即征即退
