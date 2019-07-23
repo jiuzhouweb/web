@@ -1030,6 +1030,27 @@
 							type: 'error'
 						});
 					})
+					
+					if(this.formInline.taxCalcType){
+						let params = {
+							"taxCalcType": this.formInline.taxCalcType,
+							"taxesTaxType": this.formInline.taxesTaxType,
+							"tmplShowType": this.formInline.tmplShowType,
+							"area": this.area
+						};
+						this.axios.post('/perTaxToolTwo/e9z/invoiceInfo/findInvoiceFormula', params).then(res => {
+							this.invoiceTypeList = res.data.data;
+							this.invoiceNameList = this.invoiceTypeList[0].list.find((arg) => {
+								return arg.typeString == this.formInline.invoiceType.typeString
+							}).invoiceList;
+							console.log('发票名称', this.invoiceNameList)
+						}).catch(function(err) {
+							this.$message({
+								message: '获取发票/模板公式失败',
+								type: 'error'
+							});
+						})
+					}
 				},
 				deep: true
 
