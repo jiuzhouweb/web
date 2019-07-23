@@ -1204,7 +1204,7 @@ export default {
                       if(v.columnTitle!='税率'){
                         item.arrValue.push(v.showValue)
                       }
-                    }if(item.tmplId==10){
+                    }else if(item.tmplId==10){
                       if(v.columnTitle!='税率'){
                         item.arrValue.push(v.showValue)
                       }
