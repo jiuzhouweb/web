@@ -1084,6 +1084,10 @@ export default {
                       if(v.columnTitle!='税率'){
                         item.arrValue.push(v.showValue)
                       }
+                    }if(item.tmplId==10){
+                      if(v.columnTitle!='税率'){
+                        item.arrValue.push(v.showValue)
+                      }
                     }else if(item.tmplId==5){
                       if(v.columnTitle!='是否是辅导期'){
                         item.arrValue.push(v.showValue)
@@ -1095,7 +1099,7 @@ export default {
                 }
               });
               // 判断数组的所有元素全都相等
-              if(item.tmplId!=1&&item.tmplId!=5&&item.tmplId!=6&&item.tmplId!=10){
+              if(item.tmplId!=1&&item.tmplId!=5&&item.tmplId!=6){
                 this.$set(item, "ishideTemp", new Set(item.arrValue).size === 1);
               }
               // 模板 一般纳税人 区分是一般还是即征即退
