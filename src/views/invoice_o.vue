@@ -783,6 +783,10 @@ export default {
               if (res.data.data.length > 0) {
                 this.fscj = res.data.data[0].redLocalLeaveD;
                 console.log("this.fscj", this.fscj);
+                if(this.fscj!=''||this.fscj!=0){
+                  this.fscj='-'+this.fscj;
+                }
+                console.log('this.fscj.toString()',this.fscj.toString());
                 this.nextStepList.forEach(item => {
                   if (item.columnTitle == "负数冲减") {
                     this.$set(item, "columnValue", this.fscj.toString());
