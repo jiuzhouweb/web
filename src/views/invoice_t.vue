@@ -1414,7 +1414,7 @@ export default {
                   obj.name = "免、抵、退应退税额";
                   break;
                 case "input_local_leave":
-                  obj.name = "上期留抵税额";
+                  obj.name = "本期留抵税额";
                   break;
                 case "input_local_out":
                   obj.name = "进项税额转出";
