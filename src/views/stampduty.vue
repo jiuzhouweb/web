@@ -104,12 +104,17 @@
 	export default {
 		name: "customer",
 		data() {
+			
 			var validatePass2 = (rule, value, callback) => {
+				var y = String(value).indexOf(".") + 1;//获取小数点的位置
+				var count = String(value).length - y;//获取小数点后的个数
 				if (value === '') {
 					callback(new Error('请输入税率'));
 				} else if (/^(0\.\d+|0|1)$/.test(value) == false) {
 					callback(new Error('税率在0-1之间!'));
-				} else {
+				} else if( count > 6 ){
+					callback(new Error('小数位最多六位'));
+				}else {
 					callback();
 				}
 			};
