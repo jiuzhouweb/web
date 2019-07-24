@@ -1288,7 +1288,7 @@ export default {
                   obj.name = "本期实际抵扣税额";
                   break;
                 case "con_local_used":
-                  obj.name = "本期动用减佂额";
+                  obj.name = "本期动用减征额";
                   break;
                 case "input_local_recover":
                   obj.name = "免、抵、退应退税额";
