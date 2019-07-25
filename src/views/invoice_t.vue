@@ -1808,7 +1808,56 @@ export default {
         .join("");
       this.$refs[formName].validate(valid => {
         if (valid) {
+          // 先判断能否新增
           let params = {
+            taxInfoId: this.taxInfoId,
+            taxationId: this.taxationId,
+            invoiceId: this.form.invoiceName
+          };
+          axios
+            .post(
+              "/perTaxToolTwo/e9z/invoiceInfo/checkInvoiceUnique",
+              params
+            )
+            .then(res => {
+              console.log("能否新增", res);
+              if (res.data.code == 200) {
+                if (res.data.data == 1) {
+                  this.findInvoiceProperty();
+                }else if (res.data.data == 2) {
+                  this.$message({
+                    message: res.data.msg,
+                    type: warning
+                  });
+                }
+              } else {
+                let type;
+                if (res.data.code == 0) {
+                  type = "warning";
+                } else if (res.data.code == 500) {
+                  type = "error";
+                }
+                this.$message({
+                  message: res.data.msg,
+                  type: type
+                });
+              }
+            })
+            .catch(err => {
+              this.$message({
+                message: "系统繁忙，请稍后重试",
+                type: "error"
+              });
+            });
+          
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    findInvoiceProperty(){
+      let params = {
             invoiceId: this.form.invoiceName,
             taxesTaxType: this.userobj.reportTaxType
           };
@@ -1883,11 +1932,6 @@ export default {
                 type: "error"
               });
             });
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
     },
     // 编辑
     edit() {
