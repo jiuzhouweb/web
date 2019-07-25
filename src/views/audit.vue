@@ -160,6 +160,8 @@
 				yinhuaValue1: '',
 				chengjianValue1: '',
 				xiaofeiValue1: '',
+				
+				zzTaxationId:''
 			}
 		},
 		methods: {
@@ -326,6 +328,7 @@
 			showDialog(obj, item) {
 				this.dialogVisible = true;
 				this.info = obj;
+				this.zzTaxationId = item.zzTaxationId;
 				let params = {
 					"taxesTaxType": this.declarationType,
 					"fplrTaxationId": item.fplrTaxationId,
@@ -438,7 +441,9 @@
 					type: detailData.type, //对应列/税费下拉框 1-列 2-税费
 					declarationType: this.declarationType, //1：一般纳税人，2：小规模,要修改
 					// declarationType: 1,
-					e9zConfigInvoiceColumnList: detailData.e9zConfigInvoiceColumnList
+					e9zConfigInvoiceColumnList: detailData.e9zConfigInvoiceColumnList,
+					
+					taxationId:this.zzTaxationId
 				};
 				this.axios.post('/perTaxToolTwo/e9zCalculate/invoiceCalculate', params).then(res => {
 					if (res.data.code == 200) {
