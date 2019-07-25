@@ -1689,16 +1689,14 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 先判断能否新增
-          let params = {
-            taxInfoId: this.taxInfoId,
-            taxationId: this.taxationId,
-            invoiceId: this.form.invoiceName
-          };
+          // let params = {
+          //   taxInfoId: this.taxInfoId,
+          //   taxationId: this.taxationId,
+          //   invoiceId: this.form.invoiceName
+          // };
           axios
             .post(
-              "/perTaxToolTwo/e9z/invoiceInfo/checkInvoiceUnique",
-              params
-            )
+              "/perTaxToolTwo/e9z/invoiceInfo/checkInvoiceUnique?taxInfoId="+this.taxInfoId+'&taxationId='+this.taxationId+'&invoiceId='+this.form.invoiceName)
             .then(res => {
               console.log("能否新增", res);
               if (res.data.code == 200) {
