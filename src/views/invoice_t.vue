@@ -945,7 +945,8 @@ export default {
           let params = {
             taxationId: this.taxationId,
             taxInfoId: this.taxInfoId,
-            taxesTaxType: this.userobj.reportTaxType
+            taxesTaxType: this.userobj.reportTaxType,
+            customerId: this.customerId
           };
           axios
             .post(url, params)
