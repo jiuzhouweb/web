@@ -1705,7 +1705,7 @@ export default {
                 }else if (res.data.data == 2) {
                   this.$message({
                     message: res.data.msg,
-                    type: warning
+                    type: "warning"
                   });
                 }
               } else {
