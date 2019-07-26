@@ -1813,7 +1813,7 @@
 										this.dialogVisibleCalc = true;
 										// 再获取弹出层表格的数据
 										this.pageNum4 = '1';
-										this.getTableData4();
+										this.getTableData4(res.data.data[0].operateId);
 									} else {
 										this.dialogVisibleCalc = false;
 										this.pageNum1 = '1';
@@ -1855,7 +1855,7 @@
 										this.dialogVisibleCalc = true;
 										// 再获取弹出层表格的数据
 										this.pageNum4 = '1';
-										this.getTableData4();
+										this.getTableData4(res.data.data[0].operateId);
 									} else {
 										this.dialogVisibleCalc = false;
 										this.pageNum1 = '1';
