@@ -545,7 +545,12 @@
 				<el-table-column align="center" label="年终奖" prop="yearAwards" width="100" :resizable="false"></el-table-column>
 				<el-table-column align="center" label="分开核算个税" prop="sepTaxation" width="120" :resizable="false"></el-table-column>
 				<el-table-column align="center" label="合并核算个税" prop="comTaxation" width="120" :resizable="false"></el-table-column>
-				<el-table-column align="center" label="推荐方案" prop="suggestType" width="120" :resizable="false"></el-table-column>
+				<el-table-column align="center" label="推荐方案" width="120" :resizable="false">
+					<template slot-scope="scope">
+						<span v-if="scope.row.suggestType==1">{{ scope.row.sepTaxation}}</span>
+						<span v-if="scope.row.suggestType==2">{{ scope.row.comTaxation}}</span>
+					</template>
+				</el-table-column>
 				<el-table-column align="center" :resizable="false">
 					<template slot="header" slot-scope="scope">
 						<el-dropdown @command="handleCommand" style='float: left;line-height: 28px;'>
