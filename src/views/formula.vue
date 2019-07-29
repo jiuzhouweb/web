@@ -91,7 +91,7 @@
 					</el-form-item>
 				</el-form>
 				<!-- 修改 -->
-				<el-form :inline="true" :model="formInline1" class="demo-form-inline" label-position='left' size="mini" v-show='isEdit'>
+				<el-form :inline="true" :model="formInline1" class="demo-form-inline" label-position='left' size="mini" v-show='isEdit' ref="ruleForm1">
 					<el-form-item label="纳税人类型:" class='short' prop="taxesTaxType">
 						<el-input disabled v-model='formInline1.taxesTaxType'></el-input>
 					</el-form-item>
@@ -180,7 +180,7 @@
 				<div class='btn_contain' style="text-align: center;">
 					<el-button v-show="isEdit" type="danger" class='confirm' style='display: inline-block;margin-right: 0.2rem;'
 					 @click='cancelModify'>取消修改</el-button>
-					<el-button v-show="isEdit" type="primary" class='confirm' style='display: inline-block;' @click='judgeRegExp1("ruleForm")'>确认并修改</el-button>
+					<el-button v-show="isEdit" type="primary" class='confirm' style='display: inline-block;' @click='judgeRegExp1("ruleForm1")'>确认并修改</el-button>
 				</div>
 			</div>
 		</div>

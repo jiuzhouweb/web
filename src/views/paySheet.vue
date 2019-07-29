@@ -1106,6 +1106,9 @@
 					post: '',
 					civilState: '',
 				},
+				
+				
+				operateIdM:''
 			};
 		},
 		watch: {
@@ -1158,6 +1161,8 @@
 						if (res.data.code == 200) {
 							if(res.data.data.length>0){
                                 this.operateId = res.data.data[0].operateId;
+
+								this.operateIdM = res.data.data[0].operateId;
                             }else{
                                 this.$message({
                                     message: '该账期下暂未导入数据',
@@ -1456,6 +1461,7 @@
 									this.searchData.customerId = this.uploadData.customerId;
 									this.searchData.accountPeriod = this.uploadData.accountPeriod;
 									// this.getOperatorId();
+									this.operateIdM = res.data.data;
 									this.operateId = res.data.data;
 									this.calcFlag = true;
 									this.getTableData1();
@@ -1712,6 +1718,7 @@
 				});
 			},
 			calc() {
+				this.operateId = this.operateIdM;
 				this.$confirm("您确定要计算【月度工资表】吗？", "提示", {
 					confirmButtonText: "确定",
 					cancelButtonText: "取消",
@@ -1811,6 +1818,7 @@
 								if (res.data.code == 200) {
 									if (res.data.data.length > 0) {
 										this.dialogVisibleCalc = true;
+										this.operateId = res.data.data[0].operateId;
 										// 再获取弹出层表格的数据
 										this.pageNum4 = '1';
 										this.getTableData4(res.data.data[0].operateId);
@@ -1853,6 +1861,7 @@
 								if (res.data.code == 200) {
 									if (res.data.data.length > 0) {
 										this.dialogVisibleCalc = true;
+										this.operateId = res.data.data[0].operateId;
 										// 再获取弹出层表格的数据
 										this.pageNum4 = '1';
 										this.getTableData4(res.data.data[0].operateId);
@@ -2009,7 +2018,7 @@
 			},
 			submitAll() {
 				let params = {
-					operateIdM: this.operateId
+					operateIdM: this.operateIdM
 				};
 				this.$confirm("您确定要提交【月度工资表】和【累计汇算表】吗？", "提示", {
 					confirmButtonText: "确定",
