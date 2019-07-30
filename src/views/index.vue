@@ -38,22 +38,21 @@
 										<el-menu-item index="/index/initialSheet">初始导入</el-menu-item>
 										<el-menu-item index="/index/paySheet">工资表导入</el-menu-item>
 										<!-- <el-menu-item index="/index/reportForms">报表查看</el-menu-item> -->
-										<el-submenu index="b" v-if='menu.indexOf("税务平台") < 0'>
-											<template slot="title">
-												<i class="el-icon-declare"></i>
-												<span>申报处理</span>
-											</template>
-											<el-submenu index="b-1">
-												<template slot="title">
-													查看报表
-												</template>
-												<el-menu-item index="/index/reportForms">工资表报表</el-menu-item>
-											</el-submenu>
-										</el-submenu>
 										<el-menu-item index="/index/payEdit" v-if='userTypeId == 1'>工资表变更</el-menu-item>
 									</el-menu-item-group>
 								</el-submenu>
-								
+								<el-submenu index="2" v-if='menu.indexOf("税务平台") < 0'>
+									<template slot="title">
+										<i class="el-icon-declare"></i>
+										<span>申报处理</span>
+									</template>
+									<el-submenu index="2-1">
+										<template slot="title">
+											查看报表
+										</template>
+										<el-menu-item index="/index/reportForms">工资表报表</el-menu-item>
+									</el-submenu>
+								</el-submenu>
 							</el-menu>
 							<el-menu v-if='menu.indexOf("税务平台") >= 0' router :unique-opened="true" :default-active="$route.path" class="el-menu-vertical-demo"
 							 @open="handleOpen" @close="handleClose">
@@ -176,44 +175,44 @@
 	}
 
 	.el-icon-financial {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-financial-n.png) no-repeat center center;
 	}
 
 	.el-icon-deal {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-deal-n.png) no-repeat center center;
 	}
 
 	.el-icon-declare {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
 	}
 
 	.el-icon-declare {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-declare-n.png) no-repeat center center;
 	}
 
 	.el-icon-his {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-his-n.png) no-repeat center center;
 	}
 
 	.el-icon-set {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-set-n.png) no-repeat center center;
 	}
 
 	.el-icon-geshui {
-		width: 0.16rem;
-		height: 0.16rem;
+		width: 16px;
+		height: 16px;
 		background: url(../assets/img/icon-geshui-n.png) no-repeat center center;
 	}
 
